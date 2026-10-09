@@ -1,0 +1,41 @@
+/* Recortes originales de los PNG de Figma; geometr?a e ilustraci?n en Tailwind. */
+.login-emblem {
+  background: linear-gradient(52.59465deg, var(--login-emblem-stops));
+  box-shadow: 0 16px 32px rgb(38 20 77 / 12%);
+}
+.login-emblem-light,
+.login-emblem-dark {
+  position: relative;
+  overflow: hidden;
+}
+.login-emblem-light {
+  width: 207.297px;
+  height: 160.071px;
+}
+.login-emblem-light img {
+  position: absolute;
+  max-width: none;
+  width: 206.39%;
+  height: 178.28%;
+  left: -54.61%;
+  top: -20.47%;
+}
+.login-emblem-dark {
+  display: none;
+  width: 182.891px;
+  height: 160px;
+}
+.login-emblem-dark img {
+  position: absolute;
+  max-width: none;
+  width: 100.04%;
+  height: 110.58%;
+  left: -0.02%;
+  top: -10.58%;
+}
+[data-theme='dark'] .login-emblem-light {
+  display: none;
+}
+[data-theme='dark'] .login-emblem-dark {
+  display: block;
+}

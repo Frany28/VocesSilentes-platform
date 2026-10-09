@@ -1,0 +1,78 @@
+.login-brand {
+  flex: none;
+}
+.login-brand-light {
+  position: relative;
+  width: 151.593px;
+  height: 40px;
+}
+.login-brand-light img,
+.login-brand-isotype img {
+  position: absolute;
+  max-width: none;
+}
+.login-brand-hands {
+  position: absolute;
+  top: 0.37px;
+  left: 0.37px;
+  width: calc(33.69% - 0.74px);
+  aspect-ratio: 1359 / 1060;
+  overflow: hidden;
+  border-radius: 117.333px;
+}
+.login-brand-hands img {
+  width: 211.13%;
+  height: 180.38%;
+  left: -55.33%;
+  top: -21.86%;
+}
+.login-brand-word {
+  position: absolute;
+  top: 10.89px;
+  left: 33.69%;
+  right: 0;
+  aspect-ratio: 2714 / 365;
+  overflow: hidden;
+}
+.login-brand-word img {
+  width: 114.11%;
+  height: 565.75%;
+  left: -6.23%;
+  top: -382.87%;
+}
+.login-brand-light > span {
+  position: absolute;
+  inset: 66.02% 1.71% 15% 39.78%;
+  color: #38304f;
+  font: 400 4.44px / normal var(--font-brand);
+  letter-spacing: 0.7992px;
+  text-align: center;
+  white-space: nowrap;
+}
+.login-brand-dark {
+  display: none;
+  align-items: center;
+  gap: var(--space-8);
+}
+.login-brand-dark > span {
+  font: var(--type-subtitle);
+  white-space: nowrap;
+}
+.login-brand-isotype {
+  position: relative;
+  width: 41.151px;
+  height: 36px;
+  overflow: hidden;
+}
+.login-brand-isotype img {
+  width: 100.04%;
+  height: 110.58%;
+  left: -0.02%;
+  top: -10.58%;
+}
+[data-theme='dark'] .login-brand-light {
+  display: none;
+}
+[data-theme='dark'] .login-brand-dark {
+  display: flex;
+}

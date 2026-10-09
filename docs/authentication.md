@@ -134,11 +134,13 @@ durante loading ni interpretan red/503/JSON ilegible como sesión inexistente. U
 otra sesión válida. Logout limpia estado al confirmarse; un error de red permite reintentar.
 Respuestas tardías de me se descartan después de login/logout/cancelación.
 
-`/login` y `/register` son formularios mínimos accesibles. `/account` exige sesión; `/admin` sesión
+`/login` implementa la pantalla Auth de Figma; `/register` conserva el formulario mínimo accesible.
+`/account` exige sesión; `/admin` sesión
 y ADMIN. Ambas vistas de destino dicen **provisional**. El retorno admite solo rutas publicadas:
-`/admin` para ADMIN o `/account` como fallback. Sin destinos externos, query ni traversal.
+`/admin` para ADMIN y `/account` para ambos. Sin retorno autorizado, el destino depende del rol:
+ADMIN a `/admin`, USER a `/account`. Sin destinos externos, query ni traversal.
 CSRF vive en memoria; el token de sesión es inaccesible desde JavaScript. No se modifican diseños
-Figma ni se simulan APIs educativas/administrativas.
+Figma ni se simulan APIs educativas/administrativas. [Estados, diferencias y verificación de login](login.md).
 
 ## Primer administrador: procedimiento controlado
 

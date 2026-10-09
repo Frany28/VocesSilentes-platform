@@ -1,0 +1,1065 @@
+/* Exportación CSS original de Figma: 147:6348. Excepción de tamaño por keyframes muestreados;
+   véase docs/development.md. No editar las muestras ni comprimirlas manualmente. */
+@property --rotate-transform {
+  syntax: '<angle>';
+  initial-value: 0rad;
+  inherits: false;
+}
+.login-page::before {
+  transform: rotate(var(--rotate-transform, 0rad));
+  animation:
+    kf_153_266_rotate_0 8s linear,
+    kf_153_266_translate_0 8s linear;
+  animation-iteration-count: infinite;
+}
+@keyframes kf_153_266_rotate_0 {
+  0% {
+    animation-timing-function: ease-in-out;
+    --rotate-transform: 0rad;
+  }
+  50% {
+    animation-timing-function: ease-in-out;
+    --rotate-transform: -0.209rad;
+  }
+  100% {
+    --rotate-transform: 0rad;
+  }
+}
+@keyframes kf_153_266_translate_0 {
+  0% {
+    animation-timing-function: ease-in-out;
+    translate: 0px 0px;
+  }
+  50% {
+    animation-timing-function: ease-in-out;
+    translate: 230.4px -76.8px;
+  }
+  100% {
+    translate: 0px 0px;
+  }
+}
+
+.login-card {
+  animation:
+    kf_148_70_opacity_0 8s linear,
+    kf_148_70_translate_0 8s linear;
+  animation-iteration-count: infinite;
+}
+@keyframes kf_148_70_opacity_0 {
+  0% {
+    animation-timing-function: ease-out;
+    opacity: 0;
+  }
+  5.625% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes kf_148_70_translate_0 {
+  0% {
+    animation-timing-function: ease-out;
+    translate: 0px 8px;
+  }
+  5.625% {
+    translate: 0px 0px;
+  }
+  100% {
+    translate: 0px 0px;
+  }
+}
+@property --rotate-transform {
+  syntax: '<angle>';
+  initial-value: 0rad;
+  inherits: false;
+}
+.login-visual::before {
+  transform: rotate(var(--rotate-transform, 0rad));
+  animation:
+    kf_153_279_rotate_0 8s linear,
+    kf_153_279_translate_0 8s linear;
+  animation-iteration-count: infinite;
+}
+@keyframes kf_153_279_rotate_0 {
+  0% {
+    animation-timing-function: ease-in-out;
+    --rotate-transform: 0rad;
+  }
+  50% {
+    animation-timing-function: ease-in-out;
+    --rotate-transform: -0.209rad;
+  }
+  100% {
+    --rotate-transform: 0rad;
+  }
+}
+@keyframes kf_153_279_translate_0 {
+  0% {
+    animation-timing-function: ease-in-out;
+    translate: 0px 0px;
+  }
+  50% {
+    animation-timing-function: ease-in-out;
+    translate: 96px -72.96px;
+  }
+  100% {
+    translate: 0px 0px;
+  }
+}
+
+.login-orbit-outer {
+  animation:
+    kf_151_241_border-width_0 8s linear,
+    kf_151_241_opacity_0 8s linear,
+    kf_151_241_scale_0 8s linear;
+  animation-iteration-count: infinite;
+}
+@keyframes kf_151_241_border-width_0 {
+  0% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.3px;
+  }
+  6.25% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.9px;
+  }
+  12.5% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.3px;
+  }
+  18.75% {
+    animation-timing-function: ease-in-out;
+    border-width: 0.7px;
+  }
+  25% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.3px;
+  }
+  31.25% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.9px;
+  }
+  37.5% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.3px;
+  }
+  43.75% {
+    animation-timing-function: ease-in-out;
+    border-width: 0.7px;
+  }
+  50% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.3px;
+  }
+  56.25% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.9px;
+  }
+  62.5% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.3px;
+  }
+  68.75% {
+    animation-timing-function: ease-in-out;
+    border-width: 0.7px;
+  }
+  75% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.3px;
+  }
+  81.25% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.9px;
+  }
+  87.5% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.3px;
+  }
+  93.75% {
+    animation-timing-function: ease-in-out;
+    border-width: 0.7px;
+  }
+  100% {
+    border-width: 1.3px;
+  }
+}
+@keyframes kf_151_241_opacity_0 {
+  0% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.7;
+  }
+  6.25% {
+    animation-timing-function: ease-in-out;
+    opacity: 1;
+  }
+  12.5% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.7;
+  }
+  18.75% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.4;
+  }
+  25% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.7;
+  }
+  31.25% {
+    animation-timing-function: ease-in-out;
+    opacity: 1;
+  }
+  37.5% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.7;
+  }
+  43.75% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.4;
+  }
+  50% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.7;
+  }
+  56.25% {
+    animation-timing-function: ease-in-out;
+    opacity: 1;
+  }
+  62.5% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.7;
+  }
+  68.75% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.4;
+  }
+  75% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.7;
+  }
+  81.25% {
+    animation-timing-function: ease-in-out;
+    opacity: 1;
+  }
+  87.5% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.7;
+  }
+  93.75% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+@keyframes kf_151_241_scale_0 {
+  0% {
+    animation-timing-function: ease-in-out;
+    scale: 1 1;
+  }
+  6.25% {
+    animation-timing-function: ease-in-out;
+    scale: 1.075 1.075;
+  }
+  12.5% {
+    animation-timing-function: ease-in-out;
+    scale: 1 1;
+  }
+  18.75% {
+    animation-timing-function: ease-in-out;
+    scale: 0.925 0.925;
+  }
+  25% {
+    animation-timing-function: ease-in-out;
+    scale: 1 1;
+  }
+  31.25% {
+    animation-timing-function: ease-in-out;
+    scale: 1.075 1.075;
+  }
+  37.5% {
+    animation-timing-function: ease-in-out;
+    scale: 1 1;
+  }
+  43.75% {
+    animation-timing-function: ease-in-out;
+    scale: 0.925 0.925;
+  }
+  50% {
+    animation-timing-function: ease-in-out;
+    scale: 1 1;
+  }
+  56.25% {
+    animation-timing-function: ease-in-out;
+    scale: 1.075 1.075;
+  }
+  62.5% {
+    animation-timing-function: ease-in-out;
+    scale: 1 1;
+  }
+  68.75% {
+    animation-timing-function: ease-in-out;
+    scale: 0.925 0.925;
+  }
+  75% {
+    animation-timing-function: ease-in-out;
+    scale: 1 1;
+  }
+  81.25% {
+    animation-timing-function: ease-in-out;
+    scale: 1.075 1.075;
+  }
+  87.5% {
+    animation-timing-function: ease-in-out;
+    scale: 1 1;
+  }
+  93.75% {
+    animation-timing-function: ease-in-out;
+    scale: 0.925 0.925;
+  }
+  100% {
+    scale: 1 1;
+  }
+}
+
+.login-orbit-inner {
+  animation:
+    kf_151_240_border-width_0 8s linear,
+    kf_151_240_opacity_0 8s linear,
+    kf_151_240_scale_0 8s linear;
+  animation-iteration-count: infinite;
+}
+@keyframes kf_151_240_border-width_0 {
+  0% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.9px;
+  }
+  6.25% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.3px;
+  }
+  12.5% {
+    animation-timing-function: ease-in-out;
+    border-width: 0.7px;
+  }
+  18.75% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.3px;
+  }
+  25% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.9px;
+  }
+  31.25% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.3px;
+  }
+  37.5% {
+    animation-timing-function: ease-in-out;
+    border-width: 0.7px;
+  }
+  43.75% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.3px;
+  }
+  50% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.9px;
+  }
+  56.25% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.3px;
+  }
+  62.5% {
+    animation-timing-function: ease-in-out;
+    border-width: 0.7px;
+  }
+  68.75% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.3px;
+  }
+  75% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.9px;
+  }
+  81.25% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.3px;
+  }
+  87.5% {
+    animation-timing-function: ease-in-out;
+    border-width: 0.7px;
+  }
+  93.75% {
+    animation-timing-function: ease-in-out;
+    border-width: 1.3px;
+  }
+  100% {
+    border-width: 1.9px;
+  }
+}
+@keyframes kf_151_240_opacity_0 {
+  0% {
+    animation-timing-function: ease-in-out;
+    opacity: 1;
+  }
+  6.25% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.7;
+  }
+  12.5% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.4;
+  }
+  18.75% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.7;
+  }
+  25% {
+    animation-timing-function: ease-in-out;
+    opacity: 1;
+  }
+  31.25% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.7;
+  }
+  37.5% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.4;
+  }
+  43.75% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.7;
+  }
+  50% {
+    animation-timing-function: ease-in-out;
+    opacity: 1;
+  }
+  56.25% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.7;
+  }
+  62.5% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.4;
+  }
+  68.75% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.7;
+  }
+  75% {
+    animation-timing-function: ease-in-out;
+    opacity: 1;
+  }
+  81.25% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.7;
+  }
+  87.5% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.4;
+  }
+  93.75% {
+    animation-timing-function: ease-in-out;
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes kf_151_240_scale_0 {
+  0% {
+    animation-timing-function: ease-in-out;
+    scale: 1.075 1.075;
+  }
+  6.25% {
+    animation-timing-function: ease-in-out;
+    scale: 1 1;
+  }
+  12.5% {
+    animation-timing-function: ease-in-out;
+    scale: 0.925 0.925;
+  }
+  18.75% {
+    animation-timing-function: ease-in-out;
+    scale: 1 1;
+  }
+  25% {
+    animation-timing-function: ease-in-out;
+    scale: 1.075 1.075;
+  }
+  31.25% {
+    animation-timing-function: ease-in-out;
+    scale: 1 1;
+  }
+  37.5% {
+    animation-timing-function: ease-in-out;
+    scale: 0.925 0.925;
+  }
+  43.75% {
+    animation-timing-function: ease-in-out;
+    scale: 1 1;
+  }
+  50% {
+    animation-timing-function: ease-in-out;
+    scale: 1.075 1.075;
+  }
+  56.25% {
+    animation-timing-function: ease-in-out;
+    scale: 1 1;
+  }
+  62.5% {
+    animation-timing-function: ease-in-out;
+    scale: 0.925 0.925;
+  }
+  68.75% {
+    animation-timing-function: ease-in-out;
+    scale: 1 1;
+  }
+  75% {
+    animation-timing-function: ease-in-out;
+    scale: 1.075 1.075;
+  }
+  81.25% {
+    animation-timing-function: ease-in-out;
+    scale: 1 1;
+  }
+  87.5% {
+    animation-timing-function: ease-in-out;
+    scale: 0.925 0.925;
+  }
+  93.75% {
+    animation-timing-function: ease-in-out;
+    scale: 1 1;
+  }
+  100% {
+    scale: 1.075 1.075;
+  }
+}
+
+.login-emblem {
+  animation: kf_148_116_translate_0 8s linear;
+  animation-iteration-count: infinite;
+}
+@keyframes kf_148_116_translate_0 {
+  0% {
+    animation-timing-function: ease-in-out;
+    translate: 0px 0px;
+  }
+  25% {
+    animation-timing-function: ease-in-out;
+    translate: 0px -6px;
+  }
+  50% {
+    animation-timing-function: ease-in-out;
+    translate: 0px 0px;
+  }
+  75% {
+    animation-timing-function: ease-in-out;
+    translate: 0px 6px;
+  }
+  100% {
+    translate: 0px 0px;
+  }
+}
+
+.login-float-hello {
+  animation: kf_151_242_translate_0 8s linear;
+  animation-iteration-count: infinite;
+}
+@keyframes kf_151_242_translate_0 {
+  0% {
+    translate: 0px 0px;
+  }
+  1.25% {
+    translate: 0.004px 0.019px;
+  }
+  2.5% {
+    translate: 0.014px 0.079px;
+  }
+  3.75% {
+    translate: 0.033px 0.181px;
+  }
+  5% {
+    translate: 0.059px 0.327px;
+  }
+  6.25% {
+    translate: 0.093px 0.517px;
+  }
+  7.5% {
+    translate: 0.136px 0.75px;
+  }
+  8.75% {
+    translate: 0.186px 1.022px;
+  }
+  10% {
+    translate: 0.245px 1.328px;
+  }
+  11.25% {
+    translate: 0.312px 1.657px;
+  }
+  12.5% {
+    translate: 0.387px 2px;
+  }
+  13.75% {
+    translate: 0.471px 2.343px;
+  }
+  15% {
+    translate: 0.562px 2.672px;
+  }
+  16.25% {
+    translate: 0.661px 2.978px;
+  }
+  17.5% {
+    translate: 0.766px 3.25px;
+  }
+  18.75% {
+    translate: 0.878px 3.483px;
+  }
+  20% {
+    translate: 0.996px 3.673px;
+  }
+  21.25% {
+    translate: 1.118px 3.819px;
+  }
+  22.5% {
+    translate: 1.243px 3.921px;
+  }
+  23.75% {
+    translate: 1.371px 3.981px;
+  }
+  25% {
+    translate: 1.5px 4px;
+  }
+  26.25% {
+    translate: 1.629px 3.981px;
+  }
+  27.5% {
+    translate: 1.757px 3.921px;
+  }
+  28.75% {
+    translate: 1.882px 3.819px;
+  }
+  30% {
+    translate: 2.004px 3.673px;
+  }
+  31.25% {
+    translate: 2.122px 3.483px;
+  }
+  32.5% {
+    translate: 2.234px 3.25px;
+  }
+  33.75% {
+    translate: 2.339px 2.978px;
+  }
+  35% {
+    translate: 2.438px 2.672px;
+  }
+  36.25% {
+    translate: 2.529px 2.343px;
+  }
+  37.5% {
+    translate: 2.613px 2px;
+  }
+  38.75% {
+    translate: 2.688px 1.657px;
+  }
+  40% {
+    translate: 2.755px 1.328px;
+  }
+  41.25% {
+    translate: 2.814px 1.022px;
+  }
+  42.5% {
+    translate: 2.864px 0.75px;
+  }
+  43.75% {
+    translate: 2.907px 0.517px;
+  }
+  45% {
+    translate: 2.941px 0.327px;
+  }
+  46.25% {
+    translate: 2.967px 0.181px;
+  }
+  47.5% {
+    translate: 2.986px 0.079px;
+  }
+  48.75% {
+    translate: 2.996px 0.019px;
+  }
+  50% {
+    translate: 3px 0px;
+  }
+  51.25% {
+    translate: 2.996px -0.019px;
+  }
+  52.5% {
+    translate: 2.986px -0.079px;
+  }
+  53.75% {
+    translate: 2.967px -0.181px;
+  }
+  55% {
+    translate: 2.941px -0.327px;
+  }
+  56.25% {
+    translate: 2.907px -0.517px;
+  }
+  57.5% {
+    translate: 2.864px -0.75px;
+  }
+  58.75% {
+    translate: 2.814px -1.022px;
+  }
+  60% {
+    translate: 2.755px -1.328px;
+  }
+  61.25% {
+    translate: 2.688px -1.657px;
+  }
+  62.5% {
+    translate: 2.613px -2px;
+  }
+  63.75% {
+    translate: 2.529px -2.343px;
+  }
+  65% {
+    translate: 2.438px -2.672px;
+  }
+  66.25% {
+    translate: 2.339px -2.978px;
+  }
+  67.5% {
+    translate: 2.234px -3.25px;
+  }
+  68.75% {
+    translate: 2.122px -3.483px;
+  }
+  70% {
+    translate: 2.004px -3.673px;
+  }
+  71.25% {
+    translate: 1.882px -3.819px;
+  }
+  72.5% {
+    translate: 1.757px -3.921px;
+  }
+  73.75% {
+    translate: 1.629px -3.981px;
+  }
+  75% {
+    translate: 1.5px -4px;
+  }
+  76.25% {
+    translate: 1.371px -3.981px;
+  }
+  77.5% {
+    translate: 1.243px -3.921px;
+  }
+  78.75% {
+    translate: 1.118px -3.819px;
+  }
+  80% {
+    translate: 0.996px -3.673px;
+  }
+  81.25% {
+    translate: 0.878px -3.483px;
+  }
+  82.5% {
+    translate: 0.766px -3.25px;
+  }
+  83.75% {
+    translate: 0.661px -2.978px;
+  }
+  85% {
+    translate: 0.562px -2.672px;
+  }
+  86.25% {
+    translate: 0.471px -2.343px;
+  }
+  87.5% {
+    translate: 0.387px -2px;
+  }
+  88.75% {
+    translate: 0.312px -1.657px;
+  }
+  90% {
+    translate: 0.245px -1.328px;
+  }
+  91.25% {
+    translate: 0.186px -1.022px;
+  }
+  92.5% {
+    translate: 0.136px -0.75px;
+  }
+  93.75% {
+    translate: 0.093px -0.517px;
+  }
+  95% {
+    translate: 0.059px -0.327px;
+  }
+  96.25% {
+    translate: 0.033px -0.181px;
+  }
+  97.5% {
+    translate: 0.014px -0.079px;
+  }
+  98.75% {
+    translate: 0.004px -0.019px;
+  }
+  100% {
+    translate: 0px 0px;
+  }
+}
+
+.login-float-pace {
+  animation: kf_151_244_translate_0 8s linear;
+  animation-iteration-count: infinite;
+}
+@keyframes kf_151_244_translate_0 {
+  0% {
+    translate: 0px 0px;
+  }
+  1.25% {
+    translate: -0.004px -0.019px;
+  }
+  2.5% {
+    translate: -0.014px -0.079px;
+  }
+  3.75% {
+    translate: -0.033px -0.181px;
+  }
+  5% {
+    translate: -0.059px -0.327px;
+  }
+  6.25% {
+    translate: -0.093px -0.517px;
+  }
+  7.5% {
+    translate: -0.136px -0.75px;
+  }
+  8.75% {
+    translate: -0.186px -1.022px;
+  }
+  10% {
+    translate: -0.245px -1.328px;
+  }
+  11.25% {
+    translate: -0.312px -1.657px;
+  }
+  12.5% {
+    translate: -0.387px -2px;
+  }
+  13.75% {
+    translate: -0.471px -2.343px;
+  }
+  15% {
+    translate: -0.562px -2.672px;
+  }
+  16.25% {
+    translate: -0.661px -2.978px;
+  }
+  17.5% {
+    translate: -0.766px -3.25px;
+  }
+  18.75% {
+    translate: -0.878px -3.483px;
+  }
+  20% {
+    translate: -0.996px -3.673px;
+  }
+  21.25% {
+    translate: -1.118px -3.819px;
+  }
+  22.5% {
+    translate: -1.243px -3.921px;
+  }
+  23.75% {
+    translate: -1.371px -3.981px;
+  }
+  25% {
+    translate: -1.5px -4px;
+  }
+  26.25% {
+    translate: -1.629px -3.981px;
+  }
+  27.5% {
+    translate: -1.757px -3.921px;
+  }
+  28.75% {
+    translate: -1.882px -3.819px;
+  }
+  30% {
+    translate: -2.004px -3.673px;
+  }
+  31.25% {
+    translate: -2.122px -3.483px;
+  }
+  32.5% {
+    translate: -2.234px -3.25px;
+  }
+  33.75% {
+    translate: -2.339px -2.978px;
+  }
+  35% {
+    translate: -2.438px -2.672px;
+  }
+  36.25% {
+    translate: -2.529px -2.343px;
+  }
+  37.5% {
+    translate: -2.613px -2px;
+  }
+  38.75% {
+    translate: -2.688px -1.657px;
+  }
+  40% {
+    translate: -2.755px -1.328px;
+  }
+  41.25% {
+    translate: -2.814px -1.022px;
+  }
+  42.5% {
+    translate: -2.864px -0.75px;
+  }
+  43.75% {
+    translate: -2.907px -0.517px;
+  }
+  45% {
+    translate: -2.941px -0.327px;
+  }
+  46.25% {
+    translate: -2.967px -0.181px;
+  }
+  47.5% {
+    translate: -2.986px -0.079px;
+  }
+  48.75% {
+    translate: -2.996px -0.019px;
+  }
+  50% {
+    translate: -3px 0px;
+  }
+  51.25% {
+    translate: -2.996px 0.019px;
+  }
+  52.5% {
+    translate: -2.986px 0.079px;
+  }
+  53.75% {
+    translate: -2.967px 0.181px;
+  }
+  55% {
+    translate: -2.941px 0.327px;
+  }
+  56.25% {
+    translate: -2.907px 0.517px;
+  }
+  57.5% {
+    translate: -2.864px 0.75px;
+  }
+  58.75% {
+    translate: -2.814px 1.022px;
+  }
+  60% {
+    translate: -2.755px 1.328px;
+  }
+  61.25% {
+    translate: -2.688px 1.657px;
+  }
+  62.5% {
+    translate: -2.613px 2px;
+  }
+  63.75% {
+    translate: -2.529px 2.343px;
+  }
+  65% {
+    translate: -2.438px 2.672px;
+  }
+  66.25% {
+    translate: -2.339px 2.978px;
+  }
+  67.5% {
+    translate: -2.234px 3.25px;
+  }
+  68.75% {
+    translate: -2.122px 3.483px;
+  }
+  70% {
+    translate: -2.004px 3.673px;
+  }
+  71.25% {
+    translate: -1.882px 3.819px;
+  }
+  72.5% {
+    translate: -1.757px 3.921px;
+  }
+  73.75% {
+    translate: -1.629px 3.981px;
+  }
+  75% {
+    translate: -1.5px 4px;
+  }
+  76.25% {
+    translate: -1.371px 3.981px;
+  }
+  77.5% {
+    translate: -1.243px 3.921px;
+  }
+  78.75% {
+    translate: -1.118px 3.819px;
+  }
+  80% {
+    translate: -0.996px 3.673px;
+  }
+  81.25% {
+    translate: -0.878px 3.483px;
+  }
+  82.5% {
+    translate: -0.766px 3.25px;
+  }
+  83.75% {
+    translate: -0.661px 2.978px;
+  }
+  85% {
+    translate: -0.562px 2.672px;
+  }
+  86.25% {
+    translate: -0.471px 2.343px;
+  }
+  87.5% {
+    translate: -0.387px 2px;
+  }
+  88.75% {
+    translate: -0.312px 1.657px;
+  }
+  90% {
+    translate: -0.245px 1.328px;
+  }
+  91.25% {
+    translate: -0.186px 1.022px;
+  }
+  92.5% {
+    translate: -0.136px 0.75px;
+  }
+  93.75% {
+    translate: -0.093px 0.517px;
+  }
+  95% {
+    translate: -0.059px 0.327px;
+  }
+  96.25% {
+    translate: -0.033px 0.181px;
+  }
+  97.5% {
+    translate: -0.014px 0.079px;
+  }
+  98.75% {
+    translate: -0.004px 0.019px;
+  }
+  100% {
+    translate: 0px 0px;
+  }
+}

@@ -1,0 +1,52 @@
+:root,
+[data-theme='light'] {
+  --icon-arrow-primary: url('../assets/icons/e442e.svg');
+  --icon-arrow-secondary: url('../assets/icons/087ae.svg');
+  --icon-arrow-disabled: url('../assets/icons/f4874.svg');
+  --icon-mail-default: url('../assets/icons/10be6.svg');
+  --icon-mail-error: url('../assets/icons/d7fe3.svg');
+  --icon-mail-disabled: url('../assets/icons/1fc77.svg');
+  --icon-sun-default: url('../assets/icons/db174.svg');
+  --icon-moon-default: url('../assets/icons/c349c.svg');
+  --icon-book-default: url('../assets/icons/c6aec.svg');
+  --icon-book-active: url('../assets/icons/90966.svg');
+  --icon-info-info: url('../assets/icons/c2a26.svg');
+  --icon-info-warning: url('../assets/icons/5041b.svg');
+  --icon-info-error: url('../assets/icons/88c0b.svg');
+  --icon-check-success: url('../assets/icons/f378a.svg');
+}
+
+[data-theme='dark'] {
+  --icon-arrow-primary: url('../assets/icons/b3785.svg');
+  --icon-arrow-secondary: url('../assets/icons/797ee.svg');
+  --icon-arrow-disabled: url('../assets/icons/1d1e4.svg');
+  --icon-mail-default: url('../assets/icons/844db.svg');
+  --icon-mail-error: url('../assets/icons/91fca.svg');
+  --icon-mail-disabled: url('../assets/icons/303b9.svg');
+  --icon-sun-default: url('../assets/icons/e9682.svg');
+  --icon-moon-default: url('../assets/icons/41100.svg');
+  --icon-book-default: url('../assets/icons/ba9d3.svg');
+  --icon-book-active: url('../assets/icons/17bb2.svg');
+  --icon-info-info: url('../assets/icons/f0ebb.svg');
+  --icon-info-warning: url('../assets/icons/8135e.svg');
+  --icon-info-error: url('../assets/icons/c781c.svg');
+  --icon-check-success: url('../assets/icons/9e0e5.svg');
+}
+
+:root {
+  --icon-moon-24: url('../assets/icons/35b32.svg');
+  --icon-sun-24: url('../assets/icons/43030.svg');
+  --icon-info-24: url('../assets/icons/4ddb1.svg');
+  --icon-lock-24: url('../assets/icons/69b09.svg');
+  --icon-check-24: url('../assets/icons/d37a7.svg');
+  --icon-book-24: url('../assets/icons/05eb8.svg');
+  --icon-mail-24: url('../assets/icons/b94f9.svg');
+  --icon-arrow-24: url('../assets/icons/e3048.svg');
+}
+
+.vs-icon {
+  display: inline-block;
+  flex: none;
+  background-repeat: no-repeat;
+  background-position: center;
+}

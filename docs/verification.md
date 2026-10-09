@@ -1,5 +1,94 @@
 # Verificación
 
+## Migración del login a Tailwind — 9 de octubre de 2026
+
+Verificación local: `pnpm lint`, `pnpm format:check`, las **45 pruebas frontend** y
+`pnpm --filter @vocessilentes/frontend build` terminaron con código 0.
+Esta revisión modifica presentación y aliases visuales; no cambia autenticación ni dependencias.
+No se repitieron los controles backend/SQL/Prisma de la entrega anterior ni GitHub Actions.
+
+Se volvieron a capturar ambos temas a **1440/834/390/320 px**. Las posiciones y dimensiones
+de cabecera, tarjeta, campos, footer, panel, emblema e icono de contraseña coinciden con las
+mediciones anteriores a Tailwind en las ocho composiciones iniciales.
+Se revisaron nuevamente los **48 casos** de errores/carga/429: sin overflow horizontal
+ni textos recortados; el texto largo a 320 px conserva el crecimiento de la tarjeta.
+Se comprobaron recursos originales y fuentes, las ocho capas de movimiento reducido y
+el foco visible por teclado. Evidencia local ignorada en `.local/login-*.png` y JSON,
+con mediciones previas en `login-geometry-before-tailwind.json` y `login-states-before-tailwind.json`.
+
+## Inicio de sesión de Figma — 9 de octubre de 2026
+
+Windows, Node **22.23.1**, pnpm **10.18.2**. `pnpm verify` terminó con **código 0**:
+lint sin errores/advertencias, formato, **45 pruebas frontend**, **32 backend** y
+**29 de integración SQL aislada** (106 en total), Prisma validate y build correctos.
+Se añadieron 12 casos frontend relevantes y se ajustaron los selectores existentes al texto de Figma.
+No se alteraron backend, modelos, migraciones, dependencias ni lockfile; no se ejecutó db:check remoto.
+Tras el último ajuste accesible se volvió a comprobar frontend/lint; los cambios finales de documentación
+pasaron format:check. Los controles remotos de GitHub Actions no se ejecutaron.
+
+Se compararon capturas de la pantalla contra Figma en ambos temas a **1440, 834 y 390 px**.
+Escritorio inicial: tarjeta 480 × 630 en (168,154), panel 600 × 912 en (816,24).
+Tablet: tarjeta 480 × 630 en (177,157), franja 770 × 110.
+Móvil: tarjeta 342 × 592, con padding exterior de 24 px; el tema oscuro conserva su marca de 36 px.
+Se corrigieron la precedencia del borde de error, la cabecera móvil, el tamaño del isotipo oscuro,
+la sombra de la vista previa y el ancho de 148 px del título de alerta.
+
+Se revisaron **48 combinaciones** de seis estados (vacíos, correo inválido, credenciales, conexión,
+carga y 429), dos temas y cuatro anchos (**1440/834/390/320**): sin desbordamientos horizontales
+ni texto recortado. Los errores se capturaron a la altura de sus frames originales para evitar que
+la barra de desplazamiento de Windows redujera el área de comparación. Texto largo a 320 × 568
+permitió crecimiento de la tarjeta a 1138 px y de la página a 1392 px sin overflow horizontal.
+
+Auditoría de **46 slots visibles** en las composiciones iniciales: recursos con contenido,
+imágenes decodificadas y geometría comprobada, fuentes Manrope/Inter cargadas.
+Se verificaron el control Eye normal y sus estados disabled en las capturas de carga.
+Movimiento normal: gradientes, órbitas, emblema y etiquetas en ciclos de 8 s; entrada de tarjeta
+una sola vez. Movimiento reducido: ninguna animación activa en las ocho capas inspeccionadas.
+Tab enfocó el selector de tema con contorno sólido visible.
+
+Evidencia local ignorada: `.local/login-*.png`, `login-geometry.json`, `login-states.json`,
+`login-assets.json` y `login-motion.json`. Los estados de API en capturas y pruebas frontend
+usan dobles explícitos; no prueban una sesión de navegador contra Supabase. La integración
+SQL existente sí ejecutó Express, Argon2 y Prisma sobre PostgreSQL WASM aislado.
+No se crearon cuentas ni sesiones de prueba en la base compartida.
+
+Los límites de CORS/Retry-After y de la exportación del grosor de órbitas, el selector móvil añadido
+y las diferencias tipográficas están documentados en [login.md](login.md).
+La primera ejecución de Vite/Vitest encontró EPERM del sandbox; la ejecución autorizada pasó.
+Se usaron Vite en 5181 con caché aislada y Brave headless con perfil independiente,
+conservando los procesos de desarrollo que ya existían. No hubo publicación ni despliegue.
+
+## Componentes generales de Figma — 9 de octubre de 2026
+
+Verificación local en Windows con Node **22.23.1** y pnpm **10.18.2**.
+`pnpm verify` terminó con **código 0**: lint sin errores/advertencias, formato correcto,
+**33 pruebas frontend**, **32 backend** y **29 de integración SQL aislada** (94 en total),
+Prisma validate, build frontend, sintaxis backend y generación/compilación Prisma correctos.
+No se modificaron contratos API, lógica backend, dependencias ni el lockfile. No se ejecutaron
+db:check ni migraciones ni pruebas contra PostgreSQL remoto para esta tarea de UI.
+
+Galería en `/ui.html`, servida en localhost:5180 para esta revisión, sin proveedores de auth ni API.
+El build solo contiene index.html: no se incluyeron la entrada, componentes ni rutas de galería.
+Se comprobaron diez component sets frente a capturas originales de Figma, ambos temas, con
+viewport 1776 px y escala 1, esperando fuentes Manrope/Inter y recursos. Dimensiones de todas
+las variantes coinciden con la referencia; se corrigieron precedencia de estilos de Button,
+altura de Input y anchura del track de Progress. A 375 px, documento y controles sin desbordamientos.
+Los 36 SVG locales originales tienen contenido y dimensiones nativas correctas en sus slots;
+el navegador renderizó 64 slots de iconos. prefers-reduced-motion produce transition-duration:0s.
+
+Evidencia local ignorada: `.local/figma-0.png` a `figma-9.png`, `gallery-0.png` a `gallery-9.png`,
+`gallery-mobile.png`, `ui-geometry.json`, `ui-mobile.json` y `ui-assets.json`.
+Las capturas se revisaron visualmente, sin afirmar identidad píxel por píxel. Persisten diferencias
+de rasterización tipográfica entre Figma y Windows/Chromium; el foco añadido al botón secundario
+y la extensión PasswordInput están documentados en [design-system.md](design-system.md).
+Figma permite consultar diseño/variables, pero Code Connect está bloqueado por el plan educativo;
+se documentó una correspondencia manual, sin afirmar que no existan conexiones previas.
+
+La primera ejecución de Vite/Vitest falló por EPERM del sandbox de Windows; los mismos comandos
+completaron correctamente con ejecución autorizada de subprocesos, sin cambiar configuración para
+ocultar el fallo. Se usó Brave headless con perfil temporal independiente para las capturas.
+GitHub Actions no se ejecutó ni comprobó remotamente; no hay commits ni publicación en esta entrega.
+
 ## Autenticación — 9 de octubre de 2026
 
 Ejecutada localmente en Windows, Node **22.23.1** y pnpm **10.18.2**. No se modificó el esquema,

@@ -1,0 +1,73 @@
+@media (max-width: 599px) {
+  /* Exportación CSS original de Figma: 147:6350. Excepción de tamaño por keyframes muestreados;
+   véase docs/development.md. No editar las muestras ni comprimirlas manualmente. */
+  @property --rotate-transform {
+    syntax: '<angle>';
+    initial-value: 0rad;
+    inherits: false;
+  }
+  .login-page::before {
+    transform: rotate(var(--rotate-transform, 0rad));
+    animation:
+      kf_153_426_rotate_0 8s linear,
+      kf_153_426_translate_0 8s linear;
+    animation-iteration-count: infinite;
+  }
+  @keyframes kf_153_426_rotate_0 {
+    0% {
+      animation-timing-function: ease-in-out;
+      --rotate-transform: 0rad;
+    }
+    50% {
+      animation-timing-function: ease-in-out;
+      --rotate-transform: -0.209rad;
+    }
+    100% {
+      --rotate-transform: 0rad;
+    }
+  }
+  @keyframes kf_153_426_translate_0 {
+    0% {
+      animation-timing-function: ease-in-out;
+      translate: 0px 0px;
+    }
+    50% {
+      animation-timing-function: ease-in-out;
+      translate: 62.4px -73.6px;
+    }
+    100% {
+      translate: 0px 0px;
+    }
+  }
+
+  .login-card {
+    animation:
+      kf_148_204_opacity_0 8s linear,
+      kf_148_204_translate_0 8s linear;
+    animation-iteration-count: infinite;
+  }
+  @keyframes kf_148_204_opacity_0 {
+    0% {
+      animation-timing-function: ease-out;
+      opacity: 0;
+    }
+    5.625% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes kf_148_204_translate_0 {
+    0% {
+      animation-timing-function: ease-out;
+      translate: 0px 8px;
+    }
+    5.625% {
+      translate: 0px 0px;
+    }
+    100% {
+      translate: 0px 0px;
+    }
+  }
+}

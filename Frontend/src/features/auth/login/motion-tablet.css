@@ -1,0 +1,111 @@
+@media (min-width: 600px) and (max-width: 1199px) {
+  /* Exportación CSS original de Figma: 147:6349. Excepción de tamaño por keyframes muestreados;
+   véase docs/development.md. No editar las muestras ni comprimirlas manualmente. */
+  @property --rotate-transform {
+    syntax: '<angle>';
+    initial-value: 0rad;
+    inherits: false;
+  }
+  .login-page::before {
+    transform: rotate(var(--rotate-transform, 0rad));
+    animation:
+      kf_153_400_rotate_0 8s linear,
+      kf_153_400_translate_0 8s linear;
+    animation-iteration-count: infinite;
+  }
+  @keyframes kf_153_400_rotate_0 {
+    0% {
+      animation-timing-function: ease-in-out;
+      --rotate-transform: 0rad;
+    }
+    50% {
+      animation-timing-function: ease-in-out;
+      --rotate-transform: -0.209rad;
+    }
+    100% {
+      --rotate-transform: 0rad;
+    }
+  }
+  @keyframes kf_153_400_translate_0 {
+    0% {
+      animation-timing-function: ease-in-out;
+      translate: 0px 0px;
+    }
+    50% {
+      animation-timing-function: ease-in-out;
+      translate: 133.44px -88px;
+    }
+    100% {
+      translate: 0px 0px;
+    }
+  }
+
+  .login-card {
+    animation:
+      kf_148_157_opacity_0 8s linear,
+      kf_148_157_translate_0 8s linear;
+    animation-iteration-count: infinite;
+  }
+  @keyframes kf_148_157_opacity_0 {
+    0% {
+      animation-timing-function: ease-out;
+      opacity: 0;
+    }
+    5.625% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes kf_148_157_translate_0 {
+    0% {
+      animation-timing-function: ease-out;
+      translate: 0px 8px;
+    }
+    5.625% {
+      translate: 0px 0px;
+    }
+    100% {
+      translate: 0px 0px;
+    }
+  }
+  @property --rotate-transform {
+    syntax: '<angle>';
+    initial-value: 0rad;
+    inherits: false;
+  }
+  .login-compact::before {
+    transform: rotate(var(--rotate-transform, 0rad));
+    animation:
+      kf_153_413_rotate_0 8s linear,
+      kf_153_413_translate_0 8s linear;
+    animation-iteration-count: infinite;
+  }
+  @keyframes kf_153_413_rotate_0 {
+    0% {
+      animation-timing-function: ease-in-out;
+      --rotate-transform: 0rad;
+    }
+    50% {
+      animation-timing-function: ease-in-out;
+      --rotate-transform: -0.209rad;
+    }
+    100% {
+      --rotate-transform: 0rad;
+    }
+  }
+  @keyframes kf_153_413_translate_0 {
+    0% {
+      animation-timing-function: ease-in-out;
+      translate: 0px 0px;
+    }
+    50% {
+      animation-timing-function: ease-in-out;
+      translate: 123.2px -8.8px;
+    }
+    100% {
+      translate: 0px 0px;
+    }
+  }
+}

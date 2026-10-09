@@ -73,7 +73,18 @@ Los archivos propios mantienen el objetivo de 100 líneas útiles. La migración
 el DDL generado por Prisma para los cuatro dominios y las reglas SQL adicionales en una sola
 transacción revisable. Dividirla artificialmente dificultaría aplicar y revisar el contrato completo.
 La razón también se documenta al principio del SQL; no se desactivan reglas ESLint.
+`Frontend/src/styles/button.css` es otra excepción (aproximadamente 108 líneas útiles): reúne
+la superficie, jerarquías y precedencias de hover/pressed/focus/disabled/loading con su movimiento
+y reducción de movimiento. Mantener esta cascada de un solo componente en un archivo permite revisar
+interacciones entre estados sin fragmentar reglas que se sobrescriben. La razón aparece junto al CSS.
 ESLint advierte tamaño/largo/documentación y comprueba consistencia JSDoc, hooks y Fast Refresh.
+
+`Frontend/src/features/auth/login/motion-desktop.css` (aproximadamente 1058 líneas útiles)
+y `motion-tablet.css` (109) son excepciones por contener los keyframes CSS originales de Figma.
+El exportador muestrea las etiquetas flotantes cada 1,25 % y repite ciclos de las órbitas.
+Se conservan esas muestras para no reconstruir ni alterar el movimiento exportado; son una
+responsabilidad coherente por composición y tienen su razón documentada junto al CSS.
+Los componentes, hooks y estilos escritos a mano de login mantienen el objetivo de 100 líneas.
 
 Pruebas frontend: Vitest, jsdom y Testing Library; se prueban rutas, temas y contrato HTTP con fetch
 controlado, formularios, guards y sesión. Backend: node:test y Supertest; configuración, salud,

@@ -1,0 +1,38 @@
+/* Valores originales de Auth (147:6348–6353), junto a los tokens generales. */
+.login-page {
+  --login-page-stops: #f6f3fe 20%, #faf9fe 53.333%, #f3f7fa 86.667%;
+  --login-panel-stops: #e9e2fe 20%, #eaf4f6 53.333%, #f8f5e1 86.667%;
+  --login-compact-stops: #e9dfff 20%, #eaf4f6 53.333%, #fff5d6 86.667%;
+  --login-emblem-stops: #f5f1ff 20%, #f6fafb 86.667%;
+  --login-education-stops: #fffbed 20%, #fff5d6 86.667%;
+  --login-card-shadow: 0 16px 48px -8px rgb(38 26 77 / 8%);
+  --login-orbit-outer: url('../../../assets/auth/c4873.svg');
+  --login-orbit-inner: url('../../../assets/auth/df5b0.svg');
+}
+[data-theme='dark'] .login-page {
+  --login-page-stops: #1e1c2e 20%, #171625 53.333%, #1b252f 86.667%;
+  --login-panel-stops: #35314d 20%, #20373c 53.333%, #33352a 86.667%;
+  --login-compact-stops: #38304f 20%, #20373c 53.333%, #3d3420 86.667%;
+  --login-emblem-stops: #2e2942 20%, #232c3a 86.667%;
+  --login-education-stops: #302b2d 20%, #3d3420 86.667%;
+  --login-card-shadow: 0 16px 48px -8px rgb(38 26 77 / 24%);
+  --login-orbit-outer: url('../../../assets/auth/3b9ba.svg');
+  --login-orbit-inner: url('../../../assets/auth/ca887.svg');
+}
+:root,
+[data-theme='light'] {
+  --icon-eye-default: url('../../../assets/auth/9ccf2.svg');
+  --icon-eye-off-default: url('../../../assets/auth/a1591.svg');
+  --icon-eye-disabled: url('../../../assets/auth/e5c16.svg');
+  --icon-eye-off-disabled: url('../../../assets/auth/3e55b.svg');
+  --icon-play-24: url('../../../assets/auth/022bf.svg');
+  --icon-chevron-16: url('../../../assets/auth/61e67.svg');
+}
+[data-theme='dark'] {
+  --icon-eye-default: url('../../../assets/auth/cb0f5.svg');
+  --icon-eye-off-default: url('../../../assets/auth/d8b53.svg');
+  --icon-eye-disabled: url('../../../assets/auth/75c1e.svg');
+  --icon-eye-off-disabled: url('../../../assets/auth/ed17f.svg');
+  --icon-play-24: url('../../../assets/auth/5185e.svg');
+  --icon-chevron-16: url('../../../assets/auth/db0f2.svg');
+}

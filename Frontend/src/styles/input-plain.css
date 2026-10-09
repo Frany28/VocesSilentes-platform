@@ -1,0 +1,46 @@
+/* Field/Input y Field/Password de Auth: 91:2193 y 109:5940. */
+.vs-field[data-appearance='plain'] {
+  width: 100%;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.vs-field[data-appearance='plain'] .vs-input-shell {
+  gap: var(--space-8);
+  background: var(--page);
+}
+.vs-field[data-appearance='plain']:not([data-error]):not(:has(.vs-input:focus-visible))
+  .vs-input-shell {
+  box-shadow: inset 0 0 0 1px var(--border-subtle);
+}
+.vs-field[data-appearance='plain'].vs-password-field .vs-input-shell {
+  padding: 2px 2px 2px 12px;
+  border-radius: var(--radius-md);
+}
+.vs-field[data-appearance='plain'] .vs-password-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+}
+.vs-field[data-appearance='plain'] .vs-password-toggle .vs-icon {
+  /* Figma coloca Eye de 24 px en un slot de 20 px, sin modificar el SVG original. */
+  background-size: 20px 20px;
+}
+.vs-field[data-appearance='plain']:has(:disabled) label {
+  color: var(--text-disabled);
+}
+.vs-field[data-appearance='plain']:has(:disabled) .vs-input-shell {
+  background: var(--action-disabled);
+}
+.vs-field[data-appearance='plain']:has(:disabled) .vs-password-toggle {
+  --icon-eye-default: var(--icon-eye-disabled);
+  --icon-eye-off-default: var(--icon-eye-off-disabled);
+}
+.vs-field[data-appearance='plain'][data-error]:has(.vs-input:focus-visible) .vs-input-shell {
+  box-shadow:
+    inset 0 0 0 1px var(--status-error),
+    var(--field-focus-shadow);
+}

@@ -1,0 +1,89 @@
+.vs-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  width: var(--size-field);
+  max-width: 100%;
+  padding: var(--space-16);
+  /* El marco Figma de 132 px deja realmente 12 px bajo la última línea. */
+  padding-bottom: var(--space-12);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+}
+.vs-input-shell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  min-height: 48px;
+  padding: var(--space-12);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--text-secondary);
+}
+.vs-input {
+  all: unset;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+  color: var(--content);
+  font: var(--type-field);
+  font-optical-sizing: none;
+}
+.vs-input::placeholder {
+  color: var(--text-secondary);
+  opacity: 1;
+}
+.vs-field .vs-field-message {
+  font: var(--type-label);
+  color: var(--text-secondary);
+}
+.vs-input-shell:has(:disabled) {
+  background: var(--action-disabled);
+}
+.vs-input:disabled,
+.vs-input:disabled::placeholder {
+  color: var(--text-disabled);
+}
+.vs-field[data-error] .vs-input-shell {
+  box-shadow: inset 0 0 0 1px var(--status-error);
+}
+.vs-field[data-error] .vs-field-message {
+  color: var(--status-error);
+}
+.vs-field:has(.vs-input:focus-visible) .vs-input-shell,
+.vs-field.vs-preview-focus .vs-input-shell {
+  box-shadow:
+    inset 0 0 0 2px var(--focus),
+    var(--field-focus-shadow);
+}
+.vs-input:focus-visible {
+  outline: none;
+}
+/* Extensión accesible mínima, sin estado Password específico en Figma. */
+.vs-password-toggle {
+  appearance: none;
+  flex: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--action-primary);
+  font: var(--type-label);
+  cursor: pointer;
+}
+.vs-password-toggle:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.vs-password-toggle:disabled {
+  color: var(--text-disabled);
+  cursor: default;
+}
+@media (forced-colors: active) {
+  .vs-input-shell {
+    outline: 1px solid CanvasText;
+  }
+  .vs-field:has(.vs-input:focus-visible) .vs-input-shell {
+    outline: 2px solid Highlight;
+  }
+}

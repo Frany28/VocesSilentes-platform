@@ -1,0 +1,50 @@
+@font-face {
+  font-family: 'Manrope';
+  src: url('../assets/fonts/Manrope.ttf') format('truetype');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/Inter.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-brand: 'Manrope', sans-serif;
+  --font-field: 'Inter', sans-serif;
+  --type-button: 600 16px / 24px var(--font-brand);
+  --type-secondary: 400 14px / 22px var(--font-brand);
+  --type-label: 400 12px / 18px var(--font-brand);
+  --type-field: 400 16px / 24px var(--font-field);
+  --type-h1: 700 36px / 44px var(--font-brand);
+  --type-h3: 600 24px / 32px var(--font-brand);
+  --type-subtitle: 500 18px / 28px var(--font-brand);
+  --space-0: 0px;
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 999px;
+  --shadow-action: 0 3px 8px 0 rgb(94 69 196 / 18%);
+  --shadow-hover: 0 8px 16px -3px rgb(48 26 102 / 20%);
+  --shadow-soft: 0 6px 16px 0 rgb(38 26 77 / 10%);
+  --size-button: 208px;
+  --size-field: 304px;
+  --size-selection: 260px;
+  --size-toggle: 224px;
+  --size-navigation: 264px;
+  --size-badge: 200px;
+  --size-alert: 350px;
+  --size-control: 52px;
+}

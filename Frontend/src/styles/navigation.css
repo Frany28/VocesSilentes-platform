@@ -1,0 +1,34 @@
+.vs-navigation {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-12);
+  width: var(--size-navigation);
+  max-width: 100%;
+  min-height: var(--size-control);
+  padding: var(--space-12);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  font: var(--type-button);
+  text-decoration: none;
+}
+.vs-navigation-marker {
+  flex: none;
+  width: 4px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--surface);
+}
+.vs-navigation:is(:hover, .vs-preview-hover, [aria-current]) {
+  background: var(--surface-neutral);
+}
+.vs-navigation[aria-current] {
+  color: var(--action-primary);
+  box-shadow: var(--shadow-action);
+}
+.vs-navigation[aria-current] .vs-navigation-marker {
+  background: var(--action-primary);
+}
+.vs-navigation:is(:focus-visible, .vs-preview-focus) {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--focus);
+}

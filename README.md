@@ -98,11 +98,13 @@ Frontend/
   src/app/                  Entrada, router y proveedores de tema/auth
   src/features/auth/        Formularios, cliente CSRF, sesión y guards
   src/features/system/      Pantalla mínima de la base técnica
-  src/components/ui/        Control de tema
+  src/components/ui/        Componentes generales de Figma y control de tema
   src/components/layout/    Estructura compartida
   src/hooks/                Hook del tema
   src/lib/                  Configuración pública, cliente HTTP y errores
-  src/styles/               Estilos globales y tokens semánticos provisionales
+  src/styles/               Estilos globales, tokens Figma y estilos de componentes
+  src/assets/               Fuentes y SVG originales locales
+  src/dev/                  Galería independiente de desarrollo (/ui.html)
   src/test/                 Configuración y pruebas
 Backend/
   src/app.js                Express sin puerto
@@ -120,7 +122,7 @@ docs/                       Arquitectura, desarrollo, diseño, MediaPipe y versi
 .github/workflows/          Verificación sin despliegue ni secretos de producción
 ```
 
-Las carpetas de assets y funcionalidades futuras se crean cuando tengan contenido útil.
+Las carpetas de funcionalidades futuras se crean cuando tengan contenido útil.
 `Backend/generated/`, `Frontend/dist/`, dependencias, cachés y `.env` son artefactos locales ignorados.
 
 ## Estado real y documentación
@@ -131,7 +133,11 @@ Existen modelos de usuarios, sesiones, contenido compartido, progreso y reportes
 con PostgreSQL 17.11 en Supabase. Registro/login/me/logout usan User/Session existentes, Argon2id,
 cookies HttpOnly, CSRF firmado y límites de intentos. `/account` exige sesión; `/admin` exige ADMIN,
 con destinos provisionales. No se crean administradores ni usuarios ficticios en la base compartida.
-No hay flujos educativos/reportes ni reconocimiento LSV. Faltan Figma y entrenamiento/validación
+No hay flujos educativos/reportes ni reconocimiento LSV. Hay componentes generales del UI Kit de Figma
+y una galería de desarrollo en `/ui.html`; véase [sistema visual](docs/design-system.md).
+La pantalla `/login` reproduce Auth en ambos temas y tres composiciones adaptables, con el flujo
+existente de sesión y sus errores; véase [implementación y límites](docs/login.md).
+Faltan las pantallas de producto y entrenamiento/validación
 de un modelo específico; tampoco hay OAuth, recuperación ni envío de correo.
 
 La preparación inicial partió de una carpeta sin código ni historial. Esta tarea no crea commits,

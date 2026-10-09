@@ -1,6 +1,7 @@
 import { ApiError } from './api-error.js';
 import { publicConfig } from './config.js';
 import { invalidateSession } from './session-events.js';
+import { retryAfterSeconds } from './retry-after.js';
 
 /**
  * Solicita JSON dentro de la API configurada y normaliza sus errores.
@@ -29,6 +30,7 @@ export async function requestJson(path, options = {}) {
         'INVALID_RESPONSE',
         'La API devolvió una respuesta ilegible',
         response.status,
+        retryAfterSeconds(response.headers.get('Retry-After')),
       );
     }
     options.signal?.throwIfAborted();
@@ -39,6 +41,7 @@ export async function requestJson(path, options = {}) {
         typeof payload?.error?.code === 'string' ? payload.error.code : 'HTTP_ERROR',
         typeof payload?.error?.message === 'string' ? payload.error.message : 'Error de API',
         response.status,
+        retryAfterSeconds(response.headers.get('Retry-After')),
       );
     }
     return payload;

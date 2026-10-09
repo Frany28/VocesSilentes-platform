@@ -1,0 +1,28 @@
+/* Los controles generales comparten tokens y estilos propios. */
+.vs-ui {
+  box-sizing: border-box;
+  font: var(--type-secondary);
+  color: var(--content);
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+}
+
+.vs-ui p {
+  margin: 0;
+  font: inherit;
+}
+
+.vs-ui:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.vs-ui .vs-icon {
+  flex: none;
+}
+
+@media (forced-colors: active) {
+  .vs-ui:focus-visible {
+    outline-color: Highlight;
+  }
+}

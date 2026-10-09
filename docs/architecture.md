@@ -21,7 +21,10 @@ Contenido, progreso y reportes conservan solo su modelo de datos, sin flujos de 
 componentes, hooks, servicios y validaciones cuando sean necesarios. `components/ui/` y
 `components/layout/` solo presentan controles y estructuras reutilizables.
 `hooks/` contiene estado compartido, `lib/` contiene HTTP/configuración/adaptadores y `styles/`
-mantiene tokens globales. `assets/` se creará cuando existan recursos locales aprobados.
+mantiene tokens globales. `assets/` reúne los recursos locales extraídos para el sistema visual.
+Los componentes generales extraídos de Figma están en `components/ui/`, con tokens y estilos por
+responsabilidad en `styles/` y fuentes/SVG locales en `assets/`. `ui.html` y `src/dev/` contienen una
+galería independiente para desarrollo: no usa router/auth/API y no se incluye en el build de producción.
 
 La UI usa servicios de funcionalidad para contactar la API. `requestJson(path, options)` transmite
 AbortSignal, envía cookies con credentials: include y lanza ApiError con `code`, `message` y `status`;
@@ -35,6 +38,10 @@ cancelación de navegación como fallo de negocio.
 El proveedor verifica me y representa carga, autenticado, no autenticado y error; no confunde red
 con ausencia de sesión. El cliente HTTP notifica 401 UNAUTHENTICATED, sin invalidar por 403.
 Los destinos `/account` y `/admin` son provisionales; el guard de rol es apoyo de navegación.
+
+`features/auth/login/` presenta Auth de Figma como una ruta independiente del layout técnico.
+Reutiliza controles generales con variantes y el mismo hook/proveedor/cliente de autenticación.
+La validación local y traducción de errores están separadas de la presentación; véase [login.md](login.md).
 
 ## Backend
 

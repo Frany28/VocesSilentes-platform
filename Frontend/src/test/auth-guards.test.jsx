@@ -20,7 +20,7 @@ test('guard: oculta contenido mientras comprueba y redirige al confirmar 401', a
   expect(screen.getByRole('status')).toHaveTextContent('Comprobando sesión');
   expect(screen.queryByText(/Vista provisional/)).not.toBeInTheDocument();
   finish(unauthorized());
-  expect(await screen.findByRole('heading', { name: 'Iniciar sesión' })).toBeVisible();
+  expect(await screen.findByRole('heading', { name: 'Inicia sesión' })).toBeVisible();
 });
 
 test('guard: error de red tiene reintento y nunca equivale a ausencia de sesión', async () => {
@@ -31,7 +31,7 @@ test('guard: error de red tiene reintento y nunca equivale a ausencia de sesión
   vi.stubGlobal('fetch', fetchMock);
   renderAuthApp('/account');
   expect(await screen.findByRole('alert')).toHaveTextContent('No se pudo comprobar la sesión');
-  expect(screen.queryByRole('heading', { name: 'Iniciar sesión' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('heading', { name: 'Inicia sesión' })).not.toBeInTheDocument();
   await userEvent.click(screen.getByRole('button', { name: 'Reintentar' }));
   expect(await screen.findByRole('heading', { name: 'Mi cuenta' })).toBeVisible();
 });
@@ -60,9 +60,7 @@ test('401 protegido limpia estado; 403 mantiene la sesión existente', async () 
   expect(screen.getByRole('heading', { name: 'Mi cuenta' })).toBeVisible();
   fetchMock.mockResolvedValueOnce(unauthorized());
   await expect(requestJson('protected')).rejects.toMatchObject({ status: 401 });
-  await waitFor(() =>
-    expect(screen.getByRole('heading', { name: 'Iniciar sesión' })).toBeVisible(),
-  );
+  await waitFor(() => expect(screen.getByRole('heading', { name: 'Inicia sesión' })).toBeVisible());
 });
 
 test('retornos: permite ADMIN solo con rol confirmado y rechaza destinos externos/ambiguos', () => {

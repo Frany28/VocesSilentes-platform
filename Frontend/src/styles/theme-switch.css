@@ -1,0 +1,40 @@
+.vs-theme-switch {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-16);
+  width: var(--size-toggle);
+  max-width: 100%;
+  min-height: var(--size-control);
+  padding: var(--space-12) var(--space-16);
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--surface-neutral);
+  cursor: pointer;
+}
+.vs-theme-label {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+.vs-theme-track {
+  display: flex;
+  flex: none;
+  width: 44px;
+  height: 28px;
+  padding: var(--space-4);
+  border-radius: var(--radius-full);
+  background: var(--action-primary);
+}
+.vs-theme-track span {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background: var(--action-text);
+}
+.vs-theme-switch[aria-pressed='true'] .vs-theme-track {
+  justify-content: end;
+}
+.vs-theme-switch:disabled {
+  cursor: default;
+}

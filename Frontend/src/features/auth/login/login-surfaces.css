@@ -1,0 +1,46 @@
+/* Superficies originales y ajustes internos de controles reutilizados.
+   La composición, tipografía, espaciado y estados de enlaces usan Tailwind en JSX. */
+@layer base {
+  body:has(.login-page) {
+    margin: 0;
+  }
+  .login-page :is(h1, h2, h3, p) {
+    margin: 0;
+  }
+}
+.login-page {
+  background: linear-gradient(72.03892deg, var(--login-page-stops));
+}
+.login-visual {
+  background: linear-gradient(63.29322deg, var(--login-panel-stops));
+}
+.login-compact {
+  background: linear-gradient(10.58164deg, var(--login-compact-stops));
+}
+.login-education {
+  background: linear-gradient(15.46289deg, var(--login-education-stops));
+}
+.login-page::before,
+.login-visual::before,
+.login-compact::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -40%;
+  pointer-events: none;
+  background: inherit;
+}
+.login-feedback .vs-alert-heading > span:last-child {
+  width: 148px;
+  max-width: calc(100% - 48px);
+}
+@media (min-width: 600px) {
+  .login-page {
+    background: linear-gradient(59.89544deg, var(--login-page-stops));
+  }
+}
+@media (min-width: 1200px) {
+  .login-page {
+    background: linear-gradient(41.08175deg, var(--login-page-stops));
+  }
+}

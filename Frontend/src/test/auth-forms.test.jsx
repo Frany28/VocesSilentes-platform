@@ -14,9 +14,9 @@ test('login: obtiene CSRF, incluye cookies y header, navega al retorno autorizad
   });
   vi.stubGlobal('fetch', fetchMock);
   renderAuthApp('/login', { from: '/admin' });
-  await userEvent.type(screen.getByLabelText('Correo'), 'person@example.invalid');
+  await userEvent.type(screen.getByLabelText('Correo electrónico'), 'person@example.invalid');
   await userEvent.type(screen.getByLabelText('Contraseña'), 'A lengthy password 123! ');
-  await userEvent.click(screen.getByRole('button', { name: 'Entrar' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Iniciar sesión' }));
   expect(await screen.findByRole('heading', { name: 'Administración' })).toBeVisible();
   const [, options] = fetchMock.mock.calls.find(([url]) => url.endsWith('/login'));
   expect(options.credentials).toBe('include');
@@ -75,5 +75,5 @@ test('logout: un fallo de red conserva estado; éxito posterior lo limpia', asyn
   expect(screen.getByRole('heading', { name: 'Mi cuenta' })).toBeVisible();
   fail = false;
   await userEvent.click(screen.getByRole('button', { name: 'Cerrar sesión' }));
-  expect(await screen.findByRole('heading', { name: 'Iniciar sesión' })).toBeVisible();
+  expect(await screen.findByRole('heading', { name: 'Inicia sesión' })).toBeVisible();
 });

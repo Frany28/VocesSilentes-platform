@@ -1,0 +1,113 @@
+/* Excepción de tamaño: estados, superficie y movimiento comparten la misma cascada.
+   Se mantienen juntos para revisar precedencias; véase docs/development.md. */
+.vs-button {
+  appearance: none;
+  display: inline-block;
+  vertical-align: middle;
+  width: var(--size-button);
+  max-width: 100%;
+  min-height: var(--size-control);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xl);
+  background: transparent;
+  cursor: pointer;
+  font: var(--type-button);
+  color: var(--action-text);
+}
+
+.vs-button-surface {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  min-height: var(--size-control);
+  padding: var(--space-12) var(--space-16);
+  transition: transform 180ms ease-in-out;
+}
+
+.vs-button-surface::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: var(--radius-xl);
+  background: var(--action-primary);
+  box-shadow: var(--shadow-action);
+  transition:
+    inset 180ms ease-in-out,
+    background-color 180ms ease-in-out,
+    box-shadow 180ms ease-in-out;
+}
+
+.vs-button[data-variant='secondary'] {
+  color: var(--content);
+}
+.vs-button[data-variant='secondary'] .vs-button-surface::before {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+}
+.vs-button:is(:hover, .vs-preview-hover):not(:disabled) .vs-button-surface {
+  transform: translateY(-2px);
+}
+.vs-button:is(:hover, .vs-preview-hover):not(:disabled) .vs-button-surface::before {
+  background: var(--action-hover);
+  box-shadow: var(--shadow-hover);
+}
+.vs-button:is(:active, .vs-preview-pressed):not(:disabled) .vs-button-surface {
+  transform: none;
+  transition-duration: 100ms;
+}
+.vs-button:is(:active, .vs-preview-pressed):not(:disabled) .vs-button-surface::before {
+  inset: 1px 2px;
+  background: var(--action-pressed);
+  box-shadow: none;
+  transition-duration: 100ms;
+}
+.vs-button[data-variant='secondary']:is(
+    :hover,
+    :active,
+    .vs-preview-hover,
+    .vs-preview-pressed,
+    [data-loading]
+  ) {
+  color: var(--action-primary);
+}
+.vs-button[data-variant='secondary']:is(
+    :hover,
+    :active,
+    .vs-preview-hover,
+    .vs-preview-pressed,
+    [data-loading]
+  )
+  .vs-button-surface::before {
+  background: var(--surface-neutral);
+  border-color: var(--action-primary);
+}
+.vs-button:is(:focus-visible, .vs-preview-focus) {
+  outline: 3px solid var(--focus);
+  outline-offset: 0;
+}
+.vs-button:disabled {
+  cursor: default;
+}
+.vs-button:disabled:not([data-loading]) {
+  color: var(--text-disabled);
+  --icon-arrow-primary: var(--icon-arrow-disabled);
+  --icon-arrow-secondary: var(--icon-arrow-disabled);
+}
+.vs-button:disabled:not([data-loading]) .vs-button-surface::before {
+  background: var(--action-disabled);
+  box-shadow: none;
+}
+.vs-button[data-variant='secondary']:disabled:not([data-loading]) .vs-button-surface::before {
+  border-color: var(--action-primary);
+}
+@media (prefers-reduced-motion: reduce) {
+  .vs-button-surface,
+  .vs-button-surface::before {
+    transition: none;
+  }
+}

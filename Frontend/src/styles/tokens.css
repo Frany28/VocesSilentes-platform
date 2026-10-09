@@ -1,15 +1,59 @@
-/* Valores del navegador provisionales; no son tokens extraídos de Figma. */
-:root {
+/* Theme / Claro y Oscuro, consultados en Figma 75:67 el 2026-10-09. */
+:root,
+[data-theme='light'] {
   color-scheme: light;
-  --page: Canvas;
-  --content: CanvasText;
-  --surface: ButtonFace;
-  --border: ButtonBorder;
-  --focus: Highlight;
+  --page: #faf9fe;
+  --surface: #ffffff;
+  --content: #332e4a;
+  --text-secondary: #5d5870;
+  --action-primary: #6045c5;
+  --action-text: #ffffff;
+  --action-hover: #5036ad;
+  --action-pressed: #40288e;
+  --action-disabled: #e7e2f0;
+  --text-disabled: #827b94;
+  --surface-accent: #e9dfff;
+  --focus: #6045c5;
+  --status-success: #26734d;
+  --status-error: #bc3d50;
+  --status-warning: #956200;
+  --status-info: #286b86;
+  --surface-neutral: #f3f4f6;
+  --border-subtle: #dadce5;
+  --surface-secondary: #eaf4f6;
+  --surface-tertiary: #fff5d6;
+  --status-success-bg: #eaf6ee;
+  --status-error-bg: #fceef1;
+  --border: var(--border-subtle);
+  --field-focus-shadow: 0 0 8px 2px rgb(96 69 197 / 20%);
 }
 
-:root[data-theme='dark'] {
+[data-theme='dark'] {
   color-scheme: dark;
+  --page: #171625;
+  --surface: #252338;
+  --content: #f3f0fc;
+  --text-secondary: #c8c3d7;
+  --action-primary: #b7a4ff;
+  --action-text: #21183f;
+  --action-hover: #c9b9ff;
+  --action-pressed: #d9cdff;
+  --action-disabled: #403b57;
+  --text-disabled: #aaa3be;
+  --surface-accent: #38304f;
+  --focus: #b7a4ff;
+  --status-success: #75d9a4;
+  --status-error: #ff94a4;
+  --status-warning: #ffd162;
+  --status-info: #8abfcb;
+  --surface-neutral: #2a2a36;
+  --border-subtle: #454552;
+  --surface-secondary: #20373c;
+  --surface-tertiary: #3d3420;
+  --status-success-bg: #20372d;
+  --status-error-bg: #3d252d;
+  --border: var(--border-subtle);
+  --field-focus-shadow: 0 0 8px 2px rgb(183 164 255 / 20%);
 }
 
 @theme inline {
@@ -18,4 +62,10 @@
   --color-surface: var(--surface);
   --color-border: var(--border);
   --color-focus: var(--focus);
+  --color-action: var(--action-primary);
+  --color-muted: var(--text-secondary);
+  --color-info: var(--status-info);
+  --color-accent: var(--surface-accent);
+  --color-tertiary: var(--surface-tertiary);
+  --font-brand: 'Manrope', sans-serif;
 }

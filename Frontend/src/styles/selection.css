@@ -1,0 +1,77 @@
+.vs-selection {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-12);
+  width: var(--size-selection);
+  max-width: 100%;
+  min-height: var(--size-control);
+  padding: var(--space-12);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  cursor: pointer;
+}
+/* Se conserva el input en el árbol accesible y en el orden de tabulación. */
+.vs-selection input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  margin: 0;
+}
+.vs-selection-mark {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 0 0 1px var(--text-secondary);
+  background: var(--surface);
+  color: var(--action-text);
+}
+.vs-selection input[type='radio'] + .vs-selection-mark {
+  border-radius: var(--radius-full);
+}
+.vs-selection input:checked + .vs-selection-mark {
+  background: var(--action-primary);
+  box-shadow:
+    inset 0 0 0 1px var(--text-secondary),
+    var(--shadow-action);
+}
+.vs-checkmark,
+.vs-radio-dot {
+  visibility: hidden;
+}
+.vs-radio-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--action-text);
+  border-radius: var(--radius-full);
+}
+.vs-selection input:checked + .vs-selection-mark > * {
+  visibility: visible;
+}
+.vs-selection input:focus-visible + .vs-selection-mark,
+.vs-selection.vs-preview-focus .vs-selection-mark {
+  box-shadow: inset 0 0 0 3px var(--focus);
+}
+.vs-selection input:disabled + .vs-selection-mark {
+  background: var(--action-disabled);
+}
+.vs-selection:has(:disabled) {
+  color: var(--text-disabled);
+  cursor: default;
+}
+@media (forced-colors: active) {
+  .vs-selection-mark {
+    outline: 1px solid CanvasText;
+  }
+  .vs-selection input:checked + .vs-selection-mark {
+    outline: 2px solid Highlight;
+  }
+  .vs-selection input:focus-visible + .vs-selection-mark {
+    outline: 3px solid Highlight;
+  }
+}
