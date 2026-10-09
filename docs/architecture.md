@@ -12,8 +12,8 @@ flowchart LR
   P --> DB[(PostgreSQL)]
 ```
 
-El tramo de persistencia está preparado; no se usa desde health ni la pantalla inicial.
-Los elementos futuros del diagrama no representan módulos ya implementados.
+Autenticación recorre todas las capas hasta User/Session; health no consulta persistencia.
+Contenido, progreso y reportes conservan solo su modelo de datos, sin flujos de aplicación.
 
 ## Frontend
 
@@ -24,20 +24,27 @@ componentes, hooks, servicios y validaciones cuando sean necesarios. `components
 mantiene tokens globales. `assets/` se creará cuando existan recursos locales aprobados.
 
 La UI usa servicios de funcionalidad para contactar la API. `requestJson(path, options)` transmite
-AbortSignal y lanza ApiError con `code`, `message` y `status`; HTTP 204 devuelve undefined.
+AbortSignal, envía cookies con credentials: include y lanza ApiError con `code`, `message` y `status`;
+HTTP 204 devuelve undefined.
 Las rutas son relativas a VITE_API_URL y se validan antes del fetch. Actualmente no admiten consultas
 ni segmentos codificados: ampliar el contrato y sus pruebas cuando una funcionalidad lo requiera.
 Los errores de red, cancelación y JSON ilegible tienen códigos estables. Nunca comunicar una
 cancelación de navegación como fallo de negocio.
 
+`features/auth/` separa cliente CSRF en memoria, AuthProvider/useAuthSession, guards y formularios.
+El proveedor verifica me y representa carga, autenticado, no autenticado y error; no confunde red
+con ausencia de sesión. El cliente HTTP notifica 401 UNAUTHENTICATED, sin invalidar por 403.
+Los destinos `/account` y `/admin` son provisionales; el guard de rol es apoyo de navegación.
+
 ## Backend
 
-`app.js` recibe configuración y logger, registra seguridad, JSON, health y manejo común de errores;
+`app.js` recibe configuración, logger y servicio de auth preparado, registra seguridad, cookies,
+JSON, health, auth y manejo común de errores;
 no lee secretos, abre puertos ni consulta PostgreSQL. `server.js` carga y valida entorno, crea Prisma
-cuando hay URL, conecta antes de escuchar y maneja SIGINT/SIGTERM.
+cuando hay URL, conecta e inicializa auth antes de escuchar y maneja SIGINT/SIGTERM.
 
-Los módulos futuros separarán rutas, validaciones, controllers, services y acceso a datos según
-su complejidad. Controllers traducen HTTP; services ejecutan reglas; repositorios usan Prisma.
+Auth separa rutas, validaciones Zod estrictas, controllers, service y repositorio Prisma.
+Controllers traducen HTTP; services ejecutan reglas; repositorios usan Prisma.
 Health tiene una sola ruta sin negocio y no necesita crear artificialmente esas cinco capas.
 
 Contrato actual:
@@ -47,13 +54,17 @@ Contrato actual:
 ```
 
 Errores usan `{ "error": { "code": "NOT_FOUND", "message": "Ruta no encontrada" } }`.
-Estados: 400 INVALID_INPUT, 403 ORIGIN_NOT_ALLOWED, 404 NOT_FOUND, 413 PAYLOAD_TOO_LARGE,
-500 INTERNAL_ERROR. Errores internos no exponen trazas, entradas ni mensajes del driver.
+Estados generales: 400 INVALID_INPUT, 403 ORIGIN_NOT_ALLOWED, 404 NOT_FOUND, 413 PAYLOAD_TOO_LARGE,
+500 INTERNAL_ERROR. Auth añade 401, 403 CSRF/permisos/transporte, 409, 429 y 503; ver
+[contratos completos](api.md). Errores internos no exponen trazas, entradas ni mensajes del driver.
 
-CORS valida orígenes exactos; las peticiones sin Origin siguen permitidas para clientes de servidor.
+CORS valida orígenes exactos con credenciales y Content-Type/X-CSRF-Token; las peticiones sin Origin
+siguen permitidas para clientes de servidor, con las demás protecciones.
 Helmet agrega cabeceras, JSON tiene límite de 100 KB y Pino registra método, id, estado y duración.
 La lista permitida omite URLs, query, headers, cuerpos y mensajes/stack internos.
-Esto no implementa permisos: la autorización futura debe validarse en backend.
+Auth incorpora requireSession y requireRole con User vigente, CSRF firmado y límites IP/IP+correo.
+Toda nueva mutación con cookies necesita CSRF; todo recurso de cuenta debe usar req.auth.id y permisos.
+Consultar [seguridad y topología de despliegue](authentication.md).
 
 ## Prisma y PostgreSQL
 
@@ -79,4 +90,5 @@ RLS sin políticas y revoca acceso de roles Data API. No toca auth/storage ni in
 Se aplicó mediante migrate deploy en la base de desarrollo confirmada, sin shadow ni datos simulados.
 [migrations.md](migrations.md) documenta generación/revisión/aplicación y límites del diff de Prisma.
 Las pruebas SQL usan PGlite en memoria; la conexión real y el catálogo remoto se verifican aparte.
-Pendientes: servicios, permisos Express y flujos MVP; no se implementaron endpoints de los nuevos modelos.
+Auth usa sesiones opacas y transacciones sobre User/Session sin cambios de esquema. Pendientes:
+endpoints de contenido/progreso/reportes, OAuth, correo, recuperación y despliegue de producción.

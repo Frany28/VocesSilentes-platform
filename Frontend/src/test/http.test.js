@@ -14,6 +14,7 @@ test('usa la base configurada y transmite la señal de cancelación', async () =
   const [url, options] = fetchMock.mock.calls[0];
   expect(url).toBe('http://localhost:3000/api/health');
   expect(options.signal).toBe(controller.signal);
+  expect(options.credentials).toBe('include');
   expect(options.headers.get('Accept')).toBe('application/json');
 });
 

@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router';
 import { ThemeToggle } from '../ui/ThemeToggle.jsx';
+import { AuthNavigation } from '../../features/auth/AuthNavigation.jsx';
 
 /**
  * Estructura mínima compartida y punto de salida del router.
@@ -11,6 +12,7 @@ export function AppLayout() {
       <header>
         <p>VocesSilentes · Lengua de Señas Venezolana</p>
         <ThemeToggle />
+        <AuthNavigation />
       </header>
       <main id="main-content">
         <Outlet />

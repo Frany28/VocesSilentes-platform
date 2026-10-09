@@ -7,7 +7,8 @@ Los arrays de relaciones de Prisma son campos virtuales: no crean arrays de refe
 
 La solicitud describe un PDF anterior de MongoDB/Mongoose, pero ese PDF no estaba accesible en los
 adjuntos ni en el repositorio. Las decisiones siguientes provienen del texto recibido; no se afirma
-haber cotejado directamente el documento. No hay endpoints, pantallas ni autenticación implementados.
+haber cotejado directamente el documento. Auth local posterior utiliza User/Session sin modificar
+el esquema: ver [authentication.md](authentication.md). Los demás modelos no tienen flujos de API/UI.
 
 ## Convenciones comunes
 
@@ -54,9 +55,10 @@ de identidades. Reactivar o anonimizar requiere una decisión de retención post
 
 `isActive`, `lockedUntil` e `isDeleted` son estados independientes; eliminar lógicamente no altera
 automáticamente el estado administrativo ni borra sesiones, identidades, reportes o progreso.
-La autorización futura comprobará `!isDeleted && isActive` y bloqueo vigente, además de la sesión.
-La discrepancia de **5 o 6 intentos** del prototipo queda pendiente junto con duración, recuperación
-y actualización atómica del contador. No hay implementación de ninguna regla de bloqueo.
+La autorización actual comprueba `!isDeleted && isActive` y bloqueo vigente, además de la sesión.
+La discrepancia de **5 o 6 intentos** del prototipo se resolvió para auth mediante cuotas de ventana
+IP/IP+correo, sin bloqueo automático global. El contador se incrementa/reinicia atómicamente;
+`lockedUntil` existente se respeta. Ver [la política completa](authentication.md).
 
 `ExternalIdentity`: `id`, `userId` (FK obligatoria), `provider` (`GOOGLE` o `MICROSOFT`) y
 `providerUserId` obligatorio, varchar(255), no vacío. UNIQUE (`provider`, `providerUserId`) y
@@ -71,18 +73,19 @@ externas requerirá **otra migración** y una regla atómica que exija contrase�
 el contrato actual deliberadamente no las admite.
 
 Nunca escribir contraseñas originales. El SQL exige el prefijo de una codificación Argon2id/bcrypt;
-esa comprobación **no valida** un hash criptográfico ni sus parámetros. El servicio futuro debe usar
-una biblioteca de hashing, verificar su formato completo y elegir parámetros aprobados (preferencia
-Argon2id; bcrypt solo cuando exista necesidad de compatibilidad). No se instaló ninguna biblioteca
-de autenticación y los fixtures de prueba no son credenciales utilizables.
+esa comprobación **no valida** un hash criptográfico ni sus parámetros. Auth usa la biblioteca Argon2
+para emitir/verificar Argon2id y rechaza hashes inutilizables; parámetros en authentication.md.
+Bcrypt está permitido por el esquema pero no por el servicio actual, porque no había hashes previos
+que conservar. Los fixtures SQL que comprueban CHECK no son credenciales utilizables; la integración
+de auth genera hashes reales únicamente en la base efímera.
 
 `Session`: `id`, `userId` (FK), `tokenHash` UNIQUE char(64), `createdAt`, `expiresAt`, `revokedAt?`.
 El hash es SHA-256 hexadecimal en minúsculas de un token aleatorio de alta entropía (al menos 256 bits),
-emitido por el futuro backend. No se almacena el token original. SHA-256 es para tokens aleatorios,
+emitido por el backend. No se almacena el token original. SHA-256 es para tokens aleatorios,
 no para contraseñas humanas. CHECK exige 64 dígitos hex, expiración > creación y revocación >= creación.
 Índices (`userId`, `expiresAt`) y (`expiresAt`) cubren consulta de sesiones del usuario y vencimientos.
-Una sesión válida requiere revocación nula, expiración futura y cuenta habilitada; cookies, emisión,
-revocación automática y middleware quedan fuera de esta tarea.
+Una sesión válida requiere revocación nula, expiración futura y cuenta habilitada; auth implementa
+cookies, emisión nueva, revocación por logout y middleware. No hay renovación ni purga automática.
 
 ## Contenido compartido
 
@@ -189,8 +192,10 @@ de permisos y RLS en su propia migración. No hay Supabase Auth ni políticas p�
 - Fácil/Medio/Difícil es alcance ampliado: si se aprueba, acordar si clasifica contenido o una secuencia
   propia antes de diseñar su relación y migración; hoy no se crean tablas ni columnas de niveles.
 - No hay regla de cuatro aciertos de siete ni siete ejercicios por módulo.
-- Pendientes: umbral/duración de bloqueo, parámetros de contraseña, flujos local/OAuth/verificación,
-  retención y anonimización, criterios de finalización y modelo LSV validado. Sin implementaciones simuladas.
+- Auth local usa Argon2id, sesiones de 24 h y límites de ventanas IP/IP+correo sin bloqueo automático
+  global; respeta lockedUntil existente y mantiene/reinicia intentos atómicamente. Permite correo pendiente.
+- Pendientes: OAuth/verificación/recuperación, retención y anonimización, criterios de finalización
+  y modelo LSV validado. Sin implementaciones simuladas.
 
 ## Relaciones finales
 

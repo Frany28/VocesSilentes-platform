@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { parseAuthEnv } from './auth-env.js';
 
 const origin = z
   .string()
@@ -39,7 +40,7 @@ export class ConfigurationError extends Error {}
  * Valida configuración sin modificar el entorno ni revelar secretos en errores.
  * @param {Record<string, string | undefined>} input Variables del proceso.
  * @returns {{nodeEnv: string, host: string, port: number, corsOrigins: string[],
- * logLevel: string, databaseUrl: string | undefined}} Configuración normalizada.
+ * logLevel: string, databaseUrl: string | undefined, auth: object}} Configuración normalizada.
  * @throws {ConfigurationError} Si algún valor o configuración de producción es inválido.
  */
 export function parseEnv(input) {
@@ -50,6 +51,12 @@ export function parseEnv(input) {
     throw new ConfigurationError(`Configuración inválida: ${[...new Set(fields)].join(', ')}`);
   }
   const env = result.data;
+  let auth;
+  try {
+    auth = parseAuthEnv(input, { nodeEnv: env.NODE_ENV, corsOrigins: env.CORS_ORIGINS });
+  } catch (error) {
+    throw new ConfigurationError(error.message);
+  }
   return Object.freeze({
     nodeEnv: env.NODE_ENV,
     host: env.HOST,
@@ -57,5 +64,6 @@ export function parseEnv(input) {
     corsOrigins: env.CORS_ORIGINS,
     logLevel: env.LOG_LEVEL,
     databaseUrl: env.DATABASE_URL,
+    auth,
   });
 }

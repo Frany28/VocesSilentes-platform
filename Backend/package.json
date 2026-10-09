@@ -14,15 +14,19 @@
     "db:migrate:dev": "prisma migrate dev",
     "db:status": "prisma migrate status",
     "db:inspect": "node scripts/inspect-database.js",
-    "db:test": "node --test --test-concurrency=1 tests/database/*.test.js",
+    "db:test": "node --test --test-concurrency=1 tests/database/*.test.js tests/auth/*.test.js",
     "db:check": "node scripts/check-database.js"
   },
   "dependencies": {
     "@prisma/adapter-pg": "7.10.0",
     "@prisma/client": "7.10.0",
+    "argon2": "0.45.1",
+    "cookie-parser": "1.4.7",
     "cors": "2.8.6",
+    "csrf-csrf": "4.0.3",
     "dotenv": "18.0.7",
     "express": "5.3.0",
+    "express-rate-limit": "8.7.1",
     "helmet": "8.3.0",
     "pg": "8.23.1",
     "pino": "10.4.0",
@@ -31,6 +35,7 @@
   },
   "devDependencies": {
     "@electric-sql/pglite": "0.5.8",
+    "@electric-sql/pglite-socket": "0.2.11",
     "esbuild": "0.25.12",
     "prisma": "7.10.0",
     "supertest": "7.3.1"

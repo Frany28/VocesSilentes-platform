@@ -34,7 +34,11 @@ for (const origin of [
 test('producción requiere orígenes explícitos', () => {
   assert.throws(() => parseEnv({ NODE_ENV: 'production' }), /CORS_ORIGINS/);
   assert.equal(
-    parseEnv({ NODE_ENV: 'production', CORS_ORIGINS: 'https://example.invalid' }).nodeEnv,
+    parseEnv({
+      NODE_ENV: 'production',
+      CORS_ORIGINS: 'https://example.invalid',
+      CSRF_SECRET: 'a'.repeat(64),
+    }).nodeEnv,
     'production',
   );
 });

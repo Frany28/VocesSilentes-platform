@@ -1,6 +1,56 @@
 # Verificación
 
-## Fase 1 de datos — 9 de octubre de 2026
+## Autenticación — 9 de octubre de 2026
+
+Ejecutada localmente en Windows, Node **22.23.1** y pnpm **10.18.2**. No se modificó el esquema,
+se aplicaron migraciones nuevas ni se insertaron fixtures/administradores en Supabase.
+`pnpm verify` completo terminó con **código 0**, sin errores ni advertencias de lint.
+
+| Control                               | Resultado observado                                                                                  |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Lint                                  | Correcto, sin errores ni advertencias                                                                |
+| Backend (`test`)                      | 32 pruebas aprobadas: incluye configuración auth y HTTPS/proxies/cookies de producción               |
+| Frontend (`test`)                     | 23 pruebas aprobadas en 7 archivos: formularios, guards, red, logout, CSRF y respuestas tardías      |
+| Integración aislada (`db:test`)       | 29 pruebas aprobadas: 13 SQL existentes + 16 auth HTTP/PrismaPg/Argon2id reales                      |
+| PostgreSQL remoto (`db:check`)        | SELECT 1 correcto con la conexión runtime privada                                                    |
+| Historial (`db:status`, `db:inspect`) | Una migración finalizada: 20261009000100_phase_one; schema up to date; nueve tablas en vocessilentes |
+| Lectura Prisma remota                 | Transacción READ ONLY: User y Session con cero filas                                                 |
+| Arranque HTTP con DB real             | Servicio auth inicializado; health 200, me sin cookie 401, csrf 200; sin escrituras                  |
+
+Formato, Prisma validate, generación/compilación del cliente 7.10.0, sintaxis del backend y build
+frontend correctos. `pnpm install --frozen-lockfile --offline` terminó con código 0, sin cambios
+del lockfile. `git diff --check` correcto. Total: **84 pruebas aprobadas**. La verificación agregada
+detectó primero formato en un test de formulario; se aplicó Prettier y el control final completo pasó.
+
+Las pruebas aisladas ejecutan las migraciones versionadas en PGlite **0.5.8 / PostgreSQL 18.3**,
+exponen protocolo PostgreSQL por TCP loopback y usan **Prisma 7.10.0, PrismaPg/pg y Argon2 nativo**.
+Registro válido/concurrente, duplicados, campos privilegiados, contraseña exacta/Unicode, login y
+estados de cuenta, intentos concurrentes, cookies y hash de sesión, expiración/revocación/logout,
+401/403/ADMIN, cambio de rol/estado después de login, CSRF anónimo/rotación/cookies obsoletas,
+CORS con credenciales, límites IP/IP+correo y ausencia de campos sensibles están cubiertos.
+La ruta administrativa de prueba y sus cuentas existen exclusivamente en la base efímera.
+
+Frontend usa fetch controlado en jsdom, no conexiones remotas ni cookies reales de navegador.
+Prueba ocultación durante me, 401 frente a 403/red, retornos internos, formularios y AbortSignal,
+logout fallido/satisfactorio y descarte de me/401 tardíos después de cancelación/autenticación.
+Las pruebas de configuración/transporte de producción simulan un proxy permitido por loopback;
+no son una validación del TLS/proxy de un despliegue real.
+
+La base compartida **PostgreSQL 17.11** se comprobó solo con lectura y arranque del servicio.
+No se probó registro/login de una persona real en Supabase ni se afirma una sesión remota real.
+Una comprobación inicial de lectura no finalizó; la repetición con timeout de transacción de
+15 segundos completó ambas consultas y el arranque HTTP. No se imprimieron errores internos.
+Los subprocesos Vite inicialmente bloqueados por EPERM completaron la ejecución autorizada.
+
+Producción pendiente: HTTPS y proxy real, CSRF_SECRET privado persistente/compartido, CORS HTTPS
+exacto y SameSite según sitio; medir capacidad Argon2 y acordar limitación compartida antes de
+varias réplicas. MemoryStore es por proceso; no hay bloqueo automático global, MFA, filtro de
+contraseñas filtradas, correo/recuperación ni purga de sesiones. PGlite es una conexión y versión
+18.3; no valida concurrencia multiworker de PostgreSQL 17, TLS ni navegador real. No se ejecutó
+GitHub Actions remotamente ni se publicó la aplicación. Procedimiento del primer administrador
+documentado y no ejecutado: [authentication.md](authentication.md).
+
+## Histórico: fase 1 de datos — 9 de octubre de 2026
 
 Ejecutada localmente en Windows con Node **22.23.1** y pnpm **10.18.2**.
 `pnpm verify` completo terminó con **código 0**, sin errores ni advertencias de lint.

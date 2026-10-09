@@ -1,5 +1,6 @@
 import { ApiError } from './api-error.js';
 import { publicConfig } from './config.js';
+import { invalidateSession } from './session-events.js';
 
 /**
  * Solicita JSON dentro de la API configurada y normaliza sus errores.
@@ -17,7 +18,8 @@ export async function requestJson(path, options = {}) {
   const headers = new Headers(options.headers);
   headers.set('Accept', 'application/json');
   try {
-    const response = await fetch(url, { ...options, headers });
+    const response = await fetch(url, { ...options, headers, credentials: 'include' });
+    options.signal?.throwIfAborted();
     if (response.status === 204) return undefined;
     let payload;
     try {
@@ -29,7 +31,10 @@ export async function requestJson(path, options = {}) {
         response.status,
       );
     }
+    options.signal?.throwIfAborted();
     if (!response.ok) {
+      if (response.status === 401 && payload?.error?.code === 'UNAUTHENTICATED')
+        invalidateSession();
       throw new ApiError(
         typeof payload?.error?.code === 'string' ? payload.error.code : 'HTTP_ERROR',
         typeof payload?.error?.message === 'string' ? payload.error.message : 'Error de API',

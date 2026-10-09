@@ -6,6 +6,7 @@ import { loadEnv } from './config/load-env.js';
 import { createDatabase } from './lib/database.js';
 import { createLogger } from './lib/logger.js';
 import { closeResources } from './lib/shutdown.js';
+import { createAuthService } from './modules/auth/auth.service.js';
 
 loadEnv();
 let database;
@@ -15,7 +16,8 @@ try {
   logger = createLogger(config.logLevel);
   database = await createDatabase(config.databaseUrl);
   if (database) await database.$connect();
-  const server = createServer(createApp(config, logger));
+  const authService = database ? await createAuthService(database, config.auth) : undefined;
+  const server = createServer(createApp(config, logger, { authService }));
   server.listen(config.port, config.host);
   await once(server, 'listening');
   logger.info({ port: config.port, persistence: Boolean(database) }, 'API iniciada');

@@ -1,6 +1,9 @@
 import { Link } from 'react-router';
 import { AppLayout } from '../components/layout/AppLayout.jsx';
 import { SystemPage } from '../features/system/SystemPage.jsx';
+import { AuthPage } from '../features/auth/AuthPage.jsx';
+import { AuthGuard, AdminGuard } from '../features/auth/AuthGuard.jsx';
+import { SessionPage } from '../features/auth/SessionPage.jsx';
 
 /**
  * Define las rutas mínimas; permite BrowserRouter y MemoryRouter en pruebas.
@@ -12,6 +15,18 @@ export function createRoutes() {
       element: <AppLayout />,
       children: [
         { path: '/', element: <SystemPage /> },
+        { path: '/login', element: <AuthPage mode="login" /> },
+        { path: '/register', element: <AuthPage mode="register" /> },
+        {
+          element: <AuthGuard />,
+          children: [
+            { path: '/account', element: <SessionPage /> },
+            {
+              element: <AdminGuard />,
+              children: [{ path: '/admin', element: <SessionPage admin /> }],
+            },
+          ],
+        },
         {
           path: '*',
           element: (

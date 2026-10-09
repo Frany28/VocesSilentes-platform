@@ -14,7 +14,9 @@ no es requisito y no hay que reemplazar una instalación funcional del equipo.
 `pnpm install --frozen-lockfile` reproduce las dependencias. Para añadir una dependencia justificada,
 usar `pnpm --filter @vocessilentes/frontend add paquete@version` o el filtro backend, y `add -D`
 para herramientas. Los scripts de instalación permitidos se restringen en pnpm-workspace.yaml a
-Prisma y esbuild. Revisar nuevos scripts antes de autorizarlos, sin usar --force para resolver conflictos.
+Prisma, esbuild y Argon2. Argon2 requiere el binding nativo oficial para hash/verificación; en este
+Windows se comprobó el binario precompilado. Revisar nuevos scripts antes de autorizarlos, sin usar
+--force para resolver conflictos.
 
 ## Trabajo diario
 
@@ -32,22 +34,34 @@ porque 5173 ya estaba ocupado; los ejemplos conservan el valor habitual de 5173.
 
 ## Variables
 
-| Variable            | Dónde                    | Valor inicial / significado                                       |
-| ------------------- | ------------------------ | ----------------------------------------------------------------- |
-| VITE_API_URL        | Frontend, pública        | http://localhost:3000/api; HTTP(S) sin credenciales/query/hash    |
-| FRONTEND_PORT       | Frontend, solo tooling   | 5173; puerto de desarrollo Vite, no incluido en el bundle         |
-| NODE_ENV            | Backend, privada         | development; también test o production                            |
-| HOST                | Backend, privada         | localhost; interfaz para escuchar                                 |
-| PORT                | Backend, privada         | 3000; entero entre 1 y 65535                                      |
-| CORS_ORIGINS        | Backend, privada         | Orígenes HTTP(S) exactos separados por coma, sin ruta             |
-| LOG_LEVEL           | Backend, privada         | info; niveles estándar Pino o silent                              |
-| DATABASE_URL        | Backend, privada         | Vacía desactiva DB; postgres:// o postgresql:// para persistencia |
-| DIRECT_URL          | Backend, tooling privado | Session/direct para migraciones; sin fallback a Transaction       |
-| SHADOW_DATABASE_URL | Backend, tooling privado | Opcional; base independiente y descartable para migrate dev       |
+| Variable                  | Dónde                    | Valor inicial / significado                                                                          |
+| ------------------------- | ------------------------ | ---------------------------------------------------------------------------------------------------- |
+| VITE_API_URL              | Frontend, pública        | http://localhost:3000/api; HTTP(S) sin credenciales/query/hash                                       |
+| FRONTEND_PORT             | Frontend, solo tooling   | 5173; puerto de desarrollo Vite, no incluido en el bundle                                            |
+| NODE_ENV                  | Backend, privada         | development; también test o production                                                               |
+| HOST                      | Backend, privada         | localhost; interfaz para escuchar                                                                    |
+| PORT                      | Backend, privada         | 3000; entero entre 1 y 65535                                                                         |
+| CORS_ORIGINS              | Backend, privada         | Orígenes HTTP(S) exactos separados por coma, sin ruta                                                |
+| LOG_LEVEL                 | Backend, privada         | info; niveles estándar Pino o silent                                                                 |
+| DATABASE_URL              | Backend, privada         | Vacía desactiva DB; postgres:// o postgresql:// para persistencia                                    |
+| DIRECT_URL                | Backend, tooling privado | Session/direct para migraciones; sin fallback a Transaction                                          |
+| SHADOW_DATABASE_URL       | Backend, tooling privado | Opcional; base independiente y descartable para migrate dev                                          |
+| CSRF_SECRET               | Backend, secreta         | 64 hex aleatorios; obligatorio/persistente/compartido en production; vacío genera uno efímero en dev |
+| SESSION_DURATION_SECONDS  | Backend, privada         | 86400; duración absoluta, entero 1–604800                                                            |
+| SESSION_SAME_SITE         | Backend, privada         | lax; strict o none (none solo en producción Secure)                                                  |
+| AUTH_RATE_WINDOW_SECONDS  | Backend, privada         | 600; ventana fija, entero 1–3600                                                                     |
+| LOGIN_IP_LIMIT            | Backend, privada         | 30 por IP/ventana, entero 1–1000                                                                     |
+| LOGIN_IDENTIFIER_LIMIT    | Backend, privada         | 5 por IP+correo/ventana, entero 1–100                                                                |
+| REGISTER_IP_LIMIT         | Backend, privada         | 5 por IP/ventana, entero 1–100                                                                       |
+| REGISTER_IDENTIFIER_LIMIT | Backend, privada         | 3 por IP+correo/ventana, entero 1–100                                                                |
+| TRUST_PROXY_IPS           | Backend, privada         | Vacío: false; solo IP literales de proxies conocidos, separadas por comas                            |
 
 Los ejemplos no contienen credenciales reales. `.env` no se versiona. La configuración inválida
 detiene el arranque antes de escuchar y comunica nombres de variables sin mostrar sus valores.
-Producción exige CORS_ORIGINS explícito. En Vite todos los VITE_* llegan al navegador; no incluir
+Producción exige CORS_ORIGINS explícito con HTTPS y CSRF_SECRET privado. Auth exige HTTPS en
+producción; HTTP solo loopback de desarrollo. No usar trust proxy true ni confiar en cabeceras
+arbitrarias. Configurar la topología real y SameSite según [authentication.md](authentication.md).
+En Vite todos los VITE_* llegan al navegador; no incluir
 DATABASE_URL ni secretos bajo ese prefijo. Reiniciar/reconstruir al cambiar valores públicos.
 
 ## Convenciones y controles
@@ -62,11 +76,15 @@ La razón también se documenta al principio del SQL; no se desactivan reglas ES
 ESLint advierte tamaño/largo/documentación y comprueba consistencia JSDoc, hooks y Fast Refresh.
 
 Pruebas frontend: Vitest, jsdom y Testing Library; se prueban rutas, temas y contrato HTTP con fetch
-controlado. Backend: node:test y Supertest; configuración, salud, errores, CORS, límites JSON,
-logs y cierre. Los dobles de Prisma en cierre comprueban ciclo de vida, no conectividad real.
+controlado, formularios, guards y sesión. Backend: node:test y Supertest; configuración, salud,
+errores, CORS, límites JSON, transporte de auth, logs y cierre. Los dobles de Prisma en cierre
+comprueban ciclo de vida, no conectividad real.
 
 `pnpm verify` no necesita `.env`, servidor PostgreSQL ni cámara. Ejecuta lint, formato, pruebas,
 schema validate, build con generación de Prisma y `db:test` sobre PostgreSQL WASM en memoria.
+Auth en db:test usa PrismaPg por TCP y Argon2 real, sin mocks de persistencia. El socket es solo
+loopback efímero, una conexión, sin datos persistidos. Si se ejecuta db:test aislado en una instalación
+nueva, ejecutar primero db:generate. No leer .env ni usar Supabase para fixtures.
 El build backend comprueba sintaxis y genera el cliente; no afirma
 que PostgreSQL funciona. `pnpm db:generate` también se puede ejecutar por separado.
 

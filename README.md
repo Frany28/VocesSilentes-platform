@@ -1,8 +1,8 @@
 # VocesSilentes
 
 Base de desarrollo de una aplicación educativa de Lengua de Señas Venezolana (LSV).
-Incluye dos aplicaciones en un workspace pnpm, JavaScript ESM y JSDoc, y los datos de la primera fase.
-Todavía no implementa los flujos del MVP.
+Incluye dos aplicaciones en un workspace pnpm, JavaScript ESM y JSDoc, los datos de la primera fase
+y autenticación local con sesiones persistidas. Las funciones educativas del MVP siguen pendientes.
 
 ## Requisitos
 
@@ -41,7 +41,8 @@ pnpm dev
 
 Estas variables temporales tienen prioridad sobre `.env`; el frontend de ese comando usa 5175.
 `Ctrl+C` detiene desarrollo; el backend drena HTTP y desconecta Prisma con límite de 10 segundos.
-Sin DATABASE_URL arranca en modo HTTP sin persistencia. Al configurarla, generar primero el cliente.
+Sin DATABASE_URL arranca en modo HTTP sin persistencia; auth devuelve 503. Al configurarla,
+generar primero el cliente. `/register` y `/login` permiten probar autenticación con PostgreSQL.
 
 ## Comandos de la raíz
 
@@ -71,10 +72,11 @@ sirve el bundle en <http://localhost:4173> para inspección local. Preview no es
 
 `Frontend/.env`: `VITE_API_URL`, pública y embebida durante el build; FRONTEND_PORT solo configura
 el servidor de desarrollo y no se expone al navegador. Nunca poner secretos en VITE_*.
-`Backend/.env`: NODE_ENV, HOST, PORT, CORS_ORIGINS, LOG_LEVEL, DATABASE_URL, DIRECT_URL y
-SHADOW_DATABASE_URL opcional; exclusivas del servidor y las herramientas de migración.
+`Backend/.env`: configuración HTTP/DB y políticas de auth; exclusivas del servidor y las herramientas
+de migración. [Variables y valores iniciales](docs/development.md#variables).
 Los valores del proceso prevalecen sobre `.env`. Reiniciar Vite al cambiar configuración; reconstruir
-el bundle para cambiar variables públicas en producción. Producción exige CORS_ORIGINS explícito.
+el bundle para cambiar variables públicas en producción. Producción exige orígenes HTTPS explícitos,
+CSRF_SECRET privado persistente y transporte HTTPS. No ampliar trust proxy sin conocer la topología.
 
 Para PostgreSQL, configurar una URL privada en Backend/.env y ejecutar:
 
@@ -93,7 +95,8 @@ cambios posteriores. Health no comprueba disponibilidad de PostgreSQL.
 
 ```text
 Frontend/
-  src/app/                  Entrada, router y proveedor de tema
+  src/app/                  Entrada, router y proveedores de tema/auth
+  src/features/auth/        Formularios, cliente CSRF, sesión y guards
   src/features/system/      Pantalla mínima de la base técnica
   src/components/ui/        Control de tema
   src/components/layout/    Estructura compartida
@@ -106,6 +109,7 @@ Backend/
   src/server.js             Arranque, señales y cierre
   src/config/               Carga y validación de configuración
   src/modules/health/       Comprobación de vida HTTP
+  src/modules/auth/         Rutas, controllers, negocio, repositorio y protecciones
   src/middlewares/          Errores y rutas desconocidas
   src/lib/                  Prisma, logger y cierre de recursos
   src/errors/               Errores públicos controlados
@@ -124,9 +128,11 @@ Las carpetas de assets y funcionalidades futuras se crean cuando tengan contenid
 Funciona la pantalla mínima, router, tema claro/oscuro, cliente HTTP, health, seguridad HTTP,
 logs JSON, errores y validación de configuración. MediaPipe está instalado y no activa la cámara.
 Existen modelos de usuarios, sesiones, contenido compartido, progreso y reportes, y conexión real
-con PostgreSQL 17.11 en Supabase. Las tablas de aplicación están vacías; no hay datos ficticios.
-No hay flujos de autenticación, usuarios o reportes ni reconocimiento LSV. Faltan Figma y
-entrenamiento/validación de un modelo específico.
+con PostgreSQL 17.11 en Supabase. Registro/login/me/logout usan User/Session existentes, Argon2id,
+cookies HttpOnly, CSRF firmado y límites de intentos. `/account` exige sesión; `/admin` exige ADMIN,
+con destinos provisionales. No se crean administradores ni usuarios ficticios en la base compartida.
+No hay flujos educativos/reportes ni reconocimiento LSV. Faltan Figma y entrenamiento/validación
+de un modelo específico; tampoco hay OAuth, recuperación ni envío de correo.
 
 La preparación inicial partió de una carpeta sin código ni historial. Esta tarea no crea commits,
 PR ni publicaciones. Los controles de esta entrega son locales; no se afirma ejecución de GitHub Actions.
@@ -135,4 +141,5 @@ PR ni publicaciones. Los controles de esta entrega son locales; no se afirma eje
 - [Diseño y temas](docs/design-system.md) y [MediaPipe](docs/mediapipe.md).
 - [Versiones y fuentes oficiales](docs/dependencies.md).
 - [Modelo de datos](docs/data-model.md) y [migraciones](docs/migrations.md).
+- [Contratos API](docs/api.md) y [autenticación, seguridad y primer administrador](docs/authentication.md).
 - [Resultados reales de verificación](docs/verification.md).

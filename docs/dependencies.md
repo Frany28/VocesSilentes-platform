@@ -49,10 +49,18 @@ El único pnpm-lock.yaml fija transitivas. pnpm exige engines y peers compatible
 | esbuild                             | 0.25.12         | Desarrollo; compilar salida TypeScript del generador oficial a JavaScript ESM                  |
 | supertest                           | 7.3.1           | Desarrollo; pruebas HTTP con node:test integrado en Node                                       |
 | @electric-sql/pglite                | 0.5.8           | Desarrollo; PostgreSQL WASM en memoria para comprobar el SQL sin escribir fixtures en Supabase |
+| argon2                              | 0.45.1          | Producción; Argon2id y binding nativo mantenido, salt aleatorio                                |
+| cookie-parser                       | 1.4.7           | Producción; lectura centralizada de cookies HttpOnly para sesión/CSRF                          |
+| csrf-csrf                           | 4.0.3           | Producción; double-submit firmado HMAC ligado a contexto/sesión                                |
+| express-rate-limit                  | 8.7.1           | Producción; ventanas IP e IP+identificador, MemoryStore sin Redis                              |
+| @electric-sql/pglite-socket         | 0.2.11          | Desarrollo; protocolo PostgreSQL TCP para integración PrismaPg real en base efímera            |
 
-No se agregaron Redux, microservicios, Docker, colas, autenticación ni bibliotecas del MVP.
+No se agregaron Redux, microservicios, Docker, colas, Redis, JWT ni otra solución de autenticación.
+Las dependencias de auth se justifican en [authentication.md](authentication.md); no se implementan
+primitivas criptográficas CSRF ni hashing de contraseñas propios.
 PGlite se añade únicamente a devDependencies para pruebas de restricciones y permisos reales de SQL;
 no hay servidor PostgreSQL local disponible y la base compartida no se usa para pruebas destructivas.
+PGliteSocketServer permite verificar Express → PrismaPg/pg → SQL por TCP; no se usa en runtime.
 No sustituye pg, PrismaPg ni Supabase en runtime. Su motor 18.3 y los límites frente a PostgreSQL
 17.11 remoto se documentan en [migraciones](migrations.md).
 Prisma está emparejado exactamente con cliente y adaptador. El generador moderno requiere output
@@ -73,6 +81,9 @@ prisma-client-js obsoleto ni flags experimentales del runtime.
   [adaptadores](https://www.prisma.io/docs/orm/v7/core-concepts/supported-databases/database-drivers).
 - [PostgreSQL: ramas mantenidas](https://www.postgresql.org/support/versioning/).
 - [PGlite: PostgreSQL en memoria](https://pglite.dev/docs/).
+- [PGlite Socket](https://pglite.dev/docs/pglite-socket).
+- [Argon2 oficial](https://github.com/ranisalt/node-argon2), [csrf-csrf](https://github.com/Psifi-Solutions/csrf-csrf),
+  [express-rate-limit](https://express-rate-limit.mintlify.app/overview), [cookie-parser](https://github.com/expressjs/cookie-parser).
 - [MediaPipe Web](https://developers.google.com/edge/mediapipe/solutions/vision/hand_landmarker/web_js).
 - [Checkout](https://github.com/actions/checkout), [setup-node](https://github.com/actions/setup-node),
   [pnpm action-setup](https://github.com/pnpm/action-setup).

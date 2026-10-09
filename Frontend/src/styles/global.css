@@ -33,6 +33,12 @@
     text-decoration: revert;
   }
 
+  input,
+  fieldset,
+  legend {
+    all: revert;
+  }
+
   :focus-visible {
     outline-color: var(--focus);
   }
