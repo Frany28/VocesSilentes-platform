@@ -1,5 +1,23 @@
 # Verificación
 
+## URL pública de API y comprobación de Vercel — 9 de octubre de 2026
+
+El usuario confirmó `https://voces-silentes-platform.vercel.app/`. Se añadió la variable pública
+`VITE_API_URL=https://voces-silentes-platform.vercel.app/api` a netlify.toml y se reconstruyó
+Frontend/dist con ese valor. El build terminó con **código 0**; el bundle incluye la URL confirmada
+y conserva `_redirects`. Formato y `git diff --check` correctos. No cambiaron código ni dependencias;
+la ejecución completa de 121 pruebas de la corrección anterior sigue siendo aplicable.
+
+Comprobación pública: health sin Origin **200** con el contrato esperado; health, preflight login
+y me con Origin Netlify **403**. Sin Origin, me devuelve **401 UNAUTHENTICATED** y csrf **200**
+con cookies HttpOnly, SameSite=Lax y sin Secure. Se registraron únicamente estados y atributos,
+nunca valores de cookies/tokens. No se enviaron credenciales ni se hicieron escrituras PostgreSQL.
+
+`pnpm vercel whoami` indicó sesión cerrada; no hay proyecto local vinculado ni token de entorno.
+No se modificó configuración remota ni se publicó un deploy. Quedan pendientes CORS_ORIGINS,
+NODE_ENV=production, SESSION_SAME_SITE=none y un CSRF_SECRET privado válido en Vercel, con nuevo
+deploy backend; después publicar el frontend actualizado. Los pasos están en [netlify.md](netlify.md).
+
 ## Inicio público y rutas de Netlify — 9 de octubre de 2026
 
 La revisión pública de `https://vocessilentes.netlify.app/` obtuvo HTML 200 y el bundle

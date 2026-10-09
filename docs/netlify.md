@@ -3,18 +3,20 @@
 Sitio del usuario: <https://vocessilentes.netlify.app/>. La ruta `/` lleva a `/login`;
 al iniciar sesión, USER entra en `/student` y ADMIN en `/admin`, según el retorno autorizado.
 Las rutas del estudiante siguen protegidas por sesión; no se publica una sesión ficticia.
+Backend confirmado por el usuario: <https://voces-silentes-platform.vercel.app/>.
 
 ## Build desde Git
 
 `netlify.toml` en la raíz fija estos valores para el workspace con un único pnpm-lock.yaml:
 
-| Ajuste            | Valor                                         |
-| ----------------- | --------------------------------------------- |
-| Base directory    | Raíz del repositorio (`.`)                    |
-| Build command     | `pnpm --filter @vocessilentes/frontend build` |
-| Publish directory | `Frontend/dist`                               |
-| Node              | `22.23.1`                                     |
-| pnpm              | `10.18.2`                                     |
+| Ajuste            | Valor                                            |
+| ----------------- | ------------------------------------------------ |
+| Base directory    | Raíz del repositorio (`.`)                       |
+| Build command     | `pnpm --filter @vocessilentes/frontend build`    |
+| Publish directory | `Frontend/dist`                                  |
+| Node              | `22.23.1`                                        |
+| pnpm              | `10.18.2`                                        |
+| VITE_API_URL      | `https://voces-silentes-platform.vercel.app/api` |
 
 Netlify instala desde la raíz y construye únicamente el frontend. No usar Backend ni su configuración
 de Vercel como carpeta de publicación. Subir los cambios al repositorio/rama vinculados y lanzar
@@ -32,20 +34,40 @@ incluyendo index.html, assets y _redirects. No subir Frontend/src, el workspace 
 El deploy manual no ejecuta el build de netlify.toml:
 
 ```powershell
-# Configurar antes la URL pública real de la API; nunca un secreto.
-$env:VITE_API_URL = 'https://<dominio-backend>/api'
+# URL pública de la API confirmada por el usuario; nunca un secreto.
+$env:VITE_API_URL = 'https://voces-silentes-platform.vercel.app/api'
 pnpm --filter @vocessilentes/frontend build
 ```
 
 ## Conexión con el backend
 
-En Netlify, añadir `VITE_API_URL=https://<dominio-backend>/api` a las variables disponibles durante
-el build, y volver a desplegar. Vite incluye ese valor público al construir; modificar Backend/.env
-no configura el frontend publicado. Sin la variable, el valor de desarrollo es localhost:3000.
+`netlify.toml` configura `VITE_API_URL=https://voces-silentes-platform.vercel.app/api` durante el build.
+Volver a desplegar para incluirlo en el bundle. Si cambia el dominio, actualizar esa variable pública
+en el archivo. Vite incluye el valor al construir; modificar Backend/.env no configura el frontend
+publicado. Sin la variable, el valor de desarrollo es localhost:3000.
 `DATABASE_URL` y `CSRF_SECRET` permanecen exclusivamente en el backend.
 
 En Vercel, `CORS_ORIGINS` debe incluir **https://vocessilentes.netlify.app**, sin barra final.
 Para cookies entre netlify.app y vercel.app, configurar producción HTTPS y `SESSION_SAME_SITE=none`.
+Valores necesarios en Settings → Environment Variables del proyecto backend, entorno Production:
+
+```dotenv
+NODE_ENV=production
+CORS_ORIGINS=https://vocessilentes.netlify.app
+SESSION_SAME_SITE=none
+```
+
+Si ya hay otros orígenes HTTPS autorizados, conservarlos y añadir Netlify separados por comas.
+Producción también exige `CSRF_SECRET` privado de 64 caracteres hexadecimales; conservar el existente
+si cumple ese contrato o generarlo y guardarlo exclusivamente en Vercel. No incluirlo en este archivo,
+el frontend ni la conversación. Volver a desplegar el backend después de cambiar las variables.
+
+La comprobación pública del 9 de octubre de 2026 obtuvo health 200, pero CORS rechazó con 403
+el origen Netlify y el preflight de login. Sin Origin, me devuelve 401 y csrf devuelve cookies
+HttpOnly con SameSite=Lax **sin Secure**, coherente con una política distinta de producción en
+el código actual. Estas respuestas no demuestran conectividad PostgreSQL ni login funcional.
+La CLI local no tiene sesión ni proyecto vinculado; los ajustes remotos quedan pendientes.
+
 Los navegadores que bloquean cookies de terceros pueden impedir la sesión; los dominios del mismo
 sitio permiten usar lax. Ver [vercel.md](vercel.md) y [authentication.md](authentication.md).
 
