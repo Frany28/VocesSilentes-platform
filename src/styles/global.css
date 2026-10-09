@@ -1,0 +1,39 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* Se conserva la presentación nativa hasta disponer del sistema de Figma. */
+@layer base {
+  body {
+    margin: revert;
+    font-family: initial;
+    color: var(--content);
+    background: var(--page);
+  }
+
+  h1,
+  p {
+    margin: revert;
+    font-size: revert;
+    font-weight: revert;
+  }
+
+  button {
+    appearance: auto;
+    padding: revert;
+    border: revert;
+    font: revert;
+    color: ButtonText;
+    background: var(--surface);
+  }
+
+  a {
+    color: LinkText;
+    text-decoration: revert;
+  }
+
+  :focus-visible {
+    outline-color: var(--focus);
+  }
+}

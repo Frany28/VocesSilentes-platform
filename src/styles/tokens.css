@@ -1,0 +1,21 @@
+/* Valores del navegador provisionales; no son tokens extraídos de Figma. */
+:root {
+  color-scheme: light;
+  --page: Canvas;
+  --content: CanvasText;
+  --surface: ButtonFace;
+  --border: ButtonBorder;
+  --focus: Highlight;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-content: var(--content);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-focus: var(--focus);
+}
