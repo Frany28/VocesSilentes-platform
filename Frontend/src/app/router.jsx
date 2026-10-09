@@ -1,6 +1,5 @@
-import { Link } from 'react-router';
+import { Link, Navigate } from 'react-router';
 import { AppLayout } from '../components/layout/AppLayout.jsx';
-import { SystemPage } from '../features/system/SystemPage.jsx';
 import { AuthPage } from '../features/auth/AuthPage.jsx';
 import { AuthGuard, AdminGuard } from '../features/auth/AuthGuard.jsx';
 import { SessionPage } from '../features/auth/SessionPage.jsx';
@@ -15,6 +14,7 @@ import { StudentModules } from '../features/student/pages/StudentModules.jsx';
  */
 export function createRoutes() {
   return [
+    { path: '/', element: <Navigate to="/login" replace /> },
     { path: '/login', element: <LoginPage /> },
     {
       element: <AuthGuard />,
@@ -31,7 +31,6 @@ export function createRoutes() {
     {
       element: <AppLayout />,
       children: [
-        { path: '/', element: <SystemPage /> },
         { path: '/register', element: <AuthPage mode="register" /> },
         {
           element: <AuthGuard />,

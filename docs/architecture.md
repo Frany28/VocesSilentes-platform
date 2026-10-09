@@ -17,6 +17,11 @@ Contenido, progreso y reportes conservan solo su modelo de datos, sin flujos de 
 
 ## Frontend
 
+La ruta `/` redirige a `/login`. Netlify publica el build Vite de `Frontend/dist`; el archivo
+`public/_redirects` sirve index.html para rutas de React sin archivo estático propio.
+La sesión sigue comprobándose con el backend antes de acceder a `/student` y sus páginas;
+[netlify.md](netlify.md) documenta el build del workspace y las variables públicas.
+
 `src/app/` reúne entrada, router y proveedores. `features/` organiza cada funcionalidad con sus
 componentes, hooks, servicios y validaciones cuando sean necesarios. `components/ui/` y
 `components/layout/` solo presentan controles y estructuras reutilizables.

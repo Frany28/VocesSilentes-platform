@@ -70,6 +70,10 @@ sirve el bundle en <http://localhost:4173> para inspección local. Preview no es
 
 ## Configuración y datos privados
 
+Para publicar el frontend en Netlify, `netlify.toml` construye desde la raíz y publica `Frontend/dist`.
+`/` abre el login; `_redirects` permite abrir y recargar rutas de React.
+Ver [build, variables y nuevo despliegue](docs/netlify.md).
+
 Para publicar la API en Vercel, usar **Root Directory: Backend** y **Node.js 22.x**.
 La entrada Express, el build Prisma y la CLI local están preparados;
 seguir [configuración, variables y despliegue](docs/vercel.md). Esto no implica una publicación remota.

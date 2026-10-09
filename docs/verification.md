@@ -1,5 +1,23 @@
 # Verificación
 
+## Inicio público y rutas de Netlify — 9 de octubre de 2026
+
+La revisión pública de `https://vocessilentes.netlify.app/` obtuvo HTML 200 y el bundle
+`index-mgXqYp4N.js`, que contiene la pantalla técnica y las rutas login/student. Las solicitudes
+directas `/login` y `/student` devolvieron **404** de Netlify. El entorno público compilado no incluye
+VITE_API_URL y conserva el fallback localhost:3000/api. No se consultaron credenciales ni datos privados.
+
+Se cambió `/` para redirigir a `/login`, se actualizaron las pruebas existentes de inicio/tema
+y se añadió `Frontend/public/_redirects`, copiado correctamente a `Frontend/dist/_redirects`.
+`netlify.toml` fija el build del frontend desde la raíz y la carpeta publicada Frontend/dist.
+`pnpm verify` terminó con **código 0**: lint/formato, **57 pruebas frontend**, **34 backend**,
+**30 de integración SQL aislada** (121 en total), Prisma validate y ambos builds correctos.
+
+No se publicó un nuevo deploy ni se modificaron ajustes de la cuenta Netlify. El sitio remoto
+conservará el comportamiento anterior hasta publicar estos cambios. La URL pública real del backend
+debe configurarse como VITE_API_URL durante el build; ver [netlify.md](netlify.md).
+No se ejecutó GitHub Actions ni db:check remoto para esta corrección de frontend.
+
 ## Preparación del backend para Vercel — 9 de octubre de 2026
 
 Windows, Node **22.23.1**, pnpm **10.18.2**. `pnpm verify` terminó con **código 0**:

@@ -16,6 +16,10 @@ El backend se despliega con Root Directory Backend, entrada `Backend/app.js` y b
 ver [vercel.md](vercel.md) para variables privadas, cookies, proxy y pasos de publicación.
 `.vercel/` contiene configuración/entorno privado de la CLI y se excluye de Git y controles de código.
 
+Para Netlify, el build del frontend se ejecuta desde la raíz y publica `Frontend/dist`.
+`Frontend/public/_redirects` se copia al build para las rutas directas y recargas;
+ver [netlify.md](netlify.md). La ruta inicial muestra login, sin la antigua pantalla técnica.
+
 `pnpm install --frozen-lockfile` reproduce las dependencias. Para añadir una dependencia justificada,
 usar `pnpm --filter @vocessilentes/frontend add paquete@version` o el filtro backend, y `add -D`
 para herramientas. Los scripts de instalación permitidos se restringen en pnpm-workspace.yaml a
