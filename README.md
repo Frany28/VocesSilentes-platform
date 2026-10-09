@@ -1,7 +1,8 @@
 # VocesSilentes
 
 Base de desarrollo de una aplicación educativa de Lengua de Señas Venezolana (LSV).
-Incluye dos aplicaciones en un workspace pnpm, JavaScript ESM y JSDoc. No implementa el MVP.
+Incluye dos aplicaciones en un workspace pnpm, JavaScript ESM y JSDoc, y los datos de la primera fase.
+Todavía no implementa los flujos del MVP.
 
 ## Requisitos
 
@@ -44,19 +45,22 @@ Sin DATABASE_URL arranca en modo HTTP sin persistencia. Al configurarla, generar
 
 ## Comandos de la raíz
 
-| Comando                                  | Función                                                                |
-| ---------------------------------------- | ---------------------------------------------------------------------- |
-| `pnpm dev`                               | Frontend y backend simultáneos                                         |
-| `pnpm dev:frontend` / `pnpm dev:backend` | Una aplicación                                                         |
-| `pnpm lint`                              | ESLint, incluyendo advertencias de tamaño y JSDoc                      |
-| `pnpm format` / `pnpm format:check`      | Aplicar / comprobar Prettier                                           |
-| `pnpm test`                              | Vitest + Testing Library y node:test + Supertest                       |
-| `pnpm build`                             | Bundle frontend, sintaxis backend y generación/compilación de Prisma   |
-| `pnpm db:validate`                       | Validación del esquema sin conectar a PostgreSQL                       |
-| `pnpm db:generate`                       | Prisma Client y compilación de su salida a JavaScript ESM              |
-| `pnpm verify`                            | Todos los controles sin PostgreSQL                                     |
-| `pnpm db:check`                          | Conectar y ejecutar SELECT 1; requiere DATABASE_URL y cliente generado |
-| `pnpm db:migrate --name nombre`          | Migración de desarrollo; requiere base y modelos aprobados             |
+| Comando                                           | Función                                                                |
+| ------------------------------------------------- | ---------------------------------------------------------------------- |
+| `pnpm dev`                                        | Frontend y backend simultáneos                                         |
+| `pnpm dev:frontend` / `pnpm dev:backend`          | Una aplicación                                                         |
+| `pnpm lint`                                       | ESLint, incluyendo advertencias de tamaño y JSDoc                      |
+| `pnpm format` / `pnpm format:check`               | Aplicar / comprobar Prettier                                           |
+| `pnpm test`                                       | Vitest + Testing Library y node:test + Supertest                       |
+| `pnpm build`                                      | Bundle frontend, sintaxis backend y generación/compilación de Prisma   |
+| `pnpm db:validate`                                | Validación del esquema sin conectar a PostgreSQL                       |
+| `pnpm db:generate`                                | Prisma Client y compilación de su salida a JavaScript ESM              |
+| `pnpm verify`                                     | Controles y SQL en memoria, sin servidor PostgreSQL                    |
+| `pnpm db:check`                                   | Conectar y ejecutar SELECT 1; requiere DATABASE_URL y cliente generado |
+| `pnpm db:inspect` / `pnpm db:status`              | Tablas e historial en lectura / estado de migraciones                  |
+| `pnpm db:migrate`                                 | Aplicar SQL revisado con DIRECT_URL Session/direct, sin shadow         |
+| `pnpm db:migrate:dev --name nombre --create-only` | Generar migración de desarrollo con shadow independiente               |
+| `pnpm db:test`                                    | Integración SQL aislada en PostgreSQL WASM en memoria                  |
 
 El backend es JavaScript ejecutado por Node; no necesita un bundle de código propio.
 El generador oficial `prisma-client` produce TypeScript: esbuild compila **solo esa salida** a ESM.
@@ -67,7 +71,8 @@ sirve el bundle en <http://localhost:4173> para inspección local. Preview no es
 
 `Frontend/.env`: `VITE_API_URL`, pública y embebida durante el build; FRONTEND_PORT solo configura
 el servidor de desarrollo y no se expone al navegador. Nunca poner secretos en VITE_*.
-`Backend/.env`: NODE_ENV, HOST, PORT, CORS_ORIGINS, LOG_LEVEL y DATABASE_URL; exclusivas del servidor.
+`Backend/.env`: NODE_ENV, HOST, PORT, CORS_ORIGINS, LOG_LEVEL, DATABASE_URL, DIRECT_URL y
+SHADOW_DATABASE_URL opcional; exclusivas del servidor y las herramientas de migración.
 Los valores del proceso prevalecen sobre `.env`. Reiniciar Vite al cambiar configuración; reconstruir
 el bundle para cambiar variables públicas en producción. Producción exige CORS_ORIGINS explícito.
 
@@ -78,8 +83,11 @@ pnpm db:generate
 pnpm db:check
 ```
 
-No hay modelos ni migraciones todavía. `db:migrate` queda preparado para cuando exista un contrato
-de datos aprobado; no ejecutarlo contra producción. Health no comprueba disponibilidad de PostgreSQL.
+La primera migración crea nueve entidades en el esquema privado `vocessilentes`, con restricciones
+SQL y RLS sin acceso público. Fue aplicada en la base Supabase de desarrollo confirmada por el usuario.
+DATABASE_URL puede usar Transaction 6543; migraciones usan DIRECT_URL Session 5432/direct compatible.
+Revisar [modelo de datos](docs/data-model.md) y [migraciones](docs/migrations.md) antes de aplicar
+cambios posteriores. Health no comprueba disponibilidad de PostgreSQL.
 
 ## Estructura
 
@@ -101,27 +109,30 @@ Backend/
   src/middlewares/          Errores y rutas desconocidas
   src/lib/                  Prisma, logger y cierre de recursos
   src/errors/               Errores públicos controlados
-  prisma/                   Esquema sin entidades
+  prisma/                   Esquema por dominio y migraciones versionadas
   scripts/                  Generación, sintaxis y comprobación de PostgreSQL
-  tests/                    Pruebas sin base real
+  tests/                    Pruebas HTTP y SQL aislado en memoria
 docs/                       Arquitectura, desarrollo, diseño, MediaPipe y versiones
 .github/workflows/          Verificación sin despliegue ni secretos de producción
 ```
 
-Las carpetas de assets, migraciones y funcionalidades futuras se crean cuando tengan contenido útil.
+Las carpetas de assets y funcionalidades futuras se crean cuando tengan contenido útil.
 `Backend/generated/`, `Frontend/dist/`, dependencias, cachés y `.env` son artefactos locales ignorados.
 
 ## Estado real y documentación
 
 Funciona la pantalla mínima, router, tema claro/oscuro, cliente HTTP, health, seguridad HTTP,
 logs JSON, errores y validación de configuración. MediaPipe está instalado y no activa la cámara.
-No hay autenticación, usuarios, reportes ni reconocimiento LSV. Faltan Figma, contrato de datos,
-PostgreSQL real y entrenamiento/validación de un modelo específico.
+Existen modelos de usuarios, sesiones, contenido compartido, progreso y reportes, y conexión real
+con PostgreSQL 17.11 en Supabase. Las tablas de aplicación están vacías; no hay datos ficticios.
+No hay flujos de autenticación, usuarios o reportes ni reconocimiento LSV. Faltan Figma y
+entrenamiento/validación de un modelo específico.
 
-La carpeta inicial solo contenía `.npm-cache/`; no había código, instrucciones ni historial `.git`.
-No se inicializó Git ni se publicaron cambios. El workflow se ejecutará al subir esta base a GitHub.
+La preparación inicial partió de una carpeta sin código ni historial. Esta tarea no crea commits,
+PR ni publicaciones. Los controles de esta entrega son locales; no se afirma ejecución de GitHub Actions.
 
 - [Arquitectura](docs/architecture.md) y [desarrollo en Windows](docs/development.md).
 - [Diseño y temas](docs/design-system.md) y [MediaPipe](docs/mediapipe.md).
 - [Versiones y fuentes oficiales](docs/dependencies.md).
+- [Modelo de datos](docs/data-model.md) y [migraciones](docs/migrations.md).
 - [Resultados reales de verificación](docs/verification.md).

@@ -57,13 +57,16 @@ Esto no implementa permisos: la autorización futura debe validarse en backend.
 
 ## Prisma y PostgreSQL
 
-Prisma 7 usa `prisma.config.js` para URL de CLI y migraciones. El esquema solo declara proveedor y
-generador. `prisma-client` genera TypeScript en `generated/prisma/`; esbuild lo compila a
+Prisma 7 usa `prisma.config.js` para DIRECT_URL de CLI y migraciones, separada de DATABASE_URL del
+runtime. El esquema se divide por dominio en varios archivos Prisma, todos en el namespace privado
+`vocessilentes`. Incluye usuarios/identidades/sesiones, contenido, progreso y reportes; el contrato
+completo y sus CHECK se describen en [data-model.md](data-model.md).
+`prisma-client` genera TypeScript en `generated/prisma/`; esbuild lo compila a
 `generated/client.js`, JavaScript ESM. Las aplicaciones escritas por el equipo siguen siendo JavaScript.
 No se usa el generador obsoleto prisma-client-js ni opciones experimentales.
 
 `createDatabase()` importa ese cliente solo si hay DATABASE_URL y pasa PrismaPg al constructor.
-El adaptador usa pg con espera de conexión limitada. Prisma gestiona su pool y `$disconnect()`
+El adaptador usa pg con espera de conexión limitada y esquema `vocessilentes`. Prisma gestiona su pool y `$disconnect()`
 lo libera. El cierre drena HTTP antes de desconectar; tiene un límite de 10 segundos en server.js.
 Pruebas del cierre verifican orden y desconexión incluso ante error HTTP usando un doble explícito.
 
@@ -71,6 +74,9 @@ Sin URL se permite la base HTTP sin persistencia; health solo es liveness. `db:c
 comprobación independiente de PostgreSQL mediante SELECT 1. No confundirla con generación del cliente
 ni validación del esquema, que no prueban conectividad.
 
-Pendiente: acordar entidades, integridad, permisos, migraciones y contratos del MVP. No hay datos
-simulados ni tablas ficticias. Las migraciones de desarrollo necesitan base dedicada y permisos
-para shadow database; no se ejecutan en producción ni automáticamente al arrancar.
+La migración inicial crea nueve tablas de aplicación, relaciones restrictivas, índices, CHECK,
+RLS sin políticas y revoca acceso de roles Data API. No toca auth/storage ni integra Supabase Auth.
+Se aplicó mediante migrate deploy en la base de desarrollo confirmada, sin shadow ni datos simulados.
+[migrations.md](migrations.md) documenta generación/revisión/aplicación y límites del diff de Prisma.
+Las pruebas SQL usan PGlite en memoria; la conexión real y el catálogo remoto se verifican aparte.
+Pendientes: servicios, permisos Express y flujos MVP; no se implementaron endpoints de los nuevos modelos.

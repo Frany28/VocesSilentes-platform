@@ -20,8 +20,12 @@
     "db:generate": "pnpm --filter @vocessilentes/backend db:generate",
     "db:validate": "pnpm --filter @vocessilentes/backend db:validate",
     "db:migrate": "pnpm --filter @vocessilentes/backend db:migrate",
+    "db:migrate:dev": "pnpm --filter @vocessilentes/backend db:migrate:dev",
+    "db:status": "pnpm --filter @vocessilentes/backend db:status",
+    "db:inspect": "pnpm --filter @vocessilentes/backend db:inspect",
+    "db:test": "pnpm --filter @vocessilentes/backend db:test",
     "db:check": "pnpm --filter @vocessilentes/backend db:check",
-    "verify": "pnpm lint && pnpm format:check && pnpm test && pnpm db:validate && pnpm build"
+    "verify": "pnpm lint && pnpm format:check && pnpm test && pnpm db:validate && pnpm build && pnpm db:test"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

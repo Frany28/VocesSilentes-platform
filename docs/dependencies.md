@@ -37,19 +37,24 @@ El único pnpm-lock.yaml fija transitivas. pnpm exige engines y peers compatible
 
 ## Backend
 
-| Dependencia                         | Versión         | Clasificación / necesidad                                                     |
-| ----------------------------------- | --------------- | ----------------------------------------------------------------------------- |
-| express                             | 5.3.0           | Producción; HTTP                                                              |
-| @prisma/client / @prisma/adapter-pg | 7.10.0          | Producción; cliente y adaptador requeridos por Prisma 7                       |
-| pg                                  | 8.23.1          | Producción; driver PostgreSQL del adaptador                                   |
-| zod / dotenv                        | 4.6.5 / 18.0.7  | Producción; validación y carga del entorno privado                            |
-| cors / helmet                       | 2.8.6 / 8.3.0   | Producción; política de orígenes y cabeceras                                  |
-| pino / pino-http                    | 10.4.0 / 11.0.0 | Producción; logs estructurados de proceso y HTTP                              |
-| prisma                              | 7.10.0          | Desarrollo; CLI de esquema, generación y migraciones                          |
-| esbuild                             | 0.25.12         | Desarrollo; compilar salida TypeScript del generador oficial a JavaScript ESM |
-| supertest                           | 7.3.1           | Desarrollo; pruebas HTTP con node:test integrado en Node                      |
+| Dependencia                         | Versión         | Clasificación / necesidad                                                                      |
+| ----------------------------------- | --------------- | ---------------------------------------------------------------------------------------------- |
+| express                             | 5.3.0           | Producción; HTTP                                                                               |
+| @prisma/client / @prisma/adapter-pg | 7.10.0          | Producción; cliente y adaptador requeridos por Prisma 7                                        |
+| pg                                  | 8.23.1          | Producción; driver PostgreSQL del adaptador                                                    |
+| zod / dotenv                        | 4.6.5 / 18.0.7  | Producción; validación y carga del entorno privado                                             |
+| cors / helmet                       | 2.8.6 / 8.3.0   | Producción; política de orígenes y cabeceras                                                   |
+| pino / pino-http                    | 10.4.0 / 11.0.0 | Producción; logs estructurados de proceso y HTTP                                               |
+| prisma                              | 7.10.0          | Desarrollo; CLI de esquema, generación y migraciones                                           |
+| esbuild                             | 0.25.12         | Desarrollo; compilar salida TypeScript del generador oficial a JavaScript ESM                  |
+| supertest                           | 7.3.1           | Desarrollo; pruebas HTTP con node:test integrado en Node                                       |
+| @electric-sql/pglite                | 0.5.8           | Desarrollo; PostgreSQL WASM en memoria para comprobar el SQL sin escribir fixtures en Supabase |
 
 No se agregaron Redux, microservicios, Docker, colas, autenticación ni bibliotecas del MVP.
+PGlite se añade únicamente a devDependencies para pruebas de restricciones y permisos reales de SQL;
+no hay servidor PostgreSQL local disponible y la base compartida no se usa para pruebas destructivas.
+No sustituye pg, PrismaPg ni Supabase en runtime. Su motor 18.3 y los límites frente a PostgreSQL
+17.11 remoto se documentan en [migraciones](migrations.md).
 Prisma está emparejado exactamente con cliente y adaptador. El generador moderno requiere output
 y genera TypeScript; el script de esbuild permite mantener código propio en JavaScript sin usar
 prisma-client-js obsoleto ni flags experimentales del runtime.
@@ -67,6 +72,7 @@ prisma-client-js obsoleto ni flags experimentales del runtime.
   [configuración JS y URL opcional para generate](https://www.prisma.io/docs/orm/v7/reference/prisma-config-reference),
   [adaptadores](https://www.prisma.io/docs/orm/v7/core-concepts/supported-databases/database-drivers).
 - [PostgreSQL: ramas mantenidas](https://www.postgresql.org/support/versioning/).
+- [PGlite: PostgreSQL en memoria](https://pglite.dev/docs/).
 - [MediaPipe Web](https://developers.google.com/edge/mediapipe/solutions/vision/hand_landmarker/web_js).
 - [Checkout](https://github.com/actions/checkout), [setup-node](https://github.com/actions/setup-node),
   [pnpm action-setup](https://github.com/pnpm/action-setup).

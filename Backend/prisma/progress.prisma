@@ -1,0 +1,37 @@
+enum ProgressStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+
+  @@schema("vocessilentes")
+}
+
+model LessonProgress {
+  id          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String         @db.Uuid
+  lessonId    String         @db.Uuid
+  status      ProgressStatus @default(NOT_STARTED)
+  startedAt   DateTime?      @db.Timestamptz(3)
+  completedAt DateTime?      @db.Timestamptz(3)
+  user        User           @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  lesson      Lesson         @relation(fields: [lessonId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@unique([userId, lessonId])
+  @@index([lessonId])
+  @@schema("vocessilentes")
+}
+
+model ExerciseProgress {
+  id             String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId         String         @db.Uuid
+  exerciseId     String         @db.Uuid
+  status         ProgressStatus @default(NOT_STARTED)
+  lastActivityAt DateTime?      @db.Timestamptz(3)
+  completedAt    DateTime?      @db.Timestamptz(3)
+  user           User           @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  exercise       Exercise       @relation(fields: [exerciseId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@unique([userId, exerciseId])
+  @@index([exerciseId])
+  @@schema("vocessilentes")
+}

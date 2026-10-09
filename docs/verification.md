@@ -1,4 +1,56 @@
-# Verificación de la base
+# Verificación
+
+## Fase 1 de datos — 9 de octubre de 2026
+
+Ejecutada localmente en Windows con Node **22.23.1** y pnpm **10.18.2**.
+`pnpm verify` completo terminó con **código 0**, sin errores ni advertencias de lint.
+
+| Control                      | Resultado observado                                                                                                       |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Lint / formato               | Correctos                                                                                                                 |
+| Backend                      | 28 pruebas aprobadas: 25 existentes y 3 de configuración de migraciones                                                   |
+| Frontend                     | 11 pruebas aprobadas en 2 archivos                                                                                        |
+| SQL aislado (`db:test`)      | 13 pruebas aprobadas; PGlite 0.5.8 / PostgreSQL 18.3 WASM en memoria                                                      |
+| Prisma validate              | Válidos los cuatro dominios del esquema con nueve entidades                                                               |
+| Prisma generate              | Cliente 7.10.0 generado y compilado a JavaScript ESM                                                                      |
+| Build                        | Frontend, sintaxis backend y generación/compilación Prisma correctos                                                      |
+| PostgreSQL real (`db:check`) | SELECT 1 correcto con PrismaPg y DATABASE_URL Transaction 6543                                                            |
+| Inspección previa            | PostgreSQL 17.11; sin tablas de aplicación ni historial Prisma; lectura sin modificaciones                                |
+| Identificación del destino   | DIRECT_URL Session 5432 coincide en host, usuario y base con runtime; usuario confirmó desarrollo del proyecto            |
+| Aplicación                   | `20261009000100_phase_one` aplicada mediante Prisma migrate deploy, sin shadow                                            |
+| Historial real               | Una migración finalizada, sin rollback; `_prisma_migrations` en vocessilentes                                             |
+| Estado Prisma                | `db:status`: schema is up to date                                                                                         |
+| Catálogo real                | Nueve tablas de aplicación, 27 CHECK, 13 FK; todas las FK RESTRICT/CASCADE                                                |
+| Seguridad real               | RLS en las nueve tablas, cero políticas; anon/authenticated/service_role sin USAGE/CREATE de esquema ni permisos de tabla |
+| Lectura real con Prisma      | count() de las nueve entidades mediante PrismaPg/Transaction: todas con cero filas                                        |
+| Revisión Git                 | `git diff --check` correcto; sin commits ni publicación                                                                   |
+
+La migración se generó con `migrate diff --from-empty --to-schema prisma --script --output ...`,
+se revisó y se probó antes de deploy. Es aditiva y no insertó usuarios, administradores ni contenido.
+Las verificaciones de catálogo y count() se ejecutaron dentro de transacciones READ ONLY.
+Las pruebas de restricciones y permisos ejecutan el SQL versionado exclusivamente en memoria:
+unicidad, normalización, FK, estados con NULL, fechas, contexto de reportes, reapertura, persistencia
+del progreso ante eliminación lógica, RESTRICT y denegación para roles equivalentes de Data API.
+
+El sandbox bloqueó inicialmente subprocesos con EPERM; la ejecución autorizada completó Prisma,
+pruebas y builds. La instalación de PGlite necesitó descarga porque no estaba en la caché offline.
+Se corrigieron parámetros SQL de fixtures con tipos explícitos y el SQLSTATE esperado para RESTRICT
+del motor aislado antes de ejecutar la verificación final. No se modificaron controles para ocultar fallos.
+
+Límites pendientes:
+
+- El PDF mencionado no estaba accesible; se implementaron las decisiones explícitas del texto adjunto.
+- No se obtuvo la lista de esquemas expuestos de Data API desde SQL; pgrst.db_schemas estaba ausente.
+  Sí se verificaron revocaciones reales y RLS, sin políticas de acceso público.
+- PGlite usa PostgreSQL 18.3 y la base remota usa 17.11. Las pruebas de escrituras son aisladas;
+  el catálogo y las lecturas Prisma se comprobaron realmente en remoto, sin escrituras de fixtures.
+- GitHub Actions no se ejecutó ni se comprobó remotamente en esta tarea.
+- No hay endpoints nuevos, autenticación completa, reglas de bloqueo, OAuth ni reconocimiento LSV.
+
+Reproducir controles con `pnpm verify`; conectividad y lectura de historial requieren entorno privado:
+`pnpm db:check`, `pnpm db:inspect`, `pnpm db:status`. Ver [migraciones](migrations.md).
+
+## Histórico: preparación de la base inicial
 
 Ejecutada localmente en Windows el **9 de octubre de 2026**, Node **22.23.1** y pnpm **10.18.2**.
 
@@ -28,7 +80,7 @@ con acceso autorizado a esos procesos, sin cambiar reglas de lint ni forzar depe
 Las pruebas detectaron una URL inválida que escapaba de safeParse; se corrigió la validación
 y los controles posteriores pasaron.
 
-## No comprobado
+### No comprobado en la preparación inicial
 
 - PostgreSQL: no hay DATABASE_URL de desarrollo configurada ni psql disponible en PATH.
   No se conectó a una base real ni se ejecutaron migraciones. Generación/instanciación no prueban conexión.

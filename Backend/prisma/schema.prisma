@@ -6,6 +6,5 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  schemas  = ["vocessilentes"]
 }
-
-// Los modelos y las migraciones se definirán al aprobar el contrato de datos.

@@ -1,0 +1,43 @@
+enum ReportCategory {
+  CONTENT
+  TECHNICAL
+  OTHER
+
+  @@schema("vocessilentes")
+}
+
+enum ReportStatus {
+  PENDING
+  RESOLVED
+
+  @@schema("vocessilentes")
+}
+
+model Report {
+  id              String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  authorId        String         @db.Uuid
+  description     String
+  category        ReportCategory
+  status          ReportStatus   @default(PENDING)
+  moduleId        String?        @db.Uuid
+  lessonId        String?        @db.Uuid
+  exerciseId      String?        @db.Uuid
+  internalComment String?
+  resolvedById    String?        @db.Uuid
+  resolvedAt      DateTime?      @db.Timestamptz(3)
+  createdAt       DateTime       @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime       @default(now()) @updatedAt @db.Timestamptz(3)
+  author          User           @relation("ReportAuthor", fields: [authorId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  resolvedBy      User?          @relation("ReportResolver", fields: [resolvedById], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  module          Module?        @relation(fields: [moduleId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  lesson          Lesson?        @relation(fields: [lessonId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  exercise        Exercise?      @relation(fields: [exerciseId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@index([authorId, createdAt])
+  @@index([status, createdAt])
+  @@index([resolvedById])
+  @@index([moduleId])
+  @@index([lessonId])
+  @@index([exerciseId])
+  @@schema("vocessilentes")
+}

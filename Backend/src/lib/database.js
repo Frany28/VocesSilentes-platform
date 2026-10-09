@@ -9,6 +9,9 @@ import { PrismaPg } from '@prisma/adapter-pg';
 export async function createDatabase(connectionString) {
   if (!connectionString) return undefined;
   const { PrismaClient } = await import('../../generated/client.js');
-  const adapter = new PrismaPg({ connectionString, connectionTimeoutMillis: 5000 });
+  const adapter = new PrismaPg(
+    { connectionString, connectionTimeoutMillis: 5000 },
+    { schema: 'vocessilentes' },
+  );
   return new PrismaClient({ adapter });
 }

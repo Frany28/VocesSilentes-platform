@@ -10,7 +10,11 @@
     "build": "node scripts/check-syntax.js && pnpm db:generate",
     "db:validate": "prisma validate",
     "db:generate": "node scripts/generate-client.js",
-    "db:migrate": "prisma migrate dev",
+    "db:migrate": "prisma migrate deploy",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:status": "prisma migrate status",
+    "db:inspect": "node scripts/inspect-database.js",
+    "db:test": "node --test --test-concurrency=1 tests/database/*.test.js",
     "db:check": "node scripts/check-database.js"
   },
   "dependencies": {
@@ -26,6 +30,7 @@
     "zod": "4.6.5"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "0.5.8",
     "esbuild": "0.25.12",
     "prisma": "7.10.0",
     "supertest": "7.3.1"

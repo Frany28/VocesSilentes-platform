@@ -1,0 +1,57 @@
+enum PublicationStatus {
+  DRAFT
+  PUBLISHED
+
+  @@schema("vocessilentes")
+}
+
+enum ExerciseType {
+  SIGN_PRACTICE
+
+  @@schema("vocessilentes")
+}
+
+model Module {
+  id                String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title             String            @db.VarChar(200)
+  description       String
+  imagePath         String?
+  order             Int               @unique
+  publicationStatus PublicationStatus @default(DRAFT)
+  lessons           Lesson[]
+  reports           Report[]
+
+  @@schema("vocessilentes")
+}
+
+model Lesson {
+  id                 String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  moduleId           String            @db.Uuid
+  title              String            @db.VarChar(200)
+  description        String
+  referenceVideoPath String?
+  order              Int
+  publicationStatus  PublicationStatus @default(DRAFT)
+  module             Module            @relation(fields: [moduleId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  exercises          Exercise[]
+  progress           LessonProgress[]
+  reports            Report[]
+
+  @@unique([moduleId, order])
+  @@schema("vocessilentes")
+}
+
+model Exercise {
+  id              String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  lessonId        String             @db.Uuid
+  instructions    String
+  order           Int
+  type            ExerciseType       @default(SIGN_PRACTICE)
+  expectedSignKey String             @db.VarChar(100)
+  lesson          Lesson             @relation(fields: [lessonId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  progress        ExerciseProgress[]
+  reports         Report[]
+
+  @@unique([lessonId, order])
+  @@schema("vocessilentes")
+}
