@@ -50,6 +50,12 @@ JSON, health, auth y manejo común de errores;
 no lee secretos, abre puertos ni consulta PostgreSQL. `server.js` carga y valida entorno, crea Prisma
 cuando hay URL, conecta e inicializa auth antes de escuchar y maneja SIGINT/SIGTERM.
 
+`Backend/app.js` es la entrada nativa para Vercel: exporta Express, valida entorno e inicializa auth,
+con conexión Prisma diferida y sin puerto ni listeners de señales. Solo allí, con `VERCEL=1`, se acepta
+un salto del proxy de la plataforma para HTTPS/IP. El servidor local mantiene TRUST_PROXY_IPS.
+`Backend/vercel.json` fija el preset Express y genera Prisma durante el build;
+[vercel.md](vercel.md) documenta despliegue y límites por instancia.
+
 Auth separa rutas, validaciones Zod estrictas, controllers, service y repositorio Prisma.
 Controllers traducen HTTP; services ejecutan reglas; repositorios usan Prisma.
 Health tiene una sola ruta sin negocio y no necesita crear artificialmente esas cinco capas.
@@ -85,7 +91,9 @@ No se usa el generador obsoleto prisma-client-js ni opciones experimentales.
 
 `createDatabase()` importa ese cliente solo si hay DATABASE_URL y pasa PrismaPg al constructor.
 El adaptador usa pg con espera de conexión limitada y esquema `vocessilentes`. Prisma gestiona su pool y `$disconnect()`
-lo libera. El cierre drena HTTP antes de desconectar; tiene un límite de 10 segundos en server.js.
+lo libera. En Vercel usa un pool externo pg limitado y attachDatabasePool para liberar conexiones
+ociosas al suspender Fluid compute; disposeExternalPool conserva el cierre por `$disconnect()`.
+El cierre local drena HTTP antes de desconectar; tiene un límite de 10 segundos en server.js.
 Pruebas del cierre verifican orden y desconexión incluso ante error HTTP usando un doble explícito.
 
 Sin URL se permite la base HTTP sin persistencia; health solo es liveness. `db:check` es una

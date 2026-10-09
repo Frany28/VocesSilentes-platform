@@ -1,0 +1,36 @@
+@media (min-width: 600px) and (max-width: 1199px) {
+  .student-shell[data-page='home'] {
+    --icon-student-nav-home-default: url('../../assets/student/9210a.svg');
+    --icon-student-nav-book-default: url('../../assets/student/41025.svg');
+    --icon-student-nav-camera-default: url('../../assets/student/6bc52.svg');
+    --icon-student-nav-chart-default: url('../../assets/student/b92e9.svg');
+    --icon-student-nav-user-default: url('../../assets/student/8aa47.svg');
+  }
+}
+@media (min-width: 600px) and (max-width: 1199px) {
+  .student-shell[data-page='modules'] {
+    --icon-student-nav-home-default: url('../../assets/student/9210a.svg');
+    --icon-student-nav-book-default: url('../../assets/student/41025.svg');
+    --icon-student-nav-camera-default: url('../../assets/student/6bc52.svg');
+    --icon-student-nav-chart-default: url('../../assets/student/b92e9.svg');
+    --icon-student-nav-user-default: url('../../assets/student/8aa47.svg');
+  }
+}
+@media (min-width: 600px) and (max-width: 1199px) {
+  [data-theme='dark'] .student-shell[data-page='home'] {
+    --icon-student-nav-home-default: url('../../assets/student/0d376.svg');
+    --icon-student-nav-book-default: url('../../assets/student/24cd3.svg');
+    --icon-student-nav-camera-default: url('../../assets/student/929b7.svg');
+    --icon-student-nav-chart-default: url('../../assets/student/d840d.svg');
+    --icon-student-nav-user-default: url('../../assets/student/5b29e.svg');
+  }
+}
+@media (min-width: 600px) and (max-width: 1199px) {
+  [data-theme='dark'] .student-shell[data-page='modules'] {
+    --icon-student-nav-home-default: url('../../assets/student/0d376.svg');
+    --icon-student-nav-book-default: url('../../assets/student/24cd3.svg');
+    --icon-student-nav-camera-default: url('../../assets/student/929b7.svg');
+    --icon-student-nav-chart-default: url('../../assets/student/d840d.svg');
+    --icon-student-nav-user-default: url('../../assets/student/5b29e.svg');
+  }
+}

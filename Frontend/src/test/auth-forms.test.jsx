@@ -49,7 +49,7 @@ test('registro: formulario accesible omite apellido vacío y navega al destino s
     await userEvent.type(screen.getByLabelText(label), text);
   }
   await userEvent.click(screen.getByRole('button', { name: 'Registrarme' }));
-  expect(await screen.findByRole('heading', { name: 'Mi cuenta' })).toBeVisible();
+  expect(await screen.findByRole('heading', { name: 'Hola, Persona.' })).toBeVisible();
   const [, options] = fetchMock.mock.calls.find(([url]) => url.endsWith('/register'));
   expect(JSON.parse(options.body)).not.toHaveProperty('lastName');
   expect(JSON.parse(options.body)).not.toHaveProperty('role');

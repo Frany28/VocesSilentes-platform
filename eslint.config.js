@@ -15,6 +15,7 @@ export default [
       '.npm-cache/**',
       '.pnpm-store/**',
       '.local/**',
+      '**/.vercel/**',
     ],
   },
   js.configs.recommended,

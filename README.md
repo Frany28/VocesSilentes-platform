@@ -70,6 +70,10 @@ sirve el bundle en <http://localhost:4173> para inspección local. Preview no es
 
 ## Configuración y datos privados
 
+Para publicar la API en Vercel, usar **Root Directory: Backend** y **Node.js 22.x**.
+La entrada Express, el build Prisma y la CLI local están preparados;
+seguir [configuración, variables y despliegue](docs/vercel.md). Esto no implica una publicación remota.
+
 `Frontend/.env`: `VITE_API_URL`, pública y embebida durante el build; FRONTEND_PORT solo configura
 el servidor de desarrollo y no se expone al navegador. Nunca poner secretos en VITE_*.
 `Backend/.env`: configuración HTTP/DB y políticas de auth; exclusivas del servidor y las herramientas

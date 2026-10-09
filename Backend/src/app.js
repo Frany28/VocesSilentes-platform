@@ -12,11 +12,11 @@ import { createAuthRouter } from './modules/auth/auth.routes.js';
  * Configura Express sin abrir puertos ni depender de PostgreSQL.
  * @param {ReturnType<import('./config/env.js').parseEnv>} config Configuración validada.
  * @param {import('pino').Logger} logger Logger con serializadores seguros.
- * @param {object} [dependencies] Servicios preparados fuera de app.js.
+ * @param {{authService?: object, app?: import('express').Express}} [dependencies] Servicio y app opcional.
  * @returns {import('express').Express} Aplicación lista para arrancar o probar.
  */
 export function createApp(config, logger, dependencies = {}) {
-  const app = express();
+  const app = dependencies.app ?? express();
   app.disable('x-powered-by');
   app.set('trust proxy', config.auth.trustProxyIps.length ? config.auth.trustProxyIps : false);
   app.use(pinoHttp({ logger, wrapSerializers: false }));

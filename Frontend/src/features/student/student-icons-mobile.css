@@ -1,0 +1,32 @@
+@media (max-width: 599px) {
+  .student-shell[data-page='home'] {
+    --icon-student-nav-home-22: url('../../assets/student/53d1d.svg');
+    --icon-student-nav-book-22: url('../../assets/student/bfd11.svg');
+    --icon-student-nav-camera-22: url('../../assets/student/4e4f7.svg');
+    --icon-student-nav-user-22: url('../../assets/student/1aa6a.svg');
+  }
+}
+@media (max-width: 599px) {
+  .student-shell[data-page='modules'] {
+    --icon-student-nav-home-22: url('../../assets/student/93bb3.svg');
+    --icon-student-nav-book-22: url('../../assets/student/43e21.svg');
+    --icon-student-nav-camera-22: url('../../assets/student/4e4f7.svg');
+    --icon-student-nav-user-22: url('../../assets/student/1aa6a.svg');
+  }
+}
+@media (max-width: 599px) {
+  [data-theme='dark'] .student-shell[data-page='home'] {
+    --icon-student-nav-home-22: url('../../assets/student/cbed1.svg');
+    --icon-student-nav-book-22: url('../../assets/student/c84f3.svg');
+    --icon-student-nav-camera-22: url('../../assets/student/84e4a.svg');
+    --icon-student-nav-user-22: url('../../assets/student/e2c2c.svg');
+  }
+}
+@media (max-width: 599px) {
+  [data-theme='dark'] .student-shell[data-page='modules'] {
+    --icon-student-nav-home-22: url('../../assets/student/d7d28.svg');
+    --icon-student-nav-book-22: url('../../assets/student/0cac3.svg');
+    --icon-student-nav-camera-22: url('../../assets/student/84e4a.svg');
+    --icon-student-nav-user-22: url('../../assets/student/e2c2c.svg');
+  }
+}

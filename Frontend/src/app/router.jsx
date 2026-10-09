@@ -5,6 +5,9 @@ import { AuthPage } from '../features/auth/AuthPage.jsx';
 import { AuthGuard, AdminGuard } from '../features/auth/AuthGuard.jsx';
 import { SessionPage } from '../features/auth/SessionPage.jsx';
 import { LoginPage } from '../features/auth/login/LoginPage.jsx';
+import { StudentLayout } from '../features/student/layout/StudentLayout.jsx';
+import { StudentHome } from '../features/student/pages/StudentHome.jsx';
+import { StudentModules } from '../features/student/pages/StudentModules.jsx';
 
 /**
  * Define las rutas mínimas; permite BrowserRouter y MemoryRouter en pruebas.
@@ -13,6 +16,18 @@ import { LoginPage } from '../features/auth/login/LoginPage.jsx';
 export function createRoutes() {
   return [
     { path: '/login', element: <LoginPage /> },
+    {
+      element: <AuthGuard />,
+      children: [
+        {
+          element: <StudentLayout />,
+          children: [
+            { path: '/student', element: <StudentHome /> },
+            { path: '/student/modules', element: <StudentModules /> },
+          ],
+        },
+      ],
+    },
     {
       element: <AppLayout />,
       children: [

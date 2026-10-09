@@ -13,7 +13,7 @@ export function AuthNavigation() {
       {' · '}
       {auth.status === 'authenticated' ? (
         <>
-          <Link to="/account">Mi cuenta</Link>
+          <Link to="/student">Mi aprendizaje</Link> · <Link to="/account">Mi cuenta</Link>
           {auth.user.role === 'ADMIN' && (
             <>
               {' '}

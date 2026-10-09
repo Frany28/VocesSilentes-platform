@@ -11,6 +11,11 @@ Si PowerShell impide ejecutar un shim `.ps1`, usar `pnpm.cmd` en lugar de cambia
 políticas de ejecución. Si Corepack está disponible, puede gestionar la versión packageManager;
 no es requisito y no hay que reemplazar una instalación funcional del equipo.
 
+La CLI de Vercel está instalada en el workspace: `pnpm vercel --version` comprueba la herramienta.
+El backend se despliega con Root Directory Backend, entrada `Backend/app.js` y build Prisma;
+ver [vercel.md](vercel.md) para variables privadas, cookies, proxy y pasos de publicación.
+`.vercel/` contiene configuración/entorno privado de la CLI y se excluye de Git y controles de código.
+
 `pnpm install --frozen-lockfile` reproduce las dependencias. Para añadir una dependencia justificada,
 usar `pnpm --filter @vocessilentes/frontend add paquete@version` o el filtro backend, y `add -D`
 para herramientas. Los scripts de instalación permitidos se restringen en pnpm-workspace.yaml a

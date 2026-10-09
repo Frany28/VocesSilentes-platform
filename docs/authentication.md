@@ -84,9 +84,13 @@ por transporte, CSRF y permisos. CORS/SameSite no sustituyen CSRF.
 HTTP para auth se admite únicamente en conexiones loopback de desarrollo/test; producción exige
 HTTPS, incluso si la solicitud trae X-Forwarded-Proto arbitrario. `trust proxy` es **false** por
 defecto. `TRUST_PROXY_IPS` admite solo direcciones IP literales separadas por comas de proxies
-conocidos; nunca true, saltos genéricos o cabeceras suministradas por clientes.
+conocidos; no admite true, saltos genéricos o cabeceras suministradas por clientes.
 Si se configura, el proxy debe limpiar/sobrescribir X-Forwarded-* y el backend debe aceptar tráfico
 solo desde esos proxies. Configurar las IP reales de cada topología, no copiar valores de pruebas.
+
+La entrada exclusiva `Backend/app.js` para Vercel acepta un salto cuando `VERCEL=1` en el entorno
+privado de la plataforma, que proporciona X-Forwarded-Proto e IP. No reconoce al proveedor por
+headers ni cambia la política del servidor local. Ver [despliegue y límites](vercel.md).
 
 Producción requiere `CSRF_SECRET`: 32 bytes aleatorios como 64 caracteres hexadecimales privados,
 persistentes y compartidos entre instancias. Generarlo mediante un gestor de secretos o Node crypto

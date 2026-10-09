@@ -9,6 +9,7 @@ Backend/generated/
 .npm-cache/
 .pnpm-store/
 .local/
+.vercel/
 *.log
 .DS_Store
 Thumbs.db

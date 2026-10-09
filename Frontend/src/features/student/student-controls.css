@@ -1,0 +1,79 @@
+.student-shell .student-nav-item {
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  color: var(--content);
+  text-align: left;
+}
+.student-shell .student-nav-item[aria-current] {
+  color: var(--action-primary);
+}
+.student-shell .student-bottom-item {
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 4px;
+  width: 100%;
+  min-width: 0;
+  min-height: 64px;
+  padding: 8px;
+  border: 0;
+  text-align: center;
+  background: var(--surface);
+  font: var(--type-label);
+  color: var(--text-secondary);
+}
+.student-shell .student-bottom-item[aria-current] {
+  color: var(--action-primary);
+  background: var(--surface-accent);
+  box-shadow: none;
+}
+.student-shell .student-bottom-item .vs-navigation-marker {
+  display: none;
+}
+.student-shell .student-module-progress {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: var(--type-label);
+}
+.student-shell .student-module-progress .vs-progress-track {
+  height: 6px;
+  width: 100%;
+  background: var(--surface-neutral);
+}
+.student-shell .student-module-progress .vs-progress-caption {
+  display: none;
+}
+.student-shell .student-summary-progress {
+  width: 100%;
+  padding: 16px 0;
+}
+.student-shell .student-search[data-appearance='plain'] .vs-input-shell {
+  border-color: var(--text-secondary);
+  background: var(--surface);
+}
+.student-shell .student-lesson {
+  font: var(--type-button);
+}
+.student-shell .student-skip:focus {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 20;
+  padding: 16px;
+  background: var(--surface);
+  color: var(--content);
+}
+@media (min-width: 600px) and (max-width: 1199px) {
+  .student-nav-item {
+    justify-content: center;
+    width: 44px;
+    padding: 12px;
+    min-height: 44px;
+    background: var(--surface-accent);
+  }
+  .student-nav-item .vs-navigation-marker {
+    display: none;
+  }
+}

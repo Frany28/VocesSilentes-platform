@@ -1,7 +1,7 @@
 import { ThemeToggle } from '../../../components/ui/ThemeToggle.jsx';
 import { useAuthForm } from '../use-auth-form.js';
 import { LoginForm } from './LoginForm.jsx';
-import { LoginBrand } from './LoginBrand.jsx';
+import { Brand } from '../../../components/ui/Brand.jsx';
 import { LoginVisual } from './LoginVisual.jsx';
 import { LoginLink } from './LoginLink.jsx';
 import './login.css';
@@ -27,7 +27,7 @@ export function LoginPage() {
     >
       <div className="login-access relative flex min-w-0 flex-1 flex-col items-center gap-6 min-[1200px]:p-6">
         <header className="login-header relative flex w-full items-center justify-between gap-4">
-          <LoginBrand />
+          <Brand smallDark />
           <ThemeToggle
             className="login-theme max-[600px]:absolute! max-[600px]:top-0 max-[600px]:right-0
               max-[600px]:size-11! max-[600px]:min-h-11! max-[600px]:p-3!

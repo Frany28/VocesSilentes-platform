@@ -1,0 +1,69 @@
+.student-shell {
+  --icon-student-book-32: url('../../assets/student/3152b.svg');
+  --icon-student-lock-32: url('../../assets/student/fa53f.svg');
+  --icon-student-lock-14: url('../../assets/student/ace01.svg');
+  --icon-student-check-14: url('../../assets/student/8f406.svg');
+  --icon-student-loading-32: url('../../assets/student/e12a1.svg');
+  --icon-student-error-32: url('../../assets/student/b9e5d.svg');
+  --icon-student-empty-32: url('../../assets/student/f03ae.svg');
+  --icon-play-24: url('../../assets/auth/022bf.svg');
+  --icon-chevron-16: url('../../assets/auth/61e67.svg');
+  --student-hand: url('../../assets/student/fc96e.svg');
+  --student-orbit-outer: url('../../assets/student/3ccb9.svg');
+  --student-orbit-middle: url('../../assets/student/feee0.svg');
+  --student-orbit-inner: url('../../assets/student/0e913.svg');
+}
+[data-theme='dark'] .student-shell {
+  --icon-student-book-32: url('../../assets/student/e600b.svg');
+  --icon-student-lock-32: url('../../assets/student/d0deb.svg');
+  --icon-student-lock-14: url('../../assets/student/9b2d7.svg');
+  --icon-student-check-14: url('../../assets/student/9bdd3.svg');
+  --icon-student-loading-32: url('../../assets/student/9cf19.svg');
+  --icon-student-error-32: url('../../assets/student/73c19.svg');
+  --icon-student-empty-32: url('../../assets/student/ceb2c.svg');
+  --icon-play-24: url('../../assets/auth/5185e.svg');
+  --icon-chevron-16: url('../../assets/auth/db0f2.svg');
+  --student-hand: url('../../assets/student/1d8bd.svg');
+  --student-orbit-outer: url('../../assets/student/cceb4.svg');
+  --student-orbit-middle: url('../../assets/student/a326d.svg');
+  --student-orbit-inner: url('../../assets/student/30f63.svg');
+}
+@media (min-width: 600px) and (max-width: 1199px) {
+  .student-shell {
+    --student-orbit-outer: url('../../assets/student/aa413.svg');
+    --student-orbit-middle: url('../../assets/student/2db72.svg');
+    --student-orbit-inner: url('../../assets/student/7f467.svg');
+  }
+  [data-theme='dark'] .student-shell {
+    --student-orbit-outer: url('../../assets/student/2dd4a.svg');
+    --student-orbit-middle: url('../../assets/student/7c6f1.svg');
+    --student-orbit-inner: url('../../assets/student/7dbc4.svg');
+  }
+}
+.student-circle-large,
+.student-circle-small,
+.student-hand {
+  position: absolute;
+  background-repeat: no-repeat;
+}
+.student-circle-large {
+  top: 18px;
+  left: min(204px, calc(100% - 76px));
+  width: 76px;
+  height: 76px;
+  background-image: url('../../assets/student/414ed.svg');
+}
+.student-circle-small {
+  top: 28px;
+  left: min(48px, calc(100% - 232px));
+  width: 54px;
+  height: 54px;
+  background-image: url('../../assets/student/f69b0.svg');
+}
+.student-hand {
+  top: 0;
+  left: min(112px, calc(100% - 168px));
+  width: 100px;
+  height: 112px;
+  background-image: var(--student-hand);
+}

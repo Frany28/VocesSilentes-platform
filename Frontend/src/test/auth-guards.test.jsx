@@ -73,6 +73,6 @@ test('retornos: permite ADMIN solo con rol confirmado y rechaza destinos externo
     '/account?next=evil',
     '%2f%2fhost',
   ]) {
-    expect(safeReturnPath(path, 'USER')).toBe('/account');
+    expect(safeReturnPath(path, 'USER')).toBe('/student');
   }
 });

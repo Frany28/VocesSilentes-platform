@@ -1,0 +1,89 @@
+.student-hero {
+  --student-hero-stops: #eaf4f6 0%, #e9dfff 48.571%, #fff5d6 71.429%;
+  --orbit-size: 256px;
+  --orbit-top: 32px;
+  --art-right: 20px;
+  --logo-width: 198px;
+  --logo-height: 152.892px;
+  background: linear-gradient(120.08235deg, var(--student-hero-stops));
+}
+[data-theme='dark'] .student-hero {
+  --student-hero-stops: #20373c 0%, #38304f 48.571%, #3d3420 71.429%;
+}
+.student-hero-copy {
+  width: 100%;
+}
+.student-hero-art > span {
+  position: absolute;
+  right: var(--art-right);
+  background-repeat: no-repeat;
+}
+.student-orbit-outer {
+  top: var(--orbit-top);
+  width: var(--orbit-size);
+  height: var(--orbit-size);
+  background-image: var(--student-orbit-outer);
+}
+.student-orbit-middle {
+  top: calc(var(--orbit-top) + 14px);
+  width: calc(var(--orbit-size) - 28px);
+  height: calc(var(--orbit-size) - 28px);
+  background-image: var(--student-orbit-middle);
+}
+.student-orbit-inner {
+  top: calc(var(--orbit-top) + 28px);
+  width: calc(var(--orbit-size) - 56px);
+  height: calc(var(--orbit-size) - 56px);
+  background-image: var(--student-orbit-inner);
+}
+.student-hero-logo {
+  position: absolute;
+  right: calc(var(--art-right) + 4px);
+  top: 75px;
+  width: var(--logo-width);
+  height: var(--logo-height);
+  overflow: hidden;
+}
+.student-hero-logo img {
+  position: absolute;
+  max-width: none;
+  width: 206.39%;
+  height: 178.28%;
+  left: -54.61%;
+  top: -20.47%;
+}
+.student-module-cover[data-color='secondary'] {
+  background: var(--surface-secondary);
+}
+.student-module-cover[data-color='tertiary'] {
+  background: var(--surface-tertiary);
+}
+.student-module-cover[data-color='accent'] {
+  background: var(--surface-accent);
+}
+@media (min-width: 600px) {
+  .student-hero {
+    --orbit-size: 202px;
+    --orbit-top: 59px;
+    --art-right: 44px;
+    --logo-width: 138px;
+    --logo-height: 106.561px;
+    background: linear-gradient(138.80175deg, var(--student-hero-stops));
+  }
+  .student-hero-copy {
+    width: min(392px, calc(100% - 206px));
+  }
+}
+@media (min-width: 1200px) {
+  .student-hero {
+    --orbit-size: 256px;
+    --orbit-top: 32px;
+    --art-right: 20px;
+    --logo-width: 198px;
+    --logo-height: 152.892px;
+    background: linear-gradient(144.24611deg, var(--student-hero-stops));
+  }
+  .student-hero-copy {
+    width: calc(100% - 248px);
+  }
+}

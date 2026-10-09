@@ -1,0 +1,38 @@
+.vs-brand[data-size='full'] .vs-brand-isotype {
+  width: 45.723px;
+  height: 40px;
+}
+.vs-brand-compact-light,
+.vs-brand-compact-dark {
+  position: relative;
+  overflow: hidden;
+  height: 32.014px;
+  width: 41.459px;
+}
+.vs-brand-compact-light img {
+  position: absolute;
+  max-width: none;
+  width: 206.39%;
+  height: 178.28%;
+  left: -54.61%;
+  top: -20.47%;
+}
+.vs-brand-compact-dark {
+  display: none;
+  width: 36.578px;
+  height: 32px;
+}
+.vs-brand-compact-dark img {
+  position: absolute;
+  max-width: none;
+  width: 100.04%;
+  height: 110.58%;
+  left: -0.02%;
+  top: -10.58%;
+}
+[data-theme='dark'] .vs-brand-compact-light {
+  display: none;
+}
+[data-theme='dark'] .vs-brand-compact-dark {
+  display: block;
+}

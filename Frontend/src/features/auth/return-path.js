@@ -7,5 +7,6 @@
 export function safeReturnPath(target, role) {
   if (target === '/admin' && role === 'ADMIN') return target;
   if (target === '/account') return target;
-  return role === 'ADMIN' ? '/admin' : '/account';
+  if (target === '/student' || target === '/student/modules') return target;
+  return role === 'ADMIN' ? '/admin' : '/student';
 }

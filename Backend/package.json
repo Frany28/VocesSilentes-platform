@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=22.23.1 <23"
+  },
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
@@ -20,6 +23,7 @@
   "dependencies": {
     "@prisma/adapter-pg": "7.10.0",
     "@prisma/client": "7.10.0",
+    "@vercel/functions": "3.9.11",
     "argon2": "0.45.1",
     "cookie-parser": "1.4.7",
     "cors": "2.8.6",

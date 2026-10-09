@@ -34,10 +34,10 @@ test('Retry-After conserva segundos y fechas HTTP; nunca inventa tiempos para ca
 });
 
 test('destino por rol respeta solamente retornos publicados y autorizados', () => {
-  expect(safeReturnPath(undefined, 'USER')).toBe('/account');
+  expect(safeReturnPath(undefined, 'USER')).toBe('/student');
   expect(safeReturnPath(undefined, 'ADMIN')).toBe('/admin');
   expect(safeReturnPath('/account', 'ADMIN')).toBe('/account');
-  expect(safeReturnPath('/admin', 'USER')).toBe('/account');
+  expect(safeReturnPath('/admin', 'USER')).toBe('/student');
   for (const target of ['//evil.invalid', '/admin?next=x', '/account/../admin', '/register', {}]) {
     expect(safeReturnPath(target, 'ADMIN')).toBe('/admin');
   }

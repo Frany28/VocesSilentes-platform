@@ -1,6 +1,6 @@
 /**
  * Presenta el SVG original a su tamaño nativo; hereda el recurso del tema más cercano.
- * @param {{name: string, tone?: string, size?: 16|20|24, className?: string}} props Icono decorativo.
+ * @param {{name: string, tone?: string, size?: 14|16|20|22|24|32, className?: string}} props Icono decorativo.
  * @returns {import('react').ReactElement} Recurso local sin redibujar ni recolorear el SVG.
  */
 export function Icon({ name, tone = 'default', size = 24, className = '' }) {

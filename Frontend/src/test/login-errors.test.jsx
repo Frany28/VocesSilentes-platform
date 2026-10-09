@@ -41,7 +41,7 @@ test.each([
     await userEvent.type(screen.getByLabelText('Contraseña'), 'b');
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     await userEvent.keyboard('{Enter}');
-    expect(await screen.findByRole('heading', { name: 'Mi cuenta' })).toBeVisible();
+    expect(await screen.findByRole('heading', { name: 'Hola, Persona.' })).toBeVisible();
     if (code === 'CSRF_INVALID') {
       expect(fetchMock.mock.calls.filter(([url]) => url.endsWith('/csrf'))).toHaveLength(2);
     }

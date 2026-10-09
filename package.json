@@ -12,6 +12,7 @@
     "dev": "pnpm --parallel --filter @vocessilentes/frontend --filter @vocessilentes/backend run dev",
     "dev:frontend": "pnpm --filter @vocessilentes/frontend dev",
     "dev:backend": "pnpm --filter @vocessilentes/backend dev",
+    "vercel": "vercel",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -35,6 +36,7 @@
     "eslint-plugin-react-hooks": "7.1.1",
     "eslint-plugin-react-refresh": "0.5.7",
     "globals": "17.13.0",
-    "prettier": "3.9.9"
+    "prettier": "3.9.9",
+    "vercel": "63.1.2"
   }
 }

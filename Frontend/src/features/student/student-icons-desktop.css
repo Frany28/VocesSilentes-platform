@@ -1,0 +1,36 @@
+.student-shell[data-page='home'] {
+  --icon-student-nav-home-default: url('../../assets/student/18adf.svg');
+  --icon-student-nav-book-default: url('../../assets/icons/c6aec.svg');
+  --icon-student-nav-camera-default: url('../../assets/student/4c036.svg');
+  --icon-student-nav-chart-default: url('../../assets/student/31e0b.svg');
+  --icon-student-nav-user-default: url('../../assets/student/02f10.svg');
+  --icon-student-nav-flag-default: url('../../assets/student/5a25b.svg');
+  --icon-student-nav-logout-default: url('../../assets/student/c51ca.svg');
+}
+.student-shell[data-page='modules'] {
+  --icon-student-nav-home-default: url('../../assets/student/0a876.svg');
+  --icon-student-nav-book-default: url('../../assets/icons/90966.svg');
+  --icon-student-nav-camera-default: url('../../assets/student/14d2d.svg');
+  --icon-student-nav-chart-default: url('../../assets/student/31e0b.svg');
+  --icon-student-nav-user-default: url('../../assets/student/12707.svg');
+  --icon-student-nav-flag-default: url('../../assets/student/5a25b.svg');
+  --icon-student-nav-logout-default: url('../../assets/student/c51ca.svg');
+}
+[data-theme='dark'] .student-shell[data-page='home'] {
+  --icon-student-nav-home-default: url('../../assets/student/b2868.svg');
+  --icon-student-nav-book-default: url('../../assets/icons/ba9d3.svg');
+  --icon-student-nav-camera-default: url('../../assets/student/80bd2.svg');
+  --icon-student-nav-chart-default: url('../../assets/student/a279e.svg');
+  --icon-student-nav-user-default: url('../../assets/student/103ed.svg');
+  --icon-student-nav-flag-default: url('../../assets/student/7a352.svg');
+  --icon-student-nav-logout-default: url('../../assets/student/f0795.svg');
+}
+[data-theme='dark'] .student-shell[data-page='modules'] {
+  --icon-student-nav-home-default: url('../../assets/student/c4967.svg');
+  --icon-student-nav-book-default: url('../../assets/icons/17bb2.svg');
+  --icon-student-nav-camera-default: url('../../assets/student/b21fd.svg');
+  --icon-student-nav-chart-default: url('../../assets/student/a279e.svg');
+  --icon-student-nav-user-default: url('../../assets/student/5bfd7.svg');
+  --icon-student-nav-flag-default: url('../../assets/student/7a352.svg');
+  --icon-student-nav-logout-default: url('../../assets/student/f0795.svg');
+}

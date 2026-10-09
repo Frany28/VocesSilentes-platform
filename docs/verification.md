@@ -1,5 +1,28 @@
 # Verificación
 
+## Preparación del backend para Vercel — 9 de octubre de 2026
+
+Windows, Node **22.23.1**, pnpm **10.18.2**. `pnpm verify` terminó con **código 0**:
+lint sin errores/advertencias, formato, **57 pruebas frontend**, **34 backend** y
+**30 de integración SQL aislada** (121 en total), Prisma validate y ambos builds correctos.
+El primer intento dentro del sandbox terminó en `spawn EPERM` al iniciar pruebas; la ejecución
+con permisos de procesos completó todos los controles. No fue un fallo de la aplicación.
+
+La CLI instalada responde como **63.1.2**. El detector oficial `@vercel/express` seleccionó
+`Backend/app.js`, y el análisis local `@vercel/nft` incluye `generated/client.js` y el binding Argon2
+de Windows, sin archivos `.env`. El análisis informa cinco referencias opcionales/no aplicables a
+Node (`pg-native`, `supports-color`, `cloudflare:sockets`, `bufferutil`, `utf-8-validate`);
+no se añadieron dependencias que la aplicación no usa. El build Linux del binding sigue pendiente.
+
+Dos pruebas nuevas ejecutan la entrada real aislada: rutas, CORS/preflight, errores, cookies Secure
+y SameSite=None detrás del proxy Vercel; fuera de Vercel, headers arbitrarios no permiten auth HTTP.
+Otra prueba usa PostgreSQL WASM por TCP para comprobar la consulta y cierre del pool externo Vercel.
+`pnpm db:check` completó SELECT 1 contra la conexión privada existente, sin cambios de datos.
+
+No se vincularon cuentas/proyectos ni se publicaron despliegues. No se ejecutaron `vercel build`
+vinculado ni GitHub Actions; configuración remota, TLS, cookies reales y permisos de producción
+deben comprobarse al seguir [vercel.md](vercel.md). Se conservaron los cambios existentes del frontend.
+
 ## Migración del login a Tailwind — 9 de octubre de 2026
 
 Verificación local: `pnpm lint`, `pnpm format:check`, las **45 pruebas frontend** y

@@ -18,6 +18,7 @@ El único pnpm-lock.yaml fija transitivas. pnpm exige engines y peers compatible
 | eslint-plugin-react-hooks   | 7.1.1            | Reglas de hooks                                                                        |
 | eslint-plugin-react-refresh | 0.5.7            | Exportaciones compatibles con Fast Refresh                                             |
 | globals                     | 17.13.0          | Entornos navegador y Node                                                              |
+| vercel                      | 63.1.2           | CLI local de desarrollo para vincular, construir y publicar la API en Vercel           |
 
 ## Frontend
 
@@ -42,6 +43,7 @@ El único pnpm-lock.yaml fija transitivas. pnpm exige engines y peers compatible
 | express                             | 5.3.0           | Producción; HTTP                                                                               |
 | @prisma/client / @prisma/adapter-pg | 7.10.0          | Producción; cliente y adaptador requeridos por Prisma 7                                        |
 | pg                                  | 8.23.1          | Producción; driver PostgreSQL del adaptador                                                    |
+| @vercel/functions                   | 3.9.11          | Producción; attachDatabasePool para liberar conexiones ociosas con Fluid compute               |
 | zod / dotenv                        | 4.6.5 / 18.0.7  | Producción; validación y carga del entorno privado                                             |
 | cors / helmet                       | 2.8.6 / 8.3.0   | Producción; política de orígenes y cabeceras                                                   |
 | pino / pino-http                    | 10.4.0 / 11.0.0 | Producción; logs estructurados de proceso y HTTP                                               |
@@ -56,6 +58,12 @@ El único pnpm-lock.yaml fija transitivas. pnpm exige engines y peers compatible
 | @electric-sql/pglite-socket         | 0.2.11          | Desarrollo; protocolo PostgreSQL TCP para integración PrismaPg real en base efímera            |
 
 No se agregaron Redux, microservicios, Docker, colas, Redis, JWT ni otra solución de autenticación.
+
+La CLI Vercel y @vercel/functions se comprobaron en npm: ambas requieren Node >=20, compatible
+con Node 22.23.1. Se fijaron versiones estables y se mantuvo un único lockfile. La CLI no se incluye
+como dependencia del runtime del backend. La integración sigue las guías oficiales de
+[Express](https://vercel.com/docs/frameworks/backend/express) y
+[Prisma/Fluid compute](https://www.prisma.io/docs/orm/v7/prisma-client/deployment/serverless/deploy-to-vercel).
 Las dependencias de auth se justifican en [authentication.md](authentication.md); no se implementan
 primitivas criptográficas CSRF ni hashing de contraseñas propios.
 PGlite se añade únicamente a devDependencies para pruebas de restricciones y permisos reales de SQL;
