@@ -12,4 +12,4 @@ Backend/generated/
 *.log
 .DS_Store
 Thumbs.db
-.AGENTS
+.AGENTS.md
