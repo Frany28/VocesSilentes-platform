@@ -1,0 +1,14 @@
+node_modules/
+dist/
+coverage/
+.vitest/
+.env
+.env.*
+!.env.example
+Backend/generated/
+.npm-cache/
+.pnpm-store/
+.local/
+*.log
+.DS_Store
+Thumbs.db
