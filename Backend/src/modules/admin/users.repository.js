@@ -6,6 +6,19 @@
 export function createUsersRepository(database) {
   return {
     find: (id) => database.user.findUnique({ where: { id } }),
+    async conflicts(identity, excludedId) {
+      const rows = await database.user.findMany({
+        where: {
+          OR: [{ email: identity.email }, { username: identity.username }],
+          ...(excludedId ? { id: { not: excludedId } } : {}),
+        },
+        select: { email: true, username: true },
+      });
+      return {
+        email: rows.some((row) => row.email === identity.email),
+        username: rows.some((row) => row.username === identity.username),
+      };
+    },
     write: (actorId, userId, operation) =>
       database.$transaction(async (tx) => {
         // Un bloqueo compartido por todas las escrituras evita dos degradaciones simultáneas.

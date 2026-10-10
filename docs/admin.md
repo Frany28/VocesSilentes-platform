@@ -71,7 +71,10 @@ las respuestas llevan `Cache-Control: no-store`. No se crea otra autenticación 
 Creación exige firstName, username, email, password, role (`USER`/`ADMIN`) e isActive booleano.
 lastName es opcional y nullable. Se reutilizan identidad, normalización y Argon2id de auth.
 Por solicitud del usuario, crear desde Admin permite 8–128 caracteres Unicode, hasta 512 bytes;
-no se recorta ni normaliza la contraseña. Esto reemplaza el mínimo de 15 del diseño para este flujo;
+exige al menos una letra mayúscula Unicode y un signo de puntuación/símbolo (por ejemplo !, @ o #).
+Los espacios no satisfacen el requisito de carácter especial. El frontend muestra requisitos y
+errores junto al campo, y Zod vuelve a comprobarlos en el servidor.
+No se recorta ni normaliza la contraseña. Esto reemplaza el mínimo de 15 del diseño para este flujo;
 el registro público conserva su mínimo de 15. Login admite las cuentas creadas con ambos mínimos.
 El correo empieza con emailVerified=false, también para administradores. No se crea sesión para la cuenta.
 Estado inicial inactivo impide entrar según las comprobaciones existentes de auth.
@@ -82,6 +85,11 @@ lastName vacío se representa como null. Cambiar el correo canónico restablece 
 mantenerlo conserva su valor. No se envía correo porque el proyecto aún no tiene ese flujo.
 Los UNIQUE existentes incluyen cuentas eliminadas y resuelven también conflictos concurrentes;
 actualizar una cuenta con su propio correo/username no genera un conflicto.
+Al enviar, PostgreSQL comprueba unicidad; tras un conflicto se consultan solo los identificadores
+necesarios, excluyendo la cuenta editada. El endpoint ADMIN devuelve 409 EMAIL_IN_USE,
+USERNAME_IN_USE o ACCOUNT_IDENTIFIERS_IN_USE y el frontend señala únicamente los campos afectados.
+ACCOUNT_UNAVAILABLE queda como fallback si una modificación concurrente liberó el identificador.
+El registro público conserva su error genérico; no existe un endpoint público de disponibilidad.
 
 La transacción toma un advisory lock de PostgreSQL compartido por las escrituras administrativas,
 bloquea las filas de actor/cuenta y vuelve a comprobar permisos del actor. No permite degradar el rol

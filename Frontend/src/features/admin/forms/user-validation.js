@@ -8,6 +8,11 @@ import { validateRegistration } from '../../auth/registration/registration-valid
 export function validateAdminUser(input, creating) {
   const errors = validateRegistration(input, 8);
   if (!creating) delete errors.password;
+  else if (!errors.password) {
+    if (!/\p{Lu}/u.test(input.password)) errors.password = 'Incluye al menos una letra mayúscula.';
+    else if (!/[\p{P}\p{S}]/u.test(input.password))
+      errors.password = 'Incluye al menos un carácter especial, como !, @ o #.';
+  }
   if (!['USER', 'ADMIN'].includes(input.role)) errors.role = 'Selecciona Usuario o Admin.';
   if (creating && !['true', 'false'].includes(input.isActive))
     errors.isActive = 'Selecciona Activo o Desactivado.';

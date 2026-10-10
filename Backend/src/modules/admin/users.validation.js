@@ -7,7 +7,10 @@ const identity = registrationSchema.omit({ password: true }).extend({
 });
 export const createUserSchema = identity.extend({
   // Admin permite desde 8 caracteres; conserva los límites y la contraseña exacta de auth.
-  password: loginSchema.shape.password.refine((value) => [...value].length >= 8),
+  password: loginSchema.shape.password
+    .refine((value) => [...value].length >= 8)
+    .regex(/\p{Lu}/u)
+    .regex(/[\p{P}\p{S}]/u),
   isActive: z.boolean(),
 });
 export const editUserSchema = identity.required({ firstName: true, email: true, username: true });

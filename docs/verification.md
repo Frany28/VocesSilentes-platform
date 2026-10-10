@@ -1,5 +1,23 @@
 # Verificación
 
+## Composición de contraseña y duplicados en Admin — 9 de octubre de 2026
+
+Crear usuario exige 8–128 caracteres, una mayúscula Unicode y un carácter de puntuación/símbolo;
+los espacios no cuentan como especial. Frontend muestra ayuda y errores por campo y el servidor
+repite esas reglas. La autenticación de cuentas existentes y el registro público se conservan.
+PostgreSQL comprueba correo/username únicos al crear y editar; los errores ADMIN distinguen
+EMAIL_IN_USE, USERNAME_IN_USE y ACCOUNT_IDENTIFIERS_IN_USE, excluyendo la cuenta editada.
+El formulario muestra solo los campos duplicados y conserva los datos para corregirlos.
+
+La primera ejecución conjunta falló esperando la cabecera de detalle en una prueba de edición;
+las diez pruebas de formularios aisladas pasaron. Después del ajuste del fallback genérico,
+la repetición completa de `pnpm verify` terminó con código 0: lint sin advertencias, formato,
+73 pruebas frontend, 34 unitarias backend, Prisma, build y 35 SQL (142 en total).
+SQL comprobó siete/129 caracteres rechazados, ocho/128 aceptados, ausencia de mayúscula/símbolo,
+espacio insuficiente, mayúscula Unicode, persistencia, login, duplicados canónicos y propia cuenta.
+Sin base de producción, migraciones nuevas, dependencias, despliegue ni GitHub Actions.
+Log local: `.local/admin-validation-verify.log`.
+
 ## Mínimo de contraseña en Crear usuario — 9 de octubre de 2026
 
 Por solicitud del usuario, creación administrativa cambió de 15 a 8 caracteres mínimos,

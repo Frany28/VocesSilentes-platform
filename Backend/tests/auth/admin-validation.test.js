@@ -24,8 +24,11 @@ const update = (actor, user, body) =>
 test('admin: whitelist, correo, contraseña, roles, estados y duplicados', async () => {
   const admin = await administrator();
   for (const change of [
-    { password: 'Abcd123' },
-    { password: 'x'.repeat(129) },
+    { password: 'Abcd12!' },
+    { password: 'A' + 'x'.repeat(127) + '!' },
+    { password: 'abcd123!' },
+    { password: 'Abcd1234' },
+    { password: 'Abcd123 ' },
     { email: 'mal' },
     { role: 'OWNER' },
     { isActive: 'true' },
@@ -34,10 +37,18 @@ test('admin: whitelist, correo, contraseña, roles, estados y duplicados', async
     { username: 'dos.puntos' },
   ])
     await create(admin, { ...input(), ...change }).expect(400);
+  await create(admin, { ...input(), password: 'A' + 'x'.repeat(126) + '!' }).expect(201);
   const body = input();
   const user = (await create(admin, body).expect(201)).body.data.user;
-  await create(admin, { ...input(), email: body.email.toUpperCase() }).expect(409);
-  await create(admin, { ...input(), username: body.username.toUpperCase() }).expect(409);
+  const email = await create(admin, { ...input(), email: body.email.toUpperCase() }).expect(409);
+  assert.equal(email.body.error.code, 'EMAIL_IN_USE');
+  const username = await create(admin, {
+    ...input(),
+    username: body.username.toUpperCase(),
+  }).expect(409);
+  assert.equal(username.body.error.code, 'USERNAME_IN_USE');
+  const both = await create(admin, body).expect(409);
+  assert.equal(both.body.error.code, 'ACCOUNT_IDENTIFIERS_IN_USE');
   for (const change of [
     { isActive: false },
     { password: 'Otra contraseña larga' },
@@ -52,8 +63,18 @@ test('admin: edición persistida, unicidad excluye propia cuenta y correo vuelve
   const admin = await administrator();
   const user = (await create(admin, input()).expect(201)).body.data.user;
   const other = (await create(admin, input()).expect(201)).body.data.user;
-  await update(admin, user, { ...edit(user), email: other.email }).expect(409);
-  await update(admin, user, { ...edit(user), username: other.username }).expect(409);
+  const email = await update(admin, user, { ...edit(user), email: other.email }).expect(409);
+  assert.equal(email.body.error.code, 'EMAIL_IN_USE');
+  const username = await update(admin, user, { ...edit(user), username: other.username }).expect(
+    409,
+  );
+  assert.equal(username.body.error.code, 'USERNAME_IN_USE');
+  const both = await update(admin, user, {
+    ...edit(user),
+    email: other.email,
+    username: other.username,
+  }).expect(409);
+  assert.equal(both.body.error.code, 'ACCOUNT_IDENTIFIERS_IN_USE');
   await fixture.database.user.update({ where: { id: user.id }, data: { emailVerified: true } });
   assert.equal(
     (await update(admin, user, edit(user)).expect(200)).body.data.user.emailVerified,

@@ -38,12 +38,18 @@ export function UserFields({ values, errors, change, creating }) {
         'Único: 3–50 letras, números o guiones bajos.',
         { required: true, maxLength: 50, autoComplete: 'off' },
       )}
-      {field('email', 'Correo', 'nombre@ejemplo.com', 'Se utiliza para iniciar sesión', {
-        type: 'email',
-        required: true,
-        maxLength: 254,
-        autoComplete: 'off',
-      })}
+      {field(
+        'email',
+        'Correo',
+        'nombre@ejemplo.com',
+        'Debe ser único; se usa para iniciar sesión',
+        {
+          type: 'email',
+          required: true,
+          maxLength: 254,
+          autoComplete: 'off',
+        },
+      )}
       <div className={creating ? 'admin-name-row' : undefined}>
         <AdminSelect
           label="Rol"
@@ -80,7 +86,7 @@ export function UserFields({ values, errors, change, creating }) {
           name="password"
           label="Contraseña"
           placeholder="Ingresa tu contraseña"
-          help="Entre 8 y 128 caracteres."
+          help="8–128 caracteres, una mayúscula y un carácter especial (ej.: !, @ o #)."
           error={errors.password}
           value={values.password}
           onChange={change}

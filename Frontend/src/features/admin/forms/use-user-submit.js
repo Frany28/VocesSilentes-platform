@@ -4,6 +4,20 @@ import { useAuth } from '../../auth/use-auth.js';
 import { useAdmin } from '../data/admin-context.js';
 import { validateAdminUser, userPayload } from './user-validation.js';
 
+const conflictMessages = {
+  email: 'Este correo ya está registrado.',
+  username: 'Este nombre de usuario ya existe.',
+};
+const conflictFields = {
+  EMAIL_IN_USE: { email: conflictMessages.email },
+  USERNAME_IN_USE: { username: conflictMessages.username },
+  ACCOUNT_IDENTIFIERS_IN_USE: conflictMessages,
+  ACCOUNT_UNAVAILABLE: {
+    email: 'Revisa si el correo ya existe.',
+    username: 'Revisa si el usuario ya existe.',
+  },
+};
+
 /**
  * Envía creación/edición con exclusión de doble envío y aborta al salir; éxito solo tras respuesta real.
  * @param {object | undefined} user Cuenta original o undefined para crear.
@@ -61,11 +75,8 @@ export function useUserSubmit(user) {
     } catch (reason) {
       if (!controller.signal.aborted) {
         setError(reason.message);
-        if (reason.code === 'ACCOUNT_UNAVAILABLE')
-          setErrors({
-            email: 'Revisa si el correo ya existe.',
-            username: 'Revisa si el usuario ya existe.',
-          });
+        const fields = conflictFields[reason.code];
+        if (fields) setErrors(fields);
       }
     } finally {
       if (!controller.signal.aborted) {

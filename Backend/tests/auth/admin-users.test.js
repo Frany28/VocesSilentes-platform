@@ -36,7 +36,7 @@ test('admin: anónimo 401, estudiante 403, CSRF obligatorio y sin listado nuevo'
 
 test('admin: creación, hashing real, acceso existente y lectura tras recarga', async () => {
   const admin = await administrator();
-  const body = { ...input(), password: 'Abcd1234' };
+  const body = { ...input(), password: 'Ábcd123!' };
   const response = await create(admin, body).expect(201);
   const user = response.body.data.user;
   assert.equal(user.emailVerified, false);
