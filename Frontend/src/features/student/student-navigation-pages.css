@@ -1,0 +1,54 @@
+/* Destinos nuevos: mismos recursos originales de navegación, sin recolorear paths. */
+.student-shell {
+  --icon-student-nav-home-default: url('../../assets/student/0a876.svg');
+  --icon-student-nav-book-default: var(--icon-book-default);
+  --icon-student-nav-camera-default: url('../../assets/student/14d2d.svg');
+  --icon-student-nav-chart-default: url('../../assets/student/31e0b.svg');
+  --icon-student-nav-user-default: url('../../assets/student/12707.svg');
+  --icon-student-nav-flag-default: url('../../assets/student/5a25b.svg');
+  --icon-student-nav-logout-default: url('../../assets/student/c51ca.svg');
+  --icon-student-nav-home-22: url('../../assets/student/93bb3.svg');
+  --icon-student-nav-book-22: url('../../assets/student/bfd11.svg');
+  --icon-student-nav-camera-22: url('../../assets/student/4e4f7.svg');
+  --icon-student-nav-user-22: url('../../assets/student/1aa6a.svg');
+}
+.student-shell[data-page='practice'] {
+  --icon-student-nav-camera-default: url('../../assets/student/2afc9.svg');
+  --icon-student-nav-camera-22: url('../../assets/student/e9800.svg');
+}
+[data-theme='dark'] .student-shell {
+  --icon-student-nav-home-default: url('../../assets/student/c4967.svg');
+  --icon-student-nav-camera-default: url('../../assets/student/b21fd.svg');
+  --icon-student-nav-chart-default: url('../../assets/student/a279e.svg');
+  --icon-student-nav-user-default: url('../../assets/student/5bfd7.svg');
+  --icon-student-nav-flag-default: url('../../assets/student/7a352.svg');
+  --icon-student-nav-logout-default: url('../../assets/student/f0795.svg');
+  --icon-student-nav-home-22: url('../../assets/student/d7d28.svg');
+  --icon-student-nav-book-22: url('../../assets/student/c84f3.svg');
+  --icon-student-nav-camera-22: url('../../assets/student/84e4a.svg');
+  --icon-student-nav-user-22: url('../../assets/student/e2c2c.svg');
+}
+[data-theme='dark'] .student-shell[data-page='practice'] {
+  --icon-student-nav-camera-default: url('../../assets/student/983a1.svg');
+}
+@media (600px <= width < 1200px) {
+  .student-shell {
+    --icon-student-nav-home-default: url('../../assets/student/9210a.svg');
+    --icon-student-nav-book-default: url('../../assets/student/41025.svg');
+    --icon-student-nav-camera-default: url('../../assets/student/6bc52.svg');
+    --icon-student-nav-chart-default: url('../../assets/student/b92e9.svg');
+    --icon-student-nav-user-default: url('../../assets/student/8aa47.svg');
+  }
+  [data-theme='dark'] .student-shell {
+    --icon-student-nav-home-default: url('../../assets/student/0d376.svg');
+    --icon-student-nav-book-default: url('../../assets/student/24cd3.svg');
+    --icon-student-nav-camera-default: url('../../assets/student/929b7.svg');
+    --icon-student-nav-chart-default: url('../../assets/student/d840d.svg');
+    --icon-student-nav-user-default: url('../../assets/student/5b29e.svg');
+  }
+}
+@media (max-width: 359px) {
+  .student-shell .student-bottom-item {
+    padding: 8px 2px;
+  }
+}

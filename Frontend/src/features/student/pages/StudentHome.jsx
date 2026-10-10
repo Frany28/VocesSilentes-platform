@@ -24,7 +24,7 @@ export function StudentHome() {
   );
   const lesson = (current && moduleProgress(current).state === 'completed' ? next : current)
     ?.nextLesson;
-  const demo = import.meta.env.DEV && snapshot?.source !== 'api';
+  const demo = snapshot?.source === 'demo';
   return (
     <div className="flex flex-col gap-6">
       <StudentPageHeader

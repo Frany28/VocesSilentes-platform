@@ -29,7 +29,7 @@ test('protege acceso directo y vuelve a Mis módulos tras login con sesión real
   expect(await screen.findByRole('article', { name: 'Saludos y presentaciones' })).toBeVisible();
 });
 
-test('navega entre páginas y filtra por nombre/estado, sin abrir funciones pendientes', async () => {
+test('filtra por nombre/estado y abre la práctica demostrativa desde el catálogo', async () => {
   vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse({ data: { user } })));
   renderAuthApp('/student');
   expect(await screen.findByRole('heading', { name: 'Hola, Persona.' })).toBeVisible();
@@ -47,15 +47,9 @@ test('navega entre páginas y filtra por nombre/estado, sin abrir funciones pend
   await userEvent.click(
     within(screen.getByRole('article')).getByRole('button', { name: 'Seguir aprendiendo' }),
   );
-  expect(screen.getByText('Saludos y presentaciones: disponible próximamente.')).toBeVisible();
-  expect(screen.getByRole('heading', { name: 'Mis módulos' })).toBeVisible();
-  await userEvent.click(
-    within(screen.getByRole('navigation', { name: 'Navegación de estudiante' })).getByRole(
-      'button',
-      { name: 'Practicar, próximamente' },
-    ),
-  );
-  expect(screen.getByText('Practicar: disponible próximamente.')).toBeVisible();
+  expect(await screen.findByRole('heading', { name: 'Practicar' })).toBeVisible();
+  expect(screen.getByText(/Demostración de práctica/)).toBeVisible();
+  expect(screen.getByRole('heading', { name: 'Cómo presentarme' })).toBeVisible();
 });
 
 test('logout preserva sesión ante fallo, evita duplicados y usa cookies/CSRF; éxito vuelve a login', async () => {

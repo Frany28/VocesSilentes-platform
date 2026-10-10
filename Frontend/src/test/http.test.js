@@ -77,6 +77,7 @@ test('no permite rutas que salgan de la API configurada', async () => {
 test('valida configuración pública sin mostrar credenciales en el error', () => {
   expect(parsePublicConfig({ VITE_API_URL: 'https://example.invalid/api/' })).toEqual({
     apiUrl: 'https://example.invalid/api',
+    studentDemo: false,
   });
   for (const url of ['invalid-url', 'file:///private', 'https://user:secret@example.invalid/api']) {
     expect(() => parsePublicConfig({ VITE_API_URL: url })).toThrow(

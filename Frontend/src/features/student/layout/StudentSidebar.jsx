@@ -24,7 +24,7 @@ export function StudentSidebar({ onUnavailable, onLogout, pending }) {
       <p className="hidden text-muted [font:var(--type-label)] min-[1200px]:block">
         MI APRENDIZAJE
       </p>
-      <StudentNavigation onUnavailable={onUnavailable} />
+      <StudentNavigation />
       <p className="hidden text-muted [font:var(--type-label)] min-[1200px]:block">
         AYUDA Y CUENTA
       </p>

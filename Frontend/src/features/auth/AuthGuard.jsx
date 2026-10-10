@@ -37,3 +37,21 @@ export function AdminGuard() {
     );
   return <Outlet />;
 }
+
+/**
+ * Restringe Student al rol USER confirmado; no sustituye autorización de los recursos de la API.
+ * @returns {import('react').ReactElement} Entorno de estudiante o aviso de permisos sin cerrar sesión.
+ */
+export function StudentGuard() {
+  const auth = useAuth();
+  if (auth.user?.role !== 'USER')
+    return (
+      <div>
+        <p role="alert">No tienes permiso para acceder al área de estudiante.</p>
+        <Link to={auth.user?.role === 'ADMIN' ? '/admin' : '/account'}>
+          {auth.user?.role === 'ADMIN' ? 'Ir a administración' : 'Mi cuenta'}
+        </Link>
+      </div>
+    );
+  return <Outlet />;
+}

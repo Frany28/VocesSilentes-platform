@@ -23,7 +23,7 @@ export function StudentModules() {
   const [filter, setFilter] = useState('all');
   const modules = snapshot?.modules || [];
   const results = filterModules(modules, query, filter);
-  const demo = import.meta.env.DEV && snapshot?.source !== 'api';
+  const demo = snapshot?.source === 'demo';
   return (
     <div className="flex flex-col gap-6">
       <StudentPageHeader catalog status={status} demo={demo} />

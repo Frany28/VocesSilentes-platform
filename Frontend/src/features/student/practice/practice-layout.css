@@ -1,0 +1,91 @@
+.practice-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+.practice-brief h2 {
+  font-size: 30px;
+  line-height: 38px;
+}
+.practice-brief {
+  min-height: 0;
+}
+.practice-viewport {
+  aspect-ratio: 16 / 9;
+  min-height: 176px;
+}
+.practice-actions > * {
+  flex: 1;
+  min-width: 0;
+}
+.practice-feedback,
+.practice-symbol-slot {
+  background: var(--surface-neutral);
+}
+.practice-camera[data-tone='info'] :is(.practice-feedback, .practice-symbol-slot) {
+  background: var(--surface-secondary);
+}
+.practice-camera[data-tone='success'] :is(.practice-feedback, .practice-symbol-slot) {
+  background: var(--status-success-bg);
+}
+.practice-camera[data-tone='warning'] :is(.practice-feedback, .practice-symbol-slot) {
+  background: var(--surface-tertiary);
+}
+.practice-camera[data-tone='error'] :is(.practice-feedback, .practice-symbol-slot) {
+  background: var(--status-error-bg);
+}
+.practice-camera[data-tone='success'] .practice-viewport {
+  border-color: var(--status-success);
+}
+.practice-camera[data-tone='warning'] .practice-viewport {
+  border-color: var(--status-warning);
+}
+.practice-instructions {
+  width: min(440px, calc(100% - 32px));
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  margin: auto;
+  padding: 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 24px;
+  background: var(--surface);
+  color: var(--content);
+  font: var(--type-secondary);
+}
+.practice-instructions::backdrop {
+  background: rgb(23 22 37 / 45%);
+}
+.practice-instructions > .vs-button {
+  margin-top: 16px;
+}
+.student-demo-select {
+  min-height: 44px;
+  max-width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--page);
+  color: var(--content);
+  font: var(--type-field);
+}
+.student-demo-select:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.student-profile-fields {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+}
+@container (min-width: 960px) {
+  .practice-grid {
+    grid-template-columns: minmax(0, 1fr) 344px;
+  }
+}
+@media (max-width: 599px) {
+  .practice-actions {
+    flex-direction: column;
+  }
+  .practice-camera-header {
+    flex-direction: column;
+  }
+  .practice-instructions {
+    padding: 16px;
+  }
+}

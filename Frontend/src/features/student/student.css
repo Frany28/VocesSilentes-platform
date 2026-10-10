@@ -1,3 +1,4 @@
+@import './student-navigation-pages.css';
 @import './student-icons-desktop.css';
 @import './student-icons-tablet.css';
 @import './student-icons-mobile.css';
@@ -5,6 +6,8 @@
 @import './student-surfaces.css';
 @import './student-controls.css';
 @import './student-responsive.css';
+@import './practice/practice-layout.css';
+@import './practice/practice-assets.css';
 
 @layer base {
   body:has(.student-shell) {

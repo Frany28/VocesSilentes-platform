@@ -14,6 +14,11 @@ export function useStudentActions() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState(null);
   useEffect(() => () => request.current?.abort(), []);
+  const onUnavailable = (name) =>
+    setNotice((previous) => ({
+      message: `${name}: disponible próximamente.`,
+      id: (previous?.id || 0) + 1,
+    }));
   const logout = async () => {
     if (request.current) return;
     const controller = new AbortController();
@@ -38,10 +43,10 @@ export function useStudentActions() {
     error,
     notice,
     logout,
-    onUnavailable: (name) =>
-      setNotice((previous) => ({
-        message: `${name}: disponible próximamente.`,
-        id: (previous?.id || 0) + 1,
-      })),
+    openLearning: (moduleTitle) => {
+      if (moduleTitle === 'Reportar un error') onUnavailable(moduleTitle);
+      else navigate('/student/practice', { state: { moduleTitle } });
+    },
+    onUnavailable,
   };
 }

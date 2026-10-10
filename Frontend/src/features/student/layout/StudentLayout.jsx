@@ -7,21 +7,28 @@ import { StudentSidebar } from './StudentSidebar.jsx';
 import { StudentNavigation } from './StudentNavigation.jsx';
 import { StudentDemoControls } from './StudentDemoControls.jsx';
 import { useStudentActions } from './use-student-actions.js';
+import { publicConfig } from '../../../lib/config.js';
 import '../student.css';
 
 /**
- * Comparte layout protegido con contenido fluido de hasta 1280 px después de la barra lateral.
+ * Comparte layout protegido con contenido fluido de hasta 1044 px después de la barra lateral.
  * @returns {import('react').ReactElement} Páginas de estudiante protegidas por el guard existente.
  */
 export function StudentLayout() {
   const actions = useStudentActions();
-  const catalog = useLocation().pathname === '/student/modules';
+  const page = useLocation().pathname.split('/')[2] || 'home';
+  const title = {
+    modules: 'Mis módulos',
+    practice: 'Practicar',
+    progress: 'Mi progreso',
+    profile: 'Mi perfil',
+  }[page];
   return (
     <StudentProvider>
       <div
         className="student-shell flex min-h-svh gap-6 bg-page p-6 text-content [font:var(--type-secondary)]
         [overflow-wrap:anywhere]"
-        data-page={catalog ? 'modules' : 'home'}
+        data-page={page}
       >
         <a href="#student-content" className="student-skip sr-only focus:not-sr-only">
           Saltar al contenido
@@ -38,7 +45,7 @@ export function StudentLayout() {
                 <Brand />
               </div>
               <p className="hidden min-w-0 flex-1 text-muted [font:var(--type-label)] min-[600px]:block">
-                Mi aprendizaje{catalog ? ' / Mis módulos' : ''}
+                Mi aprendizaje{title ? ` / ${title}` : ''}
               </p>
               <ThemeToggle
                 className="student-theme flex-none max-[600px]:w-28! max-[600px]:gap-4!
@@ -47,7 +54,7 @@ export function StudentLayout() {
               />
             </header>
             <main id="student-content" tabIndex={-1}>
-              <Outlet context={{ onOpen: actions.onUnavailable }} />
+              <Outlet context={{ onOpen: actions.openLearning }} />
             </main>
             <div className="empty:hidden" role="status" aria-live="polite" aria-atomic="true">
               {actions.notice && (
@@ -73,9 +80,9 @@ export function StudentLayout() {
                 {actions.pending ? 'Cerrando…' : 'Cerrar sesión'}
               </button>
             </footer>
-            {import.meta.env.DEV && <StudentDemoControls />}
+            {publicConfig.studentDemo && <StudentDemoControls />}
             <div className="min-[600px]:hidden">
-              <StudentNavigation bottom onUnavailable={actions.onUnavailable} />
+              <StudentNavigation bottom />
             </div>
           </div>
         </div>

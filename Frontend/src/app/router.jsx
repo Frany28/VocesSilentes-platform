@@ -1,12 +1,10 @@
 import { Link, Navigate } from 'react-router';
 import { AppLayout } from '../components/layout/AppLayout.jsx';
 import { RegistrationPage } from '../features/auth/registration/RegistrationPage.jsx';
-import { AuthGuard, AdminGuard } from '../features/auth/AuthGuard.jsx';
+import { AuthGuard, AdminGuard, StudentGuard } from '../features/auth/AuthGuard.jsx';
 import { SessionPage } from '../features/auth/SessionPage.jsx';
 import { LoginPage } from '../features/auth/login/LoginPage.jsx';
-import { StudentLayout } from '../features/student/layout/StudentLayout.jsx';
-import { StudentHome } from '../features/student/pages/StudentHome.jsx';
-import { StudentModules } from '../features/student/pages/StudentModules.jsx';
+import { studentRoutes } from '../features/student/student.routes.jsx';
 import { adminRoutes } from '../features/admin/admin.routes.jsx';
 
 /**
@@ -22,13 +20,7 @@ export function createRoutes() {
       element: <AuthGuard />,
       children: [
         { element: <AdminGuard />, children: [adminRoutes()] },
-        {
-          element: <StudentLayout />,
-          children: [
-            { path: '/student', element: <StudentHome /> },
-            { path: '/student/modules', element: <StudentModules /> },
-          ],
-        },
+        { element: <StudentGuard />, children: [studentRoutes()] },
       ],
     },
     {

@@ -15,6 +15,16 @@ export function safeReturnPath(target, role) {
   )
     return target;
   if (target === '/account') return target;
-  if (target === '/student' || target === '/student/modules') return target;
+  if (
+    role === 'USER' &&
+    [
+      '/student',
+      '/student/modules',
+      '/student/practice',
+      '/student/progress',
+      '/student/profile',
+    ].includes(target)
+  )
+    return target;
   return role === 'ADMIN' ? '/admin' : '/student';
 }

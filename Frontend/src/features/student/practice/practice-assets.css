@@ -1,0 +1,47 @@
+/* SVG originales intactos; variantes no accesibles en Figma reutilizan el UI Kit a tamaño nativo. */
+.practice-symbol {
+  width: var(--practice-symbol-size, 48px);
+  height: var(--practice-symbol-size, 48px);
+  background-image: var(--practice-symbol);
+}
+.practice-symbol[data-symbol='camera'] {
+  --practice-symbol: url('../../../assets/student/d265e.svg');
+}
+.practice-symbol[data-symbol='warning'] {
+  --practice-symbol: url('../../../assets/student/5bc4b.svg');
+}
+.practice-symbol[data-symbol='error'] {
+  --practice-symbol: url('../../../assets/student/6d2e0.svg');
+}
+.practice-symbol[data-symbol='success'] {
+  --practice-symbol: var(--icon-check-success);
+  --practice-symbol-size: 20px;
+}
+.practice-symbol[data-symbol='lock'] {
+  --practice-symbol: var(--icon-student-lock-32);
+  --practice-symbol-size: 32px;
+}
+[data-theme='dark'] .practice-symbol[data-symbol='camera'] {
+  --practice-symbol: url('../../../assets/student/f5baa.svg');
+}
+[data-theme='dark'] .practice-symbol[data-symbol='warning'] {
+  --practice-symbol: url('../../../assets/student/34342.svg');
+}
+[data-theme='dark'] .practice-symbol[data-symbol='success'] {
+  --practice-symbol: url('../../../assets/student/09bd5.svg');
+  --practice-symbol-size: 48px;
+}
+[data-theme='dark'] .practice-symbol[data-symbol='lock'] {
+  --practice-symbol: url('../../../assets/student/dabb0.svg');
+  --practice-symbol-size: 48px;
+}
+[data-theme='dark'] .practice-symbol[data-symbol='error'] {
+  --practice-symbol: var(--icon-info-error);
+  --practice-symbol-size: 20px;
+}
+@media (max-width: 599px) {
+  [data-theme='light'] .practice-camera[data-state='ready'] .practice-symbol {
+    --practice-symbol: url('../../../assets/student/1c5a6.svg');
+    --practice-symbol-size: 32px;
+  }
+}

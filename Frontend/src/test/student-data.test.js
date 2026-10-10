@@ -43,9 +43,16 @@ test('escenarios declarados conservan origen demo, no escriben datos y sus estad
 });
 
 test('retornos publicados de Student se conservan sin aceptar query, rutas externas ni acceso ADMIN', () => {
-  for (const path of ['/student', '/student/modules'])
+  for (const path of [
+    '/student',
+    '/student/modules',
+    '/student/practice',
+    '/student/progress',
+    '/student/profile',
+  ])
     expect(safeReturnPath(path, 'USER')).toBe(path);
   for (const path of ['/student?next=x', '/student/modules/../admin', '//host', '/admin']) {
     expect(safeReturnPath(path, 'USER')).toBe('/student');
   }
+  expect(safeReturnPath('/student/modules', 'ADMIN')).toBe('/admin');
 });

@@ -3,8 +3,8 @@ import { z } from 'zod';
 /**
  * Valida la URL pública del backend; excluye credenciales, consulta y fragmento.
  * @param {Record<string, unknown>} env Entorno público de Vite.
- * @returns {{apiUrl: string}} Configuración pública validada.
- * @throws {Error} Si VITE_API_URL no es una URL HTTP(S) segura.
+ * @returns {{apiUrl: string, studentDemo: boolean}} Configuración pública validada, nunca permisos.
+ * @throws {Error} Si la URL o el indicador de demostración no son válidos.
  */
 export function parsePublicConfig(env) {
   const result = z
@@ -23,7 +23,14 @@ export function parsePublicConfig(env) {
     })
     .safeParse(env.VITE_API_URL ?? 'http://localhost:3000/api');
   if (!result.success) throw new Error('Configuración pública inválida: VITE_API_URL');
-  return Object.freeze({ apiUrl: result.data.replace(/\/+$/, '') });
+  const demo = z
+    .enum(['true', 'false'])
+    .safeParse(env.VITE_STUDENT_DEMO ?? (env.DEV ? 'true' : 'false'));
+  if (!demo.success) throw new Error('Configuración pública inválida: VITE_STUDENT_DEMO');
+  return Object.freeze({
+    apiUrl: result.data.replace(/\/+$/, ''),
+    studentDemo: demo.data === 'true',
+  });
 }
 
 export const publicConfig = parsePublicConfig(import.meta.env);
