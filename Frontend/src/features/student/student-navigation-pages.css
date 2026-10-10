@@ -47,8 +47,3 @@
     --icon-student-nav-user-default: url('../../assets/student/5b29e.svg');
   }
 }
-@media (max-width: 359px) {
-  .student-shell .student-bottom-item {
-    padding: 8px 2px;
-  }
-}

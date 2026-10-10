@@ -78,7 +78,8 @@ Para publicar la API en Vercel, usar **Root Directory: Backend** y **Node.js 22.
 La entrada Express, el build Prisma y la CLI local están preparados;
 seguir [configuración, variables y despliegue](docs/vercel.md). Esto no implica una publicación remota.
 
-`Frontend/.env`: `VITE_API_URL`, pública y embebida durante el build; FRONTEND_PORT solo configura
+`Frontend/.env`: `VITE_API_URL` y `VITE_STUDENT_DEMO`, públicas y embebidas durante el build;
+la demo acepta `true`/`false` y exige sesión real. FRONTEND_PORT solo configura
 el servidor de desarrollo y no se expone al navegador. Nunca poner secretos en VITE_*.
 `Backend/.env`: configuración HTTP/DB y políticas de auth; exclusivas del servidor y las herramientas
 de migración. [Variables y valores iniciales](docs/development.md#variables).
@@ -106,6 +107,7 @@ Frontend/
   src/app/                  Entrada, router y proveedores de tema/auth
   src/features/auth/        Formularios, cliente CSRF, sesión y guards
   src/features/admin/       Pantallas Admin; creación/edición real y demostraciones identificadas
+  src/features/student/     Cinco vistas Student, datos demo identificados y perfil de sesión real
   src/features/system/      Pantalla mínima de la base técnica
   src/components/ui/        Componentes generales de Figma y control de tema
   src/components/layout/    Estructura compartida
@@ -146,14 +148,18 @@ con destinos de sesión. `/admin` incluye resumen, usuarios y reportes; creació
 cuentas reales. Métricas, listado completo, progreso, reportes y cambio de estado usan demostración
 identificada o requieren backend futuro. Ver [alcance y funcionamiento de Admin](docs/admin.md).
 No se insertan fixtures de demostración en la base compartida.
-No hay flujos educativos/reportes ni reconocimiento LSV. Hay componentes generales del UI Kit de Figma
+Student dispone de Inicio, Mis módulos, Practicar, Mi progreso y Mi perfil; solo USER puede acceder.
+Contenido y progreso usan demostración explícita configurable también en producción. Practicar
+presenta estados manuales sin cámara ni evaluación; Perfil muestra identidad real sin edición.
+Ver [primera fase académica](docs/phase-one-prototype.md) y [matriz de Figma](docs/student-design-audit.md).
+No hay backend educativo/reportes ni reconocimiento LSV. Hay componentes generales del UI Kit de Figma
 y una galería de desarrollo en `/ui.html`; véase [sistema visual](docs/design-system.md).
 La pantalla `/login` reproduce Auth en ambos temas y tres composiciones adaptables, con el flujo
 existente de sesión y sus errores; véase [implementación y límites](docs/login.md).
 Login, Registro, Student, Admin y cuenta ajustan espacios, columnas y paneles al ancho y altura
 disponibles; véase [adaptación de pantallas](docs/responsive.md).
-Faltan las pantallas de producto y entrenamiento/validación
-de un modelo específico; tampoco hay OAuth, recuperación ni envío de correo.
+Faltan la integración educativa y entrenamiento/validación de un modelo específico;
+tampoco hay OAuth, recuperación ni envío de correo.
 
 La preparación inicial partió de una carpeta sin código ni historial. Esta tarea no crea commits,
 PR ni publicaciones. Los controles de esta entrega son locales; no se afirma ejecución de GitHub Actions.

@@ -22,7 +22,7 @@ export function StudentNavigation({ bottom = false }) {
       aria-label={bottom ? 'Navegación inferior de estudiante' : 'Navegación de estudiante'}
       className={
         bottom
-          ? 'student-bottom grid grid-cols-5 gap-1 border border-border bg-surface p-2'
+          ? 'student-bottom grid grid-cols-5 border border-border bg-surface p-1'
           : 'student-navigation flex w-full flex-col gap-4'
       }
     >

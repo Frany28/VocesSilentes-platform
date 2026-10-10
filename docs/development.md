@@ -84,6 +84,10 @@ no se añadieron dependencias, migraciones ni excepciones de tamaño para esa im
 Los ajustes de [adaptación de pantallas](responsive.md) separan geometría de Auth, ajustes
 por altura, panel ilustrado, Student y cuenta técnica en hojas enfocadas de menos de 100
 líneas útiles. Reutilizan tokens y controles existentes sin nuevas dependencias.
+Student separa rutas, páginas y componentes de práctica de menos de 100 líneas útiles;
+reutiliza el provider demo y el sistema visual. No añade excepciones de tamaño ni dependencias.
+`VITE_STUDENT_DEMO` es una bandera pública validada, sin acceso privilegiado ni persistencia;
+su configuración se documenta en [primera fase](phase-one-prototype.md).
 
 La migración inicial
 `Backend/prisma/migrations/20261009000100_phase_one/migration.sql` es una excepción: contiene

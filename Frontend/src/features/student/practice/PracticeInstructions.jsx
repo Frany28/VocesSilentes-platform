@@ -9,6 +9,7 @@ import { PracticeGuide } from './PracticeGuide.jsx';
  */
 export function PracticeInstructions({ onClose }) {
   const ref = useRef();
+  const close = useRef();
   const title = useId();
   useEffect(() => {
     const dialog = ref.current;
@@ -17,6 +18,7 @@ export function PracticeInstructions({ onClose }) {
     document.body.style.overflow = 'hidden';
     if (dialog.showModal) dialog.showModal();
     else dialog.setAttribute('open', '');
+    close.current?.focus();
     return () => {
       dialog.close?.();
       document.body.style.overflow = overflow;
@@ -37,7 +39,7 @@ export function PracticeInstructions({ onClose }) {
         Instrucciones de práctica
       </h2>
       <PracticeGuide />
-      <Button className="w-full!" icon={null} onClick={onClose} autoFocus>
+      <Button ref={close} className="w-full!" icon={null} onClick={onClose}>
         Volver a practicar
       </Button>
     </dialog>

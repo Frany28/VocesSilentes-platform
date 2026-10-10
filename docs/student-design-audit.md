@@ -53,6 +53,12 @@ se adaptan con los componentes, geometría y tokens verificados, sin afirmar equ
 
 ## Diferencias intencionales
 
+Los SVG nuevos se descargaron sin alterar desde el contexto de los 14 frames de práctica.
+Para combinaciones sin contexto disponible se reutilizan iconos originales del UI Kit:
+éxito claro (check 20 px), denegación clara (lock 32 px), cámara no disponible oscura (info 20 px)
+y cámara lista oscura (camera 48 px). Esas variantes quedan pendientes de cotejo específico;
+no se dibujan recursos ni se afirma que sus tamaños sean los de los frames no inspeccionados.
+
 - El usuario exige máximo 1044 px. Los frames desktop consultados usan contenido de 1128 px;
   se conserva el máximo solicitado y se distribuyen las columnas dentro de él.
 - Sidebar sticky de altura de viewport, crecimiento natural de páginas y padding fluido de
@@ -67,3 +73,14 @@ se adaptan con los componentes, geometría y tokens verificados, sin afirmar equ
 
 La validación final y el alcance funcional se registran en [phase-one-prototype.md](phase-one-prototype.md)
 y [verification.md](verification.md). Sin modificaciones del archivo Figma.
+
+## Matriz después de implementar
+
+| Pantalla    | Resultado funcional                                                            | Verificación visual de diseño                                      |
+| ----------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| Inicio      | Conservado; demo configurable y accesos a práctica                             | 30 variantes con contexto; máximo 1044 intencional                 |
+| Mis módulos | Conservado; búsqueda/filtros/estados y tarjetas navegables                     | 36 variantes con contexto                                          |
+| Practicar   | Panel, guía, instrucciones y ocho estados manuales; demo explícita             | 14 variantes con contexto; otras 40 pendientes de cotejo detallado |
+| Mi progreso | Resumen y tarjetas derivados de la colección demo común, con carga/vacío/error | Sin frame propio: composición reutilizada, pendiente de referencia |
+| Mi perfil   | Datos reales de sesión, rol y correo pendiente; edición no disponible          | Sin frame propio: controles reutilizados, pendiente de referencia  |
+| Layout      | Solo USER; cinco enlaces móviles/desktop, tema y logout existente              | Componentes inspeccionados; quinto enlace móvil intencional        |

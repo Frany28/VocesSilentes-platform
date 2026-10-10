@@ -143,8 +143,9 @@ Respuestas tardías de me se descartan después de login/logout/cancelación.
 
 `/login` implementa la pantalla Auth de Figma; `/register` reutiliza su composición y controles
 adaptados a los datos de User, con validación local: [registro](registration.md).
-`/student` y `/account` exigen sesión; `/admin`, sesión y ADMIN. El retorno admite solo rutas
-publicadas y autorizadas: `/admin` para ADMIN; `/account` y las rutas de estudiante para ambos.
+`/student` y sus cinco pantallas exigen sesión y USER; `/admin`, sesión y ADMIN.
+`/account` es compartida. El retorno admite solo rutas publicadas y autorizadas para cada rol:
+Student para USER, Admin para ADMIN y cuenta para ambos.
 Sin retorno autorizado, ADMIN entra a `/admin` y USER a `/student`.
 Sin destinos externos, query ni traversal.
 CSRF vive en memoria; el token de sesión es inaccesible desde JavaScript. No se modifican diseños

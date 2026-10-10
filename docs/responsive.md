@@ -12,10 +12,12 @@ Se conservan colores, fuentes, radios, recursos, tema y componentes compartidos.
   En pantallas bajas se omiten badges y promociones decorativas. Los campos, acciones,
   mensajes y enlaces siguen presentes. Registro agrupa cuatro campos en dos filas desde
   600 px; contraseña ocupa una fila completa. Móvil conserva una columna.
-- **Student:** contenido centrado de hasta 1280 px. Las columnas de inicio y módulos
+- **Student:** contenido centrado de hasta 1044 px, conforme al requisito del prototipo. Las columnas de inicio y módulos
   dependen del ancho disponible después del sidebar mediante container queries. El catálogo
-  distribuye tarjetas automáticamente; el destacado reduce tipografía e ilustración y omite
-  esta última cuando el texto necesita el espacio. Sidebar sticky con scroll propio.
+  distribuye tarjetas automáticamente; el destacado conserva las medidas de sus recursos Figma
+  y omite la ilustración en móvil. Sidebar sticky con scroll propio. Practicar apila panel y guía,
+  Perfil usa campos adaptables y la navegación móvil permite los cinco destinos. Ver
+  [inspección y diferencias del prototipo](student-design-audit.md).
 - **Admin:** contenido fluido sin altura mínima fija, sidebar con altura de viewport y scroll
   propio. Listas pasan de tabla a tarjetas según el ancho del contenido, filtros usan auto-fit
   y campos agrupados se apilan según el ancho del formulario. Acciones y cabecera pueden
@@ -31,8 +33,9 @@ siguen siendo alcanzables. Las vistas no dependen de una orientación fija.
 
 ## Alcance y comprobación
 
-Cambios de presentación y distribución únicamente. Se mantienen autenticación, permisos,
-contratos y validaciones, persistencia de usuarios y avisos de demostración existentes.
+Los ajustes responsive cambian presentación y distribución. La primera fase añade StudentGuard,
+cinco destinos y configuración demo según [phase-one-prototype.md](phase-one-prototype.md).
+Se mantienen autenticación, contratos y validaciones, persistencia de usuarios y avisos de demostración.
 Sin dependencias, endpoints, migraciones ni escrituras en producción.
 
 La revisión local en Chrome usa Vite y API con PostgreSQL WASM aislado, autenticación real,

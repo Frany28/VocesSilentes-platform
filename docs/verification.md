@@ -1,5 +1,61 @@
 # Verificación
 
+## Primera fase académica y Student desde Figma — 9 de octubre de 2026
+
+`pnpm verify` terminó con código **0**: lint sin errores ni advertencias, formato correcto,
+**83 pruebas frontend** en 26 archivos, **34 unitarias backend**, validación/generación Prisma,
+build de ambos paquetes y **35 pruebas SQL**. Total: **152 pruebas aprobadas**, sin fallos.
+El comando ejecutó `pnpm lint`, `pnpm format:check`, `pnpm test`, `pnpm db:validate`,
+`pnpm build` y `pnpm db:test` en ese orden. Tras actualizar esta documentación se repitió
+solo la comprobación de formato y `git diff --check`; no hubo más cambios de comportamiento.
+
+Pruebas frontend nuevas verifican las cinco rutas, rechazo de ADMIN/rol desconocido, sesión
+inválida, cuenta compartida, reintento de red, cambio de rol al refrescar me, configuración demo
+en producción y cancelación del adaptador. Comprueban perfil de sesión real, navegación móvil,
+ocho estados de práctica elegidos manualmente, ausencia de cámara/peticiones educativas,
+instrucciones, foco/restauración y conservación del progreso demo.
+
+SQL aislado conserva permisos 401/403, CSRF, último administrador activo y cambios concurrentes,
+validación de contraseña/correo/rol/estado, unicidad, edición excluyendo la propia cuenta,
+correo cambiado pendiente de verificación, Argon2id real, sesiones y revocación. No se alteraron
+los endpoints ni las pruebas existentes de persistencia.
+
+Chrome revisó una **compilación de producción local**, con `VITE_STUDENT_DEMO=true`, contra
+Express y Prisma/PrismaPg conectados por TCP a PostgreSQL WASM efímero. Sin mocks de auth,
+hashing o persistencia y sin usar la base compartida. Resultado:
+
+- **119 combinaciones**: cinco páginas × cinco tamaños × dos temas (50), ocho estados de práctica
+  × cuatro tamaños × dos temas (64), y cinco estados de Progreso (5).
+- Tamaños de página: 1440×960, 834×1100, 390×844, 320×640 y 1920×1080. Los estados de práctica
+  se revisaron en los primeros cuatro tamaños. **72 capturas**, medidas de documento/controles,
+  máximo Student 1044 px, cero desbordamientos horizontales, controles recortados o iconos sin recurso.
+- Login real USER/ADMIN, contraseña incorrecta rechazada, acceso sin sesión a login,
+  USER rechazado en Admin y ADMIN rechazado en Student, sin mostrar los layouts no autorizados.
+- Cinco enlaces móviles navegables; diálogo de instrucciones dentro de 844×390, foco en regreso,
+  Escape y restauración de foco. Se corrigieron el foco inicial y las etiquetas móviles partidas.
+- Perfil de sesión real, logout USER y `/auth/me` posterior 401. Admin creó y editó una cuenta
+  real en la base aislada; Prisma confirmó valores y el detalle mostró la edición tras recargar.
+- **Cero excepciones JavaScript** en la última ejecución completa. El arnés se ajustó al retorno
+  autorizado de login y a selectores válidos antes de esta ejecución.
+
+Figma se consultó mediante el plugin y los skills de diseño a código/lectura. Se inventariaron
+120 frames y sus instancias/Auto Layout. Se obtuvo contexto detallado y captura de 80 variantes:
+30 Inicio, 36 Mis módulos, 14 Practicar/instrucciones. El límite Education impidió cargar otras
+40 de práctica, que permanecen pendientes de cotejo detallado. Progreso y Perfil no tienen frames
+propios en las páginas consultadas. Las capturas locales representativas se cotejaron con los
+contextos disponibles; no se afirma comparación automática de píxeles ni inspección completa
+de las variantes inaccesibles. Recursos originales, matriz y diferencias en
+[student-design-audit.md](student-design-audit.md).
+
+Artefactos locales ignorados: `.local/student-phase-verify.log`,
+`.local/student-phase-review/results.json` y sus capturas. Documentación de requisitos 4.1–4.8,
+configuración y alcance real/demo en [phase-one-prototype.md](phase-one-prototype.md).
+Sin dependencias, migraciones ni cambios de backend nuevos. Sin fixtures en producción,
+commit, push, deploy ni ejecución remota de GitHub Actions en esta tarea.
+La emulación local no sustituye cámara física, Safari/Firefox, cookies de terceros o validación
+de un modelo LSV; estos últimos no se implementaron. Los dominios publicados siguen siendo
+configuración existente y evidencia histórica, sin comprobar un despliegue de estos cambios.
+
 ## Adaptación de todas las áreas — 9 de octubre de 2026
 
 Se revisaron Login, Registro, cuenta, Student/inicio y módulos, y las siete pantallas Admin.

@@ -1,6 +1,9 @@
 .practice-grid {
   grid-template-columns: minmax(0, 1fr);
 }
+.practice-camera .vs-badge {
+  --size-badge: 168px;
+}
 .practice-brief h2 {
   font-size: 30px;
   line-height: 38px;

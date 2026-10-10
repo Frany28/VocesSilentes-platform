@@ -15,12 +15,15 @@
   width: 100%;
   min-width: 0;
   min-height: 64px;
-  padding: 8px;
+  padding: 8px 1px;
   border: 0;
   text-align: center;
   background: var(--surface);
   font: var(--type-label);
   color: var(--text-secondary);
+}
+.student-bottom-item > span:last-child {
+  white-space: nowrap;
 }
 .student-shell .student-bottom-item[aria-current] {
   color: var(--action-primary);

@@ -1,7 +1,8 @@
 # Preparación de MediaPipe
 
 Está instalado @mediapipe/tasks-vision **1.1.0**, publicación estable fijada en manifiesto y lockfile.
-No se importa en el inicio ni se solicita cámara. La funcionalidad de práctica todavía no existe.
+No se importa en el inicio ni se solicita cámara. `/student/practice` presenta únicamente estados
+visuales manuales identificados como demostración; la integración real de práctica sigue pendiente.
 No se instaló TensorFlow.js ni se construyó un clasificador simulado.
 
 ## Integración prevista

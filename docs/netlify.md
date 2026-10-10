@@ -17,6 +17,7 @@ Backend confirmado por el usuario: <https://voces-silentes-platform.vercel.app/>
 | Node              | `22.23.1`                                        |
 | pnpm              | `10.18.2`                                        |
 | VITE_API_URL      | `https://voces-silentes-platform.vercel.app/api` |
+| VITE_STUDENT_DEMO | `true` (prototipo educativo identificado)        |
 
 Netlify instala desde la raíz y construye únicamente el frontend. No usar Backend ni su configuración
 de Vercel como carpeta de publicación. Subir los cambios al repositorio/rama vinculados y lanzar
@@ -26,7 +27,7 @@ el commit actualizado y ese archivo en el log del despliegue.
 ## Rutas directas y publicación manual
 
 `Frontend/public/_redirects` contiene `/* /index.html 200`. Vite lo copia a `Frontend/dist/_redirects`.
-Netlify sirve index.html al abrir/recargar `/login`, `/student` o `/student/modules`, y React resuelve
+Netlify sirve index.html al abrir/recargar `/login` y las cinco rutas `/student`, y React resuelve
 la pantalla y sus permisos. Los archivos existentes de assets conservan prioridad.
 
 Si el sitio se publicó arrastrando una carpeta a Netlify, reconstruir y subir **Frontend/dist** completo,
@@ -36,6 +37,7 @@ El deploy manual no ejecuta el build de netlify.toml:
 ```powershell
 # URL pública de la API confirmada por el usuario; nunca un secreto.
 $env:VITE_API_URL = 'https://voces-silentes-platform.vercel.app/api'
+$env:VITE_STUDENT_DEMO = 'true'
 pnpm --filter @vocessilentes/frontend build
 ```
 
@@ -46,6 +48,10 @@ Volver a desplegar para incluirlo en el bundle. Si cambia el dominio, actualizar
 en el archivo. Vite incluye el valor al construir; modificar Backend/.env no configura el frontend
 publicado. Sin la variable, el valor de desarrollo es localhost:3000.
 `DATABASE_URL` y `CSRF_SECRET` permanecen exclusivamente en el backend.
+
+El demo educativo no omite login ni permisos; conserva sus avisos y selectores en producción.
+El nuevo prototipo requiere reconstrucción y un despliegue autorizado; esta implementación
+no lo publica. Ver [configuración y alcance](phase-one-prototype.md).
 
 En Vercel, `CORS_ORIGINS` debe incluir **https://vocessilentes.netlify.app**, sin barra final.
 Para cookies entre netlify.app y vercel.app, configurar producción HTTPS y `SESSION_SAME_SITE=none`.

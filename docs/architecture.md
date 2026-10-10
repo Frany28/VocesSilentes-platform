@@ -47,6 +47,12 @@ con ausencia de sesión. El cliente HTTP notifica 401 UNAUTHENTICATED, sin inval
 creación/edición real y demostraciones identificadas; el guard de rol es apoyo de navegación.
 La API vuelve a autorizar cada consulta/escritura. Ver [admin.md](admin.md).
 
+`features/student/` mantiene cinco páginas bajo StudentGuard (solo USER), con el provider y
+colección demo existentes. `VITE_STUDENT_DEMO` habilita explícitamente datos educativos también
+en un build de producción; sin demo, se informa integración pendiente. Perfil lee la sesión real.
+Practicar separa estados visuales, panel, guía y diálogo; no usa cámara ni API de progreso.
+Navegación, tema y logout reutilizan el layout existente. Ver [primera fase](phase-one-prototype.md).
+
 `features/auth/login/` presenta Auth de Figma como una ruta independiente del layout técnico.
 Reutiliza controles generales con variantes y el mismo hook/proveedor/cliente de autenticación.
 La validación local y traducción de errores están separadas de la presentación; véase [login.md](login.md).

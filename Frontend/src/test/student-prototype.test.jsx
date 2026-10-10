@@ -54,6 +54,7 @@ test('guía abre y cierra instrucciones accesibles; volver a módulos conserva n
   trigger.focus();
   await userEvent.click(trigger);
   const dialog = screen.getByRole('dialog', { name: 'Instrucciones de práctica' });
+  expect(within(dialog).getByRole('button', { name: 'Volver a practicar' })).toHaveFocus();
   expect(within(dialog).getByRole('heading', { name: 'Prepara tu próximo intento' })).toBeVisible();
   fireEvent(dialog, new Event('cancel', { bubbles: true, cancelable: true }));
   expect(screen.queryByRole('dialog')).toBeNull();
