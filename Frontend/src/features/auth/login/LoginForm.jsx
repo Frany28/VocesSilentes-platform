@@ -21,7 +21,7 @@ export function LoginForm({ pending, fieldErrors, ...actions }) {
         autoComplete="username"
         autoCapitalize="none"
         spellCheck={false}
-        placeholder="tu@correo.com"
+        placeholder="Ingresa tu correo electrónico"
         required
         maxLength={254}
         disabled={pending}

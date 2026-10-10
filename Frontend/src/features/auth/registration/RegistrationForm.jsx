@@ -60,7 +60,7 @@ export function RegistrationForm({ pending, fieldErrors, ...actions }) {
         autoComplete="email"
         autoCapitalize="none"
         spellCheck={false}
-        placeholder="tu@correo.com"
+        placeholder="Ingresa tu correo electrónico"
         required
         maxLength={254}
         disabled={pending}
