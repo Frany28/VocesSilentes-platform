@@ -107,6 +107,18 @@ Se conservan esas muestras para no reconstruir ni alterar el movimiento exportad
 responsabilidad coherente por composición y tienen su razón documentada junto al CSS.
 Los componentes, hooks y estilos escritos a mano de login mantienen el objetivo de 100 líneas.
 
+### Auditoría estructural — 9 de octubre de 2026
+
+No hay dependencias circulares entre módulos locales de Frontend/src ni Backend/src.
+`features/system/SystemPage.jsx` no tiene referencias desde que `/` redirige a `/login`;
+es candidato a eliminación. `assets/Logos/` (unos 37 MB) no se importa en código ni CSS
+y no entra en el bundle: sus 24 SVG exportados incrustan solo dos PNG distintos con recortes diferentes.
+`SIZE=240PX (1).svg` es idéntico byte a byte a `SIZE=240PX.svg`. Se conservan como fuentes
+de diseño hasta decidir qué variantes usar; la marca en ejecución usa `assets/auth/36e7e.png` (1,3 MB)
+y `0ad79.png` (0,8 MB), candidatos a una exportación optimizada desde Figma.
+Los breakpoints combinan `max-width: 599px` y `width < 600px`; se mantienen sin unificar
+porque difieren en anchos fraccionarios y no se cambian breakpoints aprobados sin revisión visual.
+
 Pruebas frontend: Vitest, jsdom y Testing Library; se prueban rutas, temas y contrato HTTP con fetch
 controlado, formularios, guards y sesión. Backend: node:test y Supertest; configuración, salud,
 errores, CORS, límites JSON, transporte de auth, logs y cierre. Los dobles de Prisma en cierre

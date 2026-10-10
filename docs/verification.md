@@ -1,5 +1,14 @@
 # Verificación
 
+## Auditoría estructural — 9 de octubre de 2026
+
+Antes de los cambios, `pnpm verify` terminó con código 0: ESLint sin advertencias, formato correcto,
+83 pruebas frontend, 34 backend, validación de Prisma, build y 35 pruebas SQL.
+Después: código 0 con 85 pruebas frontend; el resto, sin cambios. La nueva prueba de un 404 en una
+cuenta recordada falla con el proveedor anterior y pasa con `use-known-users.js`.
+No se cambiaron estilos, endpoints, esquema, migraciones ni permisos. No hubo revisión visual
+en navegador porque no cambió CSS ni marcado. No se ejecutaron `db:check` ni GitHub Actions.
+
 ## Primera fase académica y Student desde Figma — 9 de octubre de 2026
 
 `pnpm verify` terminó con código **0**: lint sin errores ni advertencias, formato correcto,

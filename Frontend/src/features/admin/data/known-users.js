@@ -14,6 +14,13 @@ export function readKnownUsers(actorId) {
     return [];
   }
 }
+function writeKnownUsers(actorId, ids) {
+  try {
+    localStorage.setItem(`vs-admin-users:${actorId}`, JSON.stringify(ids.slice(0, 50)));
+  } catch {
+    /* El navegador puede negar almacenamiento; el enlace por UUID sigue funcionando. */
+  }
+}
 /**
  * Recuerda una cuenta confirmada para recuperarla por ID tras recargar; almacenamiento opcional.
  * @param {string} actorId Administrador actual.
@@ -22,12 +29,17 @@ export function readKnownUsers(actorId) {
  */
 export function rememberUser(actorId, id) {
   if (!uuid.test(id)) return;
-  try {
-    localStorage.setItem(
-      `vs-admin-users:${actorId}`,
-      JSON.stringify([id, ...readKnownUsers(actorId).filter((value) => value !== id)].slice(0, 50)),
-    );
-  } catch {
-    /* El navegador puede negar almacenamiento; el enlace por UUID sigue funcionando. */
-  }
+  writeKnownUsers(actorId, [id, ...readKnownUsers(actorId).filter((value) => value !== id)]);
+}
+/**
+ * Olvida un ID que el servidor confirmó inexistente, para que no bloquee futuras cargas.
+ * @param {string} actorId Administrador actual.
+ * @param {string} id UUID sin cuenta en la base actual.
+ * @returns {void} Ignora fallos de almacenamiento, igual que rememberUser.
+ */
+export function forgetUser(actorId, id) {
+  writeKnownUsers(
+    actorId,
+    readKnownUsers(actorId).filter((value) => value !== id),
+  );
 }

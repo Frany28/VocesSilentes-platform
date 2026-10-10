@@ -12,20 +12,20 @@ const names = [
   ['Mateo', 'León'],
   ['Paula', 'Gil'],
 ];
+// Minúsculas sin diacríticos: los identificadores demo cumplen [a-z0-9_] como los reales.
+const slug = (text) =>
+  text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
 
 /** Cuentas sintéticas del diseño; nunca se envían a la base como fixtures. */
 export const demoUsers = names.map(([firstName, lastName], index) => ({
   id: `demo-user-${index + 1}`,
   firstName,
   lastName,
-  username: `${firstName
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')}_${index + 1}`,
-  email: `${firstName
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')}@ejemplo.com`,
+  username: `${slug(firstName)}_${index + 1}`,
+  email: `${slug(firstName)}@ejemplo.com`,
   role: index === 1 ? 'ADMIN' : 'USER',
   isActive: index < 10,
   emailVerified: false,

@@ -55,6 +55,11 @@ persistencia. Recargar reinicia esas simulaciones. No hay endpoints nuevos para 
 El alcance no autoriza un listado backend. Las cuentas creadas/editadas se actualizan con la respuesta
 real y se recuerdan **solo por UUID**, con un máximo de 50 IDs por administrador en localStorage.
 Al recargar se vuelven a consultar; no se almacenan copias de cuentas, hashes ni contraseñas.
+`data/use-known-users.js` hace esa consulta, separada de la demostración en memoria del proveedor.
+Si el servidor responde 404 `USER_NOT_FOUND` (por ejemplo, tras cambiar de base de desarrollo),
+ese ID se olvida y el resto se muestra; cualquier otro error conserva los IDs y muestra el fallo.
+La clave `vs-admin-users:<id del administrador>` no se borra al cerrar sesión: solo guarda UUIDs,
+pero en un navegador compartido revela qué cuentas consultó ese administrador.
 El listado explica que contiene demostración y cuentas conocidas en este navegador; no es el censo de la DB.
 Se puede abrir una cuenta existente por UUID, o mediante su enlace de detalle/edición.
 Sin localStorage siguen funcionando los enlaces directos; falla únicamente recordar IDs entre recargas.
