@@ -1,5 +1,19 @@
 # Verificación
 
+## Dos cuentas de acceso solicitadas — 9 de octubre de 2026
+
+Por solicitud expresa del usuario se crearon dos cuentas en la base real configurada en Backend/.env:
+una ADMIN y otra USER, el rol de estudiante. `pnpm db:check` confirmó SELECT 1 antes de escribir.
+Se validaron los datos con registrationSchema, se generaron contraseñas independientes con
+node:crypto y se almacenaron únicamente hashes Argon2id mediante la implementación existente.
+
+La creación de ambas cuentas y la promoción del UUID nuevo a ADMIN se ejecutaron en una única
+transacción, sin modificar usuarios existentes. Se comprobaron hashes, roles, actividad y estado
+no eliminado antes de confirmar; una lectura posterior confirmó las dos filas persistidas.
+Ambas conservan emailVerified=false. No se crearon sesiones ni se probaron accesos HTTP remotos.
+Credenciales entregadas de forma privada al usuario, excluidas de código, documentación y commits.
+No cambiaron esquema, migraciones, dependencias ni configuración; no corresponde repetir el build.
+
 ## Radio estándar de los campos — 9 de octubre de 2026
 
 Se retiró el override de 8 px de PasswordInput plain. Todos los campos heredan ahora
