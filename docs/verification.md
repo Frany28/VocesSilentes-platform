@@ -1,5 +1,22 @@
 # Verificación
 
+## Radio estándar de los campos — 9 de octubre de 2026
+
+Se retiró el override de 8 px de PasswordInput plain. Todos los campos heredan ahora
+`--radius-lg` (12 px) de `.vs-input-shell`; el estándar por tipo de elemento está en
+[design-system.md](design-system.md#estándar-de-radios). No cambiaron tokens ni lógica de formularios.
+
+Revisión local en Brave/Chromium: 40 muestras de login/registro, ambos temas, escritorio de
+1440 px y móvil de 390 px; normal, foco, error, contraseña visible y disabled aplicado al DOM.
+Los cuatro radios de todos los campos fueron 12 px; los 18 campos de la galería también,
+incluidas sus variantes predeterminadas y controles deshabilitados reales. Evidencia ignorada:
+`.local/radius-review.json` y `.local/radius-login-dark.png`. Auth/me usa un doble 401 local;
+no se enviaron credenciales ni se hicieron escrituras en la base compartida.
+
+Lint, formato, build frontend y `git diff --check` correctos. No se añadieron ni repitieron
+pruebas unitarias para este ajuste CSS; los resultados de 125 pruebas de la entrega anterior
+son históricos. No se ejecutó GitHub Actions ni se publicó un nuevo despliegue.
+
 ## Registro alineado con User y estilos de login — 9 de octubre de 2026
 
 Se cotejaron los cinco campos con `registrationSchema`, User y el servicio de registro.

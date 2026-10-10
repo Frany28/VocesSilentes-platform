@@ -44,6 +44,8 @@ Los componentes generales se reutilizan: Input y PasswordInput añaden `appearan
 Button mantiene sus estados con altura de 48 px en login, Alert conserva los roles y recursos,
 ThemeToggle admite los atributos de ThemeSwitch e Icon admite el Chevron de 16 px.
 La apariencia predeterminada del UI Kit sigue disponible.
+Correo y contraseña comparten `--radius-lg` (12 px) en todos los estados; se retiró la excepción
+de 8 px del contorno de PasswordInput para aplicar el [estándar de radios](design-system.md#estándar-de-radios).
 
 Los colores base y las fuentes locales siguen siendo los del sistema visual.
 `login-tokens.css` incorpora exclusivamente gradientes/sombra y recursos originales de Auth.

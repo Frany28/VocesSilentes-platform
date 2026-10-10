@@ -15,7 +15,6 @@
 }
 .vs-field[data-appearance='plain'].vs-password-field .vs-input-shell {
   padding: 2px 2px 2px 12px;
-  border-radius: var(--radius-md);
 }
 .vs-field[data-appearance='plain'] .vs-password-toggle {
   display: flex;

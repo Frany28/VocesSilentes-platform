@@ -16,6 +16,7 @@
   gap: var(--space-12);
   min-height: 48px;
   padding: var(--space-12);
+  /* Un único radio para todos los campos, incluida contraseña y appearance="plain". */
   border-radius: var(--radius-lg);
   background: var(--surface);
   box-shadow: inset 0 0 0 1px var(--text-secondary);

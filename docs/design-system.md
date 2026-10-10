@@ -54,6 +54,25 @@ a Tailwind 4 mediante @theme inline. `foundations.css` centraliza tipografías, 
 espaciado y elevaciones. `[data-theme="light|dark"]` permite temas locales además de la raíz;
 los componentes heredan variables y comparten un único markup para ambos temas.
 
+### Estándar de radios
+
+Los radios se eligen por función del elemento y se reutilizan en todos los temas y estados.
+`foundations.css` es la fuente de los tokens del UI Kit:
+
+| Uso                                                                                | Token           | Radio  |
+| ---------------------------------------------------------------------------------- | --------------- | ------ |
+| Marca de checkbox                                                                  | `--radius-sm`   | 4 px   |
+| Controles pequeños, como el botón interno de mostrar contraseña                    | `--radius-md`   | 8 px   |
+| Campos de texto, correo y contraseña; elementos de navegación y selección          | `--radius-lg`   | 12 px  |
+| Botones principales, superficies del UI Kit, alertas y tarjetas interiores de Auth | `--radius-xl`   | 16 px  |
+| Badges, selector de tema y elementos circulares                                    | `--radius-full` | 999 px |
+
+Las tarjetas y paneles principales de Auth usan 24 px (`rounded-3xl`) según la composición existente.
+El radio del contorno de **todos los inputs es 12 px**, tanto en la variante predeterminada como
+en `appearance="plain"`; PasswordInput lo hereda de `.vs-input-shell`, sin una excepción por tipo.
+Foco, error, deshabilitado y mostrar/ocultar contraseña no cambian ese radio.
+El botón interno de visibilidad conserva su radio de 8 px para su propio indicador de foco.
+
 | Token CSS / variable Figma          | Claro             | Oscuro            |
 | ----------------------------------- | ----------------- | ----------------- |
 | page / bg/primary                   | #faf9fe           | #171625           |
