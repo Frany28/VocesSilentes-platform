@@ -1,0 +1,129 @@
+.admin-list-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+.admin-row-access {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.admin-list-heading div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.admin-list-head,
+.admin-list-row {
+  display: grid;
+  grid-template-columns: minmax(0, 2.4fr) 0.85fr 0.8fr 1fr 1.7fr;
+  gap: 12px;
+  align-items: center;
+}
+.admin-report-row {
+  grid-template-columns: minmax(0, 3.6fr) 0.9fr 1fr 1.7fr;
+}
+.admin-list-head {
+  padding: 16px;
+  background: var(--surface-neutral);
+  border-radius: var(--radius-lg);
+  font: var(--type-label);
+  color: var(--text-secondary);
+}
+.admin-list-row {
+  padding: 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  font: var(--type-secondary);
+}
+.admin-list-row > :last-child,
+.admin-list-head > :last-child {
+  justify-self: end;
+}
+.admin-row-identity {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+.admin-row-name {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.admin-row-name strong {
+  font: var(--type-button);
+}
+.admin-row-name p {
+  font: var(--type-label);
+  color: var(--text-secondary);
+}
+.admin-row-name p.admin-kicker {
+  color: var(--action-primary);
+}
+.admin-user-card,
+.admin-report-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+}
+.admin-user-card .vs-badge,
+.admin-report-card .vs-badge {
+  align-self: flex-start;
+}
+.admin-list-date {
+  color: var(--text-secondary);
+  font: var(--type-label);
+}
+.admin-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 8px;
+  font: var(--type-label);
+  color: var(--text-secondary);
+}
+.admin-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.admin-pagination .vs-button {
+  min-width: 136px;
+}
+@media (width < 1200px) {
+  .admin-list-head {
+    display: none;
+  }
+  .admin-list-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .admin-list-row > :last-child {
+    width: 100%;
+  }
+  .admin-list-heading {
+    flex-direction: column;
+  }
+  .admin-list-row .vs-badge {
+    align-self: flex-start;
+  }
+}
+@media (width < 600px) {
+  .admin-pagination-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .admin-pagination .vs-button {
+    min-width: 0;
+    flex: 1;
+  }
+}

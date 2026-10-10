@@ -105,6 +105,7 @@ cambios posteriores. Health no comprueba disponibilidad de PostgreSQL.
 Frontend/
   src/app/                  Entrada, router y proveedores de tema/auth
   src/features/auth/        Formularios, cliente CSRF, sesión y guards
+  src/features/admin/       Pantallas Admin; creación/edición real y demostraciones identificadas
   src/features/system/      Pantalla mínima de la base técnica
   src/components/ui/        Componentes generales de Figma y control de tema
   src/components/layout/    Estructura compartida
@@ -120,6 +121,7 @@ Backend/
   src/config/               Carga y validación de configuración
   src/modules/health/       Comprobación de vida HTTP
   src/modules/auth/         Rutas, controllers, negocio, repositorio y protecciones
+  src/modules/admin/        Consulta mínima, creación y edición de usuarios protegidas por ADMIN
   src/middlewares/          Errores y rutas desconocidas
   src/lib/                  Prisma, logger y cierre de recursos
   src/errors/               Errores públicos controlados
@@ -140,7 +142,10 @@ logs JSON, errores y validación de configuración. MediaPipe está instalado y 
 Existen modelos de usuarios, sesiones, contenido compartido, progreso y reportes, y conexión real
 con PostgreSQL 17.11 en Supabase. Registro/login/me/logout usan User/Session existentes, Argon2id,
 cookies HttpOnly, CSRF firmado y límites de intentos. `/account` exige sesión; `/admin` exige ADMIN,
-con destinos provisionales. No se crean administradores ni usuarios ficticios en la base compartida.
+con destinos de sesión. `/admin` incluye resumen, usuarios y reportes; creación y edición persisten
+cuentas reales. Métricas, listado completo, progreso, reportes y cambio de estado usan demostración
+identificada o requieren backend futuro. Ver [alcance y funcionamiento de Admin](docs/admin.md).
+No se insertan fixtures de demostración en la base compartida.
 No hay flujos educativos/reportes ni reconocimiento LSV. Hay componentes generales del UI Kit de Figma
 y una galería de desarrollo en `/ui.html`; véase [sistema visual](docs/design-system.md).
 La pantalla `/login` reproduce Auth en ambos temas y tres composiciones adaptables, con el flujo

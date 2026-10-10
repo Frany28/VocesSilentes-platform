@@ -1,0 +1,31 @@
+.admin-dialog {
+  width: 480px;
+  max-width: calc(100vw - 48px);
+  padding: 24px;
+  border: 0;
+  border-radius: var(--radius-panel);
+  color: var(--content);
+  background: var(--surface);
+  margin: auto;
+}
+.admin-dialog[open] {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.admin-dialog h2 {
+  font: var(--type-h3);
+}
+.admin-dialog p {
+  font: var(--type-secondary);
+  color: var(--text-secondary);
+}
+.admin-dialog::backdrop {
+  background: rgb(23 22 37 / 55%);
+}
+.admin-info {
+  background: var(--surface-secondary);
+}
+.admin-message {
+  background: var(--surface-neutral);
+}

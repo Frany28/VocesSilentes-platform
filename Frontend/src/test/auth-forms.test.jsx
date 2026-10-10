@@ -18,7 +18,7 @@ test('login: obtiene CSRF, incluye cookies y header, navega al retorno autorizad
   await userEvent.type(screen.getByLabelText('Correo electrónico'), 'person@example.invalid');
   await userEvent.type(screen.getByLabelText('Contraseña'), 'A lengthy password 123! ');
   await userEvent.click(screen.getByRole('button', { name: 'Iniciar sesión' }));
-  expect(await screen.findByRole('heading', { name: 'Administración' })).toBeVisible();
+  expect(await screen.findByRole('heading', { name: 'Resumen' })).toBeVisible();
   const [, options] = fetchMock.mock.calls.find(([url]) => url.endsWith('/login'));
   expect(options.credentials).toBe('include');
   expect(options.headers.get('X-CSRF-Token')).toBe('csrf-before');

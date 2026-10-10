@@ -77,7 +77,12 @@ DATABASE_URL ni secretos bajo ese prefijo. Reiniciar/reconstruir al cambiar valo
 
 Usar JavaScript ESM y JSDoc en APIs exportadas, hooks, servicios y contratos. Tipar con typedef cuando
 ayude. No comentar código evidente. Funciones/archivos tienen una responsabilidad coherente.
-Los archivos propios mantienen el objetivo de 100 líneas útiles. La migración inicial
+Los archivos propios mantienen el objetivo de 100 líneas útiles.
+Los módulos de `features/admin/` y `modules/admin/` separan presentación, estado, HTTP, validación,
+negocio y repositorio. Sus estilos se dividen por layout, superficies, campos, listas y diálogos;
+no se añadieron dependencias, migraciones ni excepciones de tamaño para esa implementación.
+
+La migración inicial
 `Backend/prisma/migrations/20261009000100_phase_one/migration.sql` es una excepción: contiene
 el DDL generado por Prisma para los cuatro dominios y las reglas SQL adicionales en una sola
 transacción revisable. Dividirla artificialmente dificultaría aplicar y revisar el contrato completo.

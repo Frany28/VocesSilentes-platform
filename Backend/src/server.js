@@ -7,6 +7,7 @@ import { createDatabase } from './lib/database.js';
 import { createLogger } from './lib/logger.js';
 import { closeResources } from './lib/shutdown.js';
 import { createAuthService } from './modules/auth/auth.service.js';
+import { createUsersService } from './modules/admin/users.service.js';
 
 loadEnv();
 let database;
@@ -17,7 +18,8 @@ try {
   database = await createDatabase(config.databaseUrl);
   if (database) await database.$connect();
   const authService = database ? await createAuthService(database, config.auth) : undefined;
-  const server = createServer(createApp(config, logger, { authService }));
+  const usersService = database ? await createUsersService(database) : undefined;
+  const server = createServer(createApp(config, logger, { authService, usersService }));
   server.listen(config.port, config.host);
   await once(server, 'listening');
   logger.info({ port: config.port, persistence: Boolean(database) }, 'API iniciada');

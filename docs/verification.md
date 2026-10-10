@@ -1,5 +1,49 @@
 # Verificación
 
+## Mínimo de contraseña en Crear usuario — 9 de octubre de 2026
+
+Por solicitud del usuario, creación administrativa cambió de 15 a 8 caracteres mínimos,
+tanto en frontend como en Zod del servidor; máximo 128 caracteres Unicode/512 bytes.
+El registro público conserva 15 y el login existente acepta las cuentas creadas por Admin.
+La prueba React rechaza siete sin enviar y permite ocho; la integración SQL crea con ocho,
+comprueba hash Argon2id, lectura persistida y login. También rechaza siete y más de 128.
+`pnpm verify` terminó con código 0: lint sin advertencias, formato, 67 pruebas frontend,
+34 unitarias backend, Prisma, build y 35 SQL (136 en total). Sin acceso a la DB de producción,
+migraciones, dependencias nuevas, despliegue ni ejecución de GitHub Actions.
+
+## Administración — 9 de octubre de 2026
+
+Se inspeccionaron mediante el plugin Figma y `figma-design-to-code` las siete pantallas,
+sus versiones desktop/tablet/mobile, ambos temas, confirmaciones y estados. El alcance,
+contratos reales y demostraciones se detallan en [admin.md](admin.md).
+
+`pnpm verify` terminó con código 0: ESLint sin errores ni advertencias, formato correcto,
+67 pruebas frontend, 34 pruebas unitarias backend, validación de Prisma, build de ambos
+paquetes y 35 pruebas SQL. Total: 136 pruebas. Login, Registro y Student conservan sus pruebas.
+Las nuevas pruebas administrativas cubren sesión/rol, CSRF, whitelist, formato, longitud
+de contraseña, duplicados, unicidad al editar, correo pendiente y último administrador activo.
+Dos intentos de degradación concurrentes dejan un administrador; el pool de pruebas tiene
+una conexión, por lo que esto no se presenta como una prueba de estrés entre instancias.
+
+La base de pruebas es PostgreSQL WASM efímero con migraciones existentes, PrismaPg y Argon2
+reales. No se leyó `.env` ni se escribieron fixtures en Supabase. Creación y edición se
+comprobaron con lectura posterior independiente; no hubo cambios de esquema ni migraciones nuevas.
+Las pruebas React con fetch controlado verifican UI/contratos, no persistencia.
+
+Chrome aislado ejecutó la aplicación contra esa API y base de pruebas, con autenticación real.
+Se creó una cuenta, se recargó, se editaron nombre/correo y se volvió a recargar; lecturas
+directas de Prisma confirmaron los cambios y emailVerified=false. Se comprobaron foco inicial,
+Tab, Escape, restauración de foco y logout real en el diálogo nativo. Sin excepciones de JavaScript.
+Las 42 capturas corresponden a siete vistas × tres anchos (1440/834/390) × dos temas;
+ninguna presenta desbordamiento horizontal. Se revisaron también dimensiones de los SVG
+renderizados y recursos locales. Evidencia local sin secretos: `.local/admin-review/`.
+
+La inspección visual cubre esos anchos y Chrome; no equivale a una comparación automática
+pixel a pixel ni a una matriz completa de navegadores. No se ejecutó GitHub Actions,
+no se desplegó este Admin y no se modificó la base de producción.
+Resumen, reportes, comentarios, progreso y cambios de estado mantienen avisos de demostración
+o integración pendiente; el listado no afirma representar todos los usuarios de la DB.
+
 ## Diagnóstico del GET / y conexión de Netlify — 9 de octubre de 2026
 
 El dominio estable de la API devuelve 404 JSON `NOT_FOUND` en `/` y 200 `ok` en `/api/health`.

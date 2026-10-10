@@ -13,7 +13,9 @@ recortado y en minúsculas. Nombre/apellido se recortan y admiten 1–100 caract
 PostgreSQL conserva UNIQUE; el conflicto, incluso concurrente, se traduce a 409 genérico.
 No se aceptan rol, estado, bloqueo, verificación ni otros campos fuera del contrato.
 
-Contraseñas nuevas: **15–128 puntos de código Unicode**, máximo **512 bytes UTF-8**.
+Contraseñas del registro público: **15–128 puntos de código Unicode**, máximo **512 bytes UTF-8**.
+Crear usuarios desde Admin admite **8–128** por solicitud del usuario; usa el mismo Argon2id
+y límites máximos, sin otra autenticación. Véase [admin.md](admin.md).
 Se permiten espacios, Unicode y gestores; no hay reglas de composición ni transformación,
 recorte o truncado. Login acepta 1–128 puntos de código / 512 bytes para verificar la entrada
 exacta. No hay consulta de contraseñas filtradas en esta etapa.

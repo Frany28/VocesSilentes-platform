@@ -44,7 +44,8 @@ elimina el icono y deshabilita realmente el botón; el consumidor debe activar l
 su operación. No sustituye la protección de concurrencia del formulario o servicio.
 
 ModuleCard `75:425` queda fuera del alcance general por ser un componente de módulo. Tampoco se
-implementaron dashboards, tablas, páginas educativas ni flujos administrativos. Auth conserva
+implementaron esos flujos en la extracción inicial del UI Kit. El entorno administrativo posterior
+reutiliza estos componentes; véase [admin.md](admin.md). Auth conserva
 sus formularios y lógica originales; solo ThemeToggle adopta la presentación del diseño.
 
 ## Tokens

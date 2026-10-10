@@ -36,8 +36,8 @@ test('carga: protege incluso dos submit síncronos, anuncia y deshabilita contro
   await act(async () =>
     finish(jsonResponse({ data: { user: { ...user, role: 'ADMIN' }, csrfToken: 'rotated' } })),
   );
-  expect(await screen.findByRole('heading', { name: 'Administración' })).toBeVisible();
-  expect(screen.getByRole('link', { name: 'Mi cuenta' })).toBeVisible();
+  expect(await screen.findByRole('heading', { name: 'Resumen' })).toBeVisible();
+  expect(screen.getByRole('navigation', { name: 'Administración' })).toBeVisible();
   expect(localStorage.getItem('password')).toBeNull();
   expect(sessionStorage.length).toBe(0);
 });

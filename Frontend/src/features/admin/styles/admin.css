@@ -1,0 +1,117 @@
+@import './admin-layout.css';
+@import './admin-navigation.css';
+@import './admin-icons.css';
+@import './admin-surfaces.css';
+@import './admin-fields.css';
+@import './admin-list.css';
+@import './admin-detail.css';
+@import './admin-dialog.css';
+@import './admin-responsive.css';
+body:has(.admin-shell) {
+  margin: 0;
+}
+.admin-state-action {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-shell {
+  --radius-panel: 24px;
+  box-sizing: border-box;
+  color: var(--content);
+  font-family: var(--font-brand);
+}
+.admin-shell *,
+.admin-shell *::before,
+.admin-shell *::after {
+  box-sizing: border-box;
+}
+.admin-shell p,
+.admin-shell h1,
+.admin-shell h2,
+.admin-shell h3,
+.admin-shell dl,
+.admin-shell dd {
+  margin: 0;
+}
+.admin-shell h1 {
+  font: var(--type-h1);
+}
+.admin-shell h2 {
+  font: var(--type-h3);
+}
+.admin-shell a {
+  color: inherit;
+  text-decoration: none;
+}
+.admin-shell button {
+  cursor: pointer;
+}
+.admin-shell button:disabled {
+  cursor: default;
+}
+.admin-shell :focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.admin-shell .vs-input:focus-visible {
+  outline: none;
+}
+.admin-shell .vs-button {
+  width: auto;
+  max-width: 100%;
+  min-height: 48px;
+  height: 48px;
+}
+.admin-shell .vs-alert {
+  width: 100%;
+}
+.admin-shell .vs-badge {
+  width: auto;
+  max-width: 100%;
+  min-width: 116px;
+  align-self: flex-start;
+}
+.admin-shell main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.admin-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.admin-heading p {
+  font-size: 16px;
+  line-height: 26px;
+  color: var(--text-secondary);
+}
+.admin-muted {
+  color: var(--text-secondary);
+  font: var(--type-secondary);
+}
+.admin-kicker {
+  color: var(--action-primary);
+  font: var(--type-label);
+}
+.admin-demo-note {
+  font: var(--type-label);
+  color: var(--text-secondary);
+}
+.admin-feedback {
+  align-items: flex-start;
+}
+.admin-preview {
+  font: var(--type-label);
+}
+.admin-preview select {
+  color: var(--content);
+  background: var(--surface);
+}

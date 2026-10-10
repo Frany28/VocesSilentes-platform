@@ -9,11 +9,11 @@ import { requireSession, requireAuthTransport } from './auth.middleware.js';
  * Registra endpoints reales de autenticación, CSRF y límites con respuestas no cacheables.
  * @param {object} config Configuración HTTP y políticas validadas.
  * @param {object | undefined} service Servicio persistente; sin DB devuelve 503 excepto CSRF.
+ * @param {object} [csrf] Protección compartida con otras rutas de la aplicación.
  * @returns {import('express').Router} Router sin puerto ni inicialización de base.
  */
-export function createAuthRouter(config, service) {
+export function createAuthRouter(config, service, csrf = createCsrf(config.auth)) {
   const router = Router();
-  const csrf = createCsrf(config.auth);
   const limits = createAuthLimits(config.auth);
   const controllers = createAuthController(service, config.auth, csrf);
   router.use(requireAuthTransport(config.nodeEnv));

@@ -1,0 +1,31 @@
+.admin-shell {
+  --icon-admin-chart-default: url('../../../assets/student/31e0b.svg');
+  --icon-admin-chart-active: url('../../../assets/admin/17212.svg');
+  --icon-admin-user-default: url('../../../assets/student/02f10.svg');
+  --icon-admin-user-active: url('../../../assets/admin/04253.svg');
+  --icon-admin-flag-default: url('../../../assets/student/5a25b.svg');
+  --icon-admin-flag-active: url('../../../assets/admin/fe0b7.svg');
+  --icon-admin-logout-default: url('../../../assets/student/c51ca.svg');
+  --icon-admin-avatar-default: url('../../../assets/admin/8a003.svg');
+  --icon-admin-chart-tablet: url('../../../assets/student/b92e9.svg');
+  --icon-admin-user-tablet: url('../../../assets/student/8aa47.svg');
+  --icon-admin-flag-tablet: url('../../../assets/admin/e8e76.svg');
+}
+[data-theme='dark'] .admin-shell {
+  --icon-admin-chart-default: url('../../../assets/student/a279e.svg');
+  --icon-admin-chart-active: url('../../../assets/admin/31a8c.svg');
+  --icon-admin-user-default: url('../../../assets/student/103ed.svg');
+  --icon-admin-user-active: url('../../../assets/admin/0043a.svg');
+  --icon-admin-flag-default: url('../../../assets/student/7a352.svg');
+  --icon-admin-flag-active: url('../../../assets/admin/3e084.svg');
+  --icon-admin-logout-default: url('../../../assets/student/f0795.svg');
+  --icon-admin-avatar-default: url('../../../assets/admin/b8c42.svg');
+  --icon-admin-chart-tablet: url('../../../assets/student/d840d.svg');
+  --icon-admin-user-tablet: url('../../../assets/student/5b29e.svg');
+  --icon-admin-flag-tablet: url('../../../assets/admin/cc665.svg');
+}
+.admin-nav-item.is-active .vs-icon {
+  --icon-admin-chart-default: var(--icon-admin-chart-active);
+  --icon-admin-user-default: var(--icon-admin-user-active);
+  --icon-admin-flag-default: var(--icon-admin-flag-active);
+}

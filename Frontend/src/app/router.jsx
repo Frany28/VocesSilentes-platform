@@ -7,6 +7,7 @@ import { LoginPage } from '../features/auth/login/LoginPage.jsx';
 import { StudentLayout } from '../features/student/layout/StudentLayout.jsx';
 import { StudentHome } from '../features/student/pages/StudentHome.jsx';
 import { StudentModules } from '../features/student/pages/StudentModules.jsx';
+import { adminRoutes } from '../features/admin/admin.routes.jsx';
 
 /**
  * Define las rutas mínimas; permite BrowserRouter y MemoryRouter en pruebas.
@@ -20,6 +21,7 @@ export function createRoutes() {
     {
       element: <AuthGuard />,
       children: [
+        { element: <AdminGuard />, children: [adminRoutes()] },
         {
           element: <StudentLayout />,
           children: [
@@ -34,13 +36,7 @@ export function createRoutes() {
       children: [
         {
           element: <AuthGuard />,
-          children: [
-            { path: '/account', element: <SessionPage /> },
-            {
-              element: <AdminGuard />,
-              children: [{ path: '/admin', element: <SessionPage admin /> }],
-            },
-          ],
+          children: [{ path: '/account', element: <SessionPage /> }],
         },
         {
           path: '*',

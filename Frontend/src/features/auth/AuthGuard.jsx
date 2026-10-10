@@ -1,4 +1,4 @@
-import { Navigate, Outlet, useLocation } from 'react-router';
+import { Link, Navigate, Outlet, useLocation } from 'react-router';
 import { useAuth } from './use-auth.js';
 
 /**
@@ -29,6 +29,11 @@ export function AuthGuard() {
 export function AdminGuard() {
   const auth = useAuth();
   if (auth.user?.role !== 'ADMIN')
-    return <p role="alert">No tienes permiso para acceder a esta vista.</p>;
+    return (
+      <div>
+        <p role="alert">No tienes permiso para acceder a esta vista.</p>
+        <Link to="/account">Mi cuenta</Link>
+      </div>
+    );
   return <Outlet />;
 }

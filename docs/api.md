@@ -1,6 +1,29 @@
 # Contratos HTTP
 
 Base `/api`. Éxitos JSON `{ "data": ... }`; errores `{ "error": { "code": ..., "message": ... } }`.
+
+## Usuarios administrados
+
+Todos exigen sesión ADMIN y transporte de autenticación; POST/PATCH también CSRF existente.
+Se reutiliza la conexión de Prisma. No existe un endpoint nuevo de listado o cambio de estado.
+
+| Método / ruta            | Entrada                                                                            | Respuesta                                                  |
+| ------------------------ | ---------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| GET `/admin/users/:id`   | UUID válido                                                                        | 200 `{data:{user}}` para cargar detalle/edición            |
+| POST `/admin/users`      | firstName, lastName?, username, email, role USER/ADMIN, isActive boolean, password | 201 `{data:{user}}` sin crear una sesión                   |
+| PATCH `/admin/users/:id` | firstName, lastName?, username, email, role USER/ADMIN                             | 200 `{data:{user}}` sin contraseña ni estado en el payload |
+
+DTO administrativo: campos públicos de auth más isActive, isDeleted, deletedAt, lockedUntil,
+failedLoginAttempts, createdAt y updatedAt. Nunca password/passwordHash/tokens/sesiones.
+Correo y username duplicados: 409 ACCOUNT_UNAVAILABLE; último admin activo: 409 LAST_ACTIVE_ADMIN;
+cuenta eliminada: 409 USER_DELETED; UUID inexistente: 404 USER_NOT_FOUND; campos inválidos/extra: 400 INVALID_INPUT.
+Cambiar correo restablece emailVerified=false; creación siempre lo deja pendiente.
+Crear desde Admin admite contraseña de 8–128 caracteres Unicode y hasta 512 bytes UTF-8;
+se conserva exactamente la entrada. El registro público mantiene el mínimo de 15.
+Reglas, alcance de demostración y pantallas: [admin.md](admin.md).
+
+## Autenticación y salud
+
 No se exponen issues de validación con valores, errores SQL, hashes o tokens de sesión.
 El token **CSRF** sí se devuelve para enviarlo en una cabecera; no es una credencial de sesión.
 

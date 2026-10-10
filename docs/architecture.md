@@ -13,7 +13,8 @@ flowchart LR
 ```
 
 Autenticación recorre todas las capas hasta User/Session; health no consulta persistencia.
-Contenido, progreso y reportes conservan solo su modelo de datos, sin flujos de aplicación.
+La administración de identidad/rol también recorre esas capas. Contenido, progreso y reportes
+conservan su modelo de datos; el frontend muestra demostraciones explícitas cuando no hay backend.
 
 ## Frontend
 
@@ -42,7 +43,9 @@ cancelación de navegación como fallo de negocio.
 `features/auth/` separa cliente CSRF en memoria, AuthProvider/useAuthSession, guards y formularios.
 El proveedor verifica me y representa carga, autenticado, no autenticado y error; no confunde red
 con ausencia de sesión. El cliente HTTP notifica 401 UNAUTHENTICATED, sin invalidar por 403.
-Los destinos `/account` y `/admin` son provisionales; el guard de rol es apoyo de navegación.
+`/account` conserva su destino de sesión. `/admin` tiene un layout protegido, siete pantallas,
+creación/edición real y demostraciones identificadas; el guard de rol es apoyo de navegación.
+La API vuelve a autorizar cada consulta/escritura. Ver [admin.md](admin.md).
 
 `features/auth/login/` presenta Auth de Figma como una ruta independiente del layout técnico.
 Reutiliza controles generales con variantes y el mismo hook/proveedor/cliente de autenticación.
@@ -50,12 +53,12 @@ La validación local y traducción de errores están separadas de la presentaci�
 
 ## Backend
 
-`app.js` recibe configuración, logger y servicio de auth preparado, registra seguridad, cookies,
-JSON, health, auth y manejo común de errores;
+`app.js` recibe configuración, logger y servicios preparados de auth/usuarios, registra seguridad,
+cookies, JSON, health, auth, rutas de usuarios y manejo común de errores;
 no lee secretos, abre puertos ni consulta PostgreSQL. `server.js` carga y valida entorno, crea Prisma
-cuando hay URL, conecta e inicializa auth antes de escuchar y maneja SIGINT/SIGTERM.
+cuando hay URL, conecta e inicializa ambos servicios antes de escuchar y maneja SIGINT/SIGTERM.
 
-`Backend/app.js` es la entrada nativa para Vercel: exporta Express, valida entorno e inicializa auth,
+`Backend/app.js` es la entrada nativa para Vercel: exporta Express, valida entorno e inicializa los servicios,
 con conexión Prisma diferida y sin puerto ni listeners de señales. Solo allí, con `VERCEL=1`, se acepta
 un salto del proxy de la plataforma para HTTPS/IP. El servidor local mantiene TRUST_PROXY_IPS.
 `Backend/vercel.json` fija el preset Express y genera Prisma durante el build;

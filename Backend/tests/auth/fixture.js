@@ -6,6 +6,7 @@ import { PGLiteSocketServer } from '@electric-sql/pglite-socket';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../../generated/client.js';
 import { createAuthService } from '../../src/modules/auth/auth.service.js';
+import { createUsersService } from '../../src/modules/admin/users.service.js';
 import { createApp } from '../../src/app.js';
 import { createLogger } from '../../src/lib/logger.js';
 import { parseEnv } from '../../src/config/env.js';
@@ -42,8 +43,12 @@ export function authFixture() {
       REGISTER_IDENTIFIER_LIMIT: '100',
     });
     fixture.service = await createAuthService(database, fixture.config.auth);
+    fixture.usersService = await createUsersService(database);
     fixture.app = createServer(
-      createApp(fixture.config, createLogger('silent'), { authService: fixture.service }),
+      createApp(fixture.config, createLogger('silent'), {
+        authService: fixture.service,
+        usersService: fixture.usersService,
+      }),
     );
     fixture.app.listen(0, '127.0.0.1');
     await once(fixture.app, 'listening');

@@ -45,7 +45,7 @@ test('guard administrativo: USER denegado conserva sesión y ADMIN autorizado', 
   view.unmount();
   fetchMock.mockResolvedValue(jsonResponse({ data: { user: { ...user, role: 'ADMIN' } } }));
   renderAuthApp('/admin');
-  expect(await screen.findByRole('heading', { name: 'Administración' })).toBeVisible();
+  expect(await screen.findByRole('heading', { name: 'Resumen' })).toBeVisible();
 });
 
 test('401 protegido limpia estado; 403 mantiene la sesión existente', async () => {
