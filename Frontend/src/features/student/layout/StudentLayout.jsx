@@ -10,7 +10,7 @@ import { useStudentActions } from './use-student-actions.js';
 import '../student.css';
 
 /**
- * Comparte layout protegido; centra un único contenedor de 1044 px después de la barra lateral.
+ * Comparte layout protegido con contenido fluido de hasta 1280 px después de la barra lateral.
  * @returns {import('react').ReactElement} Páginas de estudiante protegidas por el guard existente.
  */
 export function StudentLayout() {
@@ -32,7 +32,7 @@ export function StudentLayout() {
           pending={actions.pending}
         />
         <div className="min-w-0 flex-1">
-          <div className="student-container mx-auto flex w-full max-w-[1044px] flex-col gap-6">
+          <div className="student-container mx-auto flex w-full flex-col gap-6">
             <header className="flex min-h-13 items-center gap-4">
               <div className="min-[600px]:hidden">
                 <Brand />

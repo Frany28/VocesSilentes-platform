@@ -4,6 +4,9 @@
 controles, ilustración, animaciones y enlaces. Se adaptan título, descripción, acciones y campos.
 Reutiliza los recursos y tokens existentes; no se atribuye a una nueva referencia de Figma.
 La tarjeta crece con sus cinco campos, ayudas y errores, también en móvil y con movimiento reducido.
+Desde 600 px agrupa nombre/apellido y usuario/correo en dos columnas; contraseña ocupa el ancho
+completo. En móvil usa una columna y en pantallas bajas reduce espacios decorativos sin recortar
+campos ni mensajes. Comparte la [adaptación por ancho y altura](responsive.md) de Auth.
 
 ## Correspondencia con la base de datos
 

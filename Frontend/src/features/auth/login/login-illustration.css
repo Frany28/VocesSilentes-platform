@@ -1,4 +1,4 @@
-/* Recortes originales de los PNG de Figma; geometr?a e ilustraci?n en Tailwind. */
+/* Recortes originales de PNG; la geometría fluida se define en login-visual-layout.css. */
 /* El trazo circular viene del SVG; los keyframes no deben dibujar el borde de su caja. */
 .login-orbit {
   border-style: none;

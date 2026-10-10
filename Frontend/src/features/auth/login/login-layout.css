@@ -52,61 +52,9 @@
     grid-column: 1 / -1;
   }
 }
-@media (max-height: 900px) {
-  .login-access:has([data-mode='register']) {
-    justify-content: center;
-  }
-  .login-access:has([data-mode='register']) .login-spacer,
-  .login-card[data-mode='register'] .login-welcome > span {
-    display: none;
-  }
-  .login-card[data-mode='register'] {
-    padding: 16px;
-    gap: 12px;
-  }
-  .login-card[data-mode='register'] .login-fields {
-    gap: 12px;
-  }
-  .login-card[data-mode='register'] .vs-field {
-    gap: 4px;
-  }
-  .login-card[data-mode='register'] .login-welcome h1 {
-    font-size: 30px;
-  }
-  .login-card[data-mode='register'] .login-welcome p {
-    font-size: 14px;
-    line-height: 22px;
-  }
-}
+
 @media (min-width: 1200px) {
   .login-page {
     flex-direction: row;
-  }
-}
-@media (max-height: 760px) {
-  .login-spacer {
-    display: none;
-  }
-  .login-access {
-    justify-content: center;
-  }
-  .login-welcome > span {
-    display: none;
-  }
-  .login-card {
-    padding: 20px;
-    gap: 16px;
-  }
-  .login-welcome > p {
-    font-size: 14px;
-    line-height: 22px;
-  }
-}
-@media (max-height: 620px) {
-  .login-page {
-    padding: 16px;
-  }
-  .login-card {
-    padding: 16px;
   }
 }

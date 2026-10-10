@@ -24,10 +24,14 @@ sesión y rol en cada petición; el guard visual no concede permisos.
 
 Se reutilizan Brand, Input, PasswordInput, Button, Icon, Badge, Alert, ThemeToggle y los tokens
 existentes. Los nuevos SVG son originales descargados de los assets de get_design_context;
-no hay URLs temporales de Figma en el código. Sidebar de 280 px en desktop y 80 px en tablet;
+no hay URLs temporales de Figma en el código. Sidebar fluido de 224–280 px en desktop y 80 px en tablet;
 navegación horizontal en móvil. Breakpoints de composición: 1200 y 600 px, como Student.
 Se conservan márgenes de 24 px, paneles de 24 px, campos/navegación de 12 px y botones de 16 px.
 Claro/oscuro usa el proveedor existente y su preferencia persistida.
+La [adaptación por ancho y altura](responsive.md) permite espacios de 16–24 px, contenido
+de hasta 1280 px y sidebar con desplazamiento propio. No impone una altura mínima fija
+al contenido. Listas, filtros y campos responden al ancho real de su contenedor;
+los diálogos se desplazan internamente cuando la altura disponible es menor que su contenido.
 
 Los avisos de procedencia, consulta por UUID y detalles de validación ocupan espacio adicional
 respecto al prototipo: no se ocultan para aparentar una integración. El botón Crear queda en flujo,

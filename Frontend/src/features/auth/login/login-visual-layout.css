@@ -72,7 +72,7 @@
     padding: clamp(16px, 2svh, 24px);
   }
 }
-@media (max-height: 760px) {
+@media (max-height: 800px) {
   .login-education {
     display: none;
   }

@@ -21,6 +21,7 @@ body:has(.admin-shell) {
   box-sizing: border-box;
   color: var(--content);
   font-family: var(--font-brand);
+  overflow-wrap: anywhere;
 }
 .admin-shell *,
 .admin-shell *::before,

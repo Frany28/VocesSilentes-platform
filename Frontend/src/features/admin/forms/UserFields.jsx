@@ -32,25 +32,25 @@ export function UserFields({ values, errors, change, creating }) {
         })}
       </div>
       <div className={creating ? 'admin-name-row' : 'admin-form'}>
-      {field(
-        'username',
-        'Nombre de usuario',
-        'Elige un nombre de usuario',
-        'Único: 3–50 letras, números o guiones bajos.',
-        { required: true, maxLength: 50, autoComplete: 'off' },
-      )}
-      {field(
-        'email',
-        'Correo',
-        'nombre@ejemplo.com',
-        'Debe ser único; se usa para iniciar sesión',
-        {
-          type: 'email',
-          required: true,
-          maxLength: 254,
-          autoComplete: 'off',
-        },
-      )}
+        {field(
+          'username',
+          'Nombre de usuario',
+          'Elige un nombre de usuario',
+          'Único: 3–50 letras, números o guiones bajos.',
+          { required: true, maxLength: 50, autoComplete: 'off' },
+        )}
+        {field(
+          'email',
+          'Correo',
+          'nombre@ejemplo.com',
+          'Debe ser único; se usa para iniciar sesión',
+          {
+            type: 'email',
+            required: true,
+            maxLength: 254,
+            autoComplete: 'off',
+          },
+        )}
       </div>
       <div className={creating ? 'admin-name-row' : undefined}>
         <AdminSelect

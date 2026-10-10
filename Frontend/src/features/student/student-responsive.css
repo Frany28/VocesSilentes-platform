@@ -43,6 +43,9 @@
 .student-hero-logo {
   top: calc(var(--orbit-top) + var(--orbit-size) * 0.2015);
 }
+.student-hero-art > span {
+  background-size: contain;
+}
 .student-hero h2 {
   font-size: clamp(24px, 4.5cqi, 36px);
   line-height: 1.3;

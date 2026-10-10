@@ -150,6 +150,8 @@ No hay flujos educativos/reportes ni reconocimiento LSV. Hay componentes general
 y una galería de desarrollo en `/ui.html`; véase [sistema visual](docs/design-system.md).
 La pantalla `/login` reproduce Auth en ambos temas y tres composiciones adaptables, con el flujo
 existente de sesión y sus errores; véase [implementación y límites](docs/login.md).
+Login, Registro, Student, Admin y cuenta ajustan espacios, columnas y paneles al ancho y altura
+disponibles; véase [adaptación de pantallas](docs/responsive.md).
 Faltan las pantallas de producto y entrenamiento/validación
 de un modelo específico; tampoco hay OAuth, recuperación ni envío de correo.
 

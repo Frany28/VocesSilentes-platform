@@ -177,8 +177,9 @@ No se presentan estas extensiones como variantes originales de Figma.
 Tailwind 4 está integrado mediante Vite y `global.css`. `@theme inline` en `tokens.css`
 vincula colores existentes con utilidades: `text-content`, `text-muted`, `text-info`,
 `bg-surface`, `bg-accent`, `bg-tertiary`, `border-border` y `outline-focus`.
-La pantalla de login compone layout y adaptación con utilidades en JSX y usa `--type-*`
-para la tipografía; los controles del UI Kit conservan su implementación compartida.
+Las áreas combinan utilidades en JSX y CSS de geometría fluida para la
+[adaptación al ancho y la altura](responsive.md), usando `--type-*` para la tipografía;
+los controles del UI Kit conservan su implementación compartida.
 Gradientes animados, keyframes originales y recortes de marca permanecen en CSS específico.
 
 ```jsx

@@ -1,4 +1,7 @@
 /* Reflow del layout de cuenta y mensajes del router, con los tokens existentes. */
+body:has(.app-shell) {
+  margin: 0;
+}
 .app-shell {
   max-width: 1280px;
   min-height: 100svh;

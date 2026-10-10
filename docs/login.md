@@ -15,8 +15,8 @@ panel visual, validación local y mensajes públicos. El envío sigue en `use-au
 `AuthLayout` comparte la página y `AuthForm` la tarjeta, mensajes y acciones; los campos de login
 siguen en `LoginForm`. Registro adapta esta presentación a sus cinco campos: [contrato y flujo](registration.md).
 
-La composición usa Tailwind 4 en JSX: layout, breakpoints, tamaños, espaciado, tipografía,
-colores semánticos, bordes, sombras de tarjeta/etiquetas y estados accesibles de enlaces.
+La composición combina Tailwind 4 en JSX para colores semánticos, bordes, sombras y estados
+con CSS específico para la geometría adaptable al ancho y la altura disponibles.
 `LoginLink` comparte el estilo de navegación de Auth. `tokens.css` expone `muted`, `info`,
 `accent` y `tertiary` como aliases Tailwind de los colores existentes, sin nuevos valores.
 Las utilidades de tipografía referencian los contratos `--type-*` del sistema visual.
@@ -24,24 +24,29 @@ Los overrides `!` de Button, Alert y ThemeToggle son puntuales porque el UI Kit 
 sus reglas CSS sin capa; una utilidad normal no tiene precedencia sobre ellas.
 
 El CSS específico conserva tokens/gradientes y sus capas animadas, recortes de PNG de marca,
-keyframes originales y ajustes internos de controles compartidos. Se eliminaron los antiguos
-archivos `login-layout.css`, `login-form.css`, `login-responsive.css`, `login-visual.css` y
-`login-preview.css`; `login-surfaces.css` reúne las superficies y el ancho original del título de alerta.
-No se duplican reglas de composición entre CSS y Tailwind ni se añade una dependencia.
+keyframes originales y ajustes internos de controles compartidos. `login-layout.css` concentra
+la geometría fluida, `login-responsive.css` los ajustes para pantallas bajas y
+`login-visual-layout.css` el tamaño y la visibilidad del panel de bienvenida.
+`login-surfaces.css` reúne las superficies y el ancho original del título de alerta.
+Los tamaños rígidos de JSX se sustituyeron por estas reglas, sin añadir dependencias.
 
 | Referencia            | Claro    | Oscuro   | Implementación                                      |
 | --------------------- | -------- | -------- | --------------------------------------------------- |
 | Escritorio 1440 × 960 | 147:6348 | 147:6351 | Formulario 480 px; panel de 600 px                  |
-| Tablet 834 × 1100     | 147:6349 | 147:6352 | Formulario centrado y franja de bienvenida          |
-| Móvil 390 × 920       | 147:6350 | 147:6353 | Formulario de ancho disponible con padding de 24 px |
+| Tablet 834 × 1100     | 147:6349 | 147:6352 | Formulario centrado; franja con altura disponible   |
+| Móvil 390 × 920       | 147:6350 | 147:6353 | Formulario de ancho disponible; padding de 16–24 px |
 
 Se usan breakpoints de 1200 y 600 px para interpolar las tres composiciones; son decisiones
 de implementación entre las referencias, no medidas adicionales atribuidas a Figma.
-La altura mínima crece a 1160/1300/1120 px en los errores, como sus variantes,
-y puede crecer más por contenido o zoom. No se fija la altura de campos ni mensajes.
+Por solicitud del usuario, la página usa `min-height: 100svh` y crece solo por contenido,
+sin las alturas mínimas de los frames originales ni aumentos artificiales por errores.
+Los espacios, títulos y emblema se ajustan con `clamp`; en pantallas bajas se retiran
+promociones decorativas. Se conservan los campos, acciones, enlaces y selector de tema.
+La franja de tablet aparece solo con al menos 900 px de altura. No se fija la altura
+de campos ni mensajes. Véase [adaptación de las áreas](responsive.md).
 
 Los componentes generales se reutilizan: Input y PasswordInput añaden `appearance="plain"`,
-Button mantiene sus estados con altura de 48 px en login, Alert conserva los roles y recursos,
+Button mantiene sus estados con altura mínima de 48 px en login, Alert conserva los roles y recursos,
 ThemeToggle admite los atributos de ThemeSwitch e Icon admite el Chevron de 16 px.
 La apariencia predeterminada del UI Kit sigue disponible.
 Correo y contraseña comparten `--radius-lg` (12 px) en todos los estados; se retiró la excepción

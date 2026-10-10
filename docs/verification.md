@@ -1,5 +1,43 @@
 # Verificación
 
+## Adaptación de todas las áreas — 9 de octubre de 2026
+
+Se revisaron Login, Registro, cuenta, Student/inicio y módulos, y las siete pantallas Admin.
+Se sustituyeron alturas mínimas rígidas por altura de viewport y crecimiento por contenido;
+espacios, títulos, ilustraciones, columnas y diálogos responden al espacio disponible.
+Alcance y límites en [responsive.md](responsive.md).
+
+`pnpm verify` terminó con código 0: lint sin advertencias, formato, 73 pruebas frontend,
+34 unitarias backend, validación/generación Prisma, build de ambos paquetes y 35 pruebas SQL.
+Total: **142 pruebas aprobadas**. La salida informativa de Prisma hacia stderr aparece como
+NativeCommandError en el log de PowerShell; validación y comando completo terminaron con éxito.
+
+Chrome local comprobó **288 combinaciones**: 12 rutas × 12 tamaños × ambos temas, con
+144 capturas y medidas de documento/controles, sin desbordamiento horizontal ni controles
+recortados. Tamaños: 1920×1080, 1440×900, 1366×768, 1280×600, 1024×600, 834×1112,
+390×844, 360×640, 320×568, 844×390, 720×450 y 390×400. Los dos últimos incluyen
+espacio CSS reducido equivalente a zoom/teclado; no son pruebas de teclado físico.
+
+Login completo sin scroll vertical en los escritorios comprobados de al menos 1200×600;
+formulario y footer visibles en móviles comprobados de 360×640 y 390×844.
+Registro completo en los escritorios comprobados de al menos 1200×768. Un diálogo de cierre
+de sesión permanece dentro de 844×390 y permite desplazamiento interno cuando lo necesita.
+Páginas largas, errores y móviles de menor altura conservan scroll natural.
+
+Otras siete comprobaciones verificaron errores obligatorios y foco en Login/Registro,
+inputs de 16 px con emulación táctil, acceso al botón al desplazar, nombres/apellidos de
+100 caracteres sin espacios en detalle/edición a 1366 y 320 px, y cambio real de tema.
+La cuenta de texto largo se creó y se leyó mediante API/Prisma en PostgreSQL WASM aislado.
+Las animaciones originales activas se comprobaron en 48 muestras de Login/Registro:
+tres tamaños, dos temas y cuatro momentos, sin desbordamiento ni controles recortados.
+Ninguna revisión produjo excepciones JavaScript.
+
+Evidencia ignorada por Git: `.local/responsive-review/` y `.local/responsive-verify.log`.
+La aplicación revisada usa Vite y sesión real contra una base local efímera, sin leer `.env`
+ni escribir en producción. Las demos mantienen sus avisos. Sin dependencias, contratos API
+ni migraciones nuevas. No se desplegó el frontend ni se ejecutó GitHub Actions; Chrome local
+no representa una matriz de Safari/Firefox ni una comparación automática píxel por píxel.
+
 ## Composición de contraseña y duplicados en Admin — 9 de octubre de 2026
 
 Crear usuario exige 8–128 caracteres, una mayúscula Unicode y un carácter de puntuación/símbolo;
