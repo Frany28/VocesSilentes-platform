@@ -1,5 +1,42 @@
 # Verificación
 
+## Diagnóstico del GET / y conexión de Netlify — 9 de octubre de 2026
+
+El dominio estable de la API devuelve 404 JSON `NOT_FOUND` en `/` y 200 `ok` en `/api/health`.
+Con Origin `https://vocessilentes.netlify.app`, health, me, csrf y el preflight de login devuelven
+403 `ORIGIN_NOT_ALLOWED`, sin cabecera de permiso CORS. Sin Origin, csrf responde 200 y sus
+cookies son HttpOnly, SameSite=Lax y sin Secure. No se enviaron credenciales ni se crearon sesiones.
+
+La URL individual `voces-silentes-platform-23u4q3nk3-frany28s-projects.vercel.app` redirige con 302
+a vercel.com antes de llegar a la API. El bundle publicado de Netlify `index-DJeme1ZB.js` contiene
+la URL estable correcta, además del fallback de desarrollo del código; no se atribuye su uso
+al fallback. Evidencia local sin secretos: `.local/deployment-connectivity.json`.
+
+El usuario completó la autenticación oficial de Vercel. Se confirmó Root Directory Backend,
+Express y Node 24.x; existía CORS_ORIGIN en singular y faltaban las variables esperadas.
+La revisión automática de permisos interrumpió inicialmente la operación por un límite de uso;
+no hubo cambios en ese intento. Se reanudó la revisión correctamente después de la petición de continuar.
+
+Se configuraron para Production NODE_ENV=production, CORS_ORIGINS con el origen exacto Netlify,
+SESSION_SAME_SITE=none y un CSRF_SECRET sensible aleatorio generado en memoria. NODE_ENV de
+Preview se conservó separando los destinos; no se alteraron DATABASE_URL ni DIRECT_URL.
+El proyecto pasó a Node 22.x y se redesplegó la misma versión del backend, con alias estable.
+Nuevo despliegue: `voces-silentes-platform-3yb92k4u4-frany28s-projects.vercel.app`, Ready.
+
+Comprobación posterior real con Origin Netlify: health 200, csrf 200, preflight login 204 y me
+anónimo 401, con Allow-Origin exacto y Allow-Credentials=true. Cookies HttpOnly, Secure,
+SameSite=None. Ambas cuentas completaron login 200, me 200, logout 204 y me posterior 401
+con un cliente HTTP y cookies en memoria. Esto sí comprueba persistencia y verificación Argon2
+del backend desplegado, además de HTTP; las sesiones creadas para comprobarlo se revocaron.
+
+Revisión adicional desde Chrome aislado, sin dobles, en Netlify: ADMIN entró a `/admin` y USER a
+`/student`; recarga y consulta me mantuvieron ambas sesiones, y logout devolvió 204. No hubo
+errores CORS ni cookies bloqueadas en ese perfil. No garantiza la política de otros navegadores.
+Evidencia sin secretos: `.local/vercel-production-fix.json`, `.local/live-auth-check.json` y
+`.local/live-browser-check.json`. Se eliminó el archivo temporal privado de credenciales.
+Formato y diff correctos; no hubo cambios de código, migraciones ni repetición de pruebas locales.
+No se ejecutó GitHub Actions ni se redesplegó el frontend, que ya apuntaba a la API correcta.
+
 ## Dos cuentas de acceso solicitadas — 9 de octubre de 2026
 
 Por solicitud expresa del usuario se crearon dos cuentas en la base real configurada en Backend/.env:

@@ -62,11 +62,21 @@ Producción también exige `CSRF_SECRET` privado de 64 caracteres hexadecimales;
 si cumple ese contrato o generarlo y guardarlo exclusivamente en Vercel. No incluirlo en este archivo,
 el frontend ni la conversación. Volver a desplegar el backend después de cambiar las variables.
 
-La comprobación pública del 9 de octubre de 2026 obtuvo health 200, pero CORS rechazó con 403
-el origen Netlify y el preflight de login. Sin Origin, me devuelve 401 y csrf devuelve cookies
-HttpOnly con SameSite=Lax **sin Secure**, coherente con una política distinta de producción en
-el código actual. Estas respuestas no demuestran conectividad PostgreSQL ni login funcional.
-La CLI local no tiene sesión ni proyecto vinculado; los ajustes remotos quedan pendientes.
+La conexión de producción fue corregida y comprobada el 9 de octubre de 2026 tras autenticar
+la CLI en el proyecto autorizado. Vercel tenía `CORS_ORIGIN` en singular, que la API no lee,
+y faltaban SESSION_SAME_SITE y CSRF_SECRET. Se configuraron las variables anteriores para
+Production, un CSRF_SECRET privado aleatorio y Node 22.x; se conservaron las variables de
+Preview y las credenciales PostgreSQL. Se redesplegó la misma versión del backend.
+
+El bundle de Netlify contiene la URL estable correcta. Health responde 200 con Origin Netlify,
+el preflight de login 204, csrf 200 y me sin sesión 401, con permiso CORS explícito y credentials.
+Las cookies son HttpOnly, Secure y SameSite=None. Login/me/logout de ambas cuentas dieron
+200/200/204 por HTTP real. Desde Chrome aislado en el sitio publicado, ADMIN entró a `/admin`
+y USER a `/student`; ambas sesiones persistieron al recargar y se cerraron correctamente.
+
+`GET /` de la API sigue devolviendo el 404 `NOT_FOUND` esperado. La URL individual del despliegue
+anterior redirige a la autenticación de Vercel (302), incluido health; el frontend usa el dominio
+estable. Evidencia y límites en [verification.md](verification.md).
 
 Los navegadores que bloquean cookies de terceros pueden impedir la sesión; los dominios del mismo
 sitio permiten usar lax. Ver [vercel.md](vercel.md) y [authentication.md](authentication.md).

@@ -18,6 +18,12 @@ con puerto, señales y cierre de Prisma. Las rutas conservan `/api`, sin rewrite
    `{ "data": { "status": "ok", "service": "vocessilentes-api" } }`.
    Esto comprueba HTTP; probar login/me/logout después para comprobar persistencia y cookies.
 
+`GET /` devuelve 404 `NOT_FOUND` porque la API no publica una página de inicio; no indica por sí
+solo un fallo del despliegue. Comprobar `/api/health` y el preflight de auth con el Origin real.
+Para el frontend usar el dominio estable `https://voces-silentes-platform.vercel.app/api`;
+las URLs de despliegues individuales pueden exigir autenticación de Vercel y devolver un redirect
+al proveedor antes de llegar a Express. No usarlas como VITE_API_URL.
+
 Vercel administra parches de Node 22. El workspace requiere al menos 22.23.1 y fija esa versión
 localmente; si el build informa un Node menor, comprobar la versión del runtime en Vercel.
 
