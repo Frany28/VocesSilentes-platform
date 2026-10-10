@@ -9,10 +9,11 @@ No se modificó el archivo de Figma.
 
 ## Composición y archivos
 
-Una única ruta pública `/login`, fuera del layout técnico para conservar la composición de Auth.
+Las rutas públicas `/login` y `/register` quedan fuera del layout técnico para conservar la composición de Auth.
 `features/auth/login/` separa página, presentación del formulario, marca, ilustración,
 panel visual, validación local y mensajes públicos. El envío sigue en `use-auth-form.js`.
-La ruta `/register` conserva su formulario existente y los destinos protegidos siguen siendo provisionales.
+`AuthLayout` comparte la página y `AuthForm` la tarjeta, mensajes y acciones; los campos de login
+siguen en `LoginForm`. Registro adapta esta presentación a sus cinco campos: [contrato y flujo](registration.md).
 
 La composición usa Tailwind 4 en JSX: layout, breakpoints, tamaños, espaciado, tipografía,
 colores semánticos, bordes, sombras de tarjeta/etiquetas y estados accesibles de enlaces.
@@ -75,7 +76,7 @@ conservando la espera de 429 mientras esté activa.
 
 Se mantienen `requestJson`, credentials:include, CSRF en memoria, cookies HttpOnly y AuthProvider.
 `ApiError.retryAfter` es opcional y contiene segundos normalizados del header, nunca una credencial.
-USER vuelve a `/account` y ADMIN a `/admin`; `/account` es válido para ambos y el retorno a
+USER entra a `/student` y ADMIN a `/admin`; `/account` es válido para ambos y el retorno a
 `/admin` solo se respeta para ADMIN. URLs, queries, traversal y rutas no publicadas se descartan.
 Los permisos reales siguen en backend.
 
@@ -92,6 +93,8 @@ Los permisos reales siguen en backend.
 - El exportador expresa el grosor animado de las órbitas como border-width sobre un recurso SVG.
   Ese valor no cambia el trazo interno del SVG usado como fondo; se conserva el grosor del recurso
   original, con su movimiento de escala y opacidad. No se promete identidad animada píxel por píxel.
+  `.login-orbit` usa border-style: none para que Preflight de Tailwind no dibuje contornos cuadrados
+  al animar border-width; las órbitas circulares siguen procediendo de los SVG originales.
 - La rasterización tipográfica de Windows/Chromium difiere de Figma aunque se conservan
   familia, peso, tamaño, interlineado, dimensiones y recursos originales.
 - CORS actual no expone Retry-After para peticiones entre orígenes. En ese caso el navegador

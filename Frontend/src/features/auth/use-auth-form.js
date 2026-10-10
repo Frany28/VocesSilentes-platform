@@ -5,6 +5,8 @@ import { safeReturnPath } from './return-path.js';
 import { validateLogin } from './login/login-validation.js';
 import { loginError } from './login/login-error.js';
 import { useRetryDelay } from './login/use-retry-delay.js';
+import { validateRegistration } from './registration/registration-validation.js';
+import { registrationError } from './registration/registration-error.js';
 
 /**
  * Gestiona validación, envío/cancelación y navegación con el proveedor existente.
@@ -12,6 +14,7 @@ import { useRetryDelay } from './login/use-retry-delay.js';
  * @returns {object} Acciones, errores y carga; no persiste contraseñas ni tokens.
  */
 export function useAuthForm(mode) {
+  const validate = mode === 'register' ? validateRegistration : validateLogin;
   const auth = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -32,7 +35,7 @@ export function useAuthForm(mode) {
       const name = event.target.name;
       if (fieldErrors[name]) {
         const input = Object.fromEntries(new FormData(event.currentTarget));
-        const updated = validateLogin(input);
+        const updated = validate(input);
         setFieldErrors((current) => ({ ...current, [name]: updated[name] }));
       }
       if (!delay.remaining) {
@@ -45,17 +48,15 @@ export function useAuthForm(mode) {
       if (controller.current || delay.remaining) return;
       const form = event.currentTarget;
       const input = Object.fromEntries(new FormData(form));
-      if (mode === 'login') {
-        const errors = validateLogin(input);
-        setFieldErrors(errors);
-        if (Object.keys(errors).length) {
-          setError('');
-          setFeedback(null);
-          form.elements.namedItem(Object.keys(errors)[0])?.focus();
-          return;
-        }
+      const errors = validate(input);
+      setFieldErrors(errors);
+      if (Object.keys(errors).length) {
+        setError('');
+        setFeedback(null);
+        form.elements.namedItem(Object.keys(errors)[0])?.focus();
+        return;
       }
-      if (input.lastName === '') delete input.lastName;
+      if (mode === 'register' && !input.lastName.trim()) delete input.lastName;
       const request = new AbortController();
       controller.current = request;
       setPending(true);
@@ -69,8 +70,9 @@ export function useAuthForm(mode) {
         }
       } catch (failure) {
         if (!request.signal.aborted) {
-          setError(mode === 'login' ? loginError(failure).message : failure.message);
-          if (mode === 'login') setFeedback(loginError(failure));
+          const result = mode === 'register' ? registrationError(failure) : loginError(failure);
+          setError(result.message);
+          setFeedback(result);
           if (failure.status === 429 || failure.code === 'RATE_LIMITED')
             delay.start(failure.retryAfter);
         }

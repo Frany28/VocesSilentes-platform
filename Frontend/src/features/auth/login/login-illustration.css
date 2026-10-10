@@ -1,4 +1,8 @@
 /* Recortes originales de los PNG de Figma; geometr?a e ilustraci?n en Tailwind. */
+/* El trazo circular viene del SVG; los keyframes no deben dibujar el borde de su caja. */
+.login-orbit {
+  border-style: none;
+}
 .login-emblem {
   background: linear-gradient(52.59465deg, var(--login-emblem-stops));
   box-shadow: 0 16px 32px rgb(38 20 77 / 12%);

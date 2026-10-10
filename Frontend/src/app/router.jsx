@@ -1,6 +1,6 @@
 import { Link, Navigate } from 'react-router';
 import { AppLayout } from '../components/layout/AppLayout.jsx';
-import { AuthPage } from '../features/auth/AuthPage.jsx';
+import { RegistrationPage } from '../features/auth/registration/RegistrationPage.jsx';
 import { AuthGuard, AdminGuard } from '../features/auth/AuthGuard.jsx';
 import { SessionPage } from '../features/auth/SessionPage.jsx';
 import { LoginPage } from '../features/auth/login/LoginPage.jsx';
@@ -16,6 +16,7 @@ export function createRoutes() {
   return [
     { path: '/', element: <Navigate to="/login" replace /> },
     { path: '/login', element: <LoginPage /> },
+    { path: '/register', element: <RegistrationPage /> },
     {
       element: <AuthGuard />,
       children: [
@@ -31,7 +32,6 @@ export function createRoutes() {
     {
       element: <AppLayout />,
       children: [
-        { path: '/register', element: <AuthPage mode="register" /> },
         {
           element: <AuthGuard />,
           children: [

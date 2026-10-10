@@ -1,5 +1,43 @@
 # Verificación
 
+## Registro alineado con User y estilos de login — 9 de octubre de 2026
+
+Se cotejaron los cinco campos con `registrationSchema`, User y el servicio de registro.
+La presentación comparte AuthLayout/AuthForm con login, con textos, ayudas y campos propios.
+Se añadió validación local antes del envío, omisión del apellido vacío o con espacios,
+errores accesibles, mensajes controlados y estados de carga/reintento.
+No cambiaron esquema, migraciones, dependencias ni configuración remota.
+
+Revisión local en Brave/Chromium: 16 muestras, ambos temas a 1440, 834, 390 y 320 px,
+estados inicial/error y movimiento reducido. Sin desbordamiento horizontal ni superposición
+de cabecera, tarjeta y pie; cinco campos presentes, cuatro obligatorios inválidos en vacío,
+foco en el nombre y órbitas sin contornos cuadrados. Capturas y medidas ignoradas en
+`.local/register-*.png` y `.local/registration-review.json`; `/auth/me` usa un doble 401 local.
+No se enviaron registros a la API pública ni se crearon cuentas en PostgreSQL compartido.
+
+Las pruebas nuevas comparan los límites directamente con el esquema Zod del backend y cubren
+la carga, el envío único, el conflicto genérico y la corrección de errores. Detectaron la diferencia
+entre unidades UTF-16 del input y puntos de código Unicode de Zod, corregida en los nombres.
+El payload de la prueba de navegación se valida también con el esquema real del backend.
+
+`pnpm verify` terminó con **código 0**: lint y formato, **61 pruebas frontend**, **34 backend**
+y **30 de integración SQL aislada** (125 en total), validación Prisma y ambos builds correctos.
+No se ejecutó GitHub Actions ni se publicó en Netlify/Vercel.
+
+## Órbitas del login sin contornos cuadrados — 9 de octubre de 2026
+
+Se añadió border-style: none a `.login-orbit`: Preflight de Tailwind hacía visibles las cajas
+rectangulares cuando los keyframes originales animaban border-width. Los SVG circulares conservan
+sus recursos y las animaciones de escala/opacidad; no se modificaron las muestras de Figma.
+
+Revisión local en Chromium a 1440 px, ambos temas y cinco momentos del ciclo de 8 segundos,
+más movimiento reducido (12 muestras, dos órbitas por muestra). Antes aparecía borde solid de 1 px;
+después todas las muestras tienen none/0 px. Los SVG siguen cargados, las tres animaciones de cada
+órbita siguen presentes con movimiento normal y se desactivan con movimiento reducido.
+Capturas y mediciones locales ignoradas en `.local/orbit-after-*.png` y `.local/orbit-after.json`.
+Formato, diff y build frontend correctos. No se añadieron pruebas ni dependencias para este ajuste CSS.
+No se ejecutó GitHub Actions ni se publicó en Netlify.
+
 ## URL pública de API y comprobación de Vercel — 9 de octubre de 2026
 
 El usuario confirmó `https://voces-silentes-platform.vercel.app/`. Se añadió la variable pública

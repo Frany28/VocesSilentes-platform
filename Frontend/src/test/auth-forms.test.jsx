@@ -2,6 +2,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, test, vi } from 'vitest';
 import { user, jsonResponse, unauthorized, renderAuthApp } from './auth-fixture.jsx';
+import { registrationSchema } from '../../../Backend/src/modules/auth/auth.validation.js';
 
 test('login: obtiene CSRF, incluye cookies y header, navega al retorno autorizado sin guardar secretos', async () => {
   const fetchMock = vi.fn().mockImplementation((url) => {
@@ -41,18 +42,25 @@ test('registro: formulario accesible omite apellido vacío y navega al destino s
   vi.stubGlobal('fetch', fetchMock);
   renderAuthApp('/register', { from: 'https://evil.invalid' });
   for (const [label, text] of [
-    ['Nombre', 'Persona'],
-    ['Nombre de usuario', 'person'],
-    ['Correo', 'person@example.invalid'],
-    ['Contraseña', 'A lengthy password 123!'],
+    ['Nombre', ' Persona '],
+    ['Nombre de usuario', ' PERSON '],
+    ['Correo electrónico', ' Person@example.invalid '],
+    ['Contraseña', ' A lengthy password 123! 😀 '],
   ]) {
     await userEvent.type(screen.getByLabelText(label), text);
   }
-  await userEvent.click(screen.getByRole('button', { name: 'Registrarme' }));
+  await userEvent.type(screen.getByLabelText('Apellido (opcional)'), '   ');
+  await userEvent.click(screen.getByRole('button', { name: 'Crear cuenta' }));
   expect(await screen.findByRole('heading', { name: 'Hola, Persona.' })).toBeVisible();
   const [, options] = fetchMock.mock.calls.find(([url]) => url.endsWith('/register'));
   expect(JSON.parse(options.body)).not.toHaveProperty('lastName');
   expect(JSON.parse(options.body)).not.toHaveProperty('role');
+  expect(registrationSchema.parse(JSON.parse(options.body))).toEqual({
+    firstName: 'Persona',
+    username: 'person',
+    email: 'person@example.invalid',
+    password: ' A lengthy password 123! 😀 ',
+  });
 });
 
 test('logout: un fallo de red conserva estado; éxito posterior lo limpia', async () => {
