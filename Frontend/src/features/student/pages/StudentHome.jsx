@@ -41,7 +41,7 @@ export function StudentHome() {
       ) : !current ? (
         <DataFeedback kind="empty" />
       ) : (
-        <div className="student-home-grid grid items-start gap-6 min-[1200px]:grid-cols-[minmax(0,1fr)_304px]">
+        <div className="student-home-grid grid items-start gap-6">
           <div className="flex min-w-0 flex-col gap-6">
             <StudentHero module={current} next={next} onOpen={onOpen} />
             <section className="flex flex-col gap-6">

@@ -18,16 +18,11 @@ export function AuthLayout({ pending, feedback, fieldErrors, children }) {
   return (
     <main
       id="main-content"
-      className="login-page relative isolate flex min-h-[max(920px,100svh)] flex-col gap-6
-        overflow-clip p-6 text-content [font:var(--type-secondary)] [overflow-wrap:anywhere]
-        data-[state=error]:min-h-[max(1120px,100svh)]
-        min-[600px]:min-h-[max(1100px,100svh)] min-[600px]:p-8
-        min-[600px]:data-[state=error]:min-h-[max(1300px,100svh)]
-        min-[1200px]:min-h-[max(960px,100svh)] min-[1200px]:flex-row min-[1200px]:p-6
-        min-[1200px]:data-[state=error]:min-h-[max(1160px,100svh)]"
+      className="login-page relative isolate overflow-clip text-content
+        [font:var(--type-secondary)] [overflow-wrap:anywhere]"
       data-state={hasErrors ? 'error' : pending ? 'loading' : 'initial'}
     >
-      <div className="login-access relative flex min-w-0 flex-1 flex-col items-center gap-6 min-[1200px]:p-6">
+      <div className="login-access relative">
         <header className="login-header relative flex w-full items-center justify-between gap-4">
           <Brand smallDark />
           <ThemeToggle
@@ -36,10 +31,10 @@ export function AuthLayout({ pending, feedback, fieldErrors, children }) {
               max-[600px]:[&_.vs-theme-label]:hidden! max-[600px]:[&_.vs-theme-track]:hidden!"
           />
         </header>
-        <div className="min-h-0 flex-1" aria-hidden="true" />
+        <div className="login-spacer" aria-hidden="true" />
         {children}
-        <div className="min-h-0 flex-1" aria-hidden="true" />
-        <footer className="login-footer flex w-full flex-col items-center gap-3">
+        <div className="login-spacer" aria-hidden="true" />
+        <footer className="login-footer flex w-full flex-col items-center gap-1">
           <LoginLink to="/">← Volver al inicio</LoginLink>
           <p className="text-muted [font:var(--type-label)]">Más señas, menos barreras.</p>
         </footer>

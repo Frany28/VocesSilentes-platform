@@ -37,9 +37,9 @@ export function StudentModules() {
         <DataFeedback kind="empty" catalog />
       ) : (
         <>
-          <div className="grid items-start gap-6 min-[1200px]:grid-cols-[minmax(0,1fr)_304px]">
+          <div className="student-overview-grid grid items-start gap-6">
             <StudentHero module={modules[0]} catalog onOpen={onOpen} />
-            <div className="hidden min-[1200px]:block">
+            <div className="student-summary-slot">
               <ProgressSummary module={modules[0]} />
             </div>
           </div>
@@ -62,7 +62,7 @@ export function StudentModules() {
                   en progreso · Aprende en orden, sin prisa.
                 </p>
               </div>
-              <div className="student-catalog grid items-start gap-4 min-[600px]:grid-cols-2 min-[1200px]:grid-cols-3">
+              <div className="student-catalog grid items-start gap-4">
                 {results.map((module) => (
                   <ModuleCard key={module.id} module={module} illustrated onOpen={onOpen} />
                 ))}

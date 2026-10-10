@@ -1,0 +1,112 @@
+/* La geometría responde al viewport; los estados crecen solo por su contenido. */
+.login-page {
+  --auth-gap: clamp(12px, 2svh, 24px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--auth-gap);
+  padding: clamp(16px, 2vw, 24px);
+  min-height: 100svh;
+}
+.login-access {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--auth-gap);
+  min-width: 0;
+}
+.login-header {
+  flex-wrap: wrap;
+  flex: none;
+}
+.login-spacer {
+  flex: 1;
+  min-height: 0;
+}
+.login-card {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: clamp(16px, 2.5svh, 32px);
+  width: min(100%, 480px);
+  padding: clamp(20px, 3svh, 40px);
+}
+.login-fields {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 2svh, 24px);
+}
+.login-welcome h1 {
+  font-size: clamp(28px, 3vw, 36px);
+  line-height: 1.2;
+}
+@media (min-width: 600px) {
+  .login-card[data-mode='register'] {
+    width: min(100%, 560px);
+  }
+  .login-card[data-mode='register'] .login-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .login-card[data-mode='register'] .vs-field:last-child {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-height: 900px) {
+  .login-access:has([data-mode='register']) {
+    justify-content: center;
+  }
+  .login-access:has([data-mode='register']) .login-spacer,
+  .login-card[data-mode='register'] .login-welcome > span {
+    display: none;
+  }
+  .login-card[data-mode='register'] {
+    padding: 16px;
+    gap: 12px;
+  }
+  .login-card[data-mode='register'] .login-fields {
+    gap: 12px;
+  }
+  .login-card[data-mode='register'] .vs-field {
+    gap: 4px;
+  }
+  .login-card[data-mode='register'] .login-welcome h1 {
+    font-size: 30px;
+  }
+  .login-card[data-mode='register'] .login-welcome p {
+    font-size: 14px;
+    line-height: 22px;
+  }
+}
+@media (min-width: 1200px) {
+  .login-page {
+    flex-direction: row;
+  }
+}
+@media (max-height: 760px) {
+  .login-spacer {
+    display: none;
+  }
+  .login-access {
+    justify-content: center;
+  }
+  .login-welcome > span {
+    display: none;
+  }
+  .login-card {
+    padding: 20px;
+    gap: 16px;
+  }
+  .login-welcome > p {
+    font-size: 14px;
+    line-height: 22px;
+  }
+}
+@media (max-height: 620px) {
+  .login-page {
+    padding: 16px;
+  }
+  .login-card {
+    padding: 16px;
+  }
+}

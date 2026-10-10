@@ -4,6 +4,7 @@
 @import './student-assets.css';
 @import './student-surfaces.css';
 @import './student-controls.css';
+@import './student-responsive.css';
 
 @layer base {
   body:has(.student-shell) {

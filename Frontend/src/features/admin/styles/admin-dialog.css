@@ -1,7 +1,9 @@
 .admin-dialog {
   width: 480px;
   max-width: calc(100vw - 48px);
-  padding: 24px;
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  padding: var(--layout-gap);
   border: 0;
   border-radius: var(--radius-panel);
   color: var(--content);

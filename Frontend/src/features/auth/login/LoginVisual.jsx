@@ -9,13 +9,12 @@ export function LoginVisual() {
   return (
     <>
       <aside
-        className="login-visual relative isolate hidden w-150 flex-none flex-col items-center gap-6
-          overflow-clip rounded-3xl p-10 min-[1200px]:flex [&>*]:w-full [&>*]:flex-none"
+        className="login-visual relative isolate overflow-clip rounded-3xl"
         aria-label="Bienvenida"
       >
-        <div className="flex flex-col gap-4">
+        <div className="login-visual-heading flex flex-col gap-3">
           <p className="text-info [font:var(--type-label)]">LENGUA DE SEÑAS VENEZOLANA</p>
-          <h2 className="text-5xl/[58px] font-extrabold">
+          <h2 className="font-extrabold">
             Conecta con
             <br />
             un mundo nuevo.
@@ -26,7 +25,7 @@ export function LoginVisual() {
         </div>
         <LoginIllustration />
         <div
-          className="flex flex-col gap-4 overflow-clip"
+          className="login-preview flex flex-col gap-3"
           aria-label="Vista previa ilustrativa del contenido previsto"
         >
           <p className="text-info [font:var(--type-label)]">TU PRÓXIMA CONVERSACIÓN EMPIEZA AQUÍ</p>
@@ -50,8 +49,7 @@ export function LoginVisual() {
         </div>
       </aside>
       <aside
-        className="login-compact relative isolate hidden flex-col gap-2 overflow-clip rounded-3xl p-6
-          min-[600px]:flex min-[1200px]:hidden"
+        className="login-compact relative isolate flex-col gap-2 overflow-clip rounded-3xl"
         aria-label="Bienvenida"
       >
         <h2 className="[font:var(--type-h3)]">Más señas, menos barreras.</h2>

@@ -37,6 +37,8 @@ body:has(.admin-shell) {
 }
 .admin-shell h1 {
   font: var(--type-h1);
+  font-size: clamp(26px, 2.5vw, 36px);
+  line-height: 1.2;
 }
 .admin-shell h2 {
   font: var(--type-h3);
@@ -62,7 +64,7 @@ body:has(.admin-shell) {
   width: auto;
   max-width: 100%;
   min-height: 48px;
-  height: 48px;
+  height: auto;
 }
 .admin-shell .vs-alert {
   width: 100%;
@@ -76,12 +78,12 @@ body:has(.admin-shell) {
 .admin-shell main {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--layout-gap);
 }
 .admin-page {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--layout-gap);
 }
 .admin-heading {
   display: flex;

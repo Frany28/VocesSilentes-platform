@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 24px;
+  padding: var(--layout-gap);
   border-radius: var(--radius-panel);
   background: var(--surface);
   min-width: 0;
@@ -11,7 +11,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 24px;
+  padding: var(--layout-gap);
   border-radius: var(--radius-panel);
   background: linear-gradient(
     165deg,
@@ -21,7 +21,7 @@
   );
 }
 .admin-shell .admin-hero h2 {
-  font: 700 30px / 38px var(--font-brand);
+  font: 700 clamp(24px, 2.2vw, 30px) / 1.3 var(--font-brand);
 }
 .admin-hero p {
   color: var(--text-secondary);
@@ -38,8 +38,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-height: 160px;
-  padding: 24px;
+  padding: var(--layout-gap);
   border-radius: var(--radius-panel);
   background: var(--surface-secondary);
 }
@@ -59,11 +58,12 @@
 .admin-attention {
   display: grid;
   grid-template-columns: minmax(0, 640fr) minmax(0, 424fr);
-  gap: 24px;
+  gap: var(--layout-gap);
 }
 .admin-actions {
   display: flex;
   gap: 12px;
+  flex-wrap: wrap;
 }
 .admin-actions > * {
   flex: 1;

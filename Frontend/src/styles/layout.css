@@ -1,0 +1,44 @@
+/* Reflow del layout de cuenta y mensajes del router, con los tokens existentes. */
+.app-shell {
+  max-width: 1280px;
+  min-height: 100svh;
+  margin-inline: auto;
+  padding: clamp(16px, 2vw, 24px);
+  overflow-wrap: anywhere;
+  font: var(--type-secondary);
+}
+.app-shell header,
+.app-shell main,
+.app-shell section {
+  min-width: 0;
+}
+.app-shell header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.app-shell nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.app-shell a {
+  color: var(--action-primary);
+}
+.app-shell h1 {
+  font: var(--type-h1);
+  font-size: clamp(26px, 2.5vw, 36px);
+}
+.app-shell button {
+  min-height: 44px;
+  max-width: 100%;
+  padding: 8px 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  color: var(--content);
+  background: var(--surface);
+  font: var(--type-button);
+}

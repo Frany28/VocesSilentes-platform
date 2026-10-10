@@ -1,13 +1,14 @@
 .admin-form {
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--layout-gap);
 }
 .admin-form fieldset {
   all: unset;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
   min-width: 0;
 }
 .admin-form .admin-name-row {
@@ -68,8 +69,8 @@
 }
 .admin-filters {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: var(--layout-gap);
 }
 .admin-lookup {
   display: flex;
@@ -79,8 +80,8 @@
 .admin-lookup .vs-field {
   flex: 1;
 }
-@media (width < 1200px) {
-  .admin-filters {
+@container (max-width: 520px) {
+  .admin-form .admin-name-row {
     grid-template-columns: 1fr;
   }
 }

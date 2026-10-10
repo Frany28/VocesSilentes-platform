@@ -31,6 +31,7 @@ export function UserFields({ values, errors, change, creating }) {
           maxLength: 100,
         })}
       </div>
+      <div className={creating ? 'admin-name-row' : 'admin-form'}>
       {field(
         'username',
         'Nombre de usuario',
@@ -50,6 +51,7 @@ export function UserFields({ values, errors, change, creating }) {
           autoComplete: 'off',
         },
       )}
+      </div>
       <div className={creating ? 'admin-name-row' : undefined}>
         <AdminSelect
           label="Rol"

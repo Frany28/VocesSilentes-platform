@@ -1,9 +1,10 @@
 .admin-shell {
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
-  gap: 24px;
-  padding: 24px;
-  min-height: 100vh;
+  --layout-gap: clamp(16px, 2vw, 24px);
+  grid-template-columns: clamp(224px, 20vw, 280px) minmax(0, 1fr);
+  gap: var(--layout-gap);
+  padding: var(--layout-gap);
+  min-height: 100svh;
   background: var(--page);
 }
 .admin-sidebar {
@@ -11,7 +12,12 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
-  padding: 24px;
+  padding: var(--layout-gap);
+  position: sticky;
+  top: var(--layout-gap);
+  align-self: start;
+  height: calc(100svh - 2 * var(--layout-gap));
+  overflow: auto;
   background: var(--surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xl);
@@ -30,17 +36,22 @@
   display: none;
 }
 .admin-content {
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--layout-gap);
   min-width: 0;
-  min-height: 912px;
+  min-height: 0;
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
 }
 .admin-topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  flex-wrap: wrap;
   min-height: 52px;
 }
 .admin-breadcrumb {

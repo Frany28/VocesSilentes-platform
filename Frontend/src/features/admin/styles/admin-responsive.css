@@ -20,9 +20,6 @@
   .admin-logout span:not(.vs-icon) {
     display: none;
   }
-  .admin-content {
-    min-height: 1052px;
-  }
 }
 @media (width < 600px) {
   .admin-shell {
@@ -42,9 +39,6 @@
   }
   .admin-topbar .vs-theme-label {
     display: none;
-  }
-  .admin-content {
-    min-height: 872px;
   }
   .admin-mobile-logout {
     display: block;

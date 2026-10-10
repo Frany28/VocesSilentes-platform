@@ -31,8 +31,8 @@ export function AuthForm({
   const localErrors = Object.values(fieldErrors).filter(Boolean).join(' ');
   return (
     <form
-      className="login-card relative flex w-full max-w-full flex-none flex-col gap-8 rounded-3xl
-        border border-border bg-surface p-6 shadow-(--login-card-shadow) min-[600px]:w-120 min-[600px]:p-10"
+      className="login-card relative rounded-3xl border border-border bg-surface shadow-(--login-card-shadow)"
+      data-mode={mode}
       noValidate
       onSubmit={onSubmit}
       onChange={onChange}
@@ -40,7 +40,7 @@ export function AuthForm({
       aria-describedby={feedback ? `${mode}-result` : undefined}
       aria-busy={pending}
     >
-      <div className="login-welcome flex flex-col items-start gap-3">
+      <div className="login-welcome flex flex-col items-start gap-2">
         <span className="rounded-full bg-tertiary p-2 [font:var(--type-label)]">
           {register ? 'COMIENZA TU CAMINO' : 'APRENDE A CONECTAR'}
         </span>
@@ -66,8 +66,8 @@ export function AuthForm({
           {feedback.message}
         </Alert>
       )}
-      <div className="login-fields flex flex-col gap-6">{children}</div>
-      <div className="flex flex-col gap-4">
+      <div className="login-fields">{children}</div>
+      <div className="login-actions flex flex-col gap-3">
         <Button
           type="submit"
           loading={pending}
@@ -77,7 +77,7 @@ export function AuthForm({
         >
           {retryIn > 0 ? `Reintentar en ${retryIn} s` : feedback?.retry ? 'Reintentar' : action}
         </Button>
-        <div className="flex flex-col items-center gap-1 py-2 text-muted">
+        <div className="login-switch flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-muted">
           <p>{register ? '¿Ya tienes una cuenta?' : '¿Aún no tienes una cuenta?'}</p>
           <LoginLink to={register ? '/login' : '/register'}>
             {register ? 'Iniciar sesión' : 'Crear una cuenta'}

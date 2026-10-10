@@ -97,7 +97,7 @@
 .admin-pagination .vs-button {
   min-width: 136px;
 }
-@media (width < 1200px) {
+@container (max-width: 900px) {
   .admin-list-head {
     display: none;
   }

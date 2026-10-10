@@ -8,7 +8,7 @@ import { AuthNavigation } from '../../features/auth/AuthNavigation.jsx';
  */
 export function AppLayout() {
   return (
-    <div className="bg-page text-content">
+    <div className="app-shell bg-page text-content">
       <header>
         <p>VocesSilentes · Lengua de Señas Venezolana</p>
         <ThemeToggle />

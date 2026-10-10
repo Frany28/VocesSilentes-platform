@@ -73,7 +73,7 @@ export function RegistrationForm({ pending, fieldErrors, ...actions }) {
         label="Contraseña"
         autoComplete="new-password"
         placeholder="Crea tu contraseña"
-        help="De 15 a 128 caracteres, hasta 512 bytes. Puedes usar espacios y un gestor de contraseñas."
+        help="De 15 a 128 caracteres, hasta 512 bytes."
         required
         disabled={pending}
         error={fieldErrors.password}
