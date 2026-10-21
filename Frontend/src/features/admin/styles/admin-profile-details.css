@@ -24,13 +24,17 @@
 .admin-profile-role .vs-icon {
   flex: none;
 }
-.admin-status-line .vs-badge {
+.admin-status-line:not(.admin-report-counts) .vs-badge {
   color: var(--text-secondary);
   background: var(--surface-neutral);
 }
 .admin-profile-page .admin-heading .admin-kicker {
   font: var(--type-label);
   color: var(--action-primary);
+}
+.admin-profile-person .vs-badge {
+  color: var(--text-secondary);
+  background: var(--surface-neutral);
 }
 @media (width >= 600px) {
   .admin-profile-page h1 {

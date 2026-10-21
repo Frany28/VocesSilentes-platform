@@ -81,6 +81,11 @@ Los archivos propios mantienen el objetivo de 100 líneas útiles.
 Los módulos de `features/admin/` y `modules/admin/` separan presentación, estado, HTTP, validación,
 negocio y repositorio. Sus estilos se dividen por layout, superficies, campos, listas y diálogos;
 no se añadieron dependencias, migraciones ni excepciones de tamaño para esa implementación.
+El rediseño Admin del 21 de octubre mantiene archivos enfocados en presentación, hooks y perfil;
+sus estilos compactos se limitan a `.admin-shell`. Se reutiliza el PATCH ADMIN para identidad propia.
+No se añaden configuración ni excepciones de tamaño. `Frontend/admin-review.html` es una entrada
+de pruebas visuales de desarrollo con fixtures identificados, excluida del build de producción.
+Las capacidades sin backend no reciben cargas temporizadas ni callbacks de éxito simulados en las rutas.
 El [Módulo II, Día 1](module-ii/README.md) añade posteriormente una migración AuditLog y listado/borrado
 real, sin dependencias nuevas. `docs/module-ii/sql/01_schema.sql` es una excepción de tamaño:
 snapshot generado del historial íntegro para reconstrucción académica, conservado completo para

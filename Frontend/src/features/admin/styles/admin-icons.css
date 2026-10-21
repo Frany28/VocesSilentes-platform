@@ -19,8 +19,8 @@
   --icon-modern-identity-check-16: url('../../../assets/admin-v2/7ba8c.svg');
   --icon-modern-privacy-check-default: url('../../../assets/admin-v2/d6daf.svg');
   --icon-modern-plus-32: url('../../../assets/admin-v2/1cb6c.svg');
-  --icon-modern-book-default: url('../../../assets/admin-v2/41025.svg');
-  --icon-modern-person-default: url('../../../assets/admin-v2/8aa47.svg');
+  --icon-modern-book-default: url('../../../assets/student/41025.svg');
+  --icon-modern-person-default: url('../../../assets/student/8aa47.svg');
   --icon-modern-lock-default: url('../../../assets/admin-v2/7c963.svg');
 }
 [data-theme='dark'] .admin-shell {
@@ -42,8 +42,8 @@
   --icon-modern-plus-32: url('../../../assets/admin-v2/6c345.svg');
   --icon-modern-image-28: url('../../../assets/admin-v2/8299d.svg');
   --icon-modern-check-default: url('../../../assets/admin-v2/c478f.svg');
-  --icon-modern-person-default: url('../../../assets/admin-v2/5b29e.svg');
-  --icon-modern-book-default: url('../../../assets/admin-v2/24cd3.svg');
+  --icon-modern-person-default: url('../../../assets/student/5b29e.svg');
+  --icon-modern-book-default: url('../../../assets/student/24cd3.svg');
   --icon-modern-lock-default: url('../../../assets/admin-v2/18958.svg');
   --icon-modern-identity-check-16: url('../../../assets/admin-v2/fa314.svg');
   --icon-modern-privacy-check-default: url('../../../assets/admin-v2/4f71a.svg');

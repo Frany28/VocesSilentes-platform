@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter, parsePath } from 'react-router';
 import { AuthProvider } from '../features/auth/AuthProvider.jsx';
 import { ThemeProvider } from '../app/ThemeProvider.jsx';
 import { App } from '../app/App.jsx';
@@ -40,7 +40,7 @@ export function unauthorized() {
  */
 export function renderAuthApp(path, state) {
   return render(
-    <MemoryRouter initialEntries={[{ pathname: path, state }]}>
+    <MemoryRouter initialEntries={[{ ...parsePath(path), state }]}>
       <ThemeProvider>
         <AuthProvider>
           <App />

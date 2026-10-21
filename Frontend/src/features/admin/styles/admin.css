@@ -6,6 +6,7 @@
 @import './admin-controls.css';
 @import './admin-fields.css';
 @import './admin-list.css';
+@import './admin-reports.css';
 @import './admin-detail.css';
 @import './admin-dialog.css';
 @import './admin-responsive.css';
@@ -29,6 +30,7 @@ body:has(.admin-shell) {
   --type-secondary: 400 14px / 20px var(--font-brand);
   --type-label: 400 12px / 20px var(--font-brand);
   --type-field: 400 14px / 20px var(--font-field);
+  --field-focus-shadow: 0 0 0 0 transparent;
   color: var(--content);
   font: var(--type-secondary);
   overflow-wrap: anywhere;

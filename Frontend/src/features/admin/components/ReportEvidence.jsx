@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Button } from '../../../components/ui/Button.jsx';
-import { Icon } from '../../../components/ui/Icon.jsx';
 import { AdminDialog } from './AdminDialog.jsx';
 import { EvidenceImage } from './EvidenceImage.jsx';
 
@@ -20,7 +19,6 @@ export function ReportEvidence({ evidence }) {
         <>
           <div className="admin-evidence-card">
             <div className="admin-evidence-thumbnail">
-              <Icon name="modern-image" size={28} />
               <EvidenceImage
                 key={evidence.src}
                 src={evidence.src}

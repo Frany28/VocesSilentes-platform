@@ -23,6 +23,7 @@ export function PhotoDialog({ onClose }) {
         ref={input}
         className="admin-file-input"
         type="file"
+        tabIndex={-1}
         accept="image/jpeg,image/png,image/webp"
         aria-label="Elegir foto de perfil"
         onChange={(event) => {

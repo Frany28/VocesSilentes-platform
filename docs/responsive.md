@@ -18,10 +18,14 @@ Se conservan colores, fuentes, radios, recursos, tema y componentes compartidos.
   y omite la ilustración en móvil. Sidebar sticky con scroll propio. Practicar apila panel y guía,
   Perfil usa campos adaptables y la navegación móvil permite los cinco destinos. Ver
   [inspección y diferencias del prototipo](student-design-audit.md).
-- **Admin:** contenido fluido sin altura mínima fija, sidebar con altura de viewport y scroll
-  propio. Listas pasan de tabla a tarjetas según el ancho del contenido, filtros usan auto-fit
-  y campos agrupados se apilan según el ancho del formulario. Acciones y cabecera pueden
-  envolverse. Diálogos limitados al viewport dinámico (`100dvh`) con scroll interno.
+- **Admin:** rediseño `286:50`, sidebar de 232 px desde 1200 px y de 76 px entre 600 y 1199 px,
+  con altura de viewport, scroll propio y logout al final. Móvil usa navegación horizontal y menú
+  accesible; perfil conserva vuelta/tema. El área principal usa 32 px de padding y móvil 20 px
+  (16 px bajo 360). Las tablas mantienen los mismos tracks para cabecera/filas; bajo 620 px de
+  contenido pasan a identidad/estado/acción. Filtros se apilan bajo 520 px de contenido. Perfil
+  combina identidad de 320/224 px y configuración, apiladas cuando el contenido baja de 600 px.
+  Formularios modales de 600 px, foto de 560 y visor de 720, siempre limitados al ancho y `100dvh`
+  con scroll interno. Las acciones y títulos se adaptan sin escalar la interfaz.
 - **Cuenta y mensajes del router:** contenedor fluido, cabecera y navegación envolventes,
   títulos ajustables y controles accesibles con los tokens existentes.
 
@@ -35,7 +39,8 @@ siguen siendo alcanzables. Las vistas no dependen de una orientación fija.
 
 Los ajustes responsive cambian presentación y distribución. La primera fase añade StudentGuard,
 cinco destinos y configuración demo según [phase-one-prototype.md](phase-one-prototype.md).
-Se mantienen autenticación, contratos y validaciones, persistencia de usuarios y avisos de demostración.
+Se mantienen autenticación, contratos, validaciones y persistencia de usuarios. Admin retira sus demos
+al adoptar el rediseño y muestra las dependencias reales pendientes; Student conserva su configuración demo.
 Sin dependencias, endpoints, migraciones ni escrituras en producción.
 
 La revisión local en Chrome usa Vite y API con PostgreSQL WASM aislado, autenticación real,

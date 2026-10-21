@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button } from '../../../components/ui/Button.jsx';
+import { Icon } from '../../../components/ui/Icon.jsx';
 
 /**
  * Representa carga y fallo reales de una imagen; el reintento vuelve a cargar el recurso recibido.
@@ -11,6 +12,7 @@ export function EvidenceImage({ src, alt }) {
   const [revision, setRevision] = useState(0);
   return (
     <div className="admin-evidence-image" aria-busy={status === 'loading'}>
+      {status !== 'ready' && <Icon name="modern-image" size={28} />}
       {status === 'loading' && <p role="status">Cargando imagen…</p>}
       {status === 'error' && (
         <div role="alert">

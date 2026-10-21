@@ -94,6 +94,7 @@ funciona y csrf puede inicializar contexto; register/login/me/logout responden 5
 El cliente HTTP expone `ApiError.retryAfter` opcional en segundos cuando el navegador puede
 leer Retry-After. CORS actual no expone ese header entre orígenes: login conserva el mensaje
 genérico de cuota y el reintento manual sin inventar su duración; véase [login.md](login.md).
-Los futuros endpoints administrativos deben usar requireSession y requireRole('ADMIN'); no existe
-un endpoint administrativo de datos en esta entrega. Perfil/progreso deben tomar identidad de
+Los endpoints administrativos existentes usan requireSession y requireRole('ADMIN'); las mutaciones
+comprueban además CSRF. El perfil del ADMIN reutiliza su edición de usuario sin ampliar el contrato.
+Futuros servicios de perfil/progreso deben tomar identidad de
 req.auth.id y comprobar propiedad, aunque el cliente mande otro userId.

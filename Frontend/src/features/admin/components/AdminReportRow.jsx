@@ -1,30 +1,33 @@
 import { AdminAction } from './AdminAction.jsx';
 import { ReportStatus } from './ReportStatus.jsx';
 import { adminDate } from '../data/admin-labels.js';
+
 /**
- * Reporte proporcionado por el consumidor, con acceso a su detalle y estado confirmado.
- * @param {{report: object, card?: boolean}} props Reporte y composición de resumen.
- * @returns {import('react').ReactElement} Fila adaptable.
+ * Tarjeta de reporte de 289:30463; referencia/estado arriba, contexto y revisión al pie.
+ * @param {{report: object}} props Reporte autorizado proporcionado por el consumidor.
+ * @returns {import('react').ReactElement} Tarjeta adaptable sin datos sintéticos ni operaciones HTTP.
  */
-export function AdminReportRow({ report, card = false }) {
+export function AdminReportRow({ report }) {
   return (
-    <article className={`admin-list-row admin-report-row ${card ? 'admin-report-card' : ''}`}>
-      <div className="admin-row-name">
-        <p className="admin-kicker">
-          {report.reference} · {report.category || 'Contenido'}
-        </p>
-        <strong>{report.title}</strong>
+    <article className="admin-report-card">
+      <header className="admin-report-card-heading">
         <p>
-          {report.lesson} · {report.author}
+          {report.reference} · {report.categoryLabel || report.category || 'CONTENIDO'}
         </p>
+        <ReportStatus status={report.status} />
+      </header>
+      <h3>{report.title}</h3>
+      <div className="admin-report-card-footer">
+        <div>
+          <p>
+            {report.lesson} · {report.author}
+          </p>
+          <time dateTime={report.createdAt}>{adminDate(report.createdAt)}</time>
+        </div>
+        <AdminAction to={`/admin/reports/${report.id}`}>
+          Revisar<span className="admin-report-action-detail"> reporte</span>
+        </AdminAction>
       </div>
-      <ReportStatus status={report.status} />
-      {!card && (
-        <time className="admin-list-date" dateTime={report.createdAt}>
-          {adminDate(report.createdAt)}
-        </time>
-      )}
-      <AdminAction to={`/admin/reports/${report.id}`}>Revisar reporte</AdminAction>
     </article>
   );
 }

@@ -16,13 +16,14 @@ test('usuarios: modal, foco inicial y confirmación de cambios antes de navegar 
   );
   const discard = screen.getByRole('dialog', { name: '¿Descartar los cambios?' });
   fireEvent.click(within(discard).getByRole('button', { name: 'Descartar cambios' }));
-  expect(await screen.findByRole('heading', { name: 'Reportes' })).toBeVisible();
+  expect(await screen.findByRole('heading', { name: 'Reportes de la comunidad' })).toBeVisible();
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  expect(document.body.style.overflow).toBe('');
 });
 
 test('reportes sin backend, navegación y tema: ninguna simulación ni petición a endpoints inexistentes', async () => {
   const { fetchMock } = renderAdmin('/admin/reports');
-  await screen.findByRole('heading', { name: 'Reportes' });
+  await screen.findByRole('heading', { name: 'Reportes de la comunidad' });
   expect(screen.getByText('Reportes no disponibles')).toBeVisible();
   expect(screen.getByLabelText('Buscar reportes')).toBeDisabled();
   expect(screen.queryByText('Video de saludo no carga')).not.toBeInTheDocument();

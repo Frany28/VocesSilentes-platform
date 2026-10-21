@@ -28,3 +28,8 @@ Los modelos existentes permiten preparar los siguientes procesos cuando se aprue
 
 Quedan también para decisiones posteriores: retención/anonimización de auditoría, purga de sesiones,
 restauración de cuentas, búsquedas de gran volumen, OAuth verificable y UI de auditoría.
+
+El rediseño posterior de [Admin](../admin.md) implementa su presentación y reutiliza usuarios/perfil
+reales. No implementa backend educativo ni amplía los contratos: siguen pendientes reportes,
+resolución/comentarios/evidencia autorizada, cambio de isActive, contraseña y persistencia de foto.
+Las rutas administrativas ya no proporcionan las demos del Día 1 para esas capacidades.

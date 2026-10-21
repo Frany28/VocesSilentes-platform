@@ -4,7 +4,7 @@ import { Button } from '../../../components/ui/Button.jsx';
 /**
  * Encuadre local circular del archivo seleccionado; el zoom permanece entre 100 y 135 % como en Figma.
  * @param {{photo: object, onError: Function, onChoose: Function}} props Archivo, fallo de decodificación y reemplazo.
- * @returns {import('react').ReactElement} Vista previa con teclado/range y guardado deshabilitado.
+ * @returns {import('react').ReactElement} Vista previa con controles de teclado y guardado deshabilitado.
  */
 export function PhotoCropPreview({ photo, onError, onChoose }) {
   const [zoom, setZoom] = useState(100);
@@ -22,17 +22,8 @@ export function PhotoCropPreview({ photo, onError, onChoose }) {
         </div>
       </div>
       <div className="admin-photo-zoom">
-        <label htmlFor="admin-photo-zoom">Encuadre</label>
-        <input
-          id="admin-photo-zoom"
-          type="range"
-          min="100"
-          max="135"
-          step="5"
-          value={zoom}
-          onChange={(event) => setZoom(Number(event.target.value))}
-        />
-        <output htmlFor="admin-photo-zoom">{zoom}%</output>
+        <span>Encuadre</span>
+        <output aria-label="Encuadre actual">{zoom}%</output>
         <Button
           variant="secondary"
           icon={null}

@@ -31,7 +31,9 @@ test('foto: valida tipo/tamaño, permite encuadre local y libera URLs sin subir 
     target: { files: [new File(['valid'], 'foto.png', { type: 'image/png' })] },
   });
   expect(screen.getByRole('img', { name: 'Vista previa local de tu foto' })).toBeInTheDocument();
-  fireEvent.change(screen.getByLabelText('Encuadre'), { target: { value: '135' } });
+  for (let step = 0; step < 7; step++)
+    fireEvent.click(screen.getByRole('button', { name: 'Ampliar encuadre' }));
+  expect(screen.getByLabelText('Encuadre actual')).toHaveTextContent('135%');
   expect(screen.getByRole('button', { name: 'Ampliar encuadre' })).toBeDisabled();
   expect(screen.getByRole('button', { name: 'Usar esta foto' })).toBeDisabled();
   fireEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Cancelar' }));

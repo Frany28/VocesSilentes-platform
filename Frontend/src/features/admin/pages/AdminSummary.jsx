@@ -10,7 +10,7 @@ import { Icon } from '../../../components/ui/Icon.jsx';
  * @returns {import('react').ReactElement} Indicadores sin cifras sintéticas ni progreso inventado.
  */
 export function AdminSummary() {
-  const list = useUsersList();
+  const list = useUsersList({ census: true });
   return (
     <div className="admin-page">
       <AdminHeading title="Tu comunidad, en perspectiva">

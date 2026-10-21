@@ -106,7 +106,7 @@ cambios posteriores. Health no comprueba disponibilidad de PostgreSQL.
 Frontend/
   src/app/                  Entrada, router y proveedores de tema/auth
   src/features/auth/        Formularios, cliente CSRF, sesión y guards
-  src/features/admin/       CRUD real de usuarios; resumen y reportes con demos identificadas
+  src/features/admin/       Admin moderno, usuarios/perfil reales y dependencias de reportes explícitas
   src/features/student/     Cinco vistas Student, datos demo identificados y perfil de sesión real
   src/features/system/      Pantalla mínima de la base técnica
   src/components/ui/        Componentes generales de Figma y control de tema
@@ -144,11 +144,14 @@ logs JSON, errores y validación de configuración. MediaPipe está instalado y 
 Existen modelos de usuarios, sesiones, contenido compartido, progreso y reportes, y conexión real
 con PostgreSQL 17.11 en Supabase. Registro/login/me/logout usan User/Session existentes, Argon2id,
 cookies HttpOnly, CSRF firmado y límites de intentos. `/account` exige sesión; `/admin` exige ADMIN,
-con destinos de sesión. `/admin` incluye resumen, usuarios y reportes; creación y edición persisten
-cuentas reales. El Día 1 del Módulo II añade listado paginado, eliminación lógica y bitácora
+con destinos de sesión. `/admin` reproduce el rediseño moderno, con temas y navegación adaptable;
+usuarios, creación/edición modal y datos personales del administrador usan servicios reales.
+El Día 1 del Módulo II añade listado paginado, eliminación lógica y bitácora
 persistente; requiere la nueva migración versionada antes de usarlo en una base de desarrollo
-autorizada. Métricas, progreso, reportes y cambio de isActive usan demostración
-identificada o requieren backend futuro. Ver [alcance y funcionamiento de Admin](docs/admin.md).
+autorizada. Admin retira sus demos; solo el censo de cuentas tiene datos reales. Reportes, progreso,
+agregados de actividad, cambio de isActive, contraseña y persistencia de foto requieren backend futuro.
+El visor de evidencia y la selección/encuadre local de foto tienen presentación y estados implementados,
+con guardado deshabilitado cuando falta el servicio. Ver [alcance y funcionamiento de Admin](docs/admin.md).
 No se insertan fixtures de demostración en la base compartida.
 Student dispone de Inicio, Mis módulos, Practicar, Mi progreso y Mi perfil; solo USER puede acceder.
 Contenido y progreso usan demostración explícita configurable también en producción. Practicar

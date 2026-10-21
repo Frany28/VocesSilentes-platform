@@ -14,7 +14,8 @@ flowchart LR
 
 Autenticación recorre todas las capas hasta User/Session; health no consulta persistencia.
 La administración de identidad/rol también recorre esas capas. Contenido, progreso y reportes
-conservan su modelo de datos; el frontend muestra demostraciones explícitas cuando no hay backend.
+conservan su modelo de datos; Student mantiene su demo explícita. Admin muestra dependencias pendientes
+cuando no hay servicios disponibles y no fabrica respuestas ni métricas.
 
 ## Frontend
 
@@ -43,8 +44,10 @@ cancelación de navegación como fallo de negocio.
 `features/auth/` separa cliente CSRF en memoria, AuthProvider/useAuthSession, guards y formularios.
 El proveedor verifica me y representa carga, autenticado, no autenticado y error; no confunde red
 con ausencia de sesión. El cliente HTTP notifica 401 UNAUTHENTICATED, sin invalidar por 403.
-`/account` conserva su destino de sesión. `/admin` tiene un layout protegido, siete pantallas,
-creación/edición real y demostraciones identificadas; el guard de rol es apoyo de navegación.
+`/account` conserva su destino de sesión. `/admin` tiene layout protegido, resumen, usuarios/reportes
+y perfil/seguridad; creación/edición se presentan en modales y persisten usuarios reales. Perfil reutiliza
+el servicio ADMIN para editar la identidad propia. Reportes/evidencia separan presentación y operación
+inyectada, sin proporcionar fixtures ni servicios inventados desde las rutas. El guard de rol apoya navegación.
 La API vuelve a autorizar cada consulta/escritura. Ver [admin.md](admin.md).
 
 `features/student/` mantiene cinco páginas bajo StudentGuard (solo USER), con el provider y

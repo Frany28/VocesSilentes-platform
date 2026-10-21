@@ -1,5 +1,6 @@
-import { useEffect, useId, useRef } from 'react';
+import { useId } from 'react';
 import { AdminIconButton } from './AdminIconButton.jsx';
+import { useAdminDialog } from './use-admin-dialog.js';
 
 /**
  * Diálogo nativo: contiene foco, restaura el disparador y bloquea scroll al anidar confirmaciones.
@@ -15,22 +16,8 @@ export function AdminDialog({
   className = '',
   initialFocus,
 }) {
-  const ref = useRef();
+  const { ref, trapFocus } = useAdminDialog(initialFocus);
   const titleId = useId();
-  useEffect(() => {
-    const dialog = ref.current;
-    const previous = document.activeElement;
-    const overflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    if (dialog.showModal) dialog.showModal();
-    else dialog.setAttribute('open', '');
-    if (initialFocus) dialog.querySelector(initialFocus)?.focus();
-    return () => {
-      dialog.close?.();
-      document.body.style.overflow = overflow;
-      if (previous?.isConnected && !previous.closest('[inert]')) previous.focus();
-    };
-  }, [initialFocus]);
   const cancel = () => {
     if (!pending) onClose();
   };
@@ -39,7 +26,9 @@ export function AdminDialog({
       ref={ref}
       className={`admin-dialog ${className}`}
       aria-labelledby={titleId}
+      aria-modal="true"
       aria-busy={pending || undefined}
+      onKeyDown={trapFocus}
       onCancel={(event) => {
         event.preventDefault();
         cancel();

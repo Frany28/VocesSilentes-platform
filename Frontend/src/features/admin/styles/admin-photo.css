@@ -48,13 +48,11 @@
   gap: 12px;
   flex-wrap: wrap;
 }
-.admin-photo-zoom label {
+.admin-photo-zoom > span:first-child {
   flex: 1;
 }
-.admin-photo-zoom input {
-  max-width: 100%;
-  min-width: 0;
-  accent-color: var(--action-primary);
+.admin-photo-zoom .vs-button {
+  width: 44px;
 }
 .admin-photo-zoom output {
   font: var(--type-label);

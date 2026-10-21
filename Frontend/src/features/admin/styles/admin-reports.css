@@ -1,0 +1,42 @@
+.admin-report-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  background: var(--surface);
+  min-width: 0;
+}
+.admin-report-card-heading,
+.admin-report-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.admin-report-card-heading p,
+.admin-report-card-footer > div {
+  flex: 1;
+  min-width: 0;
+}
+.admin-report-card p,
+.admin-report-card time {
+  font: var(--type-label);
+  color: var(--text-secondary);
+}
+.admin-report-card .vs-button {
+  width: 150px;
+  flex: none;
+}
+.admin-report-card .vs-badge {
+  flex: none;
+}
+@container (max-width: 520px) {
+  .admin-report-card .vs-button {
+    width: 100px;
+  }
+  .admin-report-action-detail {
+    display: none;
+  }
+}

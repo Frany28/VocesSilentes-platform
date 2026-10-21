@@ -25,5 +25,7 @@ Las fuentes de verdad siguen siendo [modelo de datos](../data-model.md),
 - El SQL se prueba en PostgreSQL WASM efímero; no demuestra un despliegue PostgreSQL 17 multiworker.
 - La nueva migración está versionada para revisión. **No se aplica a Supabase en esta tarea**;
   las escrituras administrativas requieren aplicarla antes en una base de desarrollo autorizada.
-- Resumen, reportes y funciones educativas conservan sus demos identificadas. No hay UI de auditoría,
+- En el Día 1, resumen, reportes y funciones educativas conservaban demos identificadas. El rediseño
+  posterior de [Admin](../admin.md) retira sus demos e incorpora perfil real y dependencias explícitas.
+  Student conserva su configuración de demostración. No hay UI de auditoría,
   solo consulta ADMIN paginada. No se publicó ni se ejecutó GitHub Actions remotamente.

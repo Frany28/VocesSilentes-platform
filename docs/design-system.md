@@ -69,10 +69,17 @@ Los radios se eligen por función del elemento y se reutilizan en todos los tema
 | Badges, selector de tema y elementos circulares                                    | `--radius-full` | 999 px |
 
 Las tarjetas y paneles principales de Auth usan 24 px (`rounded-3xl`) según la composición existente.
-El radio del contorno de **todos los inputs es 12 px**, tanto en la variante predeterminada como
+El radio del contorno de los inputs del **UI Kit/Auth es 12 px**, tanto en la variante predeterminada como
 en `appearance="plain"`; PasswordInput lo hereda de `.vs-input-shell`, sin una excepción por tipo.
 Foco, error, deshabilitado y mostrar/ocultar contraseña no cambian ese radio.
 El botón interno de visibilidad conserva su radio de 8 px para su propio indicador de foco.
+
+El rediseño administrativo `286:50` define una variante compacta distinta: inputs y botones de
+44 px con radio 8 px, etiqueta Manrope 600 13/20 e input Inter 400 14/20. Se expresa mediante
+estilos bajo `.admin-shell`, reutilizando los componentes y conservando Auth/Student sin cambios.
+Sus badges de 28 px no llevan punto ni contorno. Perfil usa paneles de 24 px y avatar circular;
+el resto de paneles usa 16 px. Icon admite también el slot nativo de 28 px de esa página.
+Ver [administración](admin.md) para fuentes, estados e integración disponible.
 
 | Token CSS / variable Figma          | Claro             | Oscuro            |
 | ----------------------------------- | ----------------- | ----------------- |

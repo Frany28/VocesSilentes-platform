@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { useAdmin } from '../data/admin-context.js';
 /**
  * Mantiene datos temporales y avisa al cerrar o navegar con cambios; nunca almacena contraseñas.
@@ -19,7 +19,8 @@ export function useUserDraft(user, pending) {
   }));
   const [values, setValues] = useState(initial);
   const dirty = JSON.stringify(values) !== JSON.stringify(initial);
-  useEffect(() => {
+  // El guard debe recibir el estado antes de que el usuario pueda interactuar tras una respuesta HTTP.
+  useLayoutEffect(() => {
     setDraft({ dirty, pending });
     const warn = (event) => {
       if (dirty || pending) {

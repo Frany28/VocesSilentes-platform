@@ -68,8 +68,10 @@ export function AdminUsers() {
           <AdminFeedback status={list.status} error={list.error} retry={list.retry} />
         ) : !list.items.length ? (
           <AdminFeedback
-            status={list.query || list.filter ? 'empty' : 'no-data'}
-            retry={list.query || list.filter ? list.reset : undefined}
+            status={list.total ? 'empty-page' : list.query || list.filter ? 'empty' : 'no-data'}
+            retry={
+              list.total ? () => list.go(1) : list.query || list.filter ? list.reset : undefined
+            }
           />
         ) : (
           <>

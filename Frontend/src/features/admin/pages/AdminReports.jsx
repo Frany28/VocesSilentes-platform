@@ -1,4 +1,5 @@
 import { Input } from '../../../components/ui/Input.jsx';
+import { Badge } from '../../../components/ui/Badge.jsx';
 import { useAdminList } from '../data/use-admin-list.js';
 import { AdminHeading } from '../components/AdminHeading.jsx';
 import { AdminSelect } from '../components/AdminSelect.jsx';
@@ -14,9 +15,23 @@ import { AdminPagination } from '../components/AdminPagination.jsx';
  */
 export function AdminReports({ reports = [], status = 'unavailable', error, retry } = {}) {
   const list = useAdminList(reports, 'status');
+  const pending = reports.filter((report) => report.status === 'PENDING').length;
+  const resolved = reports.filter((report) => report.status === 'RESOLVED').length;
   return (
     <div className="admin-page">
-      <AdminHeading title="Reportes">Escucha lo que la comunidad necesita mejorar.</AdminHeading>
+      <AdminHeading title="Reportes de la comunidad">
+        Revisa cada caso y acompaña el aprendizaje.
+      </AdminHeading>
+      {status === 'ready' && (
+        <div className="admin-status-line admin-report-counts">
+          <Badge tone="warning">
+            {pending} {pending === 1 ? 'pendiente' : 'pendientes'}
+          </Badge>
+          <Badge tone="success">
+            {resolved} {resolved === 1 ? 'resuelto' : 'resueltos'}
+          </Badge>
+        </div>
+      )}
       <section className="admin-panel">
         <div className="admin-filters">
           <Input
@@ -46,15 +61,13 @@ export function AdminReports({ reports = [], status = 'unavailable', error, retr
         ) : status !== 'ready' ? (
           <AdminFeedback status={status} error={error} retry={retry} noun="reportes" />
         ) : !list.total ? (
-          <AdminFeedback status="empty" noun="reportes" retry={list.reset} />
+          <AdminFeedback
+            status={list.query || list.filter ? 'empty' : 'no-data'}
+            noun="reportes"
+            retry={list.query || list.filter ? list.reset : undefined}
+          />
         ) : (
           <>
-            <div className="admin-list-head admin-report-row" aria-hidden="true">
-              <span>Referencia y asunto</span>
-              <span>Estado</span>
-              <span>Registro</span>
-              <span>Acción</span>
-            </div>
             {list.items.map((report) => (
               <AdminReportRow key={report.id} report={report} />
             ))}

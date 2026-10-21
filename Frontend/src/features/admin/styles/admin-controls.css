@@ -18,7 +18,9 @@
 .admin-shell .vs-button:active .vs-button-surface::before {
   inset: 0;
 }
-.admin-shell .vs-button[data-variant='secondary']:disabled .vs-button-surface::before {
+.admin-shell
+  .vs-button[data-variant='secondary']:disabled:not([data-loading])
+  .vs-button-surface::before {
   border-color: var(--border-subtle);
 }
 .admin-shell .admin-danger {
@@ -58,7 +60,7 @@
   width: fit-content;
   min-width: 0;
   min-height: 28px;
-  padding: 4px 12px;
+  padding: 4px 16px;
   border-radius: 8px;
   font: var(--type-button);
   border: 0;
