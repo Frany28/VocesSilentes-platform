@@ -1,5 +1,50 @@
 # Verificación
 
+## Admin · Rediseño moderno — 21 de octubre de 2026
+
+En Windows con Node **22.23.1** y pnpm **10.18.2**, `pnpm verify` completo terminó con código **0**:
+lint sin advertencias, formato correcto, **99 pruebas frontend** en 36 archivos, **34 backend**,
+validación Prisma, build de ambas aplicaciones y **43 pruebas SQL/auth aisladas**. Total:
+**176 pruebas aprobadas**, sin fallos ni omisiones. Después se actualizó únicamente documentación
+y se repitieron formato y `git diff --check`.
+
+La implementación usa la página `286:50` de Figma. Se inventariaron sus 170 frames y se consultaron
+contextos, componentes y renders de pantallas, estados, modales, perfil, foto y evidencia en ambos
+temas. Referencias y capacidades reales en [admin.md](admin.md). La comparación visual fue manual
+sobre capturas representativas; no se afirma igualdad automática de píxeles.
+
+Chrome local produjo **185 capturas** de rutas/recorridos y **35 capturas** de comprobación final:
+
+- Resumen, usuarios, cuenta, creación/edición modal, reportes sin integración, perfil y seguridad
+  en 1440, 834, 390 y 320 px, temas claro/oscuro. También anchos 599, 600, 768, 1024, 1199 y
+  1200 px, con alturas reducidas de 420/500 px para comprobar transiciones y diálogos con scroll.
+- Cero desbordamientos horizontales o excepciones JavaScript. Campos de 44 px, tracks/alineación
+  de tabla comprobados mediante geometría, recursos SVG presentes con dimensiones originales,
+  hover/foco, estados deshabilitados y recuperación de una página fuera de rango.
+- Login ADMIN real, creación 201, edición 200, lectura tras recarga y edición propia confirmadas
+  mediante Prisma en una base efímera. Express, Prisma y Argon2id reales sobre PostgreSQL WASM
+  aislado; sin usar credenciales ni modificar datos de Supabase.
+- Escape, Tab/Shift+Tab, restauración de foco y scroll en modales/confirmaciones, selección local
+  de foto, encuadre y cierre del visor. Se corrigieron el foco del visor de un único botón, el
+  scroll de diálogos anidados y la sincronización del borrador tras cargar el perfil.
+- Logout y login USER, cinco destinos Student sin estilos Admin ni desbordamientos, y rechazo
+  del acceso USER a Admin. Las pruebas existentes de autenticación también se conservan.
+
+Reportes, revisión y evidencia se cotejaron además con una entrada exclusiva de desarrollo
+`Frontend/admin-review.html`, que identifica visiblemente sus datos sintéticos. No se importa en
+las rutas de la aplicación ni forma parte del build de producción. Incluye carga, error, vacío,
+lista, evidencia ausente/adjunta/fallida y visor en 1440/834/390 px y ambos temas. Las pruebas de
+resolución comprueban un callback controlado y sus fallos; **no prueban persistencia de reportes**.
+La foto local tampoco se guarda ni se presenta como actualización de la cuenta.
+
+Artefactos locales ignorados: `.local/admin-modern-verify.log`,
+`.local/admin-modern-review/results.json`, `.local/admin-modern-states-review/results.json`
+y sus capturas. No se añadieron dependencias, configuración, endpoints ni migraciones.
+No se ejecutaron `db:check`, migraciones compartidas, publicación ni GitHub Actions en esta tarea.
+La emulación de Chrome no acredita Safari/Firefox ni dispositivos físicos. Los servicios pendientes
+de reportes/resolución/adjuntos, cambio de estado, contraseña, foto y métricas siguen explícitos en
+la interfaz y [admin.md](admin.md); no se atribuye integración a sus estados de presentación.
+
 ## Módulo II, Día 1 — 20 de octubre de 2026
 
 En Windows con Node **22.23.1** y pnpm **10.18.2**, `pnpm verify` completo terminó con código **0**:

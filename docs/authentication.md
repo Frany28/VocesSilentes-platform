@@ -58,8 +58,9 @@ anónimo nuevo antes de repetirla. No se guarda ningún token en storage, URLs n
 `requireSession(service, policy)` consulta Session y su User actual en cada petición protegida:
 expiración, revocación, actividad, eliminación y bloqueo. Añade el DTO permitido a `req.auth`.
 `requireRole(...roles)` se ejecuta después y devuelve 403 para rol insuficiente; falta de sesión
-devuelve 401. No se publicaron endpoints administrativos ficticios; sus permisos se verifican
-con una ruta aislada. Cambios de rol/estado afectan las siguientes peticiones al backend.
+devuelve 401. Los endpoints administrativos reales reutilizan ambos middlewares y CSRF;
+sus permisos se verifican también mediante HTTP con persistencia aislada. Ver [admin.md](admin.md).
+Cambios de rol/estado afectan las siguientes peticiones al backend.
 El frontend mantiene una instantánea para navegar: refrescar la sesión actualiza esa vista,
 pero su guard nunca sustituye al middleware del servidor.
 
@@ -145,7 +146,8 @@ Respuestas tardías de me se descartan después de login/logout/cancelación.
 adaptados a los datos de User, con validación local: [registro](registration.md).
 `/student` y sus cinco pantallas exigen sesión y USER; `/admin`, sesión y ADMIN.
 `/account` es compartida. El retorno admite solo rutas publicadas y autorizadas para cada rol:
-Student para USER, Admin para ADMIN y cuenta para ambos.
+Student para USER, Admin para ADMIN y cuenta para ambos. Admin incluye `/admin/profile` y
+`/admin/profile/security`; el formulario propio usa el PATCH ADMIN existente, sin cambiar el rol.
 Sin retorno autorizado, ADMIN entra a `/admin` y USER a `/student`.
 Sin destinos externos, query ni traversal.
 CSRF vive en memoria; el token de sesión es inaccesible desde JavaScript. No se modifican diseños
