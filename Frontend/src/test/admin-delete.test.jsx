@@ -1,4 +1,4 @@
-import { act, fireEvent, screen, waitFor } from '@testing-library/react';
+﻿import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import { expect, test } from 'vitest';
 import { renderAdmin, account } from './admin-fixture.jsx';
 import { jsonResponse } from './auth-fixture.jsx';
@@ -17,6 +17,7 @@ test('eliminación: confirma, cancela sin enviar, evita doble envío y espera al
     });
   });
   await screen.findByRole('heading', { name: 'Persona' });
+  fireEvent.click(screen.getByText('Otras acciones de cuenta'));
   fireEvent.click(screen.getByRole('button', { name: 'Eliminar cuenta' }));
   expect(screen.getByRole('dialog')).toHaveTextContent('Se revocarán sus sesiones');
   fireEvent.click(screen.getByRole('button', { name: 'Cancelar' }));
@@ -30,9 +31,9 @@ test('eliminación: confirma, cancela sin enviar, evita doble envío y espera al
   expect(calls).toHaveLength(1);
   expect(calls[0][1].headers.get('X-CSRF-Token')).toBe('test-csrf');
   expect(screen.getByRole('button', { name: 'Cancelar' })).toBeDisabled();
-  expect(screen.queryByRole('heading', { name: 'Usuarios' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('heading', { name: 'Gestión de usuarios' })).not.toBeInTheDocument();
   await act(async () => finish(jsonResponse({ data: { user: { ...account, isDeleted: true } } })));
-  await screen.findByRole('heading', { name: 'Usuarios' });
+  await screen.findByRole('heading', { name: 'Gestión de usuarios' });
   expect(screen.getByText('La cuenta se eliminó y sus sesiones fueron revocadas.')).toBeVisible();
 });
 
@@ -51,6 +52,7 @@ test('eliminación: conserva fallo del último ADMIN y permite reintentar sin af
       : jsonResponse({ data: { user: { ...account, role: 'ADMIN' } } }),
   );
   await screen.findByRole('heading', { name: 'Persona' });
+  fireEvent.click(screen.getByText('Otras acciones de cuenta'));
   fireEvent.click(screen.getByRole('button', { name: 'Eliminar cuenta' }));
   fireEvent.click(screen.getByRole('button', { name: 'Confirmar eliminación' }));
   await screen.findByText('Debe permanecer al menos un administrador activo');

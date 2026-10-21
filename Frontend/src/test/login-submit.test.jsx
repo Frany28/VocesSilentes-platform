@@ -1,4 +1,4 @@
-import { act, fireEvent, screen, waitFor } from '@testing-library/react';
+﻿import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, test, vi } from 'vitest';
 import { user, jsonResponse, unauthorized, renderAuthApp } from './auth-fixture.jsx';
@@ -36,7 +36,9 @@ test('carga: protege incluso dos submit síncronos, anuncia y deshabilita contro
   await act(async () =>
     finish(jsonResponse({ data: { user: { ...user, role: 'ADMIN' }, csrfToken: 'rotated' } })),
   );
-  expect(await screen.findByRole('heading', { name: 'Resumen' })).toBeVisible();
+  expect(
+    await screen.findByRole('heading', { name: 'Tu comunidad, en perspectiva' }),
+  ).toBeVisible();
   expect(screen.getByRole('navigation', { name: 'Administración' })).toBeVisible();
   expect(localStorage.getItem('password')).toBeNull();
   expect(sessionStorage.length).toBe(0);

@@ -1,3 +1,4 @@
+﻿import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router';
 import { Badge } from '../../../components/ui/Badge.jsx';
 import { Alert } from '../../../components/ui/Alert.jsx';
@@ -9,46 +10,48 @@ import { AdminSelect } from '../components/AdminSelect.jsx';
 import { AdminFeedback } from '../components/AdminFeedback.jsx';
 import { AdminUserRow } from '../components/AdminUserRow.jsx';
 import { AdminPagination } from '../components/AdminPagination.jsx';
-import { UserLookup } from '../components/UserLookup.jsx';
 
 /**
- * Lista cuentas reales con búsqueda, rol y páginas desde PostgreSQL; muestra estados de la API.
- * @returns {import('react').ReactElement} Gestión administrativa sin demos como respaldo.
+ * Lista real con filtros/paginación de servidor; no calcula censos de actividad desde una sola página.
+ * @returns {import('react').ReactElement} Gestión compacta y estados HTTP verificables.
  */
 export function AdminUsers() {
   const list = useUsersList();
   const { state } = useLocation();
+  const page = useRef();
+  useEffect(() => {
+    if (state?.focusAction === 'create') page.current.querySelector('[data-admin-to]')?.focus();
+  }, [state]);
   return (
-    <div className="admin-page">
-      <AdminHeading title="Usuarios">Gestiona las cuentas y sus permisos de acceso.</AdminHeading>
-      <div className="admin-actions">
-        <AdminAction to="/admin/users/new" variant="primary" arrow>
+    <div className="admin-page" ref={page}>
+      <div className="admin-title-row">
+        <AdminHeading title="Gestión de usuarios">
+          Cuentas, roles y accesos en un solo lugar.
+        </AdminHeading>
+        <AdminAction to="/admin/users/new" variant="primary">
           Crear usuario
         </AdminAction>
       </div>
       {state?.message && (
-        <Alert tone="info" title="Información de la cuenta">
+        <Alert tone="success" title="Información de la cuenta">
           {state.message}
         </Alert>
       )}
-      <p className="admin-demo-note">
-        Cuentas consultadas al servidor. Se excluyen las cuentas eliminadas.
-      </p>
-      <UserLookup />
-      <section className="admin-panel">
-        <div className="admin-list-heading">
-          <div>
-            <h2>Gestión de usuarios</h2>
-            <p className="admin-muted">Gestiona cuentas y roles de acceso.</p>
-          </div>
-          {list.status === 'ready' && <Badge tone="info">{list.total} cuentas</Badge>}
+      {list.status === 'ready' && (
+        <div className="admin-status-line">
+          <Badge tone="info">
+            {list.total} cuentas{list.query || list.filter ? ' encontradas' : ''}
+          </Badge>
         </div>
+      )}
+      <section className="admin-panel">
         <div className="admin-filters">
           <Input
             appearance="plain"
-            label="Buscar"
+            label="Buscar usuarios"
             placeholder="Nombre, usuario o correo"
             value={list.query}
+            maxLength={100}
             onChange={(event) => list.search(event.target.value)}
           />
           <AdminSelect
@@ -64,15 +67,18 @@ export function AdminUsers() {
         {list.status !== 'ready' ? (
           <AdminFeedback status={list.status} error={list.error} retry={list.retry} />
         ) : !list.items.length ? (
-          <AdminFeedback status="empty" retry={list.reset} />
+          <AdminFeedback
+            status={list.query || list.filter ? 'empty' : 'no-data'}
+            retry={list.query || list.filter ? list.reset : undefined}
+          />
         ) : (
           <>
             <div className="admin-list-head" aria-hidden="true">
               <span>Cuenta</span>
               <span>Rol</span>
               <span>Estado</span>
-              <span>Fecha</span>
-              <span>Acciones</span>
+              <span>Registro</span>
+              <span>Acción</span>
             </div>
             {list.items.map((user) => (
               <AdminUserRow key={user.id} user={user} />

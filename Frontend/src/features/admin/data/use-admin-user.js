@@ -1,45 +1,31 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { useAdmin } from './admin-context.js';
 
 /**
- * Carga el UUID real al abrir detalle/edición; los IDs demo solo leen la colección identificada.
- * @param {string | undefined} id Identificador de ruta; undefined para creación.
- * @returns {object} loading/ready/error, cuenta y retry; lecturas abortables sin datos demo como fallback.
+ * Consulta la cuenta actual al servidor; cancela y descarta lecturas obsoletas, sin fallback sintético.
+ * @param {string | undefined} id UUID de ruta; undefined para creación.
+ * @returns {object} status/user/error/retry; errores HTTP se conservan para el reintento manual.
  */
 export function useAdminUser(id) {
-  const { api, users } = useAdmin();
-  const demo = id?.startsWith('demo-') ? users.find((item) => item.id === id) : undefined;
-  const [result, setResult] = useState({
-    status: id && !demo ? 'loading' : 'ready',
-    user: demo,
-    id,
-  });
+  const { api } = useAdmin();
   const [revision, setRevision] = useState(0);
+  const [result, setResult] = useState({});
+  const key = `${id}:${revision}`;
   useEffect(() => {
-    if (!id || id.startsWith('demo-')) return;
+    if (!id) return;
     const controller = new AbortController();
-    api
-      .get(id, controller.signal)
-      .then((user) => {
-        if (!controller.signal.aborted)
-          setResult({ status: 'ready', user: { ...user, source: 'server' }, id });
-      })
-      .catch((error) => {
-        if (!controller.signal.aborted) setResult({ status: 'error', error, id });
-      });
+    api.get(id, controller.signal).then(
+      (user) => {
+        if (!controller.signal.aborted) setResult({ status: 'ready', user, key });
+      },
+      (error) => {
+        if (!controller.signal.aborted) setResult({ status: 'error', error, key });
+      },
+    );
     return () => controller.abort();
-  }, [api, id, revision]);
+  }, [api, id, key]);
   return {
-    ...(!id
-      ? { status: 'ready' }
-      : id?.startsWith('demo-')
-        ? { status: demo ? 'ready' : 'error', user: demo }
-        : result.id === id
-          ? result
-          : { status: 'loading' }),
-    retry: () => {
-      setResult({ status: 'loading', id });
-      setRevision((value) => value + 1);
-    },
+    ...(!id ? { status: 'ready' } : result.key === key ? result : { status: 'loading' }),
+    retry: () => setRevision((value) => value + 1),
   };
 }

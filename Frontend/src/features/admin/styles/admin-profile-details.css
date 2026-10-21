@@ -1,0 +1,30 @@
+﻿.admin-shell:has(.admin-profile-page) .admin-topbar,
+.admin-shell:has(.admin-profile-page) footer {
+  width: 100%;
+  max-width: 904px;
+  margin-inline: auto;
+}
+.admin-shell:has(.admin-profile-page)
+  :is(.admin-mobile-nav, .admin-mobile-brand, .admin-profile-link) {
+  display: none;
+}
+.admin-profile-card-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.admin-profile-privacy,
+.admin-profile-role:has(.vs-icon),
+.admin-panel-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.admin-profile-privacy .vs-icon,
+.admin-profile-role .vs-icon {
+  flex: none;
+}
+.admin-status-line .vs-badge {
+  color: var(--text-secondary);
+  background: var(--surface-neutral);
+}

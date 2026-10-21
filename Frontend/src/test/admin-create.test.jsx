@@ -1,4 +1,4 @@
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+﻿import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { expect, test } from 'vitest';
 import { renderAdmin, fillAdminForm, account } from './admin-fixture.jsx';
 import { jsonResponse } from './auth-fixture.jsx';
@@ -54,8 +54,8 @@ test('crear: error conserva datos, no muestra éxito, permite corregir/reintenta
   expect(screen.getByLabelText('Nombre')).toHaveValue('Persona');
   expect(screen.queryByRole('heading', { name: 'Cuenta guardada' })).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole('button', { name: 'Cancelar' }));
-  expect(screen.getByRole('dialog')).toHaveTextContent('¿Descartar los cambios?');
+  expect(screen.getByRole('dialog', { name: '¿Descartar los cambios?' })).toBeVisible();
   fireEvent.click(screen.getByRole('button', { name: 'Descartar cambios' }));
-  expect(await screen.findByRole('heading', { name: 'Usuarios' })).toBeVisible();
+  expect(await screen.findByRole('heading', { name: 'Gestión de usuarios' })).toBeVisible();
   expect(fetchMock.mock.calls.filter(([, options]) => options.method === 'POST')).toHaveLength(1);
 });

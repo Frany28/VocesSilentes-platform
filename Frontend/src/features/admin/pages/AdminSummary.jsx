@@ -1,75 +1,66 @@
-import { useAdmin } from '../data/admin-context.js';
+﻿import { useUsersList } from '../data/use-users-list.js';
 import { AdminHeading } from '../components/AdminHeading.jsx';
 import { AdminAction } from '../components/AdminAction.jsx';
-import { AdminReportRow } from '../components/AdminReportRow.jsx';
-import { AdminUserRow } from '../components/AdminUserRow.jsx';
 import { AdminFeedback } from '../components/AdminFeedback.jsx';
+import { AdminUnavailable } from '../components/AdminUnavailable.jsx';
+import { Icon } from '../../../components/ui/Icon.jsx';
+
 /**
- * Resumen de demostración del diseño; no presenta métricas como integración de base de datos.
- * @returns {import('react').ReactElement} Hero, métricas demo y enlaces a gestión.
+ * Resumen con censo real de cuentas y dependencias explícitas para métricas/reportes aún no publicados.
+ * @returns {import('react').ReactElement} Indicadores sin cifras sintéticas ni progreso inventado.
  */
 export function AdminSummary() {
-  const { users, reports, preview, retry } = useAdmin();
-  const examples = users.filter((user) => user.source === 'demo');
-  const pending = reports.filter((report) => report.status === 'PENDING');
+  const list = useUsersList();
   return (
     <div className="admin-page">
-      <AdminHeading title="Resumen">
-        Cuida la comunidad. Mantén el aprendizaje en movimiento.
+      <AdminHeading title="Tu comunidad, en perspectiva">
+        Un vistazo a lo que necesita tu atención.
       </AdminHeading>
       <section className="admin-hero">
-        <p className="admin-demo-note">VOCESSILENTES / ADMINISTRACIÓN</p>
+        <p className="admin-demo-note">VOCESSILENTES / COMUNIDAD</p>
         <h2>Más cuidado. Menos barreras.</h2>
-        <p>Un vistazo a las cuentas y los reportes que necesitan tu atención.</p>
+        <p>Cada cuenta y cada reporte son una oportunidad para mejorar.</p>
       </section>
-      <p className="admin-demo-note">
-        Métricas de demostración. No representan los datos de la base de datos.
-      </p>
-      {preview !== 'ready' ? (
-        <AdminFeedback status={preview} retry={retry} noun="resumen" />
-      ) : (
-        <>
-          <section className="admin-metrics" aria-label="Métricas de demostración">
-            {[
-              [
-                'Usuarios registrados',
-                examples.length,
-                `${examples.filter((user) => user.isActive).length} activos · ${examples.filter((user) => !user.isActive).length} desactivados`,
-              ],
-              ['Reportes pendientes', pending.length, 'Revisa el contexto antes de actuar'],
-              [
-                'Reportes resueltos',
-                reports.length - pending.length,
-                `De ${reports.length} reportes recibidos`,
-              ],
-            ].map(([label, value, description]) => (
-              <article className="admin-metric" key={label}>
-                <p>{label}</p>
-                <strong>{value}</strong>
-                <p>{description}</p>
-              </article>
-            ))}
-          </section>
-          <div className="admin-attention">
-            <section className="admin-panel">
-              <h2>Necesitan tu atención</h2>
-              <p className="admin-muted">Reportes pendientes de revisión · Demostración</p>
-              {pending[0] ? (
-                <AdminReportRow report={pending[0]} card />
-              ) : (
-                <p>No hay reportes pendientes de demostración.</p>
-              )}
-              <AdminAction to="/admin/reports">Ver todos los reportes</AdminAction>
-            </section>
-            <section className="admin-panel">
-              <h2>La comunidad</h2>
-              <p className="admin-muted">Cuentas recientes</p>
-              <AdminUserRow user={users[0]} card />
-              <AdminAction to="/admin/users">Gestionar usuarios</AdminAction>
-            </section>
+      <section className="admin-metrics" aria-label="Indicadores de administración">
+        <article className="admin-metric">
+          <div className="admin-metric-label">
+            <p>Usuarios registrados</p>
+            <Icon name="modern-users" size={20} />
           </div>
-        </>
-      )}
+          {list.status === 'ready' ? (
+            <>
+              <strong>{list.total}</strong>
+              <p>Cuentas no eliminadas</p>
+            </>
+          ) : (
+            <AdminFeedback status={list.status} error={list.error} retry={list.retry} />
+          )}
+        </article>
+        {['Reportes pendientes', 'Reportes resueltos'].map((label) => (
+          <article className="admin-metric" key={label}>
+            <div className="admin-metric-label">
+              <p>{label}</p>
+              <Icon
+                name={label.endsWith('pendientes') ? 'modern-flag' : 'modern-check'}
+                size={20}
+              />
+            </div>
+            <strong aria-label="Sin datos disponibles">—</strong>
+            <p>Consulta de reportes pendiente de integración</p>
+          </article>
+        ))}
+      </section>
+      <section className="admin-panel">
+        <h2>Prioridad de hoy</h2>
+        <AdminUnavailable title="Reportes no disponibles">
+          El backend todavía no permite consultar ni resolver reportes. No hay un recuento
+          verificable.
+        </AdminUnavailable>
+        <div className="admin-actions">
+          <AdminAction to="/admin/reports">Ver todos los reportes</AdminAction>
+          <AdminAction to="/admin/users">Gestionar usuarios</AdminAction>
+        </div>
+      </section>
     </div>
   );
 }

@@ -1,12 +1,12 @@
-import { useEffect, useRef } from 'react';
-import { Button } from '../../../components/ui/Button.jsx';
+﻿import { Button } from '../../../components/ui/Button.jsx';
 import { Alert } from '../../../components/ui/Alert.jsx';
+import { AdminDialog } from './AdminDialog.jsx';
 
 /**
- * Modal nativo con foco contenido, Escape, restauración de foco y scroll bloqueado.
+ * Confirmación nativa compartida; no comunica éxito ni ejecuta negocio por su cuenta.
  * @param {{title: string, children: import('react').ReactNode, confirm: string, onConfirm: Function,
- * onCancel: Function, pending?: boolean, error?: string}} props Mensaje y acciones del diálogo.
- * @returns {import('react').ReactElement} Diálogo; no confirma una operación antes de completarla.
+ * onCancel: Function, pending?: boolean, error?: string, disabled?: boolean, danger?: boolean}} props Confirmación.
+ * @returns {import('react').ReactElement} Diálogo con cancelación inicial y envío protegido.
  */
 export function AdminConfirmation({
   title,
@@ -16,46 +16,31 @@ export function AdminConfirmation({
   onCancel,
   pending,
   error,
+  disabled,
+  danger = false,
 }) {
-  const ref = useRef();
-  useEffect(() => {
-    const dialog = ref.current;
-    const previous = document.activeElement;
-    const overflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    if (dialog.showModal) dialog.showModal();
-    else dialog.setAttribute('open', '');
-    return () => {
-      dialog.close?.();
-      document.body.style.overflow = overflow;
-      previous?.focus();
-    };
-  }, []);
   return (
-    <dialog
-      ref={ref}
-      className="admin-dialog"
-      aria-labelledby="admin-dialog-title"
-      onCancel={(event) => {
-        event.preventDefault();
-        if (!pending) onCancel();
-      }}
-    >
-      <h2 id="admin-dialog-title">{title}</h2>
-      <p>{children}</p>
+    <AdminDialog title={title} onClose={onCancel} pending={pending} initialFocus="[data-cancel]">
+      <div className="admin-dialog-description">{children}</div>
       {error && (
         <Alert tone="error" title="No se pudo completar">
           {error}
         </Alert>
       )}
       <div className="admin-actions">
-        <Button variant="secondary" icon={null} disabled={pending} onClick={onCancel} autoFocus>
+        <Button variant="secondary" icon={null} disabled={pending} onClick={onCancel} data-cancel>
           Cancelar
         </Button>
-        <Button icon={null} loading={pending} onClick={onConfirm}>
+        <Button
+          icon={null}
+          loading={pending}
+          onClick={onConfirm}
+          disabled={disabled}
+          className={danger ? 'admin-danger' : ''}
+        >
           {confirm}
         </Button>
       </div>
-    </dialog>
+    </AdminDialog>
   );
 }

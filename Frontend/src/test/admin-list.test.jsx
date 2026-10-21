@@ -1,4 +1,4 @@
-import { act, fireEvent, screen, waitFor } from '@testing-library/react';
+﻿import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import { expect, test } from 'vitest';
 import { renderAdmin, account } from './admin-fixture.jsx';
 import { jsonResponse } from './auth-fixture.jsx';
@@ -31,7 +31,7 @@ test('listado real: envía páginas, búsqueda y rol a la API y reinicia página
   await screen.findByText('Página 2');
   fireEvent.change(screen.getByLabelText('Rol'), { target: { value: 'ADMIN' } });
   await screen.findByText('Admin remoto');
-  fireEvent.change(screen.getByLabelText('Buscar'), { target: { value: 'remoto' } });
+  fireEvent.change(screen.getByLabelText('Buscar usuarios'), { target: { value: 'remoto' } });
   await screen.findByText('Encontrado');
   const [url, options] = fetchMock.mock.calls.at(-1);
   expect(new URL(url).searchParams.get('page')).toBe('1');
@@ -51,19 +51,19 @@ test('listado: carga, error y reintento sin demo; vacío permite quitar filtros'
       });
     return pageResponse([], 1, 0);
   });
-  await screen.findByText('Preparando usuarios…');
+  await screen.findByText('Cargando usuarios…');
   await waitFor(() => expect(finish).toBeDefined());
   await act(async () =>
     finish(jsonResponse({ error: { code: 'INTERNAL_ERROR', message: 'Error interno' } }, 500)),
   );
-  await screen.findByText('No pudimos cargar usuarios');
+  await screen.findByText('No pudimos cargar la información');
   expect(screen.queryByText('Ana Pérez')).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole('button', { name: 'Reintentar' }));
-  await screen.findByText('No encontramos resultados');
-  fireEvent.change(screen.getByLabelText('Buscar'), { target: { value: 'nadie' } });
+  await screen.findByText('Todavía no hay cuentas');
+  fireEvent.change(screen.getByLabelText('Buscar usuarios'), { target: { value: 'nadie' } });
   await screen.findByText('No encontramos resultados');
   fireEvent.click(screen.getByRole('button', { name: 'Ver todos' }));
-  expect(screen.getByLabelText('Buscar')).toHaveValue('');
+  expect(screen.getByLabelText('Buscar usuarios')).toHaveValue('');
 });
 
 test('listado: cancela y descarta una respuesta tardía al cambiar búsqueda', async () => {
@@ -75,10 +75,10 @@ test('listado: cancela y descarta una respuesta tardía al cambiar búsqueda', a
           finish = resolve;
         }),
   );
-  await screen.findByText('Preparando usuarios…');
+  await screen.findByText('Cargando usuarios…');
   await waitFor(() => expect(finish).toBeDefined());
   const signal = fetchMock.mock.calls.find(([url]) => url.includes('/admin/users?'))[1].signal;
-  fireEvent.change(screen.getByLabelText('Buscar'), { target: { value: 'actual' } });
+  fireEvent.change(screen.getByLabelText('Buscar usuarios'), { target: { value: 'actual' } });
   await screen.findByText('Actual');
   expect(signal.aborted).toBe(true);
   await act(async () => finish(pageResponse([{ ...account, firstName: 'Obsoleto' }])));

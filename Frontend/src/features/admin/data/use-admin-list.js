@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router';
 /**
- * Búsqueda, filtro y paginación en URL sobre una colección identificada, sin afirmar consulta remota.
- * @param {object[]} items Colección real conocida y/o de demostración.
+ * Búsqueda, filtro y paginación en URL sobre la colección proporcionada por el consumidor.
+ * @param {object[]} items Colección autorizada; nunca se usa como fallback de una consulta fallida.
  * @param {string} field Campo enumerado de filtro.
  * @returns {object} Página de tres elementos, total, query, filter y setters.
  */

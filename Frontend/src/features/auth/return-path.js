@@ -6,6 +6,8 @@
  */
 export function safeReturnPath(target, role) {
   if (target === '/admin' && role === 'ADMIN') return target;
+  if (role === 'ADMIN' && ['/admin/profile', '/admin/profile/security'].includes(target))
+    return target;
   if (
     role === 'ADMIN' &&
     typeof target === 'string' &&

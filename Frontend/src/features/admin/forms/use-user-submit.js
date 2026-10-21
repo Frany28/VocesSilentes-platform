@@ -21,10 +21,11 @@ const conflictFields = {
 /**
  * Envía creación/edición con exclusión de doble envío y aborta al salir; éxito solo tras respuesta real.
  * @param {object | undefined} user Cuenta original o undefined para crear.
- * @returns {object} pending/errors/error y submit; la edición demo queda explícita y separada.
+ * @param {{profile?: boolean}} [options] Mantiene el destino de perfil al editar la identidad propia.
+ * @returns {object} pending/errors/error y submit; solo confirma respuestas del servidor.
  */
-export function useUserSubmit(user) {
-  const { api, demoAction } = useAdmin();
+export function useUserSubmit(user, { profile = false } = {}) {
+  const { api } = useAdmin();
   const auth = useAuth();
   const navigate = useNavigate();
   const request = useRef();
@@ -43,15 +44,6 @@ export function useUserSubmit(user) {
       return;
     }
     const input = userPayload(values, !user);
-    if (user?.source === 'demo') {
-      demoAction('users', user.id, input);
-      navigate(`/admin/users/${user.id}`, {
-        state: {
-          message: 'Demostración: cambios en memoria, sin persistencia en la base de datos.',
-        },
-      });
-      return;
-    }
     const controller = new AbortController();
     request.current = controller;
     setPending(true);
@@ -62,7 +54,10 @@ export function useUserSubmit(user) {
       if (controller.signal.aborted) return;
       if (saved.id === auth.user.id) {
         auth.refresh();
-        navigate(saved.role === 'ADMIN' ? '/admin' : '/student', { replace: true });
+        navigate(saved.role === 'ADMIN' ? (profile ? '/admin/profile' : '/admin') : '/student', {
+          replace: true,
+          state: { message: 'La cuenta se actualizó en la base de datos.' },
+        });
       } else
         navigate(`/admin/users/${saved.id}${user ? '' : '/created'}`, {
           state: {

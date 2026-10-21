@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react';
+﻿import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, test, vi } from 'vitest';
 import { user, jsonResponse, unauthorized, renderAuthApp } from './auth-fixture.jsx';
@@ -45,7 +45,9 @@ test('guard administrativo: USER denegado conserva sesión y ADMIN autorizado', 
   view.unmount();
   fetchMock.mockResolvedValue(jsonResponse({ data: { user: { ...user, role: 'ADMIN' } } }));
   renderAuthApp('/admin');
-  expect(await screen.findByRole('heading', { name: 'Resumen' })).toBeVisible();
+  expect(
+    await screen.findByRole('heading', { name: 'Tu comunidad, en perspectiva' }),
+  ).toBeVisible();
 });
 
 test('401 protegido limpia estado; 403 mantiene la sesión existente', async () => {
@@ -65,6 +67,9 @@ test('401 protegido limpia estado; 403 mantiene la sesión existente', async () 
 
 test('retornos: permite ADMIN solo con rol confirmado y rechaza destinos externos/ambiguos', () => {
   expect(safeReturnPath('/admin', 'ADMIN')).toBe('/admin');
+  expect(safeReturnPath('/admin/profile', 'ADMIN')).toBe('/admin/profile');
+  expect(safeReturnPath('/admin/profile/security', 'ADMIN')).toBe('/admin/profile/security');
+  expect(safeReturnPath('/admin/profile', 'USER')).toBe('/student');
   for (const path of [
     'https://evil.invalid',
     '//evil.invalid',

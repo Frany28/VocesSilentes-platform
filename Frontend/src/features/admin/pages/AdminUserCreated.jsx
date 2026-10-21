@@ -6,6 +6,7 @@ import { AdminFeedback } from '../components/AdminFeedback.jsx';
 import { AdminFacts } from '../components/AdminFacts.jsx';
 import { AdminAction } from '../components/AdminAction.jsx';
 import { AccountStatus } from '../components/AccountStatus.jsx';
+import { AdminIconButton } from '../components/AdminIconButton.jsx';
 /**
  * Resultado de creación confirmado mediante consulta real; recargar vuelve a leer persistencia.
  * @returns {import('react').ReactElement} Cuenta persistida sin contraseña ni progreso inventado.
@@ -34,11 +35,6 @@ export function AdminUserCreated() {
             @{user.username} · {user.email}
           </p>
           <AccountStatus user={user} />
-          <p className="admin-demo-note">
-            {user.source === 'server'
-              ? 'Cuenta real consultada al servidor.'
-              : 'Cuenta de demostración, sin persistencia.'}
-          </p>
           <AdminFacts
             items={[
               ['Rol', user.role === 'ADMIN' ? 'Admin' : 'Usuario'],
@@ -53,7 +49,7 @@ export function AdminUserCreated() {
             La contraseña permanece privada. El acceso depende del estado de la cuenta.
           </p>
           <div className="admin-actions">
-            <AdminAction to="/admin/users">Volver a usuarios</AdminAction>
+            <AdminIconButton to="/admin/users" icon="back" label="Volver a usuarios" />
             <AdminAction to="/admin/users/new" variant="primary">
               Crear otro usuario
             </AdminAction>

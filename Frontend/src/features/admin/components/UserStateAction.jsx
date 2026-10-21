@@ -1,51 +1,52 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Button } from '../../../components/ui/Button.jsx';
-import { Alert } from '../../../components/ui/Alert.jsx';
-import { useAdmin } from '../data/admin-context.js';
 import { AdminConfirmation } from './AdminConfirmation.jsx';
+import { AdminAvatar } from './AdminAvatar.jsx';
+import { fullName } from '../data/admin-labels.js';
+
 /**
- * Simula cambio de estado exclusivamente para demos; cuentas reales muestran integración pendiente.
- * @param {{user: object}} props Cuenta y procedencia.
- * @returns {import('react').ReactElement} Acción, confirmación y aviso sin falsa persistencia.
+ * Presenta el modal diseñado sin confundir isActive con eliminación lógica ni enviar un PATCH no soportado.
+ * @param {{user: object}} props Cuenta actual.
+ * @returns {import('react').ReactElement} Confirmación con dependencia y mutación deshabilitada.
  */
 export function UserStateAction({ user }) {
-  const { demoAction } = useAdmin();
   const [confirm, setConfirm] = useState(false);
-  const [notice, setNotice] = useState(null);
-  const demo = user.source === 'demo';
-  const change = () => {
-    if (demo) demoAction('users', user.id, { isActive: !user.isActive });
-    setNotice(
-      demo
-        ? 'Demostración: estado cambiado en memoria; no se guardó en la base de datos.'
-        : 'El cambio de estado requiere un backend futuro. La cuenta real conserva su estado.',
-    );
-    setConfirm(false);
-  };
   return (
     <div className="admin-state-action">
-      <Button variant="secondary" icon={null} onClick={() => setConfirm(true)}>
+      <Button
+        variant="secondary"
+        icon={null}
+        className="admin-danger"
+        onClick={() => setConfirm(true)}
+      >
         {user.isActive ? 'Desactivar cuenta' : 'Reactivar cuenta'}
       </Button>
-      {notice && (
-        <Alert tone="info" title="Estado de la cuenta">
-          {notice}
-        </Alert>
-      )}
       {confirm && (
         <AdminConfirmation
-          title={
-            demo
-              ? `¿${user.isActive ? 'Desactivar' : 'Reactivar'} esta cuenta de demostración?`
-              : 'Cambio de estado pendiente de integración'
-          }
-          confirm={demo ? 'Aplicar demostración' : 'Entendido'}
-          onConfirm={change}
+          title={user.isActive ? '¿Desactivar esta cuenta?' : '¿Reactivar esta cuenta?'}
+          confirm={user.isActive ? 'Desactivar cuenta' : 'Reactivar cuenta'}
+          disabled
+          danger
+          onConfirm={() => {}}
           onCancel={() => setConfirm(false)}
         >
-          {demo
-            ? 'La simulación cambia el estado solo en memoria. No modifica accesos ni cuentas en la base de datos.'
-            : 'Esta función requiere un backend futuro. No se enviará ninguna modificación de estado al servidor.'}
+          <div className="admin-page">
+            <p>
+              {user.isActive
+                ? `${fullName(user)} no podrá iniciar sesión. Sus datos y progreso se conservarán.`
+                : 'La cuenta podrá volver a iniciar sesión.'}
+            </p>
+            <div className="admin-user-banner">
+              <AdminAvatar user={user} />
+              <div>
+                <strong>{fullName(user)}</strong>
+                <p>{user.email}</p>
+              </div>
+            </div>
+            <p>
+              Acción no disponible: el backend todavía no permite cambiar el estado de una cuenta.
+            </p>
+          </div>
         </AdminConfirmation>
       )}
     </div>

@@ -1,10 +1,10 @@
-import { NavLink } from 'react-router';
+﻿import { NavLink } from 'react-router';
 import { Icon } from '../../../components/ui/Icon.jsx';
 
 /**
- * Navegación desktop/tablet/móvil con enlaces y selección del router, sin peticiones.
- * @param {{compact?: boolean}} props Ubicación de los tres enlaces.
- * @returns {import('react').ReactElement} Navegación accesible con SVG originales por tema.
+ * Cuatro destinos de Admin; móvil compacto conserva los tres principales y perfil en la barra.
+ * @param {{compact?: boolean}} props Navegación horizontal móvil.
+ * @returns {import('react').ReactElement} Enlaces con selección, nombre accesible y SVG por tema.
  */
 export function AdminNavigation({ compact = false }) {
   return (
@@ -13,9 +13,10 @@ export function AdminNavigation({ compact = false }) {
       className="admin-nav"
     >
       {[
-        ['/admin', 'Resumen', 'chart'],
-        ['/admin/users', 'Usuarios', 'user'],
+        ['/admin', 'Resumen', 'grid'],
+        ['/admin/users', 'Usuarios', 'users'],
         ['/admin/reports', 'Reportes', 'flag'],
+        ...(!compact ? [['/admin/profile', 'Mi perfil', 'profile']] : []),
       ].map(([to, label, icon]) => (
         <NavLink
           key={to}
@@ -24,12 +25,7 @@ export function AdminNavigation({ compact = false }) {
           title={label}
           className={({ isActive }) => `admin-nav-item ${isActive ? 'is-active' : ''}`}
         >
-          <span className="admin-nav-icon">
-            <Icon name={`admin-${icon}`} size={20} />
-          </span>
-          <span className="admin-nav-tablet">
-            <Icon name={`admin-${icon}`} tone="tablet" size={20} />
-          </span>
+          <Icon name={`modern-${icon}`} size={20} />
           <span className="admin-nav-label">{label}</span>
         </NavLink>
       ))}

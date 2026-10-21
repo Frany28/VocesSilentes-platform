@@ -1,18 +1,12 @@
-.admin-facts {
+﻿.admin-facts {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
-  padding: 16px;
-  border-radius: var(--radius-panel);
-  background: var(--surface-neutral);
-}
-.admin-facts[data-tone='info'] {
-  background: var(--surface-secondary);
 }
 .admin-facts div {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
   min-width: 0;
   overflow-wrap: anywhere;
 }
@@ -23,27 +17,49 @@
 .admin-facts dd {
   font: var(--type-secondary);
 }
-.admin-avatar-line {
+.admin-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+.admin-detail-grid .admin-facts {
+  grid-template-columns: 1fr;
+}
+.admin-detail-aside {
   display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.admin-user-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.admin-user-banner > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.admin-state-action {
+  align-self: flex-start;
+}
+.admin-message {
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--surface-accent);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.admin-report-heading {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 12px;
 }
-.admin-avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 56px;
-  flex: none;
-  border-radius: var(--radius-full);
-  background: var(--surface-secondary);
-}
-.admin-avatar-icon {
-  width: 40px;
-  height: 40px;
-  background: var(--surface-accent);
-}
-@media (width < 600px) {
+@container (max-width: 640px) {
+  .admin-detail-grid,
   .admin-facts {
     grid-template-columns: 1fr;
   }

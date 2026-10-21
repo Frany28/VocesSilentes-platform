@@ -1,57 +1,47 @@
-.admin-form {
-  container-type: inline-size;
-  display: flex;
-  flex-direction: column;
-  gap: var(--layout-gap);
-}
-.admin-form fieldset {
-  all: unset;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  min-width: 0;
-}
-.admin-form .admin-name-row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
+﻿.admin-shell .vs-field,
 .admin-select {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
   min-width: 0;
 }
+.admin-shell .vs-field label,
 .admin-select label {
-  font: var(--type-secondary);
+  font: var(--type-button);
 }
-.admin-select select {
-  appearance: none;
-  width: 100%;
-  height: 48px;
-  padding: 12px 40px 12px 12px;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  color: var(--text-secondary);
-  background: var(--page);
+.admin-shell .vs-field[data-appearance='plain'] .vs-input-shell {
+  min-height: 44px;
+  height: 44px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border-radius: 8px;
+  transition: none;
+}
+.admin-shell .vs-field .vs-field-message {
+  font: var(--type-label);
+}
+.admin-shell .vs-field.vs-password-field .vs-input-shell {
+  padding: 2px 2px 2px 16px;
+}
+.admin-shell .vs-password-toggle {
+  width: 40px;
+  height: 40px;
+}
+.admin-shell .vs-input {
   font: var(--type-field);
 }
-.admin-select-shell {
-  position: relative;
+.admin-shell .vs-field:has(:disabled) .vs-input-shell {
+  background: var(--surface-neutral);
 }
-.admin-select-chevron {
-  position: absolute;
-  right: 12px;
-  top: 16px;
-  display: flex;
-  transform: rotate(90deg);
-  pointer-events: none;
-}
-.admin-shell {
-  --icon-admin-chevron-16: url('../../../assets/auth/61e67.svg');
-}
-[data-theme='dark'] .admin-shell {
-  --icon-admin-chevron-16: url('../../../assets/auth/db0f2.svg');
+.admin-select select {
+  width: 100%;
+  height: 44px;
+  padding: 12px 36px 12px 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: var(--content);
+  background: var(--surface);
+  font: var(--type-field);
 }
 .admin-select p {
   font: var(--type-label);
@@ -64,33 +54,37 @@
   color: var(--status-error);
 }
 .admin-select select:disabled {
-  background-color: var(--action-disabled);
+  background: var(--surface-neutral);
   color: var(--text-disabled);
+}
+.admin-select-chevron {
+  display: none;
+}
+.admin-form,
+.admin-form fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.admin-form fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.admin-name-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
 .admin-filters {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
-  gap: var(--layout-gap);
-}
-.admin-lookup {
-  display: flex;
+  grid-template-columns: minmax(0, 1fr) 232px;
   gap: 12px;
-  align-items: flex-end;
-}
-.admin-lookup .vs-field {
-  flex: 1;
 }
 @container (max-width: 520px) {
+  .admin-filters,
   .admin-form .admin-name-row {
     grid-template-columns: 1fr;
-  }
-}
-@media (width < 600px) {
-  .admin-form .admin-name-row {
-    grid-template-columns: 1fr;
-  }
-  .admin-lookup {
-    flex-direction: column;
-    align-items: stretch;
   }
 }

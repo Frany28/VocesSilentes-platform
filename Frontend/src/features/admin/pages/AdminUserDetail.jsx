@@ -1,9 +1,12 @@
+﻿import { useEffect, useRef } from 'react';
 import { useLocation, useParams } from 'react-router';
 import { Alert } from '../../../components/ui/Alert.jsx';
 import { useAdminUser } from '../data/use-admin-user.js';
-import { adminDate, fullName } from '../data/admin-labels.js';
+import { fullName } from '../data/admin-labels.js';
 import { AdminHeading } from '../components/AdminHeading.jsx';
 import { AdminAction } from '../components/AdminAction.jsx';
+import { AdminIconButton } from '../components/AdminIconButton.jsx';
+import { AdminAvatar } from '../components/AdminAvatar.jsx';
 import { AdminFeedback } from '../components/AdminFeedback.jsx';
 import { AccountStatus } from '../components/AccountStatus.jsx';
 import { UserAccountData } from '../components/UserAccountData.jsx';
@@ -11,19 +14,32 @@ import { UserStateAction } from '../components/UserStateAction.jsx';
 import { UserDeleteAction } from '../components/UserDeleteAction.jsx';
 
 /**
- * Detalle real por UUID con eliminación lógica; las cuentas demo conservan sus acciones identificadas.
- * @returns {import('react').ReactElement} Información permitida y acciones del diseño.
+ * Detalle actual de una cuenta: identidad, acceso y seguridad; conserva borrado lógico real.
+ * @returns {import('react').ReactElement} Vista adaptable con edición modal y vuelta por icono.
  */
 export function AdminUserDetail() {
   const { id } = useParams();
   const result = useAdminUser(id);
   const { state } = useLocation();
+  const page = useRef();
   const user = result.user;
+  useEffect(() => {
+    if (state?.focusAction === 'edit' && result.status === 'ready')
+      page.current.querySelector('[data-admin-to]')?.focus();
+  }, [state, result.status]);
   return (
-    <div className="admin-page">
-      <AdminHeading title="Detalle de usuario">
-        Información de la cuenta y acciones de administración.
-      </AdminHeading>
+    <div className="admin-page" ref={page}>
+      <div className="admin-title-row">
+        <AdminIconButton to="/admin/users" icon="back" label="Volver a usuarios" />
+        <AdminHeading title="Detalle de usuario">
+          Identidad, acceso y actividad de la cuenta.
+        </AdminHeading>
+        {user && !user.isDeleted && (
+          <AdminAction to={`/admin/users/${id}/edit`} variant="primary">
+            Editar cuenta
+          </AdminAction>
+        )}
+      </div>
       {result.status !== 'ready' ? (
         <AdminFeedback
           status={result.status}
@@ -34,53 +50,32 @@ export function AdminUserDetail() {
       ) : (
         <>
           {state?.message && (
-            <Alert tone="info" title="Información de la cuenta">
+            <Alert tone="success" title="Información de la cuenta">
               {state.message}
             </Alert>
           )}
-          <p className="admin-demo-note">
-            {user.source === 'server'
-              ? 'Cuenta real: información consultada al servidor.'
-              : 'Cuenta de demostración. Sus cambios solo afectan esta vista y se reinician al recargar.'}
-          </p>
           <section className="admin-panel">
-            <p className="admin-kicker">CUENTA / {user.role === 'ADMIN' ? 'ADMIN' : 'USUARIO'}</p>
-            <h2>{fullName(user)}</h2>
-            <p className="admin-muted">{user.email}</p>
-            <AccountStatus user={user} />
-            <p className="admin-muted">Registro · {adminDate(user.createdAt)}</p>
-            <p>Rol de acceso · {user.role === 'ADMIN' ? 'Admin' : 'Usuario'}</p>
-            <div className="admin-avatar-line">
-              <span className="admin-avatar">
-                {user.firstName.slice(0, 1)}
-                {user.lastName?.slice(0, 1)}
-              </span>
-              <p className="admin-demo-note">Avatar por defecto · Sin foto de perfil</p>
+            <div className="admin-user-banner">
+              <AdminAvatar user={user} />
+              <div>
+                <h2>{fullName(user)}</h2>
+                <p className="admin-muted">{user.email}</p>
+                <AccountStatus user={user} />
+              </div>
             </div>
-            <UserAccountData user={user} />
-            <div className="admin-actions">
-              {!user.isDeleted && (
-                <AdminAction to={`/admin/users/${id}/edit`} variant="primary">
-                  Editar cuenta
-                </AdminAction>
-              )}
-              {user.source === 'server' ? (
+          </section>
+          <UserAccountData user={user} />
+          {!user.isDeleted && (
+            <>
+              <UserStateAction user={user} />
+              <details className="admin-demo-note">
+                <summary>Otras acciones de cuenta</summary>
                 <UserDeleteAction user={user} />
-              ) : (
-                <UserStateAction user={user} />
-              )}
-            </div>
-          </section>
-          <section className="admin-panel admin-info">
-            <p>Un acceso claro para cada persona</p>
-            <p className="admin-muted">
-              El rol Usuario permite aprender y practicar. El rol Admin permite gestionar cuentas y
-              revisar reportes.
-            </p>
-          </section>
+              </details>
+            </>
+          )}
         </>
       )}
-      <AdminAction to="/admin/users">Volver a usuarios</AdminAction>
     </div>
   );
 }

@@ -1,29 +1,40 @@
-import { Alert } from '../../../components/ui/Alert.jsx';
-import { Button } from '../../../components/ui/Button.jsx';
+﻿import { Button } from '../../../components/ui/Button.jsx';
 
 /**
- * Estados de carga, vacío y error; conserva la distinción entre demo y respuesta real.
- * @param {{status: string, noun?: string, error?: object, retry?: Function}} props Estado y recuperación.
- * @returns {import('react').ReactElement} Mensaje y acción accesibles.
+ * Distingue carga real, fallo, vacío inicial y búsqueda sin resultados, con recuperación manual.
+ * @param {{status: string, noun?: string, error?: object, retry?: Function}} props Estado de lectura.
+ * @returns {import('react').ReactElement} Mensaje accesible y esqueleto sin temporizadores simulados.
  */
 export function AdminFeedback({ status, noun = 'usuarios', error, retry }) {
   const title =
     status === 'loading'
-      ? `Preparando ${noun}…`
+      ? `Cargando ${noun}…`
       : status === 'error'
-        ? `No pudimos cargar ${noun}`
-        : 'No encontramos resultados';
+        ? 'No pudimos cargar la información'
+        : status === 'no-data'
+          ? 'Todavía no hay cuentas'
+          : 'No encontramos resultados';
   return (
-    <section className="admin-panel admin-feedback" aria-busy={status === 'loading'}>
-      <Alert tone={status === 'error' ? 'error' : 'info'} title={title}>
+    <section className="admin-feedback admin-panel" aria-busy={status === 'loading'}>
+      <h2 role={status === 'error' ? 'alert' : 'status'}>{title}</h2>
+      <p>
         {status === 'loading'
           ? 'Estamos recuperando la información.'
           : status === 'error'
             ? error?.message || 'Comprueba tu conexión y vuelve a intentarlo.'
-            : 'Prueba con otro término o vuelve a ver la lista completa.'}
-      </Alert>
+            : status === 'no-data'
+              ? 'Las cuentas aparecerán aquí cuando estén disponibles.'
+              : 'Prueba con otro término o ajusta los filtros.'}
+      </p>
+      {status === 'loading' && (
+        <div className="admin-skeleton" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </div>
+      )}
       {status !== 'loading' && retry && (
-        <Button icon={null} onClick={retry}>
+        <Button variant="secondary" icon={null} onClick={retry}>
           {status === 'error' ? 'Reintentar' : 'Ver todos'}
         </Button>
       )}

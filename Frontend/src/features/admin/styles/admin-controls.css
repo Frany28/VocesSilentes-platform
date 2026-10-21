@@ -1,0 +1,92 @@
+﻿.admin-shell .vs-button {
+  width: auto;
+  min-height: 44px;
+  border-radius: 8px;
+  font: var(--type-button);
+}
+.admin-shell .vs-button-surface {
+  min-height: 44px;
+  padding: 12px 16px;
+  transform: none;
+  transition: none;
+}
+.admin-shell .vs-button-surface::before {
+  border-radius: 8px;
+  box-shadow: none;
+  transition: none;
+}
+.admin-shell .vs-button:active .vs-button-surface::before {
+  inset: 0;
+}
+.admin-shell .vs-button[data-variant='secondary']:disabled .vs-button-surface::before {
+  border-color: var(--border-subtle);
+}
+.admin-shell .admin-danger {
+  color: var(--status-error);
+}
+.admin-shell .admin-danger .vs-button-surface::before {
+  border: 1px solid var(--status-error);
+  background: var(--status-error-bg);
+}
+.admin-shell .admin-danger:hover:not(:disabled) .vs-button-surface::before {
+  background: var(--status-error-bg);
+  box-shadow: inset 0 0 0 1px var(--status-error);
+}
+.admin-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  color: var(--content);
+  background: transparent;
+}
+.admin-icon-button:hover:not(:disabled) {
+  background: var(--surface-neutral);
+}
+.admin-icon-button:disabled {
+  opacity: 0.5;
+}
+.admin-icon-button.admin-theme {
+  background: var(--surface);
+  border-radius: 8px;
+}
+.admin-shell .vs-badge {
+  width: fit-content;
+  min-width: 0;
+  min-height: 28px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font: var(--type-button);
+  border: 0;
+}
+.admin-shell .vs-badge-dot {
+  display: none;
+}
+.admin-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.admin-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 12px;
+  overflow: hidden;
+  color: var(--content);
+  background: var(--surface-accent);
+  font: var(--type-button);
+}
+.admin-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

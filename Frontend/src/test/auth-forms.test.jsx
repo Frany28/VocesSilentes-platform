@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+﻿import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, test, vi } from 'vitest';
 import { user, jsonResponse, unauthorized, renderAuthApp } from './auth-fixture.jsx';
@@ -18,7 +18,9 @@ test('login: obtiene CSRF, incluye cookies y header, navega al retorno autorizad
   await userEvent.type(screen.getByLabelText('Correo electrónico'), 'person@example.invalid');
   await userEvent.type(screen.getByLabelText('Contraseña'), 'A lengthy password 123! ');
   await userEvent.click(screen.getByRole('button', { name: 'Iniciar sesión' }));
-  expect(await screen.findByRole('heading', { name: 'Resumen' })).toBeVisible();
+  expect(
+    await screen.findByRole('heading', { name: 'Tu comunidad, en perspectiva' }),
+  ).toBeVisible();
   const [, options] = fetchMock.mock.calls.find(([url]) => url.endsWith('/login'));
   expect(options.credentials).toBe('include');
   expect(options.headers.get('X-CSRF-Token')).toBe('csrf-before');

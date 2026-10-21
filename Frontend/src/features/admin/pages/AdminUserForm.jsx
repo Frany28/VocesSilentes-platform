@@ -1,32 +1,36 @@
-import { useParams } from 'react-router';
+﻿import { useNavigate, useParams } from 'react-router';
 import { useAdminUser } from '../data/use-admin-user.js';
-import { AdminHeading } from '../components/AdminHeading.jsx';
+import { AdminDialog } from '../components/AdminDialog.jsx';
 import { AdminFeedback } from '../components/AdminFeedback.jsx';
 import { UserForm } from '../forms/UserForm.jsx';
+import { AdminUsers } from './AdminUsers.jsx';
+import { AdminUserDetail } from './AdminUserDetail.jsx';
+
 /**
- * Crea una cuenta o consulta la versión actual del servidor antes de abrir la edición.
- * @returns {import('react').ReactElement} Pantalla de formulario y estados de lectura.
+ * Conserva rutas directas/recarga de creación y edición, con la pantalla de origen detrás del modal.
+ * @returns {import('react').ReactElement} Fondo inerte y diálogo con lectura real/abortable.
  */
 export function AdminUserForm() {
   const { id } = useParams();
   const result = useAdminUser(id);
+  const navigate = useNavigate();
   return (
-    <div className="admin-page">
-      <AdminHeading title={id ? 'Editar cuenta' : 'Crear usuario'}>
-        {id
-          ? 'Revisa la información y los permisos antes de guardar.'
-          : 'Crea una cuenta con sus datos de identidad y acceso.'}
-      </AdminHeading>
+    <>
+      <div className="admin-background" inert aria-hidden="true">
+        {id ? <AdminUserDetail /> : <AdminUsers />}
+      </div>
       {result.status === 'ready' ? (
         <UserForm key={id ?? 'new'} user={result.user} />
       ) : (
-        <AdminFeedback
-          status={result.status}
-          error={result.error}
-          retry={result.retry}
-          noun="la cuenta"
-        />
+        <AdminDialog title="Editar cuenta" onClose={() => navigate(`/admin/users/${id}`)}>
+          <AdminFeedback
+            status={result.status}
+            error={result.error}
+            retry={result.retry}
+            noun="la cuenta"
+          />
+        </AdminDialog>
       )}
-    </div>
+    </>
   );
 }
