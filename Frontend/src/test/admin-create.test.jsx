@@ -36,7 +36,7 @@ test('crear: valida sin enviar, evita doble envío y solo muestra cuenta tras re
   expect(JSON.parse(options.body).password).toBe('Abcd123!');
   finish(jsonResponse({ data: { user: account } }, 201));
   expect(await screen.findByRole('heading', { name: 'Cuenta guardada' })).toBeVisible();
-  expect(localStorage.getItem('vs-admin-users:test-user')).toBe(JSON.stringify([account.id]));
+  expect(localStorage.getItem('vs-admin-users:test-user')).toBeNull();
   expect(JSON.stringify(localStorage)).not.toContain('Abcd123!');
   view.unmount();
   renderAdmin(`/admin/users/${account.id}/created`);

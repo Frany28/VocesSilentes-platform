@@ -11,16 +11,16 @@ la reutilización es manual y no se afirma que falten mappings.
 Todas las rutas `/admin` requieren sesión existente y rol ADMIN. El backend vuelve a comprobar
 sesión y rol en cada petición; el guard visual no concede permisos.
 
-| Ruta                       | Función                                                                           |
-| -------------------------- | --------------------------------------------------------------------------------- |
-| `/admin`                   | Resumen, métricas de demostración y accesos a cuentas/reportes                    |
-| `/admin/users`             | Cuentas demo y cuentas reales conocidas, búsqueda, filtro de rol, páginas de tres |
-| `/admin/users/new`         | Creación real, validación, errores y bloqueo de doble envío                       |
-| `/admin/users/:id`         | Detalle real por UUID o demo por `demo-user-N`                                    |
-| `/admin/users/:id/edit`    | Lectura actual y edición de identidad/rol                                         |
-| `/admin/users/:id/created` | Consulta de la cuenta guardada, también después de recargar                       |
-| `/admin/reports`           | Reportes demo, búsqueda, estado, paginación y estados visuales                    |
-| `/admin/reports/:id`       | Contexto, comentario y resolución/reapertura exclusivamente de demostración       |
+| Ruta                       | Función                                                                     |
+| -------------------------- | --------------------------------------------------------------------------- |
+| `/admin`                   | Resumen, métricas de demostración y accesos a cuentas/reportes              |
+| `/admin/users`             | Listado PostgreSQL real, búsqueda, filtro de rol, páginas de tres           |
+| `/admin/users/new`         | Creación real, validación, errores y bloqueo de doble envío                 |
+| `/admin/users/:id`         | Detalle real por UUID o demo por `demo-user-N`                              |
+| `/admin/users/:id/edit`    | Lectura actual y edición de identidad/rol                                   |
+| `/admin/users/:id/created` | Consulta de la cuenta guardada, también después de recargar                 |
+| `/admin/reports`           | Reportes demo, búsqueda, estado, paginación y estados visuales              |
+| `/admin/reports/:id`       | Contexto, comentario y resolución/reapertura exclusivamente de demostración |
 
 Se reutilizan Brand, Input, PasswordInput, Button, Icon, Badge, Alert, ThemeToggle y los tokens
 existentes. Los nuevos SVG son originales descargados de los assets de get_design_context;
@@ -47,23 +47,14 @@ El cierre de sesión usa auth.logout existente: un fallo conserva sesión y perm
 
 ## Datos reales y demostración
 
-`data/admin-demo.js` centraliza las 12 cuentas y los 12 reportes de ejemplo. Las métricas derivan
-únicamente de esa colección y están marcadas como demostración. Cambiar estado, editar una cuenta
-demo, resolver/reabrir y comentar reportes modifica solo memoria; los mensajes explican que no hubo
-persistencia. Recargar reinicia esas simulaciones. No hay endpoints nuevos para esas acciones.
-
-El alcance no autoriza un listado backend. Las cuentas creadas/editadas se actualizan con la respuesta
-real y se recuerdan **solo por UUID**, con un máximo de 50 IDs por administrador en localStorage.
-Al recargar se vuelven a consultar; no se almacenan copias de cuentas, hashes ni contraseñas.
-`data/use-known-users.js` hace esa consulta, separada de la demostración en memoria del proveedor.
-Si el servidor responde 404 `USER_NOT_FOUND` (por ejemplo, tras cambiar de base de desarrollo),
-ese ID se olvida y el resto se muestra; cualquier otro error conserva los IDs y muestra el fallo.
-La clave `vs-admin-users:<id del administrador>` no se borra al cerrar sesión: solo guarda UUIDs,
-pero en un navegador compartido revela qué cuentas consultó ese administrador.
-El listado explica que contiene demostración y cuentas conocidas en este navegador; no es el censo de la DB.
-Se puede abrir una cuenta existente por UUID, o mediante su enlace de detalle/edición.
-Sin localStorage siguen funcionando los enlaces directos; falla únicamente recordar IDs entre recargas.
-La actividad educativa de una cuenta real indica que requiere integración, sin inventar progreso.
+`data/admin-demo.js` conserva las cuentas del resumen y los reportes de ejemplo, con métricas
+marcadas como demostración. Los enlaces demo conservan simulaciones explícitas en memoria.
+Las acciones de reportes no persisten. El listado de usuarios utiliza exclusivamente
+GET `/api/admin/users`: búsqueda/rol/página en servidor, carga/error/vacío y reintento real.
+No mezcla demos ni usa cuentas recordadas como respaldo. El acceso directo por UUID se conserva.
+Se retiraron `known-users.js` y `use-known-users.js`: ya no se guardan ni consultan IDs en storage.
+Las claves antiguas, si existen, se ignoran; no se modifican otros datos almacenados del navegador.
+La actividad educativa de una cuenta real sigue indicando integración pendiente, sin inventar progreso.
 
 Las respuestas reales jamás usan la colección demo como fallback ante errores. La creación no muestra
 éxito antes del 201, y la edición no lo muestra antes del 200. Los errores preservan datos para corregir
@@ -72,9 +63,10 @@ Solo en desarrollo hay un selector explícito para previsualizar carga, error y 
 
 ## Backend y reglas de datos
 
-Se reutilizan Prisma y su conexión configurada. No se cambió esquema ni se aplicaron migraciones.
+Se reutilizan Prisma y su conexión configurada. El Día 1 añade AuditLog mediante migración versionada,
+probada solo en memoria; no se aplica a Supabase en esta entrega.
 `modules/admin/` separa rutas, controller, Zod, service, repository y proyección permitida del usuario.
-Crear/editar exige sesión ADMIN, transporte de auth y CSRF compartido con los endpoints existentes;
+Crear/editar/eliminar exige sesión ADMIN, transporte de auth y CSRF compartido con los endpoints existentes;
 las respuestas llevan `Cache-Control: no-store`. No se crea otra autenticación ni otra cookie.
 
 Creación exige firstName, username, email, password, role (`USER`/`ADMIN`) e isActive booleano.
@@ -106,9 +98,16 @@ del último ADMIN con isActive=true e isDeleted=false. Este bloqueo se mantiene 
 La sesión existente lee el rol vigente al autenticar. Si un admin edita su propia cuenta, el frontend
 refresca auth; una degradación confirmada sale del panel hacia Student.
 
+El detalle real ofrece eliminación lógica con confirmación explícita y bloqueo de doble envío.
+DELETE marca isDeleted/deletedAt, revoca todas las sesiones y conserva relaciones y unicidad.
+Rechaza cuentas ya eliminadas y no permite quitar el último ADMIN activo. Las escrituras administrativas
+generan USER_CREATED/USER_UPDATED/USER_DELETED dentro de la misma transacción; un fallo de auditoría
+revierte todos sus efectos. GET `/api/admin/audit-logs` permite consulta paginada exclusivamente ADMIN.
+No existe UI de bitácora, cambio real de isActive ni restauración. Ver [Día 1](module-ii/README.md).
+
 ## Verificación
 
 Las pruebas SQL usan PostgreSQL WASM efímero, PrismaPg y Argon2 reales, sin leer `.env` ni escribir
 fixtures en Supabase. Las pruebas de UI con fetch controlado verifican el contrato del cliente y no
 se presentan como persistencia. Consultar los resultados ejecutados en [verification.md](verification.md).
-Quedan para backend futuro: listado completo, métricas, progreso, reportes, comentarios y cambio de estado.
+Quedan para backend futuro: métricas, progreso, reportes, comentarios y cambio de isActive.

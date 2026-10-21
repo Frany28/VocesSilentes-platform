@@ -81,6 +81,10 @@ Los archivos propios mantienen el objetivo de 100 líneas útiles.
 Los módulos de `features/admin/` y `modules/admin/` separan presentación, estado, HTTP, validación,
 negocio y repositorio. Sus estilos se dividen por layout, superficies, campos, listas y diálogos;
 no se añadieron dependencias, migraciones ni excepciones de tamaño para esa implementación.
+El [Módulo II, Día 1](module-ii/README.md) añade posteriormente una migración AuditLog y listado/borrado
+real, sin dependencias nuevas. `docs/module-ii/sql/01_schema.sql` es una excepción de tamaño:
+snapshot generado del historial íntegro para reconstrucción académica, conservado completo para
+comprobar su equivalencia exacta con las migraciones. La razón también figura junto al SQL.
 Los ajustes de [adaptación de pantallas](responsive.md) separan geometría de Auth, ajustes
 por altura, panel ilustrado, Student y cuenta técnica en hojas enfocadas de menos de 100
 líneas útiles. Reutilizan tokens y controles existentes sin nuevas dependencias.

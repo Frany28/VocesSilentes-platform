@@ -1,19 +1,15 @@
 import { useState } from 'react';
-import { useAuth } from '../../auth/use-auth.js';
 import { AdminContext } from './admin-context.js';
 import { demoUsers, demoReports } from './admin-demo.js';
 import { createUsersApi } from './users.api.js';
-import { useKnownUsers } from './use-known-users.js';
 
 /**
- * Mantiene demostraciones en memoria y cuentas reales obtenidas por UUID; recarga desde la API.
+ * Mantiene las demos de resumen/reportes y el cliente real; el listado consulta PostgreSQL.
  * @param {{children: import('react').ReactNode}} props Contenido administrativo protegido.
- * @returns {import('react').ReactElement} Proveedor; aborta lecturas al salir y conserva errores reales.
+ * @returns {import('react').ReactElement} Proveedor sin caché de cuentas en localStorage.
  */
 export function AdminProvider({ children }) {
-  const { user } = useAuth();
   const [api] = useState(createUsersApi);
-  const known = useKnownUsers(api, user.id);
   const [users, setUsers] = useState(demoUsers);
   const [reports, setReports] = useState(demoReports);
   const [preview, setPreview] = useState('ready');
@@ -28,18 +24,12 @@ export function AdminProvider({ children }) {
         api,
         draft,
         setDraft,
-        accept: known.accept,
-        users: [...known.users, ...users],
+        users,
         reports,
         demoAction,
         preview,
         setPreview,
-        status: preview === 'ready' ? known.status : preview,
-        error: known.error,
-        retry: () => {
-          setPreview('ready');
-          known.reload();
-        },
+        retry: () => setPreview('ready'),
       }}
     >
       {children}

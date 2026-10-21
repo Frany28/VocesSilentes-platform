@@ -179,9 +179,9 @@ RETURNING id, role;
 
 Después, refrescar me y verificar permisos. Una despromoción controlada a USER afecta al siguiente
 acceso protegido; desactivación/eliminación lógica rechaza todas sus sesiones en backend.
-No publicar este procedimiento como endpoint. El MVP no incorpora un sistema de auditoría
-administrativa: el registro de aprobación externo y la separación de accesos son responsabilidad
-operativa. La creación y promoción de la cuenta solicitada expresamente el 9 de octubre de 2026
+No publicar este procedimiento como endpoint. AuditLog del [Día 1](module-ii/database.md) registra
+operaciones realizadas por la API ADMIN; este procedimiento SQL manual requiere todavía un registro
+de aprobación externo y separación de accesos operativa. La creación y promoción de la cuenta solicitada expresamente el 9 de octubre de 2026
 se registra en [verification.md](verification.md); las credenciales no se documentan en el repositorio.
 
 ## Verificación y límites

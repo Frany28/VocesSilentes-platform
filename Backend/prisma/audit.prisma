@@ -1,0 +1,22 @@
+enum AuditOperation {
+  USER_CREATED
+  USER_UPDATED
+  USER_DELETED
+
+  @@schema("vocessilentes")
+}
+
+model AuditLog {
+  id         String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  actorId    String?        @db.Uuid
+  operation  AuditOperation
+  entityType String         @default("User") @db.VarChar(50)
+  entityId   String         @db.Uuid
+  createdAt  DateTime       @default(now()) @db.Timestamptz(3)
+  actor      User?          @relation(fields: [actorId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@index([createdAt, id])
+  @@index([actorId, createdAt])
+  @@index([entityId, createdAt])
+  @@schema("vocessilentes")
+}

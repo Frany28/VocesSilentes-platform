@@ -7,7 +7,7 @@ import { retryAfterSeconds } from './retry-after.js';
  * Solicita JSON dentro de la API configurada y normaliza sus errores.
  * @template T
  * @param {string} path Ruta relativa a /api; no admite URLs ni traversal.
- * @param {RequestInit} [options] Opciones fetch, incluido AbortSignal.
+ * @param {RequestInit & {query?: URLSearchParams}} [options] Opciones fetch, AbortSignal y query codificada.
  * @returns {Promise<T | undefined>} JSON o undefined para HTTP 204.
  * @throws {ApiError} HTTP_ERROR, NETWORK_ERROR, REQUEST_ABORTED o INVALID_RESPONSE.
  */
@@ -15,11 +15,13 @@ export async function requestJson(path, options = {}) {
   if (!/^\/?[\w/-]+$/.test(path)) {
     throw new ApiError('INVALID_PATH', 'Ruta de API inválida');
   }
-  const url = `${publicConfig.apiUrl}/${path.replace(/^\//, '')}`;
+  const { query, ...fetchOptions } = options;
+  const suffix = query?.size ? `?${query.toString()}` : '';
+  const url = `${publicConfig.apiUrl}/${path.replace(/^\//, '')}${suffix}`;
   const headers = new Headers(options.headers);
   headers.set('Accept', 'application/json');
   try {
-    const response = await fetch(url, { ...options, headers, credentials: 'include' });
+    const response = await fetch(url, { ...fetchOptions, headers, credentials: 'include' });
     options.signal?.throwIfAborted();
     if (response.status === 204) return undefined;
     let payload;

@@ -22,7 +22,7 @@ const create = (actor, body) =>
 const update = (actor, user, body) =>
   actor.agent.patch(`/api/admin/users/${user.id}`).set('X-CSRF-Token', actor.csrf).send(body);
 
-test('admin: anónimo 401, estudiante 403, CSRF obligatorio y sin listado nuevo', async () => {
+test('admin: anónimo 401, estudiante 403, CSRF obligatorio y listado protegido', async () => {
   await request(fixture.app).post('/api/admin/users').send(input()).expect(401);
   const student = await registered(fixture);
   await create(student, input()).expect(403);
@@ -31,7 +31,7 @@ test('admin: anónimo 401, estudiante 403, CSRF obligatorio y sin listado nuevo'
   const admin = await administrator();
   await admin.agent.post('/api/admin/users').send(input()).expect(403);
   await admin.agent.patch(`/api/admin/users/${admin.user.id}`).send(edit(admin.user)).expect(403);
-  await admin.agent.get('/api/admin/users').expect(404);
+  await admin.agent.get('/api/admin/users').expect(200);
 });
 
 test('admin: creación, hashing real, acceso existente y lectura tras recarga', async () => {

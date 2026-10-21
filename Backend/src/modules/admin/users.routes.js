@@ -4,12 +4,12 @@ import { requireSession, requireRole, requireAuthTransport } from '../auth/auth.
 import { createUsersController } from './users.controller.js';
 
 /**
- * Expone solo consulta mínima, creación y edición; exige sesión ADMIN y CSRF al escribir.
+ * Expone CRUD y consulta de bitácora; exige sesión ADMIN y CSRF al escribir.
  * @param {object} config Configuración validada.
  * @param {object | undefined} authService Autenticación existente.
  * @param {object | undefined} usersService Negocio de usuarios o undefined sin DB.
  * @param {object} csrf Protección compartida con auth, también en desarrollo.
- * @returns {import('express').Router} Rutas sin métricas, listado ni cambio de estado.
+ * @returns {import('express').Router} Rutas administrativas sin métricas ni cambio de isActive.
  */
 export function createUsersRouter(config, authService, usersService, csrf) {
   const router = Router();
@@ -27,8 +27,11 @@ export function createUsersRouter(config, authService, usersService, csrf) {
         : new HttpError(503, 'USERS_UNAVAILABLE', 'Administración no disponible'),
     ),
   );
-  router.get('/:id', controller.get);
-  router.post('/', csrf.protect, controller.create);
-  router.patch('/:id', csrf.protect, controller.edit);
+  router.get('/audit-logs', controller.audit);
+  router.get('/users', controller.list);
+  router.get('/users/:id', controller.get);
+  router.post('/users', csrf.protect, controller.create);
+  router.patch('/users/:id', csrf.protect, controller.edit);
+  router.delete('/users/:id', csrf.protect, controller.delete);
   return router;
 }

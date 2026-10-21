@@ -67,6 +67,14 @@ Los REVOKE solo restringen acceso a la aplicación nueva; no afectan auth/storag
 
 ## Cambios siguientes
 
+El Día 1 del Módulo II añade `20261020000100_admin_audit`: enum AuditOperation y tabla AuditLog,
+FK de actor RESTRICT/CASCADE, tres índices, CHECK de entidad, RLS y revocaciones de Data API.
+Es aditiva, no altera ni reescribe la migración inicial y no inserta datos. Se preparó mediante
+SQL revisado contra el modelo Prisma y se verifica en PostgreSQL WASM aislado. **No se ha aplicado
+a Supabase en esta tarea**. Revisar este archivo nuevo antes de cualquier `db:migrate` autorizado.
+Los [scripts académicos](module-ii/database.md) son para bases limpias aisladas, no para actualizar
+una base compartida ni el historial Prisma.
+
 Con base de desarrollo y shadow independiente autorizadas puede usarse:
 
 ```powershell

@@ -17,7 +17,15 @@ export const account = {
  * @param {Function} [handler] Respuestas específicas de usuarios; no acredita persistencia SQL.
  * @returns {object} view y fetchMock.
  */
-export function renderAdmin(path, handler = () => jsonResponse({ data: { user: account } })) {
+export function renderAdmin(
+  path,
+  handler = (url) =>
+    jsonResponse({
+      data: url.includes('/admin/users?')
+        ? { items: [account], total: 1, page: 1, pageSize: 3, pages: 1 }
+        : { user: account },
+    }),
+) {
   const fetchMock = vi.fn().mockImplementation((url, options) => {
     if (url.endsWith('/auth/me'))
       return Promise.resolve(jsonResponse({ data: { user: { ...user, role: 'ADMIN' } } }));

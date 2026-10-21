@@ -35,6 +35,7 @@ model User {
   exerciseProgress    ExerciseProgress[]
   reports             Report[]           @relation("ReportAuthor")
   resolvedReports     Report[]           @relation("ReportResolver")
+  auditLogs           AuditLog[]
 
   @@schema("vocessilentes")
 }

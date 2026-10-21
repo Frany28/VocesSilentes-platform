@@ -23,6 +23,7 @@ const update = (actor, user, body) =>
 
 test('admin: whitelist, correo, contraseña, roles, estados y duplicados', async () => {
   const admin = await administrator();
+  await create(admin, {}).expect(400);
   for (const change of [
     { password: 'Abcd12!' },
     { password: 'A' + 'x'.repeat(127) + '!' },
@@ -40,6 +41,7 @@ test('admin: whitelist, correo, contraseña, roles, estados y duplicados', async
   await create(admin, { ...input(), password: 'A' + 'x'.repeat(126) + '!' }).expect(201);
   const body = input();
   const user = (await create(admin, body).expect(201)).body.data.user;
+  await update(admin, user, {}).expect(400);
   const email = await create(admin, { ...input(), email: body.email.toUpperCase() }).expect(409);
   assert.equal(email.body.error.code, 'EMAIL_IN_USE');
   const username = await create(admin, {

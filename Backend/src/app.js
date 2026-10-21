@@ -40,7 +40,7 @@ export function createApp(config, logger, dependencies = {}) {
   const csrf = createCsrf(config.auth);
   app.use('/api/auth', createAuthRouter(config, dependencies.authService, csrf));
   app.use(
-    '/api/admin/users',
+    '/api/admin',
     createUsersRouter(config, dependencies.authService, dependencies.usersService, csrf),
   );
   app.use(notFound);

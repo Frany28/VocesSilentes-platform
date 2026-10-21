@@ -106,7 +106,7 @@ cambios posteriores. Health no comprueba disponibilidad de PostgreSQL.
 Frontend/
   src/app/                  Entrada, router y proveedores de tema/auth
   src/features/auth/        Formularios, cliente CSRF, sesión y guards
-  src/features/admin/       Pantallas Admin; creación/edición real y demostraciones identificadas
+  src/features/admin/       CRUD real de usuarios; resumen y reportes con demos identificadas
   src/features/student/     Cinco vistas Student, datos demo identificados y perfil de sesión real
   src/features/system/      Pantalla mínima de la base técnica
   src/components/ui/        Componentes generales de Figma y control de tema
@@ -123,7 +123,7 @@ Backend/
   src/config/               Carga y validación de configuración
   src/modules/health/       Comprobación de vida HTTP
   src/modules/auth/         Rutas, controllers, negocio, repositorio y protecciones
-  src/modules/admin/        Consulta mínima, creación y edición de usuarios protegidas por ADMIN
+  src/modules/admin/        CRUD de usuarios y bitácora persistente protegidos por ADMIN
   src/middlewares/          Errores y rutas desconocidas
   src/lib/                  Prisma, logger y cierre de recursos
   src/errors/               Errores públicos controlados
@@ -145,7 +145,9 @@ Existen modelos de usuarios, sesiones, contenido compartido, progreso y reportes
 con PostgreSQL 17.11 en Supabase. Registro/login/me/logout usan User/Session existentes, Argon2id,
 cookies HttpOnly, CSRF firmado y límites de intentos. `/account` exige sesión; `/admin` exige ADMIN,
 con destinos de sesión. `/admin` incluye resumen, usuarios y reportes; creación y edición persisten
-cuentas reales. Métricas, listado completo, progreso, reportes y cambio de estado usan demostración
+cuentas reales. El Día 1 del Módulo II añade listado paginado, eliminación lógica y bitácora
+persistente; requiere la nueva migración versionada antes de usarlo en una base de desarrollo
+autorizada. Métricas, progreso, reportes y cambio de isActive usan demostración
 identificada o requieren backend futuro. Ver [alcance y funcionamiento de Admin](docs/admin.md).
 No se insertan fixtures de demostración en la base compartida.
 Student dispone de Inicio, Mis módulos, Practicar, Mi progreso y Mi perfil; solo USER puede acceder.
@@ -170,3 +172,4 @@ PR ni publicaciones. Los controles de esta entrega son locales; no se afirma eje
 - [Modelo de datos](docs/data-model.md) y [migraciones](docs/migrations.md).
 - [Contratos API](docs/api.md) y [autenticación, seguridad y primer administrador](docs/authentication.md).
 - [Resultados reales de verificación](docs/verification.md).
+- [Módulo II: alcance, SQL, implementación y pruebas del Día 1](docs/module-ii/README.md).

@@ -1,25 +1,36 @@
 import { HttpError } from '../../errors/http-error.js';
 import { createPasswords } from '../auth/passwords.js';
-import { accountAllowed } from '../auth/public-user.js';
 import { adminUser } from './admin-user.js';
 import { createUsersRepository } from './users.repository.js';
 import { persistAdminUser } from './users.persistence.js';
-import { createUserSchema, editUserSchema, userIdSchema } from './users.validation.js';
-
-function requireAdministrator(actor) {
-  if (!accountAllowed(actor, new Date()) || actor.role !== 'ADMIN')
-    throw new HttpError(403, 'FORBIDDEN', 'Permiso insuficiente');
-}
+import {
+  createUserSchema,
+  editUserSchema,
+  userIdSchema,
+  listUsersSchema,
+  paginationSchema,
+} from './users.validation.js';
+import { createUsersReadRepository } from './users.read.repository.js';
+import {
+  requireAdministrator,
+  requireEditableUser,
+  requireRemainingAdmin,
+} from './users.policy.js';
+import { deleteAdminUser } from './users.deletion.js';
 
 /**
- * Crea y edita cuentas con las reglas de auth y persistencia real, sin emitir sesiones.
+ * Administra cuentas con las reglas de auth, bloqueo y auditoría persistente, sin emitir sesiones.
  * @param {import('../../../generated/client.js').PrismaClient} database Cliente existente.
- * @returns {Promise<object>} get/create/edit; HttpError para conflictos, permiso o último admin.
+ * @returns {Promise<object>} CRUD y lectura de auditoría; HttpError para conflictos o permisos.
  */
 export async function createUsersService(database) {
   const repository = createUsersRepository(database);
+  const reads = createUsersReadRepository(database);
   const passwords = await createPasswords();
   return {
+    list: (input) => reads.list(listUsersSchema.parse(input)),
+    audit: (input) => reads.audit(paginationSchema.parse(input)),
+    delete: (actorId, id) => deleteAdminUser(repository, actorId, id),
     async get(id) {
       const user = await repository.find(userIdSchema.parse(id));
       if (!user) throw new HttpError(404, 'USER_NOT_FOUND', 'Usuario no encontrado');
@@ -32,7 +43,13 @@ export async function createUsersService(database) {
         () =>
           repository.write(actorId, null, async (operations) => {
             requireAdministrator(operations.actor);
-            return operations.create({ ...identity, passwordHash, emailVerified: false });
+            const user = await operations.create({
+              ...identity,
+              passwordHash,
+              emailVerified: false,
+            });
+            await operations.audit('USER_CREATED', user.id);
+            return user;
           }),
         () => repository.conflicts(identity),
       );
@@ -45,25 +62,15 @@ export async function createUsersService(database) {
           repository.write(actorId, id, async (operations) => {
             requireAdministrator(operations.actor);
             const current = operations.current;
-            if (!current) throw new HttpError(404, 'USER_NOT_FOUND', 'Usuario no encontrado');
-            if (current.isDeleted)
-              throw new HttpError(409, 'USER_DELETED', 'No se puede editar una cuenta eliminada');
-            if (
-              current.role === 'ADMIN' &&
-              current.isActive &&
-              identity.role !== 'ADMIN' &&
-              (await operations.activeAdmins()) <= 1
-            )
-              throw new HttpError(
-                409,
-                'LAST_ACTIVE_ADMIN',
-                'Debe permanecer al menos un administrador activo',
-              );
-            return operations.update({
+            requireEditableUser(current);
+            if (identity.role !== 'ADMIN') await requireRemainingAdmin(operations);
+            const user = await operations.update({
               ...identity,
               lastName: identity.lastName ?? null,
               ...(identity.email !== current.email ? { emailVerified: false } : {}),
             });
+            await operations.audit('USER_UPDATED', user.id);
+            return user;
           }),
         () => repository.conflicts(identity, id),
       );

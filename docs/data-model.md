@@ -1,7 +1,9 @@
 # Modelo de datos — fase 1
 
 Contrato aprobado en la solicitud del 9 de octubre de 2026. PostgreSQL y Prisma **7.10.0**,
-con nueve entidades en el esquema privado `vocessilentes`. El esquema se divide por dominio
+con nueve entidades originales en el esquema privado `vocessilentes`. El Día 1 del Módulo II añade
+una décima entidad AuditLog en `Backend/prisma/audit.prisma`; ver [contrato y retención](module-ii/database.md).
+El esquema original se divide por dominio
 en `Backend/prisma/{accounts,content,progress,reports}.prisma`; `schema.prisma` conserva el generador.
 Los arrays de relaciones de Prisma son campos virtuales: no crean arrays de referencias en PostgreSQL.
 
@@ -54,7 +56,8 @@ Los UNIQUE incluyen cuentas eliminadas: email y username quedan reservados para 
 de identidades. Reactivar o anonimizar requiere una decisión de retención posterior.
 
 `isActive`, `lockedUntil` e `isDeleted` son estados independientes; eliminar lógicamente no altera
-automáticamente el estado administrativo ni borra sesiones, identidades, reportes o progreso.
+isActive ni borra sesiones, identidades, reportes o progreso. El endpoint administrativo del Día 1
+revoca las sesiones en la misma transacción de eliminación y auditoría.
 La autorización actual comprueba `!isDeleted && isActive` y bloqueo vigente, además de la sesión.
 La discrepancia de **5 o 6 intentos** del prototipo se resolvió para auth mediante cuotas de ventana
 IP/IP+correo, sin bloqueo automático global. El contador se incrementa/reinicia atómicamente;

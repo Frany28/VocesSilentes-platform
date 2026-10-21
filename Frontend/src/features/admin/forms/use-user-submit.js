@@ -24,7 +24,7 @@ const conflictFields = {
  * @returns {object} pending/errors/error y submit; la edición demo queda explícita y separada.
  */
 export function useUserSubmit(user) {
-  const { api, accept, demoAction } = useAdmin();
+  const { api, demoAction } = useAdmin();
   const auth = useAuth();
   const navigate = useNavigate();
   const request = useRef();
@@ -60,7 +60,6 @@ export function useUserSubmit(user) {
         ? await api.edit(user.id, input, controller.signal)
         : await api.create(input, controller.signal);
       if (controller.signal.aborted) return;
-      accept(saved);
       if (saved.id === auth.user.id) {
         auth.refresh();
         navigate(saved.role === 'ADMIN' ? '/admin' : '/student', { replace: true });

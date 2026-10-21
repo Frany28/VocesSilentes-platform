@@ -4,8 +4,27 @@ Base `/api`. Éxitos JSON `{ "data": ... }`; errores `{ "error": { "code": ..., 
 
 ## Usuarios administrados
 
-Todos exigen sesión ADMIN y transporte de autenticación; POST/PATCH también CSRF existente.
-Se reutiliza la conexión de Prisma. No existe un endpoint nuevo de listado o cambio de estado.
+Todos exigen sesión ADMIN y transporte de autenticación; POST/PATCH/DELETE también CSRF existente.
+Se reutiliza la conexión de Prisma. No se implementa cambio de isActive ni restauración.
+
+GET `/admin/users` admite `page` (1–1000000, default 1), `pageSize` (1–100, default 20),
+`q` (hasta 100 caracteres, trim) y `role` opcional USER/ADMIN. Rechaza parámetros desconocidos.
+Busca por firstName, lastName, username o email sin distinguir mayúsculas y excluye isDeleted=true.
+Orden: createdAt descendente, id ascendente. Devuelve 200 `{data:{items,total,page,pageSize,pages}}`;
+una página fuera del rango devuelve items vacío. Total y filas usan una instantánea RepeatableRead.
+La UI utiliza páginas de tres y conserva filtros en URL; las credenciales no se consultan en el listado.
+
+DELETE `/admin/users/:id` devuelve 200 `{data:{user}}` una vez confirmada la eliminación lógica,
+revocación de todas las sesiones no revocadas y auditoría. Conserva las relaciones existentes;
+repetición devuelve 409 USER_DELETED. El mismo advisory lock de edición protege al último ADMIN activo.
+GET por UUID conserva la consulta de cuentas eliminadas para inspección administrativa.
+
+GET `/admin/audit-logs` admite únicamente page/pageSize con los mismos límites; devuelve
+`{data:{items,total,page,pageSize,pages}}`, ordenado por createdAt/id descendentes. Cada evento
+contiene id, actorId nullable, operation USER_CREATED/USER_UPDATED/USER_DELETED, entityType User,
+entityId y createdAt. No incluye metadatos, valores de identidad ni credenciales.
+Solo se registran operaciones ADMIN confirmadas; operación y evento comparten transacción.
+No hay endpoints de escritura de bitácora. Registro/login públicos no generan estos eventos.
 
 | Método / ruta            | Entrada                                                                            | Respuesta                                                  |
 | ------------------------ | ---------------------------------------------------------------------------------- | ---------------------------------------------------------- |
@@ -23,6 +42,8 @@ Crear desde Admin admite contraseña de 8–128 caracteres Unicode y hasta 512 b
 requiere una mayúscula y un carácter de puntuación/símbolo, sin contar espacios como especial.
 Se conserva exactamente la entrada. El registro público mantiene el mínimo de 15.
 Reglas, alcance de demostración y pantallas: [admin.md](admin.md).
+La nueva persistencia requiere la migración `20261020000100_admin_audit` revisada/aplicada
+en desarrollo autorizado; [entrega del Día 1](module-ii/README.md).
 
 ## Autenticación y salud
 

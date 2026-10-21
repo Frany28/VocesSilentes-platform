@@ -8,9 +8,10 @@ import { AdminFeedback } from '../components/AdminFeedback.jsx';
 import { AccountStatus } from '../components/AccountStatus.jsx';
 import { UserAccountData } from '../components/UserAccountData.jsx';
 import { UserStateAction } from '../components/UserStateAction.jsx';
+import { UserDeleteAction } from '../components/UserDeleteAction.jsx';
 
 /**
- * Detalle real por UUID o demo identificada; cambios de estado solo se simulan en cuentas demo.
+ * Detalle real por UUID con eliminación lógica; las cuentas demo conservan sus acciones identificadas.
  * @returns {import('react').ReactElement} Información permitida y acciones del diseño.
  */
 export function AdminUserDetail() {
@@ -58,10 +59,16 @@ export function AdminUserDetail() {
             </div>
             <UserAccountData user={user} />
             <div className="admin-actions">
-              <AdminAction to={`/admin/users/${id}/edit`} variant="primary">
-                Editar cuenta
-              </AdminAction>
-              <UserStateAction user={user} />
+              {!user.isDeleted && (
+                <AdminAction to={`/admin/users/${id}/edit`} variant="primary">
+                  Editar cuenta
+                </AdminAction>
+              )}
+              {user.source === 'server' ? (
+                <UserDeleteAction user={user} />
+              ) : (
+                <UserStateAction user={user} />
+              )}
             </div>
           </section>
           <section className="admin-panel admin-info">

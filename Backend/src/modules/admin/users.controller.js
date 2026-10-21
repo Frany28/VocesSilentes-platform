@@ -3,10 +3,20 @@ import { createUserSchema, editUserSchema, userIdSchema } from './users.validati
 /**
  * Traduce HTTP validado a operaciones de usuarios y devuelve exclusivamente el DTO permitido.
  * @param {object} service Negocio de usuarios persistentes.
- * @returns {object} Controllers get/create/edit; errores delegados al middleware común.
+ * @returns {object} Controllers CRUD/audit; errores delegados al middleware común.
  */
 export function createUsersController(service) {
   return {
+    async list(req, res) {
+      res.json({ data: await service.list(req.query) });
+    },
+    async audit(req, res) {
+      res.json({ data: await service.audit(req.query) });
+    },
+    async delete(req, res) {
+      const user = await service.delete(req.auth.id, userIdSchema.parse(req.params.id));
+      res.json({ data: { user } });
+    },
     async get(req, res) {
       res.json({ data: { user: await service.get(userIdSchema.parse(req.params.id)) } });
     },

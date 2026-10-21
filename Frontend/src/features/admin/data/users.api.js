@@ -14,15 +14,22 @@ async function write(path, method, input, signal) {
 }
 
 /**
- * Cliente de los tres endpoints administrativos reales, con cookies y AbortSignal existentes.
- * @returns {object} get/create/edit; propaga ApiError, sin reintentos automáticos de escrituras.
+ * Cliente CRUD administrativo real, con cookies y AbortSignal existentes.
+ * @returns {object} list/get/create/edit/delete; propaga ApiError, sin reintentos de escrituras.
  */
 export function createUsersApi() {
   return {
+    list: async ({ q = '', role = '', page = 1, pageSize = 3 }, signal) => {
+      const query = new URLSearchParams({ q, page: String(page), pageSize: String(pageSize) });
+      if (role) query.set('role', role);
+      return (await requestJson('admin/users', { signal, query })).data;
+    },
     get: async (id, signal) =>
       (await requestJson(`admin/users/${encodeURIComponent(id)}`, { signal })).data.user,
     create: (input, signal) => write('admin/users', 'POST', input, signal),
     edit: (id, input, signal) =>
       write(`admin/users/${encodeURIComponent(id)}`, 'PATCH', input, signal),
+    delete: (id, signal) =>
+      write(`admin/users/${encodeURIComponent(id)}`, 'DELETE', undefined, signal),
   };
 }

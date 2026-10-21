@@ -35,6 +35,13 @@ export function createUsersRepository(database) {
             tx.user.count({ where: { role: 'ADMIN', isActive: true, isDeleted: false } }),
           create: (data) => tx.user.create({ data }),
           update: (data) => tx.user.update({ where: { id: userId }, data }),
+          revokeSessions: () => tx.$executeRaw`
+            UPDATE vocessilentes."Session"
+            SET "revokedAt" = GREATEST(clock_timestamp(), "createdAt")
+            WHERE "userId" = ${userId}::uuid AND "revokedAt" IS NULL
+          `,
+          audit: (operation, entityId) =>
+            tx.auditLog.create({ data: { actorId, operation, entityType: 'User', entityId } }),
         });
       }),
   };

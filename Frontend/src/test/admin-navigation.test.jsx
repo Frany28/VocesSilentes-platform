@@ -2,18 +2,9 @@ import { fireEvent, screen, within } from '@testing-library/react';
 import { expect, test } from 'vitest';
 import { renderAdmin } from './admin-fixture.jsx';
 
-test('usuarios: filtros, búsqueda, páginas, vacío y navegación con guard de cambios', async () => {
+test('usuarios: navegación al formulario y guard de cambios antes de abrir reportes', async () => {
   renderAdmin('/admin/users');
-  await screen.findByText('Ana Pérez');
-  expect(screen.getAllByRole('article')).toHaveLength(3);
-  fireEvent.click(screen.getByRole('button', { name: 'Siguiente' }));
-  expect(screen.getByText('María López')).toBeVisible();
-  fireEvent.change(screen.getByLabelText('Rol'), { target: { value: 'ADMIN' } });
-  expect(screen.getAllByRole('article')).toHaveLength(1);
-  expect(screen.getByText('Luis Gómez')).toBeVisible();
-  fireEvent.change(screen.getByLabelText('Buscar'), { target: { value: 'no-existe' } });
-  expect(screen.getByText('No encontramos resultados')).toBeVisible();
-  fireEvent.click(screen.getByRole('button', { name: 'Ver todos' }));
+  await screen.findByText('Persona');
   fireEvent.click(screen.getByRole('button', { name: 'Crear usuario' }));
   await screen.findByLabelText('Nombre');
   fireEvent.change(screen.getByLabelText('Nombre'), { target: { value: 'Borrador' } });

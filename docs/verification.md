@@ -1,5 +1,26 @@
 # Verificación
 
+## Módulo II, Día 1 — 20 de octubre de 2026
+
+En Windows con Node **22.23.1** y pnpm **10.18.2**, `pnpm verify` completo terminó con código **0**:
+lint sin advertencias, formato correcto, **89 pruebas frontend** en 29 archivos, **34 backend**,
+validación Prisma, build de ambas aplicaciones y **43 pruebas SQL/auth aisladas**. Total:
+**166 pruebas aprobadas**. Incluye reconstrucción del SQL académico, seed, CRUD, permisos,
+eliminación lógica, protección del último ADMIN y rollback de auditoría/revocación.
+
+`pnpm db:check` terminó con código **0**, SELECT 1 real de solo lectura. No comprueba el esquema
+actual ni aplica la nueva migración a Supabase. `git diff --check` correcto. Después de registrar
+estos resultados se repiten formato y diff, se retira un BOM de AdminUsers.jsx y se añaden aserciones
+de body vacío en creación/edición. Se repite la prueba ADMIN de validación con estas aserciones;
+no hay cambios posteriores de comportamiento de la aplicación.
+
+Se corrigieron fallos iniciales de pruebas y soporte de query sin omitir controles. El sandbox
+bloqueó node:test/esbuild inicialmente con EPERM; las ejecuciones autorizadas completaron los controles.
+No hay migración remota, fixtures compartidos, publicación ni ejecución comprobada de GitHub Actions.
+PGlite usa PostgreSQL 18.3 con una conexión; no acredita concurrencia multiworker de PostgreSQL 17.
+El seed cumple cinco filas en nueve tablas y documenta ExternalIdentity=0 por ausencia de vinculación
+verificable con proveedores. [Resultados, cobertura y límites](module-ii/day-01-testing.md).
+
 ## Auditoría estructural — 9 de octubre de 2026
 
 Antes de los cambios, `pnpm verify` terminó con código 0: ESLint sin advertencias, formato correcto,

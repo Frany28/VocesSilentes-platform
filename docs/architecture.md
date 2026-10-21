@@ -121,3 +121,10 @@ Se aplicó mediante migrate deploy en la base de desarrollo confirmada, sin shad
 Las pruebas SQL usan PGlite en memoria; la conexión real y el catálogo remoto se verifican aparte.
 Auth usa sesiones opacas y transacciones sobre User/Session sin cambios de esquema. Pendientes:
 endpoints de contenido/progreso/reportes, OAuth, correo, recuperación y despliegue de producción.
+
+El [Módulo II, Día 1](module-ii/README.md) añade una décima tabla AuditLog mediante migración
+aditiva versionada, probada en memoria y todavía no aplicada a Supabase en esta tarea. El módulo
+administrativo incorpora listado paginado real y borrado lógico: conserva advisory lock/bloqueos
+de fila y registra cada creación/edición/eliminación ADMIN en su misma transacción. Borrar revoca
+las sesiones, conserva relaciones e impide quitar el último ADMIN activo. La bitácora permite
+solo lectura paginada ADMIN; no almacena snapshots personales ni credenciales.
