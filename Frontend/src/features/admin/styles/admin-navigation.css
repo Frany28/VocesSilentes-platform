@@ -45,23 +45,21 @@
 .admin-menu .admin-nav-item {
   justify-content: flex-start;
 }
-.admin-tablet-mark {
+.admin-brand-compact {
   display: none;
 }
 @media (600px <= width < 1200px) {
   .admin-nav-label,
   .admin-sidebar-label,
   .admin-identity-message,
-  .admin-sidebar .admin-brand {
+  .admin-brand-full {
     display: none;
   }
   .admin-sidebar .admin-nav {
     padding-top: 0;
   }
-  .admin-tablet-mark {
+  .admin-brand-compact {
     display: block;
-    height: 28px;
-    margin-bottom: 0;
   }
   .admin-logout span:not(.vs-icon) {
     display: none;

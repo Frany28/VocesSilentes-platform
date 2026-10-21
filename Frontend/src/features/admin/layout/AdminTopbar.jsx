@@ -6,7 +6,7 @@ import { AdminAvatar } from '../components/AdminAvatar.jsx';
 import { AdminIconButton } from '../components/AdminIconButton.jsx';
 import { AdminDialog } from '../components/AdminDialog.jsx';
 import { AdminNavigation } from './AdminNavigation.jsx';
-import { AdminBrand } from './AdminBrand.jsx';
+import { Brand } from '../../../components/ui/Brand.jsx';
 import { Button } from '../../../components/ui/Button.jsx';
 
 /**
@@ -40,7 +40,7 @@ export function AdminTopbar({ onLogout }) {
           label="Abrir menú de administración"
           onClick={() => setMenu(true)}
         />
-        <AdminBrand />
+        <Brand />
       </div>
       <div className="admin-topbar-actions">
         <AdminIconButton

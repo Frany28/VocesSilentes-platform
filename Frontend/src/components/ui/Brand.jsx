@@ -2,7 +2,7 @@ import lightLogo from '../../assets/auth/36e7e.png';
 import darkLogo from '../../assets/auth/0ad79.png';
 
 /**
- * Comparte marca e isotipos originales entre Auth y Student, con los recortes de Foundations.
+ * Comparte marca e isotipos originales entre Auth, Student y Admin, con los recortes de Foundations.
  * @param {{compact?: boolean, smallDark?: boolean}} props Isotipo de tablet o marca completa.
  * @returns {import('react').ReactElement} Marca con nombre accesible y recursos por tema.
  */

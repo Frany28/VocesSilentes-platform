@@ -46,7 +46,9 @@ endpoint de perfil ni se permite cambiar el rol desde esa pantalla.
 Se reutilizan Button, Input, Icon, Badge, Alert, fuentes, proveedor de tema, cliente HTTP y auth.
 Las variantes compactas se limitan a `.admin-shell`: control de 44 px, radio 8 px, etiquetas Manrope
 13/20, campos Inter 14/20, títulos 28/40; perfil 36/44 desde tablet. Paneles de 16 px y perfil de 24 px.
-Se conserva el recorte original de la marca y se descargan los SVG originales a `assets/admin-v2/`.
+La marca reutiliza `Brand`, igual que Auth/Student: recursos y recortes compartidos por tema,
+versión completa en escritorio/móvil e isotipo compacto en tablet. Este estándar compartido
+reemplaza la composición independiente del rediseño de Admin. Los SVG de controles están en `assets/admin-v2/`.
 Los iconos mantienen sus dimensiones nativas; no hay URLs temporales de Figma en ejecución.
 
 Sidebar de 232 px en escritorio y 76 px en tablet; navegación móvil de tres destinos y acceso

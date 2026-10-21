@@ -22,6 +22,10 @@ PasswordInput el ref apunta al input; en selecciones, al input nativo; en los de
 `className` aplica al elemento raíz visual, que es el contenedor del campo y el label de selección.
 No hay peticiones HTTP ni permisos de negocio en estos componentes.
 
+`Brand.jsx` centraliza el logo de Auth, Student y Admin, incluidos los originales claro/oscuro y
+sus recortes. Los paneles usan la marca completa en escritorio/móvil y `compact` para el isotipo
+de tablet. No se reconstruye el nombre con tipografía o iconos propios de cada área.
+
 | Figma / node ID                                     | Código                               | Props y variantes                                                                                                                                                 |
 | --------------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Button/Primario `75:97`, Button/Secundario `75:124` | `Button.jsx`                         | `variant="primary"` (predeterminado) / `secondary`; `children`, `icon` (Arrow por defecto, null lo omite), `disabled`, `loading`, `loadingLabel`, `type="button"` |

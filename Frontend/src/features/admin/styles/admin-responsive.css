@@ -13,6 +13,9 @@
   .admin-content {
     padding: 20px;
   }
+  .admin-topbar {
+    flex-wrap: wrap;
+  }
   .admin-sidebar,
   .admin-breadcrumb {
     display: none;
@@ -22,13 +25,6 @@
     align-items: center;
     gap: 0;
     min-width: 0;
-  }
-  .admin-mobile-brand .admin-brand-mark {
-    display: none;
-  }
-  .admin-mobile-brand .admin-brand {
-    font: var(--type-label);
-    color: var(--text-secondary);
   }
   .admin-mobile-brand .admin-icon-button {
     width: 32px;
@@ -76,8 +72,5 @@
 @media (width < 360px) {
   .admin-content {
     padding: 16px;
-  }
-  .admin-topbar {
-    flex-wrap: wrap;
   }
 }

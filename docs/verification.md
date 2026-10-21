@@ -1,5 +1,21 @@
 # Verificación
 
+## Marca compartida de Admin y Student — 21 de octubre de 2026
+
+Se sustituyeron la composición propia de Admin y su icono de tablet por `Brand`, compartido con
+Auth/Student. Se conservan los recursos claro/oscuro, recortes, tipografía y variante compacta.
+La barra móvil admite salto de fila para alojar la marca completa sin reducirla ni recortarla.
+`pnpm verify` terminó con código **0**, sin advertencias: **99 pruebas frontend, 34 backend y
+43 SQL/auth**, validación Prisma y build. Formato y `git diff --check` correctos tras documentar.
+
+Chrome revisó **42 capturas**: usuarios/perfil de Admin e inicio Student, ambos temas, a 1440,
+1199, 834, 600, 599, 390 y 320 px. Se compararon los recursos y las medidas de las partes visibles
+del logo, incluidos texto y color, con igualdad entre áreas. Sin desbordamientos horizontales ni
+excepciones JavaScript. Perfil móvil conserva su barra sin marca según su composición existente.
+Login y lecturas reales sobre base efímera; sin acceso a Supabase. Evidencia local ignorada:
+`.local/admin-brand-verify.log`, `.local/admin-brand-browser.log` y
+`.local/admin-brand-review/results.json` con capturas. No se verificó ejecución remota de CI.
+
 ## Admin · Rediseño moderno — 21 de octubre de 2026
 
 En Windows con Node **22.23.1** y pnpm **10.18.2**, `pnpm verify` completo terminó con código **0**:
