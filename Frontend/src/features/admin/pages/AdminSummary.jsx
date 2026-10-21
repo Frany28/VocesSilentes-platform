@@ -1,4 +1,4 @@
-﻿import { useUsersList } from '../data/use-users-list.js';
+import { useUsersList } from '../data/use-users-list.js';
 import { AdminHeading } from '../components/AdminHeading.jsx';
 import { AdminAction } from '../components/AdminAction.jsx';
 import { AdminFeedback } from '../components/AdminFeedback.jsx';

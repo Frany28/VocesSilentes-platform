@@ -1,4 +1,4 @@
-﻿import { AdminHeading } from '../components/AdminHeading.jsx';
+import { AdminHeading } from '../components/AdminHeading.jsx';
 import { AdminIconButton } from '../components/AdminIconButton.jsx';
 import { AdminUnavailable } from '../components/AdminUnavailable.jsx';
 import { ReportReview } from '../components/ReportReview.jsx';

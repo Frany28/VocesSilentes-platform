@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /**
  * Ejecuta únicamente una operación proporcionada; no define endpoints ni simula una resolución.

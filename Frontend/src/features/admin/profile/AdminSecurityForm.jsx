@@ -1,4 +1,4 @@
-﻿import { PasswordInput } from '../../../components/ui/PasswordInput.jsx';
+import { Input } from '../../../components/ui/Input.jsx';
 import { Button } from '../../../components/ui/Button.jsx';
 import { AdminUnavailable } from '../components/AdminUnavailable.jsx';
 
@@ -11,7 +11,8 @@ export function AdminSecurityForm() {
     <section className="admin-form">
       <h2>Tu acceso, bajo control</h2>
       <p className="admin-muted">Actualiza tu contraseña desde un solo lugar.</p>
-      <PasswordInput
+      <Input
+        type="password"
         appearance="plain"
         label="Contraseña actual"
         placeholder="Contraseña actual"
@@ -19,7 +20,8 @@ export function AdminSecurityForm() {
         disabled
       />
       <div className="admin-name-row">
-        <PasswordInput
+        <Input
+          type="password"
           appearance="plain"
           label="Nueva contraseña"
           placeholder="Crea una contraseña segura"
@@ -27,7 +29,8 @@ export function AdminSecurityForm() {
           autoComplete="new-password"
           disabled
         />
-        <PasswordInput
+        <Input
+          type="password"
           appearance="plain"
           label="Confirma la nueva contraseña"
           placeholder="Repite la nueva contraseña"

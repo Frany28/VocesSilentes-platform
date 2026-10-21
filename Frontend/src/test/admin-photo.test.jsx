@@ -1,4 +1,4 @@
-﻿import { fireEvent, screen, within } from '@testing-library/react';
+import { fireEvent, screen, within } from '@testing-library/react';
 import { expect, test, vi } from 'vitest';
 import { renderAdmin } from './admin-fixture.jsx';
 

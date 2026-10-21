@@ -1,4 +1,4 @@
-﻿import { Button } from '../../../components/ui/Button.jsx';
+import { Button } from '../../../components/ui/Button.jsx';
 
 /**
  * Distingue carga real, fallo, vacío inicial y búsqueda sin resultados, con recuperación manual.

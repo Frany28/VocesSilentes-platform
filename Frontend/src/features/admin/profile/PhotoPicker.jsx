@@ -1,4 +1,4 @@
-﻿import { Button } from '../../../components/ui/Button.jsx';
+import { Button } from '../../../components/ui/Button.jsx';
 import { Icon } from '../../../components/ui/Icon.jsx';
 
 /**

@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router';
 import { Badge } from '../../../components/ui/Badge.jsx';
 import { Alert } from '../../../components/ui/Alert.jsx';

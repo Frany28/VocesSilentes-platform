@@ -1,4 +1,4 @@
-﻿import { adminDate } from '../data/admin-labels.js';
+import { adminDate } from '../data/admin-labels.js';
 import { AdminFacts } from './AdminFacts.jsx';
 import { Icon } from '../../../components/ui/Icon.jsx';
 

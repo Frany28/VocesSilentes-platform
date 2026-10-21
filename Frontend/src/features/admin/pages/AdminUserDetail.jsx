@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation, useParams } from 'react-router';
 import { Alert } from '../../../components/ui/Alert.jsx';
 import { useAdminUser } from '../data/use-admin-user.js';

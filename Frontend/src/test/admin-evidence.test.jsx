@@ -1,4 +1,4 @@
-﻿import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { expect, test } from 'vitest';
 import { ReportEvidence } from '../features/admin/components/ReportEvidence.jsx';
 

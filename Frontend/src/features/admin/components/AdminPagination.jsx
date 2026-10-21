@@ -24,6 +24,7 @@ export function AdminPagination({ list }) {
           {list.page} / {list.pages}
         </span>
         <Button
+          variant="secondary"
           icon={null}
           disabled={list.page >= list.pages}
           onClick={() => list.go(list.page + 1)}

@@ -1,0 +1,24 @@
+.admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: var(--type-button);
+  color: var(--action-primary);
+}
+.admin-brand-mark {
+  display: block;
+  width: 44px;
+  height: 34px;
+  flex: none;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+}
+.admin-brand-mark img {
+  position: absolute;
+  width: 211.13%;
+  height: 180.38%;
+  max-width: none;
+  left: -55.33%;
+  top: -21.86%;
+}

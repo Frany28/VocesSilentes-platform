@@ -1,4 +1,4 @@
-﻿/** Reporte exclusivo de pruebas de presentación; no se importa desde la aplicación. */
+/** Reporte exclusivo de pruebas de presentación; no se importa desde la aplicación. */
 export const report = {
   id: 'report-fixture',
   reference: 'REP-001',

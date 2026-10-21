@@ -1,4 +1,4 @@
-﻿import { useRef } from 'react';
+import { useRef } from 'react';
 import { Button } from '../../../components/ui/Button.jsx';
 import { AdminDialog } from '../components/AdminDialog.jsx';
 import { usePhotoDraft } from './use-photo-draft.js';

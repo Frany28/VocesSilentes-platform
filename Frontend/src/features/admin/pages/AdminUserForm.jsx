@@ -1,4 +1,4 @@
-﻿import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useAdminUser } from '../data/use-admin-user.js';
 import { AdminDialog } from '../components/AdminDialog.jsx';
 import { AdminFeedback } from '../components/AdminFeedback.jsx';

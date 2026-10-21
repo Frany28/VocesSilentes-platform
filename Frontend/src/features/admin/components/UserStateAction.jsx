@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { Button } from '../../../components/ui/Button.jsx';
 import { AdminConfirmation } from './AdminConfirmation.jsx';
 import { AdminAvatar } from './AdminAvatar.jsx';

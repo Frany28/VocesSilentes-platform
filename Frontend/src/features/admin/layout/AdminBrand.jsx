@@ -1,4 +1,4 @@
-﻿import logo from '../../../assets/auth/36e7e.png';
+import logo from '../../../assets/auth/36e7e.png';
 
 /**
  * Marca compacta del rediseño, con el mismo original y recorte 44 × 34 del Figma.

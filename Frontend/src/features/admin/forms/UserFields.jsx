@@ -1,5 +1,4 @@
-﻿import { Input } from '../../../components/ui/Input.jsx';
-import { PasswordInput } from '../../../components/ui/PasswordInput.jsx';
+import { Input } from '../../../components/ui/Input.jsx';
 import { AdminSelect } from '../components/AdminSelect.jsx';
 
 /**
@@ -63,7 +62,8 @@ export function UserFields({ values, errors, change, creating }) {
         )}
       </div>
       {creating && (
-        <PasswordInput
+        <Input
+          type="password"
           appearance="plain"
           name="password"
           label="Contraseña"

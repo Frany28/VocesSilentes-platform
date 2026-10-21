@@ -1,4 +1,4 @@
-﻿import { Input } from '../../../components/ui/Input.jsx';
+import { Input } from '../../../components/ui/Input.jsx';
 import { useAdminList } from '../data/use-admin-list.js';
 import { AdminHeading } from '../components/AdminHeading.jsx';
 import { AdminSelect } from '../components/AdminSelect.jsx';

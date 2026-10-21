@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Dependencia real de integración; nunca representa ausencia de datos como una lista vacía confirmada.
  * @param {{title: string, children: import('react').ReactNode}} props Capacidad pendiente y explicación.
  * @returns {import('react').ReactElement} Aviso persistente para una acción sin contrato disponible.

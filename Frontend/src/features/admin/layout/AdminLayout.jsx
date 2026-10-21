@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { Outlet } from 'react-router';
 import { useAuth } from '../../auth/use-auth.js';
 import { AdminProvider } from '../data/AdminProvider.jsx';

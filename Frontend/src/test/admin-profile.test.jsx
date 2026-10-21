@@ -1,4 +1,4 @@
-﻿import { act, fireEvent, screen, waitFor, within } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor, within } from '@testing-library/react';
 import { expect, test, vi } from 'vitest';
 import { renderAdmin } from './admin-fixture.jsx';
 import { user, jsonResponse, renderAuthApp } from './auth-fixture.jsx';
@@ -53,7 +53,9 @@ test('perfil: valida, conserva borrador tras conflicto y pide descarte antes de 
   fireEvent.change(screen.getByLabelText('Nombre'), { target: { value: 'Borrador' } });
   fireEvent.click(screen.getByRole('button', { name: 'Guardar cambios' }));
   await screen.findByText('Correo ocupado');
-  await waitFor(() => expect(screen.getByRole('button', { name: 'Guardar cambios' })).toBeEnabled());
+  await waitFor(() =>
+    expect(screen.getByRole('button', { name: 'Guardar cambios' })).toBeEnabled(),
+  );
   expect(screen.getByLabelText('Nombre')).toHaveValue('Borrador');
   fireEvent.click(
     within(screen.getByRole('navigation', { name: 'Configuración de mi perfil' })).getByRole(

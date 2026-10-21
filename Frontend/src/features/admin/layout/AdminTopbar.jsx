@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router';
 import { useTheme } from '../../../hooks/use-theme.js';
 import { useAuth } from '../../auth/use-auth.js';

@@ -1,4 +1,4 @@
-﻿import { Button } from '../../../components/ui/Button.jsx';
+import { Button } from '../../../components/ui/Button.jsx';
 import { Alert } from '../../../components/ui/Alert.jsx';
 import { AdminDialog } from './AdminDialog.jsx';
 

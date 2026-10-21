@@ -1,4 +1,4 @@
-﻿import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { expect, test } from 'vitest';
 import { renderAdmin, fillAdminForm, account } from './admin-fixture.jsx';
 import { jsonResponse } from './auth-fixture.jsx';

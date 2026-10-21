@@ -1,4 +1,4 @@
-﻿.admin-shell {
+.admin-shell {
   display: grid;
   grid-template-columns: 232px minmax(0, 1fr);
   min-height: 100svh;
@@ -19,30 +19,6 @@
 .admin-sidebar-label {
   font: var(--type-label);
   color: var(--text-secondary);
-}
-.admin-brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font: var(--type-button);
-  color: var(--action-primary);
-}
-.admin-brand-mark {
-  display: block;
-  width: 44px;
-  height: 34px;
-  flex: none;
-  position: relative;
-  overflow: hidden;
-  border-radius: 20px;
-}
-.admin-brand-mark img {
-  position: absolute;
-  width: 211.13%;
-  height: 180.38%;
-  max-width: none;
-  left: -55.33%;
-  top: -21.86%;
 }
 .admin-content {
   container-type: inline-size;
@@ -98,4 +74,17 @@
   color: var(--content);
   background: transparent;
   font: var(--type-button);
+}
+.admin-title-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.admin-title-row .admin-heading {
+  flex: 1;
+}
+.admin-status-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }

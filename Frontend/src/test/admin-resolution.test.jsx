@@ -1,4 +1,4 @@
-﻿import { act, fireEvent, render, screen, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { expect, test, vi } from 'vitest';
 import { ReportReview } from '../features/admin/components/ReportReview.jsx';
 import { report } from './admin-report-fixture.js';

@@ -1,4 +1,4 @@
-﻿import { NavLink, useLocation } from 'react-router';
+import { NavLink, useLocation } from 'react-router';
 import { useAuth } from '../../auth/use-auth.js';
 import { AdminHeading } from '../components/AdminHeading.jsx';
 import { AdminProfileIdentity } from '../profile/AdminProfileIdentity.jsx';

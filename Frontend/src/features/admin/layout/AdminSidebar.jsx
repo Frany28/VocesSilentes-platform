@@ -1,4 +1,4 @@
-﻿import { Icon } from '../../../components/ui/Icon.jsx';
+import { Icon } from '../../../components/ui/Icon.jsx';
 import { AdminBrand } from './AdminBrand.jsx';
 import { AdminNavigation } from './AdminNavigation.jsx';
 
@@ -11,7 +11,9 @@ export function AdminSidebar({ onLogout }) {
   return (
     <aside className="admin-sidebar">
       <AdminBrand />
-      <span className="admin-tablet-mark"><Icon name="modern-tablet" size={28} /></span>
+      <span className="admin-tablet-mark">
+        <Icon name="modern-tablet" size={28} />
+      </span>
       <p className="admin-sidebar-label">ADMINISTRACIÓN</p>
       <AdminNavigation />
       <div className="admin-identity-message">

@@ -1,4 +1,5 @@
-﻿@import './admin-layout.css';
+@import './admin-layout.css';
+@import './admin-brand.css';
 @import './admin-navigation.css';
 @import './admin-icons.css';
 @import './admin-surfaces.css';
@@ -92,17 +93,4 @@ body:has(.admin-shell) {
 }
 .admin-kicker {
   color: var(--action-primary);
-}
-.admin-title-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.admin-title-row .admin-heading {
-  flex: 1;
-}
-.admin-status-line {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
 }

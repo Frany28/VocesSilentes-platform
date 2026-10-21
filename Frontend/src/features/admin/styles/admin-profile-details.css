@@ -1,4 +1,4 @@
-﻿.admin-shell:has(.admin-profile-page) .admin-topbar,
+.admin-shell:has(.admin-profile-page) .admin-topbar,
 .admin-shell:has(.admin-profile-page) footer {
   width: 100%;
   max-width: 904px;
@@ -27,4 +27,14 @@
 .admin-status-line .vs-badge {
   color: var(--text-secondary);
   background: var(--surface-neutral);
+}
+.admin-profile-page .admin-heading .admin-kicker {
+  font: var(--type-label);
+  color: var(--action-primary);
+}
+@media (width >= 600px) {
+  .admin-profile-page h1 {
+    font-size: 36px;
+    line-height: 44px;
+  }
 }

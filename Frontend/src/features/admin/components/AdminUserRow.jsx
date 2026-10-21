@@ -1,4 +1,4 @@
-﻿import { AccountStatus } from './AccountStatus.jsx';
+import { AccountStatus } from './AccountStatus.jsx';
 import { AdminIconButton } from './AdminIconButton.jsx';
 import { AdminAvatar } from './AdminAvatar.jsx';
 import { adminDate, fullName } from '../data/admin-labels.js';
