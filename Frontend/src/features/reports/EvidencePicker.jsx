@@ -2,10 +2,10 @@ import { Button } from '../../components/ui/Button.jsx';
 
 /**
  * Selección opcional local: no hace peticiones ni sustituye la validación confiable del servidor.
- * @param {{selection: object | null, onSelect: Function, disabled: boolean}} props Borrador y acciones.
+ * @param {{selection: object | null, onSelect: Function, disabled: boolean, invalid?: boolean}} props Borrador y acciones.
  * @returns {import('react').ReactElement} Selector, previsualización y eliminación previa al envío.
  */
-export function EvidencePicker({ selection, onSelect, disabled }) {
+export function EvidencePicker({ selection, onSelect, disabled, invalid }) {
   return (
     <div className="flex flex-col gap-3">
       <label className="flex flex-col gap-2">
@@ -23,13 +23,15 @@ export function EvidencePicker({ selection, onSelect, disabled }) {
       <p className="text-muted">
         Una imagen JPEG, PNG o WEBP, hasta 5 MB, 8192 px por lado y 16 megapíxeles.
       </p>
-      {selection && (
+      {(selection || invalid) && (
         <>
-          <img
-            className="max-h-64 w-full rounded-xl object-contain"
-            src={selection.src}
-            alt="Vista previa de la evidencia"
-          />
+          {selection && (
+            <img
+              className="max-h-64 w-full rounded-xl object-contain"
+              src={selection.src}
+              alt="Vista previa de la evidencia"
+            />
+          )}
           <Button
             type="button"
             variant="secondary"

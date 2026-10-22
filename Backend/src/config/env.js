@@ -41,7 +41,7 @@ export class ConfigurationError extends Error {}
  * Valida configuración sin modificar el entorno ni revelar secretos en errores.
  * @param {Record<string, string | undefined>} input Variables del proceso.
  * @returns {{nodeEnv: string, host: string, port: number, corsOrigins: string[],
- * logLevel: string, databaseUrl: string | undefined, auth: object}} Configuración normalizada.
+ * logLevel: string, databaseUrl: string | undefined, auth: object, storage: object | undefined}} Configuración normalizada.
  * @throws {ConfigurationError} Si algún valor o configuración de producción es inválido.
  */
 export function parseEnv(input) {

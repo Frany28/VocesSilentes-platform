@@ -1,5 +1,9 @@
 # Autenticación y seguridad
 
+Reportes y evidencias reutilizan estas sesiones propias y CSRF, sin Supabase Auth. El backend
+filtra propiedad, consulta rol vigente y firma lecturas de 120 s; la clave privada Storage omite
+RLS y nunca se entrega al navegador. Ver [permisos y política restrictiva](report-evidence.md).
+
 Implementación local del MVP sobre `User` y `Session` existentes, sin migraciones adicionales,
 JWT ni Supabase Auth. Reutiliza el esquema privado `vocessilentes` y la migración aplicada
 `20261009000100_phase_one`. No implementa OAuth, recuperación, correo ni módulos educativos.

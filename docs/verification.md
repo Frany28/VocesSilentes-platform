@@ -1,5 +1,22 @@
 # Verificación
 
+## Evidencias de reportes — 21 de octubre de 2026
+
+`pnpm verify` completo terminó con código **0**, sin advertencias de lint: **104 pruebas frontend**
+en 38 archivos, **39 backend** y **51 SQL/auth**; **194 aprobadas**, sin fallos ni omisiones.
+Incluye formato, validación Prisma, generación del cliente y build de ambas aplicaciones.
+Se usa Sharp 0.35.5 con decodificación real en Windows y PostgreSQL WASM efímero para permisos,
+propiedad, reservas, compensación y SQL restrictivo de Storage. El adaptador Storage se sustituye
+explícitamente en integración y su transporte REST se comprueba con respuestas controladas.
+Renovación/expiración del visor usa reloj controlado; no prueba firma criptográfica remota.
+
+La conexión real `pnpm db:check` respondió a SELECT 1. Inspección privada de solo lectura encontró
+únicamente `20261009000100_phase_one` terminada en el historial remoto; AuditLog y evidencia están
+pendientes. `evidence:check` falló por ausencia de SUPABASE_URL/SUPABASE_SERVICE_ROLE_KEY locales.
+No se ejecutó configure/migrate/cleanup contra Supabase, no se subieron imágenes remotas ni fixtures
+y no se verificó GitHub Actions. El primer intento de verify se detuvo por formato de documentación;
+se corrigió y la ejecución completa posterior pasó. [Configuración y límites reales](report-evidence.md).
+
 ## Marca compartida de Admin y Student — 21 de octubre de 2026
 
 Se sustituyeron la composición propia de Admin y su icono de tablet por `Brand`, compartido con

@@ -16,6 +16,11 @@ metadatos para estas tres operaciones y por ello no se añade un campo JSON abie
 
 ## Estructura SQL
 
+El snapshot incorpora también la migración de evidencia del 21 de octubre: tabla ReportEvidence
+vacía y requestId opcional. El seed académico original conserva sus diez recuentos y no genera
+imágenes ni referencias Storage ficticias. La política/bucket del proveedor está separada y
+no se ejecuta al reconstruir este snapshot; ver [evidencias](../report-evidence.md).
+
 `sql/01_schema.sql` es **autónomo**, una copia ordenada de las migraciones versionadas,
 incluida `20261020000100_admin_audit`. Conserva enums, defaults, PK, FK, índices, CHECK,
 revocaciones y RLS. Requiere una base PostgreSQL limpia/aislada y un propietario con permisos DDL.

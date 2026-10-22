@@ -43,6 +43,11 @@ porque 5173 ya estaba ocupado; los ejemplos conservan el valor habitual de 5173.
 
 ## Variables
 
+Evidencia añade SUPABASE_URL (origen HTTPS del proyecto) y SUPABASE_SERVICE_ROLE_KEY (secreta),
+ambas exclusivamente en backend. Reutiliza DATABASE_URL/DIRECT_URL existentes. No copiar la clave
+a VITE_* ni imprimirla. Preparación de bucket, migración y mantenimiento en
+[evidencias](report-evidence.md#configuración-y-aplicación-deliberada).
+
 | Variable                  | Dónde                    | Valor inicial / significado                                                                          |
 | ------------------------- | ------------------------ | ---------------------------------------------------------------------------------------------------- |
 | VITE_API_URL              | Frontend, pública        | http://localhost:3000/api; HTTP(S) sin credenciales/query/hash                                       |
@@ -74,6 +79,12 @@ En Vite todos los VITE_* llegan al navegador; no incluir
 DATABASE_URL ni secretos bajo ese prefijo. Reiniciar/reconstruir al cambiar valores públicos.
 
 ## Convenciones y controles
+
+Evidencia utiliza Sharp 0.35.5 para decodificar y sanear imágenes no confiables en el servidor;
+no añade SDK Storage: el adaptador REST usa fetch nativo y credenciales privadas. Los binarios
+opcionales de Sharp se instalan para cada plataforma; se comprobó decodificación real en Windows.
+No se amplía la lista de scripts de instalación permitidos de pnpm: funciona con el binario
+precompilado sin ejecutar el script de compilación ignorado. No se agregan excepciones de tamaño.
 
 Usar JavaScript ESM y JSDoc en APIs exportadas, hooks, servicios y contratos. Tipar con typedef cuando
 ayude. No comentar código evidente. Funciones/archivos tienen una responsabilidad coherente.

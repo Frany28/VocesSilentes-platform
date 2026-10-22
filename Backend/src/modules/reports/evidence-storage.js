@@ -53,19 +53,25 @@ export function createEvidenceStorage(config, fetcher = fetch) {
       });
     },
     sign: async (path) => {
+      const issuedAt = Date.now();
       const response = await call(`object/sign/${objectPath(path)}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ expiresIn: 120 }),
       });
-      const payload = await response.json();
-      const url = new URL(`/storage/v1${payload.signedURL}`, config.url);
-      if (
-        url.origin !== config.url ||
-        !url.pathname.startsWith(`/storage/v1/object/sign/${objectPath(path)}`)
-      )
+      try {
+        const payload = await response.json();
+        const url = new URL(`/storage/v1${payload.signedURL}`, config.url);
+        if (
+          url.origin !== config.url ||
+          !url.searchParams.has('token') ||
+          url.pathname !== `/storage/v1/object/sign/${objectPath(path)}`
+        )
+          throw new Error('Invalid signature');
+        return { src: url.href, expiresAt: new Date(issuedAt + 120000).toISOString() };
+      } catch {
         throw new HttpError(503, 'STORAGE_UNAVAILABLE', 'Respuesta de almacenamiento inválida');
-      return { src: url.href, expiresAt: new Date(Date.now() + 120000).toISOString() };
+      }
     },
     check: async () => (await call(`bucket/${EVIDENCE_BUCKET}`)).json(),
   };

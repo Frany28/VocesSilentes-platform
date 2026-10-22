@@ -7,6 +7,7 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../../generated/client.js';
 import { createAuthService } from '../../src/modules/auth/auth.service.js';
 import { createUsersService } from '../../src/modules/admin/users.service.js';
+import { createReportsService } from '../../src/modules/reports/reports.service.js';
 import { createApp } from '../../src/app.js';
 import { createLogger } from '../../src/lib/logger.js';
 import { parseEnv } from '../../src/config/env.js';
@@ -16,9 +17,10 @@ import { once } from 'node:events';
 
 /**
  * Registra integración HTTP + PrismaPg + PostgreSQL WASM/TCP efímero, sin leer .env.
+ * @param {{storage?: object}} [options] Doble explícito de Storage para pruebas, nunca credenciales reales.
  * @returns {object} Fixture inicializada en before y cerrada en after; no conecta a Supabase.
  */
-export function authFixture() {
+export function authFixture(options = {}) {
   const fixture = {};
   before(async () => {
     const db = new PGlite();
@@ -44,10 +46,12 @@ export function authFixture() {
     });
     fixture.service = await createAuthService(database, fixture.config.auth);
     fixture.usersService = await createUsersService(database);
+    fixture.reportsService = createReportsService(database, options.storage);
     fixture.app = createServer(
       createApp(fixture.config, createLogger('silent'), {
         authService: fixture.service,
         usersService: fixture.usersService,
+        reportsService: fixture.reportsService,
       }),
     );
     fixture.app.listen(0, '127.0.0.1');

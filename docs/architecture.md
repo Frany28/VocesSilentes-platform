@@ -2,6 +2,13 @@
 
 Dos aplicaciones privadas en un workspace, un solo lockfile. No se comparten secretos entre ellas.
 
+Actualización de evidencia (21 de octubre): `modules/reports/` implementa creación idempotente,
+consulta autorizada y evidencia privada mediante la API Storage. `features/reports/` separa servicios,
+selección/envío y renovación de enlaces del visor compartido en Admin. Las sesiones siguen siendo
+propias. Reservas durables compensan fallos entre PostgreSQL y Storage; configuración y cambios
+pendientes de aplicar se detallan en [evidencias](report-evidence.md). La resolución sigue pendiente.
+Las referencias históricas a reportes sin backend del resto del documento describen la etapa previa.
+
 ```mermaid
 flowchart LR
   V[Vista React] --> H[Hook o servicio de funcionalidad]

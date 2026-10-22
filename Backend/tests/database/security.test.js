@@ -7,7 +7,7 @@ const db = isolatedDatabase();
 test('esquema privado: RLS activo y sin políticas públicas en todas las entidades', async () => {
   const tables = await db.query(`SELECT relname, relrowsecurity FROM pg_class
     WHERE relnamespace = 'vocessilentes'::regnamespace AND relkind = 'r'`);
-  assert.equal(tables.rows.length, 10);
+  assert.equal(tables.rows.length, 11);
   assert.ok(tables.rows.every((table) => table.relrowsecurity));
   const policies = await db.query("SELECT * FROM pg_policies WHERE schemaname = 'vocessilentes'");
   assert.equal(policies.rows.length, 0);
@@ -28,6 +28,7 @@ test('roles Data API: sin permisos heredados sobre esquema ni tablas', () =>
       await rejectsSql(db, 'SELECT * FROM vocessilentes."User"', [], '42501');
       await rejectsSql(db, 'SELECT * FROM vocessilentes."Session"', [], '42501');
       await rejectsSql(db, 'SELECT * FROM vocessilentes."AuditLog"', [], '42501');
+      await rejectsSql(db, 'SELECT * FROM vocessilentes."ReportEvidence"', [], '42501');
       await rejectsSql(db, 'UPDATE vocessilentes."AuditLog" SET "actorId" = NULL', [], '42501');
       await db.exec('RESET ROLE');
     }

@@ -1,5 +1,10 @@
 # Contratos HTTP
 
+Reportes y evidencias incorporan POST/GET `/api/reports`, detalle, PUT binario de imagen y
+GET de acceso temporal, con sesión propia y CSRF en escrituras. Ver [contratos completos,
+errores y límites](report-evidence.md#api). La consulta administrativa requiere rol vigente
+para ver reportes ajenos; los usuarios solo consultan sus propios reportes.
+
 Base `/api`. Éxitos JSON `{ "data": ... }`; errores `{ "error": { "code": ..., "message": ... } }`.
 
 ## Usuarios administrados

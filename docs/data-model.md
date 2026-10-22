@@ -1,5 +1,9 @@
 # Modelo de datos — fase 1
 
+Ampliación del 21 de octubre: `Report.requestId` y `ReportEvidence` añaden idempotencia y una imagen
+opcional privada por reporte. La FK compuesta verifica propietario = autor; se guardan metadatos
+y ruta, nunca URL firmada. Son once tablas contando AuditLog. Ver [contrato y migración](report-evidence.md).
+
 Contrato aprobado en la solicitud del 9 de octubre de 2026. PostgreSQL y Prisma **7.10.0**,
 con nueve entidades originales en el esquema privado `vocessilentes`. El Día 1 del Módulo II añade
 una décima entidad AuditLog en `Backend/prisma/audit.prisma`; ver [contrato y retención](module-ii/database.md).

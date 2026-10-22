@@ -38,6 +38,12 @@ El único pnpm-lock.yaml fija transitivas. pnpm exige engines y peers compatible
 
 ## Backend
 
+Ampliación del 21 de octubre: **sharp 0.35.5** en producción, versión estable publicada en
+[releases oficiales](https://github.com/lovell/sharp/releases/tag/v0.35.5), para decodificar y
+recodificar evidencias en el servidor con límites de píxeles/tiempo. Compatible con Node 22;
+el lockfile fija los binarios opcionales por plataforma. No se instala un SDK Supabase:
+Storage utiliza fetch nativo del backend y la conexión PostgreSQL existente permanece intacta.
+
 | Dependencia                         | Versión         | Clasificación / necesidad                                                                      |
 | ----------------------------------- | --------------- | ---------------------------------------------------------------------------------------------- |
 | express                             | 5.3.0           | Producción; HTTP                                                                               |

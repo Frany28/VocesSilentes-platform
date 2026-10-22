@@ -1,5 +1,11 @@
 # Migraciones de la fase 1
 
+Nueva migración preparada: `20261021000100_report_evidence`, aditiva sobre Report y nueva tabla
+ReportEvidence con restricciones, RLS y revocaciones. El bucket/política del proveedor tienen su
+procedimiento separado `Backend/storage/001_report_evidence.sql`; no forman parte del esquema Prisma.
+Ambos están preparados, sin aplicar remotamente; la inspección del 21 de octubre encontró solo
+la migración inicial aplicada. Revisar [pasos, permisos y comprobaciones](report-evidence.md).
+
 Prisma **7.10.0** es la única fuente de migraciones de aplicación. No ejecutar `db push`,
 `migrate reset` ni editar `_prisma_migrations` para resolver errores. No usar el SQL Editor
 de Supabase para introducir una segunda fuente de cambios. No se ejecutan migraciones al arrancar Express.

@@ -27,6 +27,7 @@ export function createReportsRouter(config, authService, service, csrf) {
     ),
   );
   const limit = rateLimit({
+    keyGenerator: (req) => req.auth.id,
     windowMs: 60000,
     limit: 20,
     standardHeaders: 'draft-8',
@@ -40,11 +41,9 @@ export function createReportsRouter(config, authService, service, csrf) {
     res.json({ data: await service.list(req.auth, reportPageSchema.parse(req.query)) });
   });
   router.post('/', limit, csrf.protect, async (req, res) => {
-    res
-      .status(201)
-      .json({
-        data: { report: await service.create(req.auth, createReportSchema.parse(req.body)) },
-      });
+    res.status(201).json({
+      data: { report: await service.create(req.auth, createReportSchema.parse(req.body)) },
+    });
   });
   router.get('/:id', async (req, res) => {
     res.json({

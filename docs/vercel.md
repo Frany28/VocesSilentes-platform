@@ -83,6 +83,12 @@ y `deploy --prebuilt --prod` solo al decidir publicar.
 
 ## Conexiones y límites reales
 
+Evidencias: este flujo recibe bytes en Express antes de validarlos con Sharp. Vercel Functions
+limita cada cuerpo a **4,5 MB**, por debajo del máximo de evidencia de 5 MiB. Para aceptar el
+máximo completo usar un host/proxy Express que lo permita. El build local no demuestra que una
+carga de 5 MiB atraviese Vercel. Ver [configuración y límites](report-evidence.md) y la
+[restricción oficial](https://vercel.com/docs/functions/limitations#request-body-size).
+
 Se reutiliza un Prisma Client por instancia, sin abrir conexión durante la inicialización de health.
 En Vercel, PrismaPg usa un pool pg de hasta cinco conexiones, espera de conexión de cinco segundos
 y liberación ociosa a los cinco segundos. `attachDatabasePool` libera conexiones ociosas antes de

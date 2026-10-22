@@ -5,10 +5,10 @@ import { EvidenceImage } from './EvidenceImage.jsx';
 
 /**
  * Evidencia de solo lectura; su ausencia no se sustituye por una imagen de ejemplo.
- * @param {{evidence?: object, loading?: boolean, onRenew?: Function}} props Archivo y acceso autorizado renovable.
+ * @param {{evidence?: object, loading?: boolean, error?: object, onRenew?: Function}} props Acceso autorizado renovable.
  * @returns {import('react').ReactElement} Tarjeta, estado sin imagen y visor ampliado con foco/Escape.
  */
-export function ReportEvidence({ evidence, loading = false, onRenew }) {
+export function ReportEvidence({ evidence, loading = false, error, onRenew }) {
   const [open, setOpen] = useState(false);
   return (
     <section className="admin-evidence-section">
@@ -24,6 +24,7 @@ export function ReportEvidence({ evidence, loading = false, onRenew }) {
                 src={evidence.src}
                 alt={evidence.description || 'Imagen adjunta al reporte'}
                 loading={loading}
+                error={error}
                 onRenew={onRenew}
               />
             </div>
@@ -32,7 +33,7 @@ export function ReportEvidence({ evidence, loading = false, onRenew }) {
             <Button
               variant="secondary"
               icon={null}
-              disabled={loading}
+              disabled={loading || Boolean(error)}
               onClick={() => setOpen(true)}
             >
               Ver imagen
@@ -49,6 +50,7 @@ export function ReportEvidence({ evidence, loading = false, onRenew }) {
                 src={evidence.src}
                 alt={evidence.description || 'Imagen adjunta al reporte'}
                 loading={loading}
+                error={error}
                 onRenew={onRenew}
               />
               <p>

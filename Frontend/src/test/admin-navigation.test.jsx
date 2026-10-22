@@ -21,14 +21,14 @@ test('usuarios: modal, foco inicial y confirmación de cambios antes de navegar 
   expect(document.body.style.overflow).toBe('');
 });
 
-test('reportes sin backend, navegación y tema: ninguna simulación ni petición a endpoints inexistentes', async () => {
+test('reportes reales, navegación y tema: consulta API sin inventar registros', async () => {
   const { fetchMock } = renderAdmin('/admin/reports');
   await screen.findByRole('heading', { name: 'Reportes de la comunidad' });
-  expect(screen.getByText('Reportes no disponibles')).toBeVisible();
-  expect(screen.getByLabelText('Buscar reportes')).toBeDisabled();
+  expect(await screen.findByText('Todavía no hay reportes')).toBeVisible();
+  expect(screen.getByLabelText('Buscar reportes')).toBeEnabled();
   expect(screen.queryByText('Video de saludo no carga')).not.toBeInTheDocument();
   expect(screen.queryByText('Reportar un error')).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole('button', { name: 'Tema oscuro' }));
   expect(document.documentElement.dataset.theme).toBe('dark');
-  expect(fetchMock.mock.calls.every(([url]) => url.endsWith('/auth/me'))).toBe(true);
+  expect(fetchMock.mock.calls.some(([url]) => url.includes('/reports?'))).toBe(true);
 });

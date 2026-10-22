@@ -22,7 +22,8 @@ export function AuthorizedEvidence({ report }) {
       )}
       <ReportEvidence
         evidence={{ ...report.evidence, src: access.src }}
-        loading={access.status !== 'ready'}
+        loading={access.status === 'loading'}
+        error={access.error}
         onRenew={access.retry}
       />
     </>

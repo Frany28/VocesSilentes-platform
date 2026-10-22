@@ -45,6 +45,7 @@ export function ReportForm() {
             selection={draft.selection}
             onSelect={draft.select}
             disabled={draft.pending || draft.selectionLocked}
+            invalid={draft.invalidSelection}
           />
           {draft.savedId && (
             <p role="status">Reporte guardado. La imagen se confirma por separado.</p>
@@ -57,7 +58,7 @@ export function ReportForm() {
           <Button
             type="submit"
             loading={draft.pending}
-            disabled={draft.pending || !draft.description.trim()}
+            disabled={draft.pending || draft.invalidSelection || !draft.description.trim()}
             loadingLabel={
               draft.status === 'uploading'
                 ? 'Subiendo imagen…'
@@ -70,9 +71,18 @@ export function ReportForm() {
           </Button>
         </form>
       )}
-      <Link to="/student" onClick={(event) => {
-        if (draft.dirty && !window.confirm('El envío no está completo. ¿Salir y dejar este borrador?')) event.preventDefault();
-      }}>Volver a mi inicio</Link>
+      <Link
+        to="/student"
+        onClick={(event) => {
+          if (
+            draft.dirty &&
+            !window.confirm('El envío no está completo. ¿Salir y dejar este borrador?')
+          )
+            event.preventDefault();
+        }}
+      >
+        Volver a mi inicio
+      </Link>
     </section>
   );
 }
