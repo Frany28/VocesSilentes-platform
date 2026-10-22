@@ -11,13 +11,10 @@
 @import './brand.css';
 @import './brand-compact.css';
 @import './density.css';
+@import './select.css';
 @import './icon-action.css';
 @import './avatar.css';
 @import './application-icons.css';
 @import './application-navigation.css';
-@import '../features/account/styles/account-profile.css';
-@import '../features/account/styles/account-profile-responsive.css';
-@import '../features/account/styles/account-profile-details.css';
-@import '../features/account/styles/account-dialog.css';
-@import '../features/account/styles/account-photo.css';
-@import '../features/account/styles/account.css';
+
+@import './dialog.css';

@@ -73,7 +73,7 @@ export function StudentModules() {
               <DataFeedback kind="no-results" catalog />
               <Button
                 variant="secondary"
-                className="w-auto! self-start [--size-control:48px]"
+                className="w-auto! self-start"
                 onClick={() => {
                   setQuery('');
                   setFilter('all');

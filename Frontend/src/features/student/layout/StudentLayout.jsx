@@ -10,7 +10,7 @@ import { publicConfig } from '../../../lib/config.js';
 import '../student.css';
 
 /**
- * Comparte layout protegido con contenido fluido de hasta 1044 px después de la barra lateral.
+ * Comparte layout protegido: aprendizaje de hasta 1128 px y cuenta/reporte de 904 px.
  * @returns {import('react').ReactElement} Páginas de estudiante protegidas por el guard existente.
  */
 export function StudentLayout() {

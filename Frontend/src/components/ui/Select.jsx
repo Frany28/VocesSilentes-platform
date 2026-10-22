@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import { Icon } from '../../../components/ui/Icon.jsx';
+import { Icon } from './Icon.jsx';
 
 /**
  * Selección nativa de Figma con label, ayuda, error y teclado, sin peticiones.
@@ -10,12 +10,12 @@ import { Icon } from '../../../components/ui/Icon.jsx';
  * @param {import('react').ReactNode} props.children Opciones nativas.
  * @returns {import('react').ReactElement} Campo accesible que comparte tokens con Input.
  */
-export function AdminSelect({ label, help, error, children, ...props }) {
+export function Select({ label, help, error, children, ...props }) {
   const id = useId();
   return (
-    <div className="admin-select">
+    <div className="vs-select">
       <label htmlFor={id}>{label}</label>
-      <div className="admin-select-shell">
+      <div className="vs-select-shell">
         <select
           {...props}
           id={id}
@@ -24,8 +24,8 @@ export function AdminSelect({ label, help, error, children, ...props }) {
         >
           {children}
         </select>
-        <span className="admin-select-chevron">
-          <Icon name="admin-chevron" size={16} />
+        <span className="vs-select-chevron">
+          <Icon name="field-chevron" size={16} />
         </span>
       </div>
       {(help || error) && (

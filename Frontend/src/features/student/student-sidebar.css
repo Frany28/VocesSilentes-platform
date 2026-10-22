@@ -40,7 +40,7 @@
   padding: 10px 12px;
   border: 0;
   border-radius: 12px;
-  color: var(--text-secondary);
+  color: var(--content);
   background: transparent;
   text-align: left;
   font: 600 16px / 24px var(--font-brand);
@@ -52,9 +52,15 @@
   background: var(--surface-neutral);
 }
 .student-sidebar .student-nav-item[aria-current] {
+  --icon-student-nav-user-default: url('../../assets/student/04253.svg');
+  --icon-student-nav-flag-default: url('../../assets/student/fe0b7.svg');
   color: var(--action-primary);
   background: var(--surface-neutral);
   box-shadow: var(--shadow-action);
+}
+[data-theme='dark'] .student-sidebar .student-nav-item[aria-current] {
+  --icon-student-nav-user-default: url('../../assets/student/0043a.svg');
+  --icon-student-nav-flag-default: url('../../assets/student/3e084.svg');
 }
 .student-sidebar .student-nav-item:focus-visible {
   outline: 3px solid var(--focus);

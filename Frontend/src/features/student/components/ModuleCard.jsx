@@ -66,11 +66,7 @@ export function ModuleCard({ module, illustrated = false, onOpen }) {
           }
           valueText={`${percent}% · ${completed} de ${total} lecciones`}
         />
-        <Button
-          className="w-full! [--size-control:48px]"
-          disabled={locked}
-          onClick={() => onOpen(module.title)}
-        >
+        <Button className="w-full!" disabled={locked} onClick={() => onOpen(module.title)}>
           {locked
             ? 'Módulo bloqueado'
             : state === 'completed'

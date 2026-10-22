@@ -1,5 +1,6 @@
 import { Button } from '../../../components/ui/Button.jsx';
 import { Icon } from '../../../components/ui/Icon.jsx';
+import { Alert } from '../../../components/ui/Alert.jsx';
 
 /**
  * Selección nativa/arrastrada con ayuda y error asociados; no realiza ninguna carga de red.
@@ -7,6 +8,17 @@ import { Icon } from '../../../components/ui/Icon.jsx';
  * @returns {import('react').ReactElement} Zona de selección accesible mediante botón.
  */
 export function PhotoPicker({ error, onSelect, onChoose }) {
+  if (error)
+    return (
+      <>
+        <Alert tone="error" title="No pudimos usar esta imagen.">
+          {error}
+        </Alert>
+        <Button density="compact" icon={null} onClick={onChoose}>
+          Elegir otra imagen
+        </Button>
+      </>
+    );
   return (
     <>
       <p className="account-muted">Agrega una foto para reconocer tu cuenta de un vistazo.</p>
@@ -19,19 +31,10 @@ export function PhotoPicker({ error, onSelect, onChoose }) {
         }}
       >
         <Icon name="modern-plus" size={32} />
-        {error ? (
-          <div role="alert">
-            <strong>No pudimos usar esta imagen.</strong>
-            <p>{error}</p>
-          </div>
-        ) : (
-          <>
-            <h3>Arrastra tu imagen hasta aquí</h3>
-            <p>JPG, PNG o WEBP · Máximo 5 MB</p>
-          </>
-        )}
-        <Button density="compact" variant="secondary" icon={null} onClick={onChoose}>
-          {error ? 'Elegir otra imagen' : 'Elegir archivo'}
+        <h3>Arrastra tu imagen hasta aquí</h3>
+        <p>JPG, PNG o WEBP · Máximo 5 MB</p>
+        <Button density="compact" icon={null} onClick={onChoose}>
+          Elegir archivo
         </Button>
       </div>
       <p className="account-caption">

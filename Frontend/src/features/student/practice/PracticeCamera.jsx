@@ -22,9 +22,11 @@ export function PracticeCamera({ state, exercise, onState, onInstructions }) {
           <h2 className="[font:var(--type-h3)]">{exercise}</h2>
         </div>
         <Badge tone={tone}>
-          {['success', 'retry', 'denied', 'unavailable'].includes(state)
-            ? view.label
-            : 'Práctica guiada'}
+          {['denied', 'unavailable'].includes(state)
+            ? 'Requiere atención'
+            : ['success', 'analyzing'].includes(state)
+              ? view.label
+              : 'Práctica guiada'}
         </Badge>
       </header>
       <div className="practice-viewport flex flex-col items-center justify-center gap-3 rounded-2xl border-2 border-border bg-page p-4 text-center">
@@ -49,18 +51,10 @@ export function PracticeCamera({ state, exercise, onState, onInstructions }) {
         <p className="text-muted">{view.description}</p>
       </div>
       <div className="practice-actions flex gap-3">
-        <Button
-          className="w-full! [--size-control:48px]"
-          disabled={view.disabled}
-          onClick={() => onState(view.next)}
-        >
+        <Button className="w-full!" disabled={view.disabled} onClick={() => onState(view.next)}>
           {view.action}
         </Button>
-        <Button
-          variant="secondary"
-          className="w-full! [--size-control:48px]"
-          onClick={onInstructions}
-        >
+        <Button variant="secondary" className="w-full!" onClick={onInstructions}>
           Ver instrucciones
         </Button>
       </div>

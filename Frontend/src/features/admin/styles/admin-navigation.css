@@ -15,7 +15,7 @@
   color: var(--text-secondary);
   font: var(--type-button);
 }
-.admin-nav-item.is-active {
+.admin-nav-item[aria-current] {
   background: var(--surface-accent);
   color: var(--content);
 }
@@ -23,7 +23,7 @@
 .admin-logout:hover {
   background: var(--surface-neutral);
 }
-.admin-nav-item.is-active:hover {
+.admin-nav-item[aria-current]:hover {
   background: var(--surface-accent);
 }
 .admin-identity-message {
@@ -77,7 +77,7 @@
     border: 1px solid var(--border-subtle);
     background: var(--surface);
   }
-  .admin-mobile-nav .admin-nav-item.is-active {
+  .admin-mobile-nav .admin-nav-item[aria-current] {
     background: var(--action-primary);
     border-color: var(--action-primary);
     color: var(--action-text);

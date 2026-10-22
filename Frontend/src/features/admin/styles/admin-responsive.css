@@ -26,9 +26,6 @@
     gap: 0;
     min-width: 0;
   }
-  .admin-mobile-brand .admin-icon-button {
-    width: 32px;
-  }
   .admin-mobile-nav,
   .admin-mobile-logout,
   .account-profile-link > span:last-child {
@@ -65,7 +62,7 @@
     grid-column: 1 / -1;
     justify-self: start;
   }
-  .admin-title-row > .admin-icon-button + .admin-heading {
+  .admin-title-row > .vs-icon-action + .admin-heading {
     grid-column: 2;
   }
 }

@@ -1,3 +1,6 @@
+@import './account-profile.css';
+@import './account-profile-responsive.css';
+@import './account-profile-details.css';
 .account-page,
 .account-form,
 .account-form fieldset {
@@ -62,6 +65,13 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+.account-profile-submit > .vs-button {
+  flex: none;
+  min-width: 184px;
+}
+.account-page .account-profile-submit > .account-caption {
+  flex: 1;
 }
 .account-page .vs-badge {
   width: fit-content;

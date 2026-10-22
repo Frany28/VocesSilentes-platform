@@ -14,8 +14,11 @@
   flex-direction: column;
   gap: 8px;
   padding: 24px;
-  border-radius: 16px;
+  border-radius: var(--radius-2xl);
   background: var(--surface-accent);
+}
+.admin-panel {
+  border-radius: var(--radius-2xl);
 }
 .admin-shell .admin-hero h2 {
   font: var(--type-h3);

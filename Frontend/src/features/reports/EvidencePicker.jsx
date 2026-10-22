@@ -39,7 +39,7 @@ export function EvidencePicker({ selection, onSelect, disabled, invalid }) {
           </>
         ) : (
           <>
-            <Icon name="modern-plus" size={32} />
+            <Icon name="evidence-plus" size={28} />
             <p>Agrega una captura</p>
             <p className="account-caption">PNG, JPG o WEBP</p>
             <p className="account-caption">Hasta 5 MB · Opcional</p>

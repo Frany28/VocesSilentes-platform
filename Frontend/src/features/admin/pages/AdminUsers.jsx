@@ -6,7 +6,7 @@ import { Input } from '../../../components/ui/Input.jsx';
 import { useUsersList } from '../data/use-users-list.js';
 import { AdminHeading } from '../components/AdminHeading.jsx';
 import { AdminAction } from '../components/AdminAction.jsx';
-import { AdminSelect } from '../components/AdminSelect.jsx';
+import { Select } from '../../../components/ui/Select.jsx';
 import { AdminFeedback } from '../components/AdminFeedback.jsx';
 import { AdminUserRow } from '../components/AdminUserRow.jsx';
 import { AdminPagination } from '../components/AdminPagination.jsx';
@@ -55,7 +55,7 @@ export function AdminUsers() {
             maxLength={100}
             onChange={(event) => list.search(event.target.value)}
           />
-          <AdminSelect
+          <Select
             label="Rol"
             value={list.filter}
             onChange={(event) => list.select(event.target.value)}
@@ -63,7 +63,7 @@ export function AdminUsers() {
             <option value="">Todos los roles</option>
             <option value="USER">Usuario</option>
             <option value="ADMIN">Admin</option>
-          </AdminSelect>
+          </Select>
         </div>
         {list.status !== 'ready' ? (
           <AdminFeedback status={list.status} error={list.error} retry={list.retry} />

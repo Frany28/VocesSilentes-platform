@@ -19,6 +19,8 @@
   --icon-modern-identity-check-16: url('../assets/admin-v2/7ba8c.svg');
   --icon-modern-privacy-check-default: url('../assets/admin-v2/d6daf.svg');
   --icon-modern-plus-32: url('../assets/admin-v2/1cb6c.svg');
+  --icon-evidence-plus-28: url('../assets/shared/d9aad.svg');
+  --icon-field-chevron-16: url('../assets/shared/76818.svg');
   --icon-modern-book-default: url('../assets/student/41025.svg');
   --icon-modern-person-default: url('../assets/student/8aa47.svg');
   --icon-modern-lock-default: url('../assets/admin-v2/7c963.svg');
@@ -32,13 +34,15 @@
   --icon-modern-flag-default: url('../assets/admin-v2/541ac.svg');
   --modern-flag-active: url('../assets/admin-v2/bbe2e.svg');
   --icon-modern-logout-default: url('../assets/admin-v2/76eb8.svg');
-  --icon-modern-sun-default: url('../assets/admin-v2/4c20f.svg');
+  --icon-modern-sun-default: url('../assets/shared/08ea5.svg');
   --icon-modern-back-default: url('../assets/admin-v2/85cb6.svg');
   --icon-modern-eye-default: url('../assets/admin-v2/6be5c.svg');
   --icon-modern-close-default: url('../assets/admin-v2/ff8de.svg');
   --icon-modern-close-muted-default: url('../assets/admin-v2/cbee7.svg');
   --icon-modern-menu-default: url('../assets/admin-v2/bc973.svg');
   --icon-modern-plus-32: url('../assets/admin-v2/6c345.svg');
+  --icon-evidence-plus-28: url('../assets/shared/f19b5.svg');
+  --icon-field-chevron-16: url('../assets/shared/41836.svg');
   --icon-modern-image-28: url('../assets/admin-v2/8299d.svg');
   --icon-modern-check-default: url('../assets/admin-v2/c478f.svg');
   --icon-modern-person-default: url('../assets/student/5b29e.svg');

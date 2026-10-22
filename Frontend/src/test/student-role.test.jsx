@@ -14,6 +14,8 @@ const paths = [
   '/student/practice',
   '/student/progress',
   '/student/profile',
+  '/student/profile/security',
+  '/student/reports/new',
 ];
 
 test('ADMIN y un rol desconocido no ven ninguna pantalla Student; USER conserva acceso', async () => {
@@ -29,7 +31,7 @@ test('ADMIN y un rol desconocido no ven ninguna pantalla Student; USER conserva 
     }
   fetchMock.mockResolvedValue(jsonResponse({ data: { user } }));
   renderAuthApp('/student/profile');
-  expect(await screen.findByRole('heading', { name: 'Mi perfil' })).toBeVisible();
+  expect(await screen.findByRole('heading', { name: 'Tu perfil, a tu manera.' })).toBeVisible();
 });
 
 test('USER y ADMIN comparten account y ninguna ruta Student admite una sesión inválida', async () => {
@@ -61,7 +63,7 @@ test('fallo de red en Student conserva estado de error y permite comprobar sesi�
   expect(await screen.findByRole('alert')).toHaveTextContent('No se pudo comprobar la sesión');
   expect(screen.queryByRole('heading', { name: 'Inicia sesión' })).toBeNull();
   await userEvent.click(screen.getByRole('button', { name: 'Reintentar' }));
-  expect(await screen.findByRole('heading', { name: 'Mi perfil' })).toBeVisible();
+  expect(await screen.findByRole('heading', { name: 'Tu perfil, a tu manera.' })).toBeVisible();
 });
 
 /**
@@ -86,9 +88,9 @@ test('actualizar me respeta cambio de USER a ADMIN sin volver a conceder acceso 
       </ThemeProvider>
     </MemoryRouter>,
   );
-  expect(await screen.findByRole('heading', { name: 'Mi perfil' })).toBeVisible();
+  expect(await screen.findByRole('heading', { name: 'Tu perfil, a tu manera.' })).toBeVisible();
   fetchMock.mockResolvedValue(jsonResponse({ data: { user: { ...user, role: 'ADMIN' } } }));
   await userEvent.click(screen.getByRole('button', { name: 'Actualizar sesión de prueba' }));
   expect(await screen.findByRole('alert')).toHaveTextContent('No tienes permiso');
-  expect(screen.queryByRole('heading', { name: 'Mi perfil' })).toBeNull();
+  expect(screen.queryByRole('heading', { name: 'Tu perfil, a tu manera.' })).toBeNull();
 });

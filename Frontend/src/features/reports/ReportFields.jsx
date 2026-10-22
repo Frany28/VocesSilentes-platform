@@ -1,4 +1,5 @@
 import { Input } from '../../components/ui/Input.jsx';
+import { Select } from '../../components/ui/Select.jsx';
 import { Alert } from '../../components/ui/Alert.jsx';
 
 /**
@@ -27,27 +28,18 @@ export function ReportFields({ draft }) {
         onChange={(event) => draft.setTitle(event.target.value)}
       />
       <div className="report-field-pair">
-        <div className="report-select">
-          <label htmlFor="report-category">Tipo de error *</label>
-          <select
-            id="report-category"
-            value={draft.category}
-            required
-            aria-invalid={Boolean(draft.errors.category)}
-            aria-describedby={draft.errors.category ? 'report-category-error' : undefined}
-            onChange={(event) => draft.setCategory(event.target.value)}
-          >
-            <option value="">Elige un tipo</option>
-            <option value="TECHNICAL">Problema técnico</option>
-            <option value="CONTENT">Contenido</option>
-            <option value="OTHER">Otro</option>
-          </select>
-          {draft.errors.category && (
-            <p id="report-category-error" className="report-field-error">
-              {draft.errors.category}
-            </p>
-          )}
-        </div>
+        <Select
+          label="Tipo de error *"
+          value={draft.category}
+          required
+          error={draft.errors.category}
+          onChange={(event) => draft.setCategory(event.target.value)}
+        >
+          <option value="">Elige un tipo</option>
+          <option value="TECHNICAL">Problema técnico</option>
+          <option value="CONTENT">Contenido</option>
+          <option value="OTHER">Otro</option>
+        </Select>
         <Input
           density="compact"
           appearance="plain"

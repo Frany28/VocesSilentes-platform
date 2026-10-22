@@ -33,7 +33,6 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
-.report-select,
 .report-description {
   display: flex;
   flex-direction: column;
@@ -43,7 +42,7 @@
 .report-page label {
   font: 600 13px / 20px var(--font-brand);
 }
-.report-page :is(select, textarea) {
+.report-page textarea {
   box-sizing: border-box;
   width: 100%;
   padding: 12px 16px;
@@ -52,9 +51,6 @@
   color: var(--content);
   background: var(--surface);
   font: 400 14px / 20px var(--font-field);
-}
-.report-page select {
-  height: 44px;
 }
 .report-page textarea {
   max-width: 448px;

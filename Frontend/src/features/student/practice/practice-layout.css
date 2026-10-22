@@ -73,9 +73,6 @@
   outline: 3px solid var(--focus);
   outline-offset: 2px;
 }
-.student-profile-fields {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-}
 @container (min-width: 960px) {
   .practice-grid {
     grid-template-columns: minmax(0, 1fr) 344px;

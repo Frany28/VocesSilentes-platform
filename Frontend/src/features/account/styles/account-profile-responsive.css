@@ -23,7 +23,7 @@
   .account-profile-person > div {
     align-items: flex-start;
   }
-  .vs-avatar-large {
+  .account-profile-person .vs-avatar-large {
     width: 80px;
     height: 80px;
     font-size: 24px;
@@ -32,8 +32,13 @@
     flex-direction: row;
     padding-top: 16px;
   }
-  .account-profile-photo-actions > * {
+  .account-profile-card .account-profile-photo-actions > .vs-button {
     flex: 1;
+    width: auto;
+    min-width: 0;
+  }
+  .account-profile-person .vs-badge {
+    margin-top: 0;
   }
   .account-profile-submit {
     flex-direction: column;

@@ -28,7 +28,7 @@ test('reportes reales, navegación y tema: consulta API sin inventar registros',
   expect(screen.getByLabelText('Buscar reportes')).toBeEnabled();
   expect(screen.queryByText('Video de saludo no carga')).not.toBeInTheDocument();
   expect(screen.queryByText('Reportar un error')).not.toBeInTheDocument();
-  fireEvent.click(screen.getByRole('button', { name: 'Tema oscuro' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Cambiar a modo oscuro' }));
   expect(document.documentElement.dataset.theme).toBe('dark');
   expect(fetchMock.mock.calls.some(([url]) => url.includes('/reports?'))).toBe(true);
 });

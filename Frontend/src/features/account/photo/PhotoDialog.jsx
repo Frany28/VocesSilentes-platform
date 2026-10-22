@@ -4,6 +4,7 @@ import { Dialog } from '../../../components/ui/Dialog.jsx';
 import { usePhotoDraft } from './use-photo-draft.js';
 import { PhotoCropPreview } from './PhotoCropPreview.jsx';
 import { PhotoPicker } from './PhotoPicker.jsx';
+import '../styles/account-photo.css';
 
 /**
  * Foto local sin persistencia ficticia; libera el archivo al cerrar y conserva la foto real del perfil.

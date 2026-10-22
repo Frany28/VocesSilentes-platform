@@ -42,7 +42,7 @@ export function DataFeedback({ kind, catalog = false, onRetry }) {
       <h2 className="[font:var(--type-h3)]">{title}</h2>
       <p className="text-muted">{description}</p>
       {error && (
-        <Button className="w-55! [--size-control:48px]" onClick={onRetry}>
+        <Button className="w-55!" onClick={onRetry}>
           Reintentar
         </Button>
       )}

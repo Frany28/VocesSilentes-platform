@@ -16,6 +16,7 @@ export function ModuleFilters({ modules, query, filter, onQuery, onFilter }) {
   return (
     <div className="flex flex-col gap-6">
       <Input
+        density="compact"
         appearance="plain"
         className="student-search"
         label="Buscar módulo"
@@ -29,10 +30,11 @@ export function ModuleFilters({ modules, query, filter, onQuery, onFilter }) {
       <div className="flex flex-wrap gap-3" role="group" aria-label="Filtrar módulos">
         {filters.map(([value, label]) => (
           <Button
+            density="compact"
             key={value}
             variant={filter === value ? 'primary' : 'secondary'}
             icon={null}
-            className="w-44! [--size-control:48px] max-[600px]:w-[calc((100%_-_12px)/2)]!"
+            className="w-44! max-[600px]:w-[calc((100%_-_12px)/2)]!"
             aria-pressed={filter === value}
             onClick={() => onFilter(value)}
           >

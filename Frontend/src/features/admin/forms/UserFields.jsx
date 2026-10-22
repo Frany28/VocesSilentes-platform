@@ -1,5 +1,5 @@
 import { Input } from '../../../components/ui/Input.jsx';
-import { AdminSelect } from '../components/AdminSelect.jsx';
+import { Select } from '../../../components/ui/Select.jsx';
 
 /**
  * Identidad y permisos según Figma, manteniendo los contratos aprobados de username y contraseña.
@@ -39,18 +39,12 @@ export function UserFields({ values, errors, change, creating }) {
         autoComplete: 'off',
       })}
       <div className={creating ? 'admin-name-row' : undefined}>
-        <AdminSelect
-          label="Rol"
-          name="role"
-          value={values.role}
-          error={errors.role}
-          onChange={change}
-        >
+        <Select label="Rol" name="role" value={values.role} error={errors.role} onChange={change}>
           <option value="USER">Usuario</option>
           <option value="ADMIN">Admin</option>
-        </AdminSelect>
+        </Select>
         {creating && (
-          <AdminSelect
+          <Select
             label="Estado inicial"
             name="isActive"
             value={values.isActive}
@@ -59,7 +53,7 @@ export function UserFields({ values, errors, change, creating }) {
           >
             <option value="true">Activo</option>
             <option value="false">Desactivado</option>
-          </AdminSelect>
+          </Select>
         )}
       </div>
       {creating && (

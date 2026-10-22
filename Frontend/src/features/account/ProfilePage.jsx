@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router';
 import { ProfileIdentity } from './ProfileIdentity.jsx';
+import './styles/account.css';
 
 /**
  * Composición común: identidad, configuración y pestañas con rutas reales.

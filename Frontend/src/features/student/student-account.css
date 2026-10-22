@@ -19,6 +19,11 @@
 .student-shell[data-account] .student-container {
   max-width: 904px;
 }
+@media (600px <= width < 1200px) {
+  .student-shell[data-page='reports'] .student-container {
+    max-width: 560px;
+  }
+}
 @media (width < 600px) {
   .student-shell[data-account] .student-content {
     padding: 20px;

@@ -1,4 +1,4 @@
-/* SVG originales intactos; variantes no accesibles en Figma reutilizan el UI Kit a tamaño nativo. */
+/* SVG originales: revisión directa de las variantes restantes el 22 de octubre de 2026. */
 .practice-symbol {
   width: var(--practice-symbol-size, 48px);
   height: var(--practice-symbol-size, 48px);
@@ -14,12 +14,10 @@
   --practice-symbol: url('../../../assets/student/6d2e0.svg');
 }
 .practice-symbol[data-symbol='success'] {
-  --practice-symbol: var(--icon-check-success);
-  --practice-symbol-size: 20px;
+  --practice-symbol: url('../../../assets/student/f1c39.svg');
 }
 .practice-symbol[data-symbol='lock'] {
-  --practice-symbol: var(--icon-student-lock-32);
-  --practice-symbol-size: 32px;
+  --practice-symbol: url('../../../assets/student/9956b.svg');
 }
 [data-theme='dark'] .practice-symbol[data-symbol='camera'] {
   --practice-symbol: url('../../../assets/student/f5baa.svg');
@@ -36,8 +34,7 @@
   --practice-symbol-size: 48px;
 }
 [data-theme='dark'] .practice-symbol[data-symbol='error'] {
-  --practice-symbol: var(--icon-info-error);
-  --practice-symbol-size: 20px;
+  --practice-symbol: url('../../../assets/student/71683.svg');
 }
 @media (max-width: 599px) {
   [data-theme='light'] .practice-camera[data-state='ready'] .practice-symbol {

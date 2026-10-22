@@ -21,7 +21,8 @@
   background: var(--surface-neutral);
 }
 .account-photo-drop {
-  border: 1px dashed var(--border-subtle);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-secondary);
   text-align: center;
 }
 .account-photo-preview {

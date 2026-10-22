@@ -37,10 +37,7 @@ export function StudentHero({ module, next, catalog = false, onOpen }) {
           {title}
         </h2>
         <p className="text-muted whitespace-pre-line">{description}</p>
-        <Button
-          className="[--size-control:48px]"
-          onClick={() => onOpen((complete ? next : module)?.title || module.title)}
-        >
+        <Button onClick={() => onOpen((complete ? next : module)?.title || module.title)}>
           {complete ? 'Explorar módulo' : first ? 'Comenzar lección' : 'Continuar lección'}
         </Button>
       </div>

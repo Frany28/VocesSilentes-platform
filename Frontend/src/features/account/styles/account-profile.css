@@ -36,7 +36,7 @@
   align-items: center;
   gap: 8px;
 }
-.vs-avatar-large {
+.vs-avatar.vs-avatar-large {
   width: 128px;
   height: 128px;
   border-radius: 50%;
@@ -49,6 +49,13 @@
   gap: 8px;
   border-top: 1px solid var(--border-subtle);
   padding-top: 24px;
+  align-items: center;
+}
+.account-profile-card .account-profile-photo-actions > .vs-button {
+  width: 200px;
+}
+.account-profile-person .vs-badge {
+  margin-top: 16px;
 }
 .account-profile-privacy {
   padding: 16px;

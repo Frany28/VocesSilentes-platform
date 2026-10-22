@@ -2,7 +2,7 @@ import { Input } from '../../../components/ui/Input.jsx';
 import { Badge } from '../../../components/ui/Badge.jsx';
 import { useAdminList } from '../data/use-admin-list.js';
 import { AdminHeading } from '../components/AdminHeading.jsx';
-import { AdminSelect } from '../components/AdminSelect.jsx';
+import { Select } from '../../../components/ui/Select.jsx';
 import { AdminFeedback } from '../components/AdminFeedback.jsx';
 import { AdminUnavailable } from '../components/AdminUnavailable.jsx';
 import { AdminReportRow } from '../components/AdminReportRow.jsx';
@@ -52,7 +52,7 @@ export function AdminReports({
             disabled={status === 'unavailable'}
             onChange={(event) => list.search(event.target.value)}
           />
-          <AdminSelect
+          <Select
             label="Estado"
             value={list.filter}
             disabled={status === 'unavailable'}
@@ -61,7 +61,7 @@ export function AdminReports({
             <option value="">Todos los estados</option>
             <option value="PENDING">Pendiente</option>
             <option value="RESOLVED">Resuelto</option>
-          </AdminSelect>
+          </Select>
         </div>
         {status === 'unavailable' ? (
           <AdminUnavailable title="Reportes no disponibles">

@@ -49,6 +49,12 @@
 .student-shell .student-lesson {
   font: var(--type-button);
 }
+.student-bottom-item[aria-current] {
+  --icon-student-nav-user-22: url('../../assets/student/285ab.svg');
+}
+[data-theme='dark'] .student-bottom-item[aria-current] {
+  --icon-student-nav-user-22: url('../../assets/student/5443b.svg');
+}
 .student-shell .student-skip:focus {
   position: absolute;
   top: 24px;

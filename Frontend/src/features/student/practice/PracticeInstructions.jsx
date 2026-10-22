@@ -1,6 +1,7 @@
-import { useEffect, useId, useRef } from 'react';
+import { useId } from 'react';
 import { Button } from '../../../components/ui/Button.jsx';
 import { PracticeGuide } from './PracticeGuide.jsx';
+import { useDialog } from '../../../hooks/use-dialog.js';
 
 /**
  * Presenta la composición Instrucciones de Figma en diálogo nativo con foco contenido y Escape.
@@ -8,28 +9,15 @@ import { PracticeGuide } from './PracticeGuide.jsx';
  * @returns {import('react').ReactElement} Instrucciones sin acciones de persistencia.
  */
 export function PracticeInstructions({ onClose }) {
-  const ref = useRef();
-  const close = useRef();
+  const { ref, trapFocus } = useDialog('[data-practice-close]');
   const title = useId();
-  useEffect(() => {
-    const dialog = ref.current;
-    const previous = document.activeElement;
-    const overflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    if (dialog.showModal) dialog.showModal();
-    else dialog.setAttribute('open', '');
-    close.current?.focus();
-    return () => {
-      dialog.close?.();
-      document.body.style.overflow = overflow;
-      previous?.focus();
-    };
-  }, []);
   return (
     <dialog
       ref={ref}
       className="practice-instructions"
       aria-labelledby={title}
+      aria-modal="true"
+      onKeyDown={trapFocus}
       onCancel={(event) => {
         event.preventDefault();
         onClose();
@@ -39,7 +27,7 @@ export function PracticeInstructions({ onClose }) {
         Instrucciones de práctica
       </h2>
       <PracticeGuide />
-      <Button ref={close} className="w-full!" icon={null} onClick={onClose}>
+      <Button data-practice-close className="w-full!" icon={null} onClick={onClose}>
         Volver a practicar
       </Button>
     </dialog>

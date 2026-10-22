@@ -7,6 +7,7 @@ import { ReportFields } from './ReportFields.jsx';
 import { ReportGuidance } from './ReportGuidance.jsx';
 import { ReportSuccess } from './ReportSuccess.jsx';
 import { useReportDraft } from './use-report-draft.js';
+import '../account/styles/account.css';
 import './report.css';
 
 /**
