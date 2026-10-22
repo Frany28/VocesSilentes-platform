@@ -1,0 +1,31 @@
+.student-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 44px;
+}
+.student-shell[data-account] {
+  padding: 0;
+  gap: 0;
+}
+.student-shell[data-account] .student-sidebar {
+  top: 0;
+  height: 100svh;
+}
+.student-shell[data-account] .student-content {
+  padding: 32px;
+}
+.student-shell[data-account] .student-container {
+  max-width: 904px;
+}
+@media (width < 600px) {
+  .student-shell[data-account] .student-content {
+    padding: 20px;
+  }
+}
+@media (width < 360px) {
+  .student-shell[data-account] .student-content {
+    padding: 16px;
+  }
+}

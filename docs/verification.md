@@ -1,5 +1,24 @@
 # Verificación
 
+## Alineación del sidebar Student con Admin — 22 de octubre de 2026
+
+Student adopta el sidebar de 232/76 px, padding 20/16 px y opciones compactas de 44 px de Admin.
+Se elimina el espacio del marcador del UI Kit que desplazaba iconos y texto; ayuda/cuenta queda
+al pie con separador. La tipografía compacta se limita al sidebar. En tablet se oculta también
+el contenedor de texto para que no deje un gap vacío y los iconos queden centrados.
+
+Chrome comprobó **34 combinaciones** de área, viewport y tema, con **22 capturas**: Admin y Student
+a 1440, 1200, 1199, 834, 600, 599, 390 y 320 px en ambos temas, más Student a 1440/834 × 360 px.
+Se verificaron coordenadas/ancho/altura de sidebar, alineación de iconos, posición del grupo de
+cuenta, centrado en tablet y ausencia de desbordamiento horizontal. Con scroll vertical se comprueba
+el centro del ancho útil. «Reportar un error» permanece en una línea, habilitado y navega al formulario.
+Sin excepciones JavaScript. Sesiones reales en PostgreSQL WASM efímero; sin acceso a Supabase.
+Evidencia local ignorada: `.local/student-sidebar-review/results.json` y sus capturas PNG.
+
+`pnpm verify` completo terminó con código **0**, sin advertencias: **104 frontend, 43 backend y
+51 SQL/auth**, **198 pruebas aprobadas**, formato, validación Prisma y build correctos.
+La comprobación es local en Chrome; no acredita otros navegadores ni una ejecución remota de CI.
+
 ## Activación de Supabase S3 — 21 de octubre de 2026
 
 El adaptador consume las credenciales S3 existentes, S3_ENDPOINT y S3_REGION del backend;

@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router';
-import { useTheme } from '../../../hooks/use-theme.js';
+import { ThemeAction } from '../../../components/ui/ThemeAction.jsx';
 import { useAuth } from '../../auth/use-auth.js';
-import { AdminAvatar } from '../components/AdminAvatar.jsx';
-import { AdminIconButton } from '../components/AdminIconButton.jsx';
-import { AdminDialog } from '../components/AdminDialog.jsx';
+import { Avatar } from '../../../components/ui/Avatar.jsx';
+import { IconAction } from '../../../components/ui/IconAction.jsx';
+import { Dialog } from '../../../components/ui/Dialog.jsx';
 import { AdminNavigation } from './AdminNavigation.jsx';
 import { Brand } from '../../../components/ui/Brand.jsx';
 import { Button } from '../../../components/ui/Button.jsx';
@@ -16,7 +16,6 @@ import { Button } from '../../../components/ui/Button.jsx';
  */
 export function AdminTopbar({ onLogout }) {
   const { pathname } = useLocation();
-  const { theme, toggleTheme } = useTheme();
   const { user } = useAuth();
   const [menu, setMenu] = useState(false);
   const profile = pathname.startsWith('/admin/profile');
@@ -30,12 +29,12 @@ export function AdminTopbar({ onLogout }) {
   return (
     <div className="admin-topbar">
       {profile ? (
-        <AdminIconButton to="/admin" icon="back" label="Volver al resumen" />
+        <IconAction to="/admin" icon="back" label="Volver al resumen" />
       ) : (
         <p className="admin-breadcrumb">Administración / {section}</p>
       )}
       <div className="admin-mobile-brand">
-        <AdminIconButton
+        <IconAction
           icon="menu"
           label="Abrir menú de administración"
           onClick={() => setMenu(true)}
@@ -43,19 +42,14 @@ export function AdminTopbar({ onLogout }) {
         <Brand />
       </div>
       <div className="admin-topbar-actions">
-        <AdminIconButton
-          icon="sun"
-          label={theme === 'dark' ? 'Tema claro' : 'Tema oscuro'}
-          onClick={toggleTheme}
-          className="admin-theme"
-        />
-        <Link to="/admin/profile" aria-label="Mi perfil" className="admin-profile-link">
-          <AdminAvatar user={user} />
+        <ThemeAction />
+        <Link to="/admin/profile" aria-label="Mi perfil" className="account-profile-link">
+          <Avatar user={user} />
           <span>Mi perfil</span>
         </Link>
       </div>
       {menu && (
-        <AdminDialog title="Administración" onClose={() => setMenu(false)} className="admin-menu">
+        <Dialog title="Administración" onClose={() => setMenu(false)} className="admin-menu">
           <div
             onClick={(event) => {
               if (event.target.closest('a')) setMenu(false);
@@ -64,6 +58,7 @@ export function AdminTopbar({ onLogout }) {
             <AdminNavigation />
           </div>
           <Button
+            density="compact"
             icon={null}
             variant="secondary"
             onClick={() => {
@@ -73,7 +68,7 @@ export function AdminTopbar({ onLogout }) {
           >
             Cerrar sesión
           </Button>
-        </AdminDialog>
+        </Dialog>
       )}
     </div>
   );

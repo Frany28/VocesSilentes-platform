@@ -47,6 +47,7 @@ export function AdminUsers() {
       <section className="admin-panel">
         <div className="admin-filters">
           <Input
+            density="compact"
             appearance="plain"
             label="Buscar usuarios"
             placeholder="Nombre, usuario o correo"

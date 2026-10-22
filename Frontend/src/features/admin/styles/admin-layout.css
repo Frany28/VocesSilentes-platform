@@ -1,6 +1,6 @@
 .admin-shell {
   display: grid;
-  grid-template-columns: 232px minmax(0, 1fr);
+  grid-template-columns: 240px minmax(0, 1fr);
   min-height: 100svh;
   background: var(--page);
 }
@@ -8,13 +8,15 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 20px;
+  padding: 20px 16px;
   position: sticky;
   top: 0;
   align-self: start;
   height: 100svh;
   overflow-y: auto;
   background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 24px;
 }
 .admin-sidebar-label {
   font: var(--type-label);
@@ -46,10 +48,10 @@
 .admin-mobile-brand,
 .admin-mobile-nav,
 .admin-mobile-logout,
-.admin-profile-link > span:last-child {
+.account-profile-link > span:last-child {
   display: none;
 }
-.admin-profile-link {
+.account-profile-link {
   display: flex;
   align-items: center;
 }

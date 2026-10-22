@@ -10,6 +10,7 @@ export function AdminAction({ to, children, variant = 'secondary', arrow = false
   const navigate = useNavigate();
   return (
     <Button
+      density="compact"
       data-admin-to={to}
       variant={variant}
       icon={arrow ? undefined : null}

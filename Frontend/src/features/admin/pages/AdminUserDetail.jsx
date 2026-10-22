@@ -5,8 +5,8 @@ import { useAdminUser } from '../data/use-admin-user.js';
 import { fullName } from '../data/admin-labels.js';
 import { AdminHeading } from '../components/AdminHeading.jsx';
 import { AdminAction } from '../components/AdminAction.jsx';
-import { AdminIconButton } from '../components/AdminIconButton.jsx';
-import { AdminAvatar } from '../components/AdminAvatar.jsx';
+import { IconAction } from '../../../components/ui/IconAction.jsx';
+import { Avatar } from '../../../components/ui/Avatar.jsx';
 import { AdminFeedback } from '../components/AdminFeedback.jsx';
 import { AccountStatus } from '../components/AccountStatus.jsx';
 import { UserAccountData } from '../components/UserAccountData.jsx';
@@ -30,7 +30,7 @@ export function AdminUserDetail() {
   return (
     <div className="admin-page" ref={page}>
       <div className="admin-title-row">
-        <AdminIconButton to="/admin/users" icon="back" label="Volver a usuarios" />
+        <IconAction to="/admin/users" icon="back" label="Volver a usuarios" />
         <AdminHeading title="Detalle de usuario">
           Identidad, acceso y actividad de la cuenta.
         </AdminHeading>
@@ -56,7 +56,7 @@ export function AdminUserDetail() {
           )}
           <section className="admin-panel">
             <div className="admin-user-banner">
-              <AdminAvatar user={user} />
+              <Avatar user={user} />
               <div>
                 <h2>{fullName(user)}</h2>
                 <p className="admin-muted">{user.email}</p>

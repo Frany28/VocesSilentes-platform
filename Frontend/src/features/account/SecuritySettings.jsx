@@ -1,17 +1,18 @@
-import { Input } from '../../../components/ui/Input.jsx';
-import { Button } from '../../../components/ui/Button.jsx';
-import { AdminUnavailable } from '../components/AdminUnavailable.jsx';
+import { Input } from '../../components/ui/Input.jsx';
+import { Button } from '../../components/ui/Button.jsx';
+import { Alert } from '../../components/ui/Alert.jsx';
 
 /**
  * Presenta seguridad sin recoger contraseñas para un servicio inexistente.
  * @returns {import('react').ReactElement} Campos deshabilitados y dependencia real, sin éxito/carga simulados.
  */
-export function AdminSecurityForm() {
+export function SecuritySettings() {
   return (
-    <section className="admin-form">
+    <section className="account-form">
       <h2>Tu acceso, bajo control</h2>
-      <p className="admin-muted">Actualiza tu contraseña desde un solo lugar.</p>
+      <p className="account-muted">Actualiza tu contraseña desde un solo lugar.</p>
       <Input
+        density="compact"
         type="password"
         appearance="plain"
         label="Contraseña actual"
@@ -19,8 +20,9 @@ export function AdminSecurityForm() {
         autoComplete="current-password"
         disabled
       />
-      <div className="admin-name-row">
+      <div className="account-name-row">
         <Input
+          density="compact"
           type="password"
           appearance="plain"
           label="Nueva contraseña"
@@ -30,6 +32,7 @@ export function AdminSecurityForm() {
           disabled
         />
         <Input
+          density="compact"
           type="password"
           appearance="plain"
           label="Confirma la nueva contraseña"
@@ -38,17 +41,17 @@ export function AdminSecurityForm() {
           disabled
         />
       </div>
-      <div className="admin-profile-role">
+      <div className="account-profile-role">
         <p>Una contraseña solo para ti</p>
-        <p className="admin-demo-note">Evita reutilizar la contraseña de otros servicios.</p>
+        <p className="account-caption">Evita reutilizar la contraseña de otros servicios.</p>
       </div>
-      <AdminUnavailable title="Cambio de contraseña no disponible">
+      <Alert title="Cambio de contraseña no disponible">
         Falta un servicio que valide la contraseña actual, actualice la credencial y gestione las
         sesiones.
-      </AdminUnavailable>
-      <div className="admin-profile-submit">
-        <p className="admin-demo-note">Confirma tus datos para actualizar.</p>
-        <Button icon={null} disabled>
+      </Alert>
+      <div className="account-profile-submit">
+        <p className="account-caption">Confirma tus datos para actualizar.</p>
+        <Button density="compact" icon={null} disabled>
           Actualizar contraseña
         </Button>
       </div>

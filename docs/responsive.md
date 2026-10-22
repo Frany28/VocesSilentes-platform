@@ -15,7 +15,10 @@ Se conservan colores, fuentes, radios, recursos, tema y componentes compartidos.
 - **Student:** contenido centrado de hasta 1044 px, conforme al requisito del prototipo. Las columnas de inicio y módulos
   dependen del ancho disponible después del sidebar mediante container queries. El catálogo
   distribuye tarjetas automáticamente; el destacado conserva las medidas de sus recursos Figma
-  y omite la ilustración en móvil. Sidebar sticky con scroll propio. Practicar apila panel y guía,
+  y omite la ilustración en móvil. Por solicitud del 22 de octubre, el sidebar se alinea con Admin:
+  232 px desde 1200 px y 76 px en tablet, pegado al borde, altura de viewport y scroll propio;
+  opciones compactas de 44 px, iconos alineados y ayuda/cuenta al pie. El contenido conserva su
+  máximo de 1044 px y la navegación móvil mantiene los cinco destinos. Practicar apila panel y guía,
   Perfil usa campos adaptables y la navegación móvil permite los cinco destinos. Ver
   [inspección y diferencias del prototipo](student-design-audit.md).
 - **Admin:** rediseño `286:50`, sidebar de 232 px desde 1200 px y de 76 px entre 600 y 1199 px,

@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router';
 import { AdminReports } from '../features/admin/pages/AdminReports.jsx';
 import { AdminReportDetail } from '../features/admin/pages/AdminReportDetail.jsx';
 import { AdminSidebar } from '../features/admin/layout/AdminSidebar.jsx';
-import { AdminAvatar } from '../features/admin/components/AdminAvatar.jsx';
+import { Avatar } from '../components/ui/Avatar.jsx';
 import { report } from './admin-report-fixture.js';
 import attachment from '../assets/auth/36e7e.png';
 import '../styles/global.css';
@@ -47,7 +47,7 @@ export function mountAdminVisualFixture(screen, theme) {
         <div className="admin-content">
           <div className="admin-topbar">
             <p className="admin-breadcrumb">Administración / Reportes</p>
-            <AdminAvatar user={{ firstName: 'Admin', lastName: 'Prueba' }} />
+            <Avatar user={{ firstName: 'Admin', lastName: 'Prueba' }} />
           </div>
           <main>
             {screen.startsWith('reports-') ? (

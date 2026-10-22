@@ -15,7 +15,7 @@ export function AuthorizedEvidence({ report }) {
       {access.status === 'error' && (
         <div role="alert">
           <p>{access.error.message}</p>
-          <Button variant="secondary" onClick={access.retry}>
+          <Button density="compact" variant="secondary" onClick={access.retry}>
             Reintentar acceso
           </Button>
         </div>

@@ -85,6 +85,12 @@ Sus badges de 28 px no llevan punto ni contorno. Perfil usa paneles de 24 px y a
 el resto de paneles usa 16 px. Icon admite también el slot nativo de 28 px de esa página.
 Ver [administración](admin.md) para fuentes, estados e integración disponible.
 
+El sidebar Student adopta el 22 de octubre, por solicitud del usuario, la geometría y tipografía
+compacta de Admin: 232/76 px, padding 20/16, opciones de 44 px con radio 8 px y Manrope 600 13/20.
+Solo esa barra redefine `--type-button` y `--type-label`; las demás vistas Student conservan sus
+tokens. El marcador del UI Kit se oculta dentro del sidebar para alinear iconos y texto con Admin;
+la selección usa la superficie de acento existente. Ayuda/cuenta queda al pie con separador y scroll.
+
 | Token CSS / variable Figma          | Claro             | Oscuro            |
 | ----------------------------------- | ----------------- | ----------------- |
 | page / bg/primary                   | #faf9fe           | #171625           |

@@ -9,6 +9,7 @@ import { AdminSelect } from '../components/AdminSelect.jsx';
 export function UserFields({ values, errors, change, creating }) {
   const field = (name, label, placeholder, attributes = {}) => (
     <Input
+      density="compact"
       appearance="plain"
       name={name}
       label={label}
@@ -63,6 +64,7 @@ export function UserFields({ values, errors, change, creating }) {
       </div>
       {creating && (
         <Input
+          density="compact"
           type="password"
           appearance="plain"
           name="password"

@@ -50,6 +50,7 @@ export function ReportReview({ report, onResolve }) {
         ]}
       />
       <Input
+        density="compact"
         appearance="plain"
         label="Comentario interno (opcional)"
         placeholder="Agrega una nota para el equipo"
@@ -70,7 +71,7 @@ export function ReportReview({ report, onResolve }) {
       )}
       {current.status !== 'RESOLVED' && (
         <div className="admin-actions">
-          <Button icon={null} onClick={() => setConfirm(true)}>
+          <Button density="compact" icon={null} onClick={() => setConfirm(true)}>
             Marcar como resuelto
           </Button>
         </div>

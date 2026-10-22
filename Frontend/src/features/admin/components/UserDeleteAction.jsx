@@ -14,6 +14,7 @@ export function UserDeleteAction({ user }) {
   return (
     <div className="admin-state-action">
       <Button
+        density="compact"
         variant="secondary"
         icon={null}
         disabled={user.isDeleted}

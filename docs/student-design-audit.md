@@ -3,6 +3,11 @@
 Referencia: [Student, 175:22520](https://www.figma.com/design/GRbHCgOXNZZxRWSpIcHKVU/VocesSilentes-Website?node-id=175-22520&m=dev).
 Inspección del 9 de octubre de 2026 mediante el plugin, `figma-design-to-code` y `figma-use`.
 
+Actualización solicitada por el usuario el 22 de octubre: el sidebar implementado sigue ahora
+la alineación de Admin (232/76 px, controles de 44 px y tipografía compacta), con ayuda/cuenta
+al pie. Esto reemplaza sus medidas originales 240/80 px descritas en la inspección histórica;
+no se atribuye a una nueva exportación Figma. Se conservan marca, recursos, temas y navegación móvil.
+
 ## Evidencia y límites del acceso
 
 El árbol contiene 120 frames: 30 de Inicio, 36 de Mis módulos y 54 de Practicar/instrucciones.

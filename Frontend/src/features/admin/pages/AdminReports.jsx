@@ -44,6 +44,7 @@ export function AdminReports({
       <section className="admin-panel">
         <div className="admin-filters">
           <Input
+            density="compact"
             appearance="plain"
             label="Buscar reportes"
             placeholder="Asunto o referencia"

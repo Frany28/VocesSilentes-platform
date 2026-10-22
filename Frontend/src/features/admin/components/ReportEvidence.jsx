@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from '../../../components/ui/Button.jsx';
-import { AdminDialog } from './AdminDialog.jsx';
+import { Dialog } from '../../../components/ui/Dialog.jsx';
 import { EvidenceImage } from './EvidenceImage.jsx';
 
 /**
@@ -31,6 +31,7 @@ export function ReportEvidence({ evidence, loading = false, error, onRenew }) {
             <strong>{evidence.name}</strong>
             {evidence.details && <p className="admin-demo-note">{evidence.details}</p>}
             <Button
+              density="compact"
               variant="secondary"
               icon={null}
               disabled={loading || Boolean(error)}
@@ -40,7 +41,7 @@ export function ReportEvidence({ evidence, loading = false, error, onRenew }) {
             </Button>
           </div>
           {open && (
-            <AdminDialog
+            <Dialog
               title="Imagen de evidencia"
               onClose={() => setOpen(false)}
               className="admin-evidence-viewer"
@@ -58,7 +59,7 @@ export function ReportEvidence({ evidence, loading = false, error, onRenew }) {
                 {evidence.details ? ` · ${evidence.details}` : ''}
               </p>
               <p className="admin-demo-note">Archivo adjunto al reporte · Solo lectura</p>
-            </AdminDialog>
+            </Dialog>
           )}
         </>
       )}

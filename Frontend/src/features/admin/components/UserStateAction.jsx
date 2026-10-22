@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '../../../components/ui/Button.jsx';
 import { AdminConfirmation } from './AdminConfirmation.jsx';
-import { AdminAvatar } from './AdminAvatar.jsx';
+import { Avatar } from '../../../components/ui/Avatar.jsx';
 import { fullName } from '../data/admin-labels.js';
 
 /**
@@ -14,6 +14,7 @@ export function UserStateAction({ user }) {
   return (
     <div className="admin-state-action">
       <Button
+        density="compact"
         variant="secondary"
         icon={null}
         className="admin-danger"
@@ -37,7 +38,7 @@ export function UserStateAction({ user }) {
                 : 'La cuenta podrá volver a iniciar sesión.'}
             </p>
             <div className="admin-user-banner">
-              <AdminAvatar user={user} />
+              <Avatar user={user} />
               <div>
                 <strong>{fullName(user)}</strong>
                 <p>{user.email}</p>

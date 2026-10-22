@@ -1,6 +1,6 @@
 import { Button } from '../../../components/ui/Button.jsx';
 import { Alert } from '../../../components/ui/Alert.jsx';
-import { AdminDialog } from './AdminDialog.jsx';
+import { Dialog } from '../../../components/ui/Dialog.jsx';
 
 /**
  * Confirmación nativa compartida; no comunica éxito ni ejecuta negocio por su cuenta.
@@ -20,18 +20,26 @@ export function AdminConfirmation({
   danger = false,
 }) {
   return (
-    <AdminDialog title={title} onClose={onCancel} pending={pending} initialFocus="[data-cancel]">
-      <div className="admin-dialog-description">{children}</div>
+    <Dialog title={title} onClose={onCancel} pending={pending} initialFocus="[data-cancel]">
+      <div className="vs-dialog-description">{children}</div>
       {error && (
         <Alert tone="error" title="No se pudo completar">
           {error}
         </Alert>
       )}
       <div className="admin-actions">
-        <Button variant="secondary" icon={null} disabled={pending} onClick={onCancel} data-cancel>
+        <Button
+          density="compact"
+          variant="secondary"
+          icon={null}
+          disabled={pending}
+          onClick={onCancel}
+          data-cancel
+        >
           Cancelar
         </Button>
         <Button
+          density="compact"
           icon={null}
           loading={pending}
           onClick={onConfirm}
@@ -41,6 +49,6 @@ export function AdminConfirmation({
           {confirm}
         </Button>
       </div>
-    </AdminDialog>
+    </Dialog>
   );
 }

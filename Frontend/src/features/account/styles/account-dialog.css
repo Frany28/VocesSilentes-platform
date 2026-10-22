@@ -1,62 +1,63 @@
-.admin-dialog {
+.vs-dialog {
   width: 600px;
   max-width: calc(100vw - 40px);
   max-height: calc(100dvh - 32px);
   overflow: auto;
   padding: 24px;
   border: 1px solid var(--border-subtle);
-  border-radius: 16px;
+  border-radius: 24px;
   color: var(--content);
   background: var(--surface);
   margin: auto;
 }
-.admin-dialog[open] {
+.vs-dialog[open] {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
-.admin-dialog::backdrop {
+.vs-dialog::backdrop {
   background: rgb(23 22 37 / 55%);
 }
-.admin-dialog-heading {
+.vs-dialog-heading {
   display: flex;
   align-items: center;
   gap: 12px;
 }
-.admin-dialog-heading h2 {
+.vs-dialog-heading h2 {
   flex: 1;
   min-width: 0;
 }
-.admin-dialog p {
+.vs-dialog p {
   font: var(--type-secondary);
 }
-.admin-dialog .admin-demo-note {
+.vs-dialog .account-caption {
   font: var(--type-label);
 }
-.admin-dialog .admin-form {
+.vs-dialog .account-form {
   background: transparent;
 }
-.admin-form fieldset > .admin-actions {
+.account-form fieldset > .account-actions {
   flex-direction: row-reverse;
   justify-content: flex-end;
 }
-.admin-form .admin-actions > * {
+.account-form .account-actions > * {
   flex: none;
 }
 .admin-background[inert] {
   pointer-events: none;
 }
 @media (width < 600px) {
-  .admin-dialog .admin-name-row {
+  .vs-dialog .account-name-row {
     grid-template-columns: 1fr;
   }
-  .admin-dialog {
+  .vs-dialog {
+    font: 400 14px / 20px var(--font-brand);
     padding: 24px;
   }
-  .admin-dialog .admin-actions {
+  .vs-dialog .account-actions {
     align-items: stretch;
   }
-  .admin-dialog .admin-actions > * {
+  .vs-dialog .account-actions > * {
     flex: 1;
   }
 }

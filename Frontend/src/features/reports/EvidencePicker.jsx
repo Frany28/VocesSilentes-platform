@@ -1,47 +1,64 @@
+import { useId, useRef } from 'react';
 import { Button } from '../../components/ui/Button.jsx';
+import { Icon } from '../../components/ui/Icon.jsx';
 
 /**
- * Selección opcional local: no hace peticiones ni sustituye la validación confiable del servidor.
+ * Selección local opcional; la validación confiable permanece en el backend existente.
  * @param {{selection: object | null, onSelect: Function, disabled: boolean, invalid?: boolean}} props Borrador y acciones.
- * @returns {import('react').ReactElement} Selector, previsualización y eliminación previa al envío.
+ * @returns {import('react').ReactElement} Selector, vista previa y eliminación antes del envío.
  */
 export function EvidencePicker({ selection, onSelect, disabled, invalid }) {
+  const input = useRef();
+  const help = useId();
   return (
-    <div className="flex flex-col gap-3">
-      <label className="flex flex-col gap-2">
-        Imagen de evidencia (opcional)
-        <input
-          type="file"
-          accept="image/jpeg,image/png,image/webp"
+    <section className="account-panel report-evidence-picker">
+      <h2>Una imagen ayuda</h2>
+      <p className="account-caption">Evidencia (opcional)</p>
+      <input
+        ref={input}
+        className="vs-file-input"
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        disabled={disabled}
+        aria-label="Imagen de evidencia (opcional)"
+        aria-describedby={help}
+        onChange={(event) => {
+          onSelect(event.target.files?.[0]);
+          event.target.value = '';
+        }}
+      />
+      <div className="report-evidence-drop">
+        {selection ? (
+          <>
+            <img src={selection.src} alt="Vista previa de la evidencia" />
+            <p className="report-evidence-name">{selection.file.name}</p>
+            <p className="account-caption">
+              {selection.file.type.replace('image/', '').toUpperCase()} ·{' '}
+              {Math.ceil(selection.file.size / 1024)} KB
+            </p>
+          </>
+        ) : (
+          <>
+            <Icon name="modern-plus" size={32} />
+            <p>Agrega una captura</p>
+            <p className="account-caption">PNG, JPG o WEBP</p>
+            <p className="account-caption">Hasta 5 MB · Opcional</p>
+          </>
+        )}
+        <Button
+          density="compact"
+          variant="secondary"
+          icon={null}
           disabled={disabled}
-          onChange={(event) => {
-            onSelect(event.target.files?.[0]);
-            event.target.value = '';
-          }}
-        />
-      </label>
-      <p className="text-muted">
-        Una imagen JPEG, PNG o WEBP, hasta 5 MB, 8192 px por lado y 16 megapíxeles.
+          onClick={() => (selection || invalid ? onSelect(null) : input.current.click())}
+        >
+          {selection || invalid ? 'Quitar selección' : 'Elegir imagen'}
+        </Button>
+      </div>
+      <p id={help} className="account-caption">
+        Antes de adjuntar, oculta los datos privados.
       </p>
-      {(selection || invalid) && (
-        <>
-          {selection && (
-            <img
-              className="max-h-64 w-full rounded-xl object-contain"
-              src={selection.src}
-              alt="Vista previa de la evidencia"
-            />
-          )}
-          <Button
-            type="button"
-            variant="secondary"
-            disabled={disabled}
-            onClick={() => onSelect(null)}
-          >
-            Quitar selección
-          </Button>
-        </>
-      )}
-    </div>
+      <p className="account-caption">Una imagen de hasta 8192 px por lado y 16 megapíxeles.</p>
+    </section>
   );
 }

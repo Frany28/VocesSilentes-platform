@@ -8,7 +8,7 @@ let originalOverflow = '';
  * @param {string | undefined} initialFocus Selector del primer control, si se requiere.
  * @returns {object} ref y trapFocus; restaura scroll solo al desmontar el último diálogo.
  */
-export function useAdminDialog(initialFocus) {
+export function useDialog(initialFocus) {
   const ref = useRef();
   useEffect(() => {
     const dialog = ref.current;

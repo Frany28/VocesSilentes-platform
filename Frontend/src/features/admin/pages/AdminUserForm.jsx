@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router';
 import { useAdminUser } from '../data/use-admin-user.js';
-import { AdminDialog } from '../components/AdminDialog.jsx';
+import { Dialog } from '../../../components/ui/Dialog.jsx';
 import { AdminFeedback } from '../components/AdminFeedback.jsx';
 import { UserForm } from '../forms/UserForm.jsx';
 import { AdminUsers } from './AdminUsers.jsx';
@@ -22,14 +22,14 @@ export function AdminUserForm() {
       {result.status === 'ready' ? (
         <UserForm key={id ?? 'new'} user={result.user} />
       ) : (
-        <AdminDialog title="Editar cuenta" onClose={() => navigate(`/admin/users/${id}`)}>
+        <Dialog title="Editar cuenta" onClose={() => navigate(`/admin/users/${id}`)}>
           <AdminFeedback
             status={result.status}
             error={result.error}
             retry={result.retry}
             noun="la cuenta"
           />
-        </AdminDialog>
+        </Dialog>
       )}
     </>
   );

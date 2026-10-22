@@ -1,6 +1,5 @@
 import { Outlet, useLocation } from 'react-router';
-import { Brand } from '../../../components/ui/Brand.jsx';
-import { ThemeToggle } from '../../../components/ui/ThemeToggle.jsx';
+import { StudentTopbar } from './StudentTopbar.jsx';
 import { Alert } from '../../../components/ui/Alert.jsx';
 import { StudentProvider } from '../data/StudentProvider.jsx';
 import { StudentSidebar } from './StudentSidebar.jsx';
@@ -17,18 +16,14 @@ import '../student.css';
 export function StudentLayout() {
   const actions = useStudentActions();
   const page = useLocation().pathname.split('/')[2] || 'home';
-  const title = {
-    modules: 'Mis módulos',
-    practice: 'Practicar',
-    progress: 'Mi progreso',
-    profile: 'Mi perfil',
-  }[page];
+  const account = ['profile', 'reports'].includes(page);
   return (
     <StudentProvider>
       <div
-        className="student-shell flex min-h-svh gap-6 bg-page p-6 text-content [font:var(--type-secondary)]
+        className="student-shell flex min-h-svh bg-page text-content [font:var(--type-secondary)]
         [overflow-wrap:anywhere]"
         data-page={page}
+        data-account={account || undefined}
       >
         <a href="#student-content" className="student-skip sr-only focus:not-sr-only">
           Saltar al contenido
@@ -38,21 +33,9 @@ export function StudentLayout() {
           onLogout={actions.logout}
           pending={actions.pending}
         />
-        <div className="min-w-0 flex-1">
+        <div className="student-content min-w-0 flex-1">
           <div className="student-container mx-auto flex w-full flex-col gap-6">
-            <header className="flex min-h-13 items-center gap-4">
-              <div className="min-[600px]:hidden">
-                <Brand />
-              </div>
-              <p className="hidden min-w-0 flex-1 text-muted [font:var(--type-label)] min-[600px]:block">
-                Mi aprendizaje{title ? ` / ${title}` : ''}
-              </p>
-              <ThemeToggle
-                className="student-theme flex-none max-[600px]:w-28! max-[600px]:gap-4!
-                max-[600px]:[&_.vs-theme-label]:hidden! max-[360px]:w-20!
-                max-[360px]:[&>.vs-icon]:hidden!"
-              />
-            </header>
+            <StudentTopbar page={page} account={account} />
             <main id="student-content" tabIndex={-1}>
               <Outlet context={{ onOpen: actions.openLearning }} />
             </main>
@@ -80,10 +63,12 @@ export function StudentLayout() {
                 {actions.pending ? 'Cerrando…' : 'Cerrar sesión'}
               </button>
             </footer>
-            {publicConfig.studentDemo && <StudentDemoControls />}
-            <div className="min-[600px]:hidden">
-              <StudentNavigation bottom />
-            </div>
+            {publicConfig.studentDemo && !account && <StudentDemoControls />}
+            {page !== 'reports' && (
+              <div className="min-[600px]:hidden">
+                <StudentNavigation bottom />
+              </div>
+            )}
           </div>
         </div>
       </div>

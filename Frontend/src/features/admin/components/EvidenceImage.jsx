@@ -20,6 +20,7 @@ export function EvidenceImage({ src, alt, loading = false, error, onRenew }) {
         <div role="alert">
           <p>{error?.message || 'No pudimos cargar la imagen.'}</p>
           <Button
+            density="compact"
             variant="secondary"
             icon={null}
             onClick={() => {

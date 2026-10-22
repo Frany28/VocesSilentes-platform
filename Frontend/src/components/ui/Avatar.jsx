@@ -5,14 +5,14 @@ import { useState } from 'react';
  * @param {{user: object, large?: boolean}} props Identidad de sesión/DTO y tamaño de perfil.
  * @returns {import('react').ReactElement} Avatar decorativo junto al nombre de la cuenta.
  */
-export function AdminAvatar({ user, large = false }) {
+export function Avatar({ user, large = false }) {
   const [failedSource, setFailedSource] = useState(null);
   const initials = [user.firstName, user.lastName]
     .filter(Boolean)
     .map((part) => part[0])
     .join('');
   return (
-    <span className={`admin-avatar ${large ? 'admin-avatar-large' : ''}`} aria-hidden="true">
+    <span className={`vs-avatar ${large ? 'vs-avatar-large' : ''}`} aria-hidden="true">
       {user.profileImagePath && failedSource !== user.profileImagePath ? (
         <img
           src={user.profileImagePath}

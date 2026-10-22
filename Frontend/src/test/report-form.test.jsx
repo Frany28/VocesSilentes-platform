@@ -26,7 +26,9 @@ function form() {
       <ReportForm />
     </MemoryRouter>,
   );
-  fireEvent.change(screen.getByLabelText('Descripción'), {
+  fireEvent.change(screen.getByLabelText('Título del problema *'), { target: { value: 'Vídeo' } });
+  fireEvent.change(screen.getByLabelText('Tipo de error *'), { target: { value: 'TECHNICAL' } });
+  fireEvent.change(screen.getByLabelText('Descripción del problema *'), {
     target: { value: 'El vídeo no carga' },
   });
 }

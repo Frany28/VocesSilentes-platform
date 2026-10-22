@@ -4,6 +4,7 @@ import { Icon } from './Icon.jsx';
  * Botón nativo; loading impide activaciones y conserva su nombre accesible.
  * @param {object} props Atributos HTML (incluye ref), contenido y eventos.
  * @param {'primary'|'secondary'} [props.variant] Jerarquía de Figma; primary por defecto.
+ * @param {'compact'|'comfortable'} [props.density] Altura 44/52 px elegida según la tarea.
  * @param {boolean} [props.loading] Deshabilita el control durante una operación.
  * @param {import('react').ReactNode} [props.loadingLabel] Texto durante carga.
  * @param {import('react').ReactNode} [props.icon] Icono final; null lo omite, undefined usa Arrow.
@@ -16,6 +17,7 @@ import { Icon } from './Icon.jsx';
 export function Button({
   children,
   variant = 'primary',
+  density = 'comfortable',
   loading = false,
   loadingLabel = 'Cargando…',
   disabled = false,
@@ -33,6 +35,7 @@ export function Button({
       aria-busy={loading || undefined}
       className={`vs-ui vs-button ${className}`}
       data-variant={variant}
+      data-density={density}
       data-loading={loading || undefined}
     >
       <span className="vs-button-surface">

@@ -14,6 +14,7 @@ export function AdminPagination({ list }) {
       </p>
       <div className="admin-pagination-controls">
         <Button
+          density="compact"
           variant="secondary"
           icon={null}
           disabled={list.page <= 1}
@@ -25,6 +26,7 @@ export function AdminPagination({ list }) {
           {list.page} / {list.pages}
         </span>
         <Button
+          density="compact"
           variant="secondary"
           icon={null}
           disabled={list.page >= list.pages}

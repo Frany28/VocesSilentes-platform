@@ -23,11 +23,12 @@ export function StudentNavigation({ bottom = false }) {
       className={
         bottom
           ? 'student-bottom grid grid-cols-5 border border-border bg-surface p-1'
-          : 'student-navigation flex w-full flex-col gap-4'
+          : 'student-navigation'
       }
     >
       {entries.map((entry) => {
-        const active = pathname === entry.to;
+        const active =
+          pathname === entry.to || (entry.to !== '/student' && pathname.startsWith(`${entry.to}/`));
         const label = bottom ? entry.short : entry.label;
         return (
           <NavigationItem
@@ -36,6 +37,7 @@ export function StudentNavigation({ bottom = false }) {
             to={entry.to}
             active={active}
             aria-label={label}
+            title={entry.label}
             className={bottom ? 'student-bottom-item' : 'student-nav-item'}
             icon={
               <Icon

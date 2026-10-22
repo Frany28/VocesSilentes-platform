@@ -2,55 +2,52 @@ import { Brand } from '../../../components/ui/Brand.jsx';
 import { Icon } from '../../../components/ui/Icon.jsx';
 import { NavigationItem } from '../../../components/ui/NavigationItem.jsx';
 import { StudentNavigation } from './StudentNavigation.jsx';
+import { useLocation } from 'react-router';
 
 /**
- * Barra lateral completa en escritorio y de iconos en tablet, sin rutas pendientes falsas.
+ * Barra alineada con Admin: navegación arriba y ayuda/cuenta al pie, con iconos en tablet.
  * @param {{onUnavailable: Function, onLogout: Function, pending: boolean}} props Acciones del layout.
- * @returns {import('react').ReactElement} Barra lateral original adaptada.
+ * @returns {import('react').ReactElement} Barra lateral con acciones existentes y nombres accesibles.
  */
 export function StudentSidebar({ onUnavailable, onLogout, pending }) {
+  const report = useLocation().pathname.startsWith('/student/reports');
   return (
-    <aside
-      className="student-sidebar hidden w-20 flex-none flex-col gap-4 self-stretch rounded-3xl
-      border border-border bg-surface p-4 min-[600px]:flex min-[1200px]:w-60 min-[1200px]:p-6"
-      aria-label="Área de estudiante"
-    >
+    <aside className="student-sidebar" aria-label="Área de estudiante">
       <div className="min-[1200px]:hidden">
         <Brand compact />
       </div>
       <div className="hidden min-[1200px]:block">
         <Brand />
       </div>
-      <p className="hidden text-muted [font:var(--type-label)] min-[1200px]:block">
-        MI APRENDIZAJE
-      </p>
+      <p className="student-sidebar-label">MI APRENDIZAJE</p>
       <StudentNavigation />
-      <p className="hidden text-muted [font:var(--type-label)] min-[1200px]:block">
-        AYUDA Y CUENTA
-      </p>
-      <NavigationItem
-        as="button"
-        type="button"
-        className="student-nav-item hidden! min-[1200px]:inline-flex!"
-        icon={<Icon name="student-nav-flag" size={20} />}
-        aria-disabled="true"
-        onClick={() => onUnavailable('Reportar un error')}
-      >
-        Reportar un error
-      </NavigationItem>
-      <NavigationItem
-        as="button"
-        type="button"
-        className="student-nav-item"
-        disabled={pending}
-        icon={<Icon name="student-nav-logout" size={20} />}
-        onClick={onLogout}
-        aria-label={pending ? 'Cerrando sesión…' : 'Cerrar sesión'}
-      >
-        <span className="hidden min-[1200px]:inline">
+      <div className="student-sidebar-account">
+        <p className="student-sidebar-label">AYUDA Y CUENTA</p>
+        <NavigationItem
+          as="button"
+          type="button"
+          className="student-nav-item"
+          active={report}
+          icon={<Icon name="student-nav-flag" size={20} />}
+          aria-label="Reportar un error"
+          title="Reportar un error"
+          onClick={() => onUnavailable('Reportar un error')}
+        >
+          Reportar un error
+        </NavigationItem>
+        <NavigationItem
+          as="button"
+          type="button"
+          className="student-nav-item"
+          disabled={pending}
+          icon={<Icon name="student-nav-logout" size={20} />}
+          onClick={onLogout}
+          title="Cerrar sesión"
+          aria-label={pending ? 'Cerrando sesión…' : 'Cerrar sesión'}
+        >
           {pending ? 'Cerrando…' : 'Cerrar sesión'}
-        </span>
-      </NavigationItem>
+        </NavigationItem>
+      </div>
     </aside>
   );
 }

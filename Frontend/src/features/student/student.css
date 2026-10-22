@@ -5,7 +5,9 @@
 @import './student-assets.css';
 @import './student-surfaces.css';
 @import './student-controls.css';
+@import './student-sidebar.css';
 @import './student-responsive.css';
+@import './student-account.css';
 @import './practice/practice-layout.css';
 @import './practice/practice-assets.css';
 

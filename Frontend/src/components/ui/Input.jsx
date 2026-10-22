@@ -11,6 +11,7 @@ import { useId } from 'react';
  * @param {string} [props.id] Identificador; se genera uno si se omite.
  * @param {string} [props.className] Clases del contenedor.
  * @param {'default'|'plain'} [props.appearance] Campo del UI Kit o campo sin superficie exterior de Auth.
+ * @param {'compact'|'comfortable'} [props.density] Control de 44 px/Inter 14 o cómodo/Inter 16.
  * @param {string} [props.'aria-describedby'] Identificadores de descripciones externas.
  * @returns {import('react').ReactElement} Campo adaptable con identificadores únicos.
  */
@@ -23,6 +24,7 @@ export function Input({
   id,
   className = '',
   appearance = 'default',
+  density = 'comfortable',
   'aria-describedby': describedBy,
   ...attributes
 }) {
@@ -35,6 +37,7 @@ export function Input({
     <div
       className={`vs-ui vs-field ${className}`}
       data-appearance={appearance}
+      data-density={density}
       data-error={!!error || undefined}
     >
       <label htmlFor={inputId}>{label}</label>

@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { Button } from '../../../components/ui/Button.jsx';
-import { AdminDialog } from '../components/AdminDialog.jsx';
+import { Dialog } from '../../../components/ui/Dialog.jsx';
 import { usePhotoDraft } from './use-photo-draft.js';
 import { PhotoCropPreview } from './PhotoCropPreview.jsx';
 import { PhotoPicker } from './PhotoPicker.jsx';
@@ -14,14 +14,14 @@ export function PhotoDialog({ onClose }) {
   const draft = usePhotoDraft();
   const input = useRef();
   return (
-    <AdminDialog
+    <Dialog
       title={draft.photo ? 'Encuentra tu mejor encuadre' : 'Tu imagen, tu elección'}
       onClose={onClose}
-      className="admin-photo-dialog"
+      className="account-photo-dialog"
     >
       <input
         ref={input}
-        className="admin-file-input"
+        className="vs-file-input"
         type="file"
         tabIndex={-1}
         accept="image/jpeg,image/png,image/webp"
@@ -45,15 +45,15 @@ export function PhotoDialog({ onClose }) {
           onChoose={() => input.current.click()}
         />
       )}
-      <p id="photo-unavailable" className="admin-demo-note">
+      <p id="photo-unavailable" className="account-caption">
         Guardado no disponible: falta el servicio de carga, recorte y persistencia de fotos. El
         archivo permanece en este dispositivo.
       </p>
-      <div className="admin-actions">
-        <Button variant="secondary" icon={null} onClick={onClose}>
+      <div className="account-actions">
+        <Button density="compact" variant="secondary" icon={null} onClick={onClose}>
           Cancelar
         </Button>
       </div>
-    </AdminDialog>
+    </Dialog>
   );
 }

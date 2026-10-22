@@ -1,15 +1,15 @@
-.admin-photo-dialog {
+.account-photo-dialog {
   width: 560px;
 }
-.admin-file-input {
+.vs-file-input {
   position: absolute;
   width: 1px;
   height: 1px;
   clip-path: inset(50%);
   overflow: hidden;
 }
-.admin-photo-drop,
-.admin-photo-preview {
+.account-photo-drop,
+.account-photo-preview {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,14 +20,14 @@
   border-radius: 24px;
   background: var(--surface-neutral);
 }
-.admin-photo-drop {
+.account-photo-drop {
   border: 1px dashed var(--border-subtle);
   text-align: center;
 }
-.admin-photo-preview {
+.account-photo-preview {
   min-height: 300px;
 }
-.admin-photo-crop {
+.account-photo-crop {
   width: 220px;
   height: 220px;
   max-width: 100%;
@@ -36,30 +36,30 @@
   overflow: hidden;
   background: var(--surface-accent);
 }
-.admin-photo-crop img {
+.account-photo-crop img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-.admin-photo-zoom {
+.account-photo-zoom {
   display: flex;
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
 }
-.admin-photo-zoom > span:first-child {
+.account-photo-zoom > span:first-child {
   flex: 1;
 }
-.admin-photo-zoom .vs-button {
+.account-photo-zoom .vs-button {
   width: 44px;
 }
-.admin-photo-zoom output {
+.account-photo-zoom output {
   font: var(--type-label);
   color: var(--text-secondary);
 }
 @media (width < 600px) {
-  .admin-photo-crop {
+  .account-photo-crop {
     width: 180px;
     height: 180px;
   }

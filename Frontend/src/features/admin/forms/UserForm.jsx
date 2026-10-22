@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Alert } from '../../../components/ui/Alert.jsx';
 import { Button } from '../../../components/ui/Button.jsx';
-import { AdminDialog } from '../components/AdminDialog.jsx';
+import { Dialog } from '../../../components/ui/Dialog.jsx';
 import { AdminConfirmation } from '../components/AdminConfirmation.jsx';
 import { useUserDraft } from './use-user-draft.js';
 import { UserFields } from './UserFields.jsx';
@@ -30,7 +30,7 @@ export function UserForm({ user }) {
   };
   return (
     <>
-      <AdminDialog
+      <Dialog
         title={user ? 'Editar cuenta' : 'Crear usuario'}
         onClose={cancel}
         pending={operation.pending}
@@ -69,6 +69,7 @@ export function UserForm({ user }) {
             </p>
             <div className="admin-actions">
               <Button
+                density="compact"
                 type="submit"
                 icon={null}
                 loading={operation.pending}
@@ -76,13 +77,19 @@ export function UserForm({ user }) {
               >
                 {user ? 'Guardar cambios' : 'Crear usuario'}
               </Button>
-              <Button variant="secondary" icon={null} disabled={operation.pending} onClick={cancel}>
+              <Button
+                density="compact"
+                variant="secondary"
+                icon={null}
+                disabled={operation.pending}
+                onClick={cancel}
+              >
                 Cancelar
               </Button>
             </div>
           </fieldset>
         </form>
-      </AdminDialog>
+      </Dialog>
       {confirm && (
         <AdminConfirmation
           title="¿Descartar los cambios?"

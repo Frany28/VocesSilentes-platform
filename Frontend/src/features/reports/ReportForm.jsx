@@ -1,88 +1,96 @@
-import { Link } from 'react-router';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import { Button } from '../../components/ui/Button.jsx';
-import { Input } from '../../components/ui/Input.jsx';
 import { Alert } from '../../components/ui/Alert.jsx';
 import { EvidencePicker } from './EvidencePicker.jsx';
+import { ReportFields } from './ReportFields.jsx';
+import { ReportGuidance } from './ReportGuidance.jsx';
+import { ReportSuccess } from './ReportSuccess.jsx';
 import { useReportDraft } from './use-report-draft.js';
+import './report.css';
 
 /**
- * Envía un reporte general real y su evidencia opcional; conserva el borrador tras fallo de carga.
- * @returns {import('react').ReactElement} Formulario con progreso real por etapas y reintento explícito.
+ * Formulario real: la clave del borrador solo cambia al crear otro reporte tras éxito confirmado.
+ * @returns {import('react').ReactElement} Composición de Figma con evidencia opcional y reintento.
  */
 export function ReportForm() {
+  const [revision, setRevision] = useState(0);
+  return <ReportDraft key={revision} onReset={() => setRevision((value) => value + 1)} />;
+}
+
+function ReportDraft({ onReset }) {
   const draft = useReportDraft();
+  const navigate = useNavigate();
+  const home = () => navigate('/student');
+  const cancel = () => {
+    if (!draft.dirty || window.confirm('El envío no está completo. ¿Salir y dejar este borrador?'))
+      home();
+  };
   return (
-    <section className="flex flex-col gap-6 rounded-3xl border border-border bg-surface p-6">
-      <h1 className="[font:var(--type-h3)]">Reportar un error</h1>
+    <div className="account-page report-page">
+      <header className="account-heading">
+        <p className="account-kicker">AYUDA Y CUENTA / REPORTAR UN ERROR</p>
+        <h1>Una barrera menos.</h1>
+        <p>Cuéntanos qué pasó para seguir mejorando VocesSilentes.</p>
+      </header>
       {draft.status === 'success' ? (
-        <Alert tone="success" title="Reporte enviado">
-          Guardamos tu reporte y confirmamos el envío.
-        </Alert>
+        <ReportSuccess id={draft.savedId} onReset={onReset} onHome={home} />
       ) : (
-        <form className="flex flex-col gap-6" onSubmit={draft.submit} aria-busy={draft.pending}>
-          <fieldset disabled={draft.pending || draft.submitted} className="flex flex-col gap-4">
-            <Input
-              label="Descripción"
-              value={draft.description}
-              required
-              maxLength={4000}
-              onChange={(event) => draft.setDescription(event.target.value)}
-            />
-            <label className="flex flex-col gap-2">
-              Categoría
-              <select
-                value={draft.category}
-                onChange={(event) => draft.setCategory(event.target.value)}
-                className="rounded-xl border border-border bg-surface p-3 text-content"
+        <form className="report-grid" onSubmit={draft.submit} noValidate aria-busy={draft.pending}>
+          <section className="account-panel report-form-panel">
+            <h2>¿Qué ocurrió?</h2>
+            <p className="account-caption">Los campos con * son obligatorios.</p>
+            <ReportFields draft={draft} />
+            {draft.savedId && (
+              <p role="status">Reporte guardado. La imagen se confirma por separado.</p>
+            )}
+            {draft.error && (
+              <Alert tone="error" title="No se completó el envío">
+                {draft.error}
+              </Alert>
+            )}
+            <div className="report-actions">
+              <Button
+                density="compact"
+                variant="secondary"
+                icon={null}
+                disabled={draft.pending}
+                onClick={cancel}
               >
-                <option value="TECHNICAL">Problema técnico</option>
-                <option value="CONTENT">Contenido</option>
-                <option value="OTHER">Otro</option>
-              </select>
-            </label>
-          </fieldset>
-          <EvidencePicker
-            selection={draft.selection}
-            onSelect={draft.select}
-            disabled={draft.pending || draft.selectionLocked}
-            invalid={draft.invalidSelection}
-          />
-          {draft.savedId && (
-            <p role="status">Reporte guardado. La imagen se confirma por separado.</p>
-          )}
-          {draft.error && (
-            <Alert tone="error" title="No se completó el envío">
-              {draft.error}
-            </Alert>
-          )}
-          <Button
-            type="submit"
-            loading={draft.pending}
-            disabled={draft.pending || draft.invalidSelection || !draft.description.trim()}
-            loadingLabel={
-              draft.status === 'uploading'
-                ? 'Subiendo imagen…'
-                : draft.status === 'validating'
-                  ? 'Validando…'
-                  : 'Guardando…'
-            }
-          >
-            {draft.status === 'error' ? 'Reintentar envío' : 'Enviar reporte'}
-          </Button>
+                Cancelar
+              </Button>
+              <Button
+                density="compact"
+                type="submit"
+                icon={null}
+                loading={draft.pending}
+                disabled={draft.invalidSelection}
+                loadingLabel={
+                  draft.status === 'uploading'
+                    ? 'Subiendo imagen…'
+                    : draft.status === 'validating'
+                      ? 'Validando…'
+                      : 'Guardando…'
+                }
+              >
+                {draft.status === 'error' ? 'Reintentar envío' : 'Enviar reporte'}
+              </Button>
+            </div>
+          </section>
+          <div className="report-aside">
+            <EvidencePicker
+              selection={draft.selection}
+              onSelect={draft.select}
+              disabled={draft.pending || draft.selectionLocked}
+              invalid={draft.invalidSelection}
+            />
+            <ReportGuidance />
+          </div>
         </form>
       )}
-      <Link
-        to="/student"
-        onClick={(event) => {
-          if (
-            draft.dirty &&
-            !window.confirm('El envío no está completo. ¿Salir y dejar este borrador?')
-          )
-            event.preventDefault();
-        }}
-      >
-        Volver a mi inicio
-      </Link>
-    </section>
+      {draft.status !== 'success' && (
+        <p className="account-caption">Tu reporte se enviará desde tu cuenta de VocesSilentes.</p>
+      )}
+    </div>
   );
 }

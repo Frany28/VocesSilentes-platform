@@ -14,11 +14,11 @@ test('los cinco destinos móviles navegan; perfil usa sesión real y progreso el
   expect(await screen.findByRole('article', { name: 'Saludos y presentaciones' })).toBeVisible();
   expect(screen.getByText('03 / 05')).toBeVisible();
   await userEvent.click(within(nav).getByRole('link', { name: 'Perfil' }));
-  expect(await screen.findByRole('heading', { name: 'Mi perfil' })).toBeVisible();
-  expect(screen.getByLabelText('Correo electrónico')).toHaveValue(user.email);
+  expect(await screen.findByRole('heading', { name: 'Tu perfil, a tu manera.' })).toBeVisible();
+  expect(screen.getByLabelText('Correo de acceso')).toHaveValue(user.email);
   expect(screen.getByLabelText('Nombre')).toHaveAttribute('readonly');
   expect(screen.getByText('Correo pendiente de verificación')).toBeVisible();
-  expect(screen.queryByRole('button', { name: /Guardar/ })).toBeNull();
+  expect(screen.getByRole('button', { name: 'Guardar cambios' })).toBeDisabled();
 });
 
 test('práctica representa ocho estados elegidos manualmente sin cámara, red educativa ni progreso guardado', async () => {

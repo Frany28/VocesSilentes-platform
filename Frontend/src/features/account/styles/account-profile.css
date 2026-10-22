@@ -1,21 +1,21 @@
-.admin-profile-page {
+.account-profile-page {
   max-width: 904px;
   width: 100%;
   margin-inline: auto;
 }
-.admin-profile-grid {
+.account-profile-grid {
   display: grid;
   grid-template-columns: 320px minmax(0, 1fr);
   gap: 24px;
   align-items: start;
 }
-.admin-profile-identity {
+.account-profile-identity {
   display: flex;
   flex-direction: column;
   gap: 16px;
   min-width: 0;
 }
-.admin-profile-card {
+.account-profile-card {
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -23,67 +23,67 @@
   border-radius: 24px;
   background: linear-gradient(110deg, var(--surface-accent), var(--surface-secondary) 77%);
 }
-.admin-profile-person {
+.account-profile-person {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
   text-align: center;
 }
-.admin-profile-person > div {
+.account-profile-person > div {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
 }
-.admin-avatar-large {
+.vs-avatar-large {
   width: 128px;
   height: 128px;
   border-radius: 50%;
   font: 600 32px / 40px var(--font-brand);
   color: var(--action-primary);
 }
-.admin-profile-photo-actions {
+.account-profile-photo-actions {
   display: flex;
   flex-direction: column;
   gap: 8px;
   border-top: 1px solid var(--border-subtle);
   padding-top: 24px;
 }
-.admin-profile-privacy {
+.account-profile-privacy {
   padding: 16px;
   border-radius: 12px;
   background: var(--surface-tertiary);
   font: var(--type-label);
 }
-.admin-profile-settings {
+.account-profile-settings {
   border-radius: 24px;
   gap: 24px;
 }
-.admin-profile-tabs {
+.account-profile-tabs {
   display: flex;
   padding: 4px;
   gap: 4px;
   background: var(--surface-neutral);
   border-radius: 12px;
 }
-.admin-profile-tabs a {
+.account-profile-tabs a {
   flex: 1;
   padding: 12px 8px;
   text-align: center;
   font: var(--type-label);
   border-radius: 8px;
 }
-.admin-profile-tabs [aria-current='page'] {
+.account-profile-tabs [aria-current='page'] {
   background: var(--surface);
   color: var(--action-primary);
 }
-.admin-profile-role {
+.account-profile-role {
   padding: 16px;
   border-radius: 12px;
   background: var(--surface-neutral);
 }
-.admin-profile-submit {
+.account-profile-submit {
   display: flex;
   align-items: center;
   justify-content: space-between;

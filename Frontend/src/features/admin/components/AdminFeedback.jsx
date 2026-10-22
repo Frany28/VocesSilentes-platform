@@ -39,7 +39,7 @@ export function AdminFeedback({ status, noun = 'usuarios', error, retry }) {
         </div>
       )}
       {status !== 'loading' && retry && (
-        <Button variant="secondary" icon={null} onClick={retry}>
+        <Button density="compact" variant="secondary" icon={null} onClick={retry}>
           {status === 'error'
             ? 'Reintentar'
             : status === 'empty-page'

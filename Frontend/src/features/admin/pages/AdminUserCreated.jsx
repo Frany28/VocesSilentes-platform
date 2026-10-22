@@ -6,7 +6,7 @@ import { AdminFeedback } from '../components/AdminFeedback.jsx';
 import { AdminFacts } from '../components/AdminFacts.jsx';
 import { AdminAction } from '../components/AdminAction.jsx';
 import { AccountStatus } from '../components/AccountStatus.jsx';
-import { AdminIconButton } from '../components/AdminIconButton.jsx';
+import { IconAction } from '../../../components/ui/IconAction.jsx';
 /**
  * Resultado de creación confirmado mediante consulta real; recargar vuelve a leer persistencia.
  * @returns {import('react').ReactElement} Cuenta persistida sin contraseña ni progreso inventado.
@@ -49,7 +49,7 @@ export function AdminUserCreated() {
             La contraseña permanece privada. El acceso depende del estado de la cuenta.
           </p>
           <div className="admin-actions">
-            <AdminIconButton to="/admin/users" icon="back" label="Volver a usuarios" />
+            <IconAction to="/admin/users" icon="back" label="Volver a usuarios" />
             <AdminAction to="/admin/users/new" variant="primary">
               Crear otro usuario
             </AdminAction>

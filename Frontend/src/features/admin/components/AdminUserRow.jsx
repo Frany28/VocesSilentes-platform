@@ -1,6 +1,6 @@
 import { AccountStatus } from './AccountStatus.jsx';
-import { AdminIconButton } from './AdminIconButton.jsx';
-import { AdminAvatar } from './AdminAvatar.jsx';
+import { IconAction } from '../../../components/ui/IconAction.jsx';
+import { Avatar } from '../../../components/ui/Avatar.jsx';
 import { adminDate, fullName } from '../data/admin-labels.js';
 
 /**
@@ -12,7 +12,7 @@ export function AdminUserRow({ user }) {
   return (
     <article className="admin-list-row admin-user-row">
       <div className="admin-row-identity">
-        <AdminAvatar user={user} />
+        <Avatar user={user} />
         <div className="admin-row-name">
           <strong>{fullName(user)}</strong>
           <p>{user.email}</p>
@@ -26,7 +26,7 @@ export function AdminUserRow({ user }) {
       <time className="admin-list-date" dateTime={user.createdAt}>
         {adminDate(user.createdAt)}
       </time>
-      <AdminIconButton
+      <IconAction
         to={`/admin/users/${user.id}`}
         icon="eye"
         label={`Ver cuenta · ${fullName(user)}`}

@@ -19,6 +19,7 @@ export function studentRoutes() {
       { path: '/student/practice', element: <StudentPractice /> },
       { path: '/student/progress', element: <StudentProgress /> },
       { path: '/student/profile', element: <StudentProfile /> },
+      { path: '/student/profile/security', element: <StudentProfile /> },
       { path: '/student/reports/new', element: <ReportForm /> },
     ],
   };

@@ -10,9 +10,9 @@ export function PhotoCropPreview({ photo, onError, onChoose }) {
   const [zoom, setZoom] = useState(100);
   return (
     <>
-      <p className="admin-muted">Comprueba que tu rostro quede dentro del círculo.</p>
-      <div className="admin-photo-preview">
-        <div className="admin-photo-crop">
+      <p className="account-muted">Comprueba que tu rostro quede dentro del círculo.</p>
+      <div className="account-photo-preview">
+        <div className="account-photo-crop">
           <img
             src={photo.url}
             alt="Vista previa local de tu foto"
@@ -21,10 +21,11 @@ export function PhotoCropPreview({ photo, onError, onChoose }) {
           />
         </div>
       </div>
-      <div className="admin-photo-zoom">
+      <div className="account-photo-zoom">
         <span>Encuadre</span>
         <output aria-label="Encuadre actual">{zoom}%</output>
         <Button
+          density="compact"
           variant="secondary"
           icon={null}
           aria-label="Reducir encuadre"
@@ -34,6 +35,7 @@ export function PhotoCropPreview({ photo, onError, onChoose }) {
           −
         </Button>
         <Button
+          density="compact"
           variant="secondary"
           icon={null}
           aria-label="Ampliar encuadre"
@@ -43,12 +45,12 @@ export function PhotoCropPreview({ photo, onError, onChoose }) {
           +
         </Button>
       </div>
-      <p className="admin-demo-note">{photo.name} · Vista previa local, sin guardar</p>
-      <div className="admin-actions">
-        <Button variant="secondary" icon={null} onClick={onChoose}>
+      <p className="account-caption">{photo.name} · Vista previa local, sin guardar</p>
+      <div className="account-actions">
+        <Button density="compact" variant="secondary" icon={null} onClick={onChoose}>
           Elegir otra
         </Button>
-        <Button icon={null} disabled aria-describedby="photo-unavailable">
+        <Button density="compact" icon={null} disabled aria-describedby="photo-unavailable">
           Usar esta foto
         </Button>
       </div>

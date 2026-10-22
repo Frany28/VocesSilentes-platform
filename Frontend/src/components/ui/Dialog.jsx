@@ -1,6 +1,6 @@
 import { useId } from 'react';
-import { AdminIconButton } from './AdminIconButton.jsx';
-import { useAdminDialog } from './use-admin-dialog.js';
+import { IconAction } from './IconAction.jsx';
+import { useDialog } from '../../hooks/use-dialog.js';
 
 /**
  * Diálogo nativo: contiene foco, restaura el disparador y bloquea scroll al anidar confirmaciones.
@@ -8,7 +8,7 @@ import { useAdminDialog } from './use-admin-dialog.js';
  * pending?: boolean, className?: string, initialFocus?: string}} props Configuración y contenido.
  * @returns {import('react').ReactElement} Modal accesible con Escape, cierre y backdrop.
  */
-export function AdminDialog({
+export function Dialog({
   title,
   children,
   onClose,
@@ -16,7 +16,7 @@ export function AdminDialog({
   className = '',
   initialFocus,
 }) {
-  const { ref, trapFocus } = useAdminDialog(initialFocus);
+  const { ref, trapFocus } = useDialog(initialFocus);
   const titleId = useId();
   const cancel = () => {
     if (!pending) onClose();
@@ -24,7 +24,7 @@ export function AdminDialog({
   return (
     <dialog
       ref={ref}
-      className={`admin-dialog ${className}`}
+      className={`vs-dialog ${className}`}
       aria-labelledby={titleId}
       aria-modal="true"
       aria-busy={pending || undefined}
@@ -45,9 +45,9 @@ export function AdminDialog({
           cancel();
       }}
     >
-      <header className="admin-dialog-heading">
+      <header className="vs-dialog-heading">
         <h2 id={titleId}>{title}</h2>
-        <AdminIconButton
+        <IconAction
           icon={className.includes('evidence-viewer') ? 'close' : 'close-muted'}
           label={`Cerrar ${title.toLocaleLowerCase('es')}`}
           onClick={cancel}

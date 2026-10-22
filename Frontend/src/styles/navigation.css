@@ -4,11 +4,11 @@
   gap: var(--space-12);
   width: var(--size-navigation);
   max-width: 100%;
-  min-height: var(--size-control);
-  padding: var(--space-12);
+  min-height: 44px;
+  padding: 10px 12px;
   border-radius: var(--radius-lg);
   background: var(--surface);
-  font: var(--type-button);
+  font: 600 16px / 24px var(--font-brand);
   text-decoration: none;
 }
 .vs-navigation-marker {

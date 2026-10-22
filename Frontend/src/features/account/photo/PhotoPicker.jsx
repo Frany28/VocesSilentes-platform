@@ -9,9 +9,9 @@ import { Icon } from '../../../components/ui/Icon.jsx';
 export function PhotoPicker({ error, onSelect, onChoose }) {
   return (
     <>
-      <p className="admin-muted">Agrega una foto para reconocer tu cuenta de un vistazo.</p>
+      <p className="account-muted">Agrega una foto para reconocer tu cuenta de un vistazo.</p>
       <div
-        className="admin-photo-drop"
+        className="account-photo-drop"
         onDragOver={(event) => event.preventDefault()}
         onDrop={(event) => {
           event.preventDefault();
@@ -30,11 +30,11 @@ export function PhotoPicker({ error, onSelect, onChoose }) {
             <p>JPG, PNG o WEBP · Máximo 5 MB</p>
           </>
         )}
-        <Button variant="secondary" icon={null} onClick={onChoose}>
+        <Button density="compact" variant="secondary" icon={null} onClick={onChoose}>
           {error ? 'Elegir otra imagen' : 'Elegir archivo'}
         </Button>
       </div>
-      <p className="admin-demo-note">
+      <p className="account-caption">
         Usaremos un recorte cuadrado con vista circular. La foto puede quitarse después.
       </p>
     </>

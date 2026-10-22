@@ -1,0 +1,46 @@
+/* Estándar 412:27892: la densidad se elige por tarea y se comparte entre roles. */
+.vs-button[data-density='compact'] {
+  --size-control: 44px;
+  width: auto;
+  font: 600 13px / 20px var(--font-brand);
+}
+.vs-button[data-density='compact'] .vs-button-surface {
+  padding: 12px 16px;
+}
+.vs-button[data-density='compact'] .vs-button-surface::before {
+  box-shadow: none;
+}
+.vs-button[data-density='compact'][data-variant='secondary']:disabled .vs-button-surface::before {
+  border-color: var(--border-subtle);
+}
+.vs-field[data-density='compact'] {
+  gap: 4px;
+  width: 100%;
+  padding: 0;
+  background: transparent;
+}
+.vs-field[data-density='compact'] label {
+  font: 600 13px / 20px var(--font-brand);
+}
+.vs-field[data-density='compact'] .vs-input-shell {
+  min-height: 44px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  background: var(--surface);
+}
+.vs-field[data-density='compact'] .vs-input {
+  font: 400 14px / 20px var(--font-field);
+}
+.vs-field[data-density='compact'] .vs-field-message {
+  font: 400 12px / 20px var(--font-brand);
+}
+.vs-field[data-density='compact']:has(:disabled) .vs-input-shell {
+  background: var(--action-disabled);
+}
+.vs-field[data-density='compact'].vs-password-field .vs-input-shell {
+  padding: 2px 2px 2px 16px;
+}
+.vs-field[data-density='compact'] .vs-password-toggle {
+  width: 40px;
+  height: 40px;
+}

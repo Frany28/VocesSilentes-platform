@@ -1,5 +1,5 @@
 import { AdminHeading } from '../components/AdminHeading.jsx';
-import { AdminIconButton } from '../components/AdminIconButton.jsx';
+import { IconAction } from '../../../components/ui/IconAction.jsx';
 import { AdminUnavailable } from '../components/AdminUnavailable.jsx';
 import { ReportReview } from '../components/ReportReview.jsx';
 
@@ -12,7 +12,7 @@ export function AdminReportDetail({ report, onResolve } = {}) {
   return (
     <div className="admin-page">
       <div className="admin-title-row">
-        <AdminIconButton to="/admin/reports" icon="back" label="Volver a reportes" />
+        <IconAction to="/admin/reports" icon="back" label="Volver a reportes" />
         <AdminHeading title="Revisión de reporte">
           Toda la información para tomar una decisión.
         </AdminHeading>
