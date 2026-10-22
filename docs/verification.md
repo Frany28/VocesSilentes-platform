@@ -1,6 +1,29 @@
 # Verificación
 
-## Evidencias de reportes — 21 de octubre de 2026
+## Activación de Supabase S3 — 21 de octubre de 2026
+
+El adaptador consume las credenciales S3 existentes, S3_ENDPOINT y S3_REGION del backend;
+se verificó que endpoint y URLs PostgreSQL pertenecen al mismo proyecto de desarrollo.
+Se aplicaron `20261020000100_admin_audit` y `20261021000100_report_evidence` con Prisma deploy,
+y `Backend/storage/001_report_evidence.sql`. Inspección posterior: tres migraciones terminadas,
+bucket privado, 5 MiB, tres MIME, RLS activo y política restrictiva exacta para PUBLIC.
+
+`evidence:check` pasó con HeadBucket S3 real más inspección SQL. `evidence:probe` subió y leyó
+JPEG/PNG/WEBP con igualdad de bytes; rechazó reemplazo mediante HEAD, acceso/listado anónimo
+y firma SigV4 vencida. La fecha de emisión de esa firma era 125 s anterior con TTL 120 s;
+el proveedor negó la lectura y aceptó una firma nueva. Los tres objetos se eliminaron y el
+catálogo posterior confirmó **0 objetos y 0 relaciones de evidencia**. No se insertaron cuentas
+ni reportes de prueba en la base compartida. El registro temporal local también se retiró.
+
+`pnpm verify` completo terminó con código **0**: **104 frontend, 43 backend, 51 SQL/auth**,
+**198 pruebas aprobadas**, lint sin advertencias, formato, Prisma y build correctos.
+La prueba de transporte S3 usa HTTP loopback real y credenciales sintéticas inmutables; comprueba
+que el SDK puede anotar su copia de identidad sin modificar la configuración validada.
+`pnpm db:check` volvió a responder a SELECT 1. No se ejecutaron GitHub Actions, despliegue
+de aplicación ni scheduler remoto. La UI desplegada con cuentas propias y concurrencia
+multiworker siguen sin verificarse. [Procedimiento reproducible y límites](report-evidence.md).
+
+## Evidencias de reportes: preparación inicial — 21 de octubre de 2026
 
 `pnpm verify` completo terminó con código **0**, sin advertencias de lint: **104 pruebas frontend**
 en 38 archivos, **39 backend** y **51 SQL/auth**; **194 aprobadas**, sin fallos ni omisiones.

@@ -43,8 +43,8 @@ porque 5173 ya estaba ocupado; los ejemplos conservan el valor habitual de 5173.
 
 ## Variables
 
-Evidencia añade SUPABASE_URL (origen HTTPS del proyecto) y SUPABASE_SERVICE_ROLE_KEY (secreta),
-ambas exclusivamente en backend. Reutiliza DATABASE_URL/DIRECT_URL existentes. No copiar la clave
+Evidencia reutiliza `s3_access_key_id` y `s3_secret_access_key` existentes y añade `S3_ENDPOINT`
+y `S3_REGION`, exclusivamente en backend. Mantiene DATABASE_URL/DIRECT_URL. No copiar el secreto
 a VITE_* ni imprimirla. Preparación de bucket, migración y mantenimiento en
 [evidencias](report-evidence.md#configuración-y-aplicación-deliberada).
 
@@ -59,6 +59,11 @@ a VITE_* ni imprimirla. Preparación de bucket, migración y mantenimiento en
 | LOG_LEVEL                 | Backend, privada         | info; niveles estándar Pino o silent                                                                 |
 | DATABASE_URL              | Backend, privada         | Vacía desactiva DB; postgres:// o postgresql:// para persistencia                                    |
 | DIRECT_URL                | Backend, tooling privado | Session/direct para migraciones; sin fallback a Transaction                                          |
+| S3_ENDPOINT               | Backend, privada         | Endpoint Supabase HTTPS `/storage/v1/s3` del mismo proyecto                                          |
+| S3_REGION                 | Backend, privada         | Región de Storage → S3 Configuration                                                                 |
+| s3_access_key_id          | Backend, privada         | Identificador S3 existente, nunca credenciales del usuario de la aplicación                          |
+| s3_secret_access_key      | Backend, secreta         | Secreto S3 existente; no registrar ni enviar al frontend                                             |
+| S3_BUCKET_NAME            | Backend, privada         | Bucket general anterior; las evidencias usan siempre report-evidence                                 |
 | SHADOW_DATABASE_URL       | Backend, tooling privado | Opcional; base independiente y descartable para migrate dev                                          |
 | CSRF_SECRET               | Backend, secreta         | 64 hex aleatorios; obligatorio/persistente/compartido en production; vacío genera uno efímero en dev |
 | SESSION_DURATION_SECONDS  | Backend, privada         | 86400; duración absoluta, entero 1–604800                                                            |
@@ -81,7 +86,8 @@ DATABASE_URL ni secretos bajo ese prefijo. Reiniciar/reconstruir al cambiar valo
 ## Convenciones y controles
 
 Evidencia utiliza Sharp 0.35.5 para decodificar y sanear imágenes no confiables en el servidor;
-no añade SDK Storage: el adaptador REST usa fetch nativo y credenciales privadas. Los binarios
+el adaptador usa los SDK oficiales `@aws-sdk/client-s3` y `@aws-sdk/s3-request-presigner` 3.1155.0
+para protocolo S3 y firma SigV4. Los secretos solo residen en backend. Los binarios
 opcionales de Sharp se instalan para cada plataforma; se comprobó decodificación real en Windows.
 No se amplía la lista de scripts de instalación permitidos de pnpm: funciona con el binario
 precompilado sin ejecutar el script de compilación ignorado. No se agregan excepciones de tamaño.

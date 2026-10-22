@@ -46,13 +46,17 @@ export function createEvidenceService(repository, storage) {
       try {
         await storage.upload(row.path, image);
         if (!(await repository.ready(id)).count) throw new Error('Reservation expired');
-      } catch {
+      } catch (error) {
         // Solo se borra tras reclamar PENDING. Un commit READY ambiguo nunca elimina evidencia válida.
         try {
-          if ((await repository.claim(id)).count) await remove(row);
+          if ((await repository.claim(id)).count) {
+            if (error.code === 'EVIDENCE_EXISTS') await repository.discard(id);
+            else await remove(row);
+          }
         } catch {
           /* La reserva durable queda para evidence:cleanup, incluso tras reinicio. */
         }
+        if (error.code === 'EVIDENCE_EXISTS') throw error;
         throw new HttpError(
           503,
           'EVIDENCE_UPLOAD_FAILED',

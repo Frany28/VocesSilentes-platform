@@ -1,78 +1,86 @@
+import {
+  PutObjectCommand,
+  DeleteObjectCommand,
+  GetObjectCommand,
+  HeadBucketCommand,
+  HeadObjectCommand,
+} from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { HttpError } from '../../errors/http-error.js';
 import { EVIDENCE_BUCKET } from './evidence-image.js';
+import { createEvidenceS3Client } from './evidence-s3-client.js';
 
 /**
- * Adaptador REST Storage privado. Solo recibe rutas generadas internamente; nunca usa upsert ni lista objetos.
- * @param {object | undefined} config URL/clave privadas ya validadas.
- * @param {Function} [fetcher] Transporte inyectable para pruebas de contrato, no de conectividad.
- * @returns {object | undefined} upload/remove/sign/check; errores públicos sin respuestas ni credenciales.
+ * Storage S3 privado; las reservas DB únicas autorizan cada carga y READY impide reemplazarla.
+ * @param {object | undefined} config Endpoint/región/credenciales del servidor.
+ * @param {{client?: object, presign?: Function}} [dependencies] Transporte/firma sustituibles solo en pruebas.
+ * @returns {object | undefined} upload/remove/sign/check/close; nunca lista objetos ni expone claves secretas.
  */
-export function createEvidenceStorage(config, fetcher = fetch) {
+export function createEvidenceStorage(config, dependencies = {}) {
   if (!config) return undefined;
-  const call = async (path, options = {}) => {
-    try {
-      const response = await fetcher(`${config.url}/storage/v1/${path}`, {
-        ...options,
-        redirect: 'error',
-        signal: AbortSignal.timeout(20000),
-        headers: { apikey: config.key, Authorization: `Bearer ${config.key}`, ...options.headers },
-      });
-      if (!response.ok) throw new Error('Storage rejected request');
-      return response;
-    } catch {
-      throw new HttpError(
-        503,
-        'STORAGE_UNAVAILABLE',
-        'No se pudo contactar con el almacenamiento. Reintenta.',
-      );
-    }
-  };
-  const objectPath = (path) => {
+  const client = dependencies.client ?? createEvidenceS3Client(config);
+  const presign = dependencies.presign ?? getSignedUrl;
+  const unavailable = () =>
+    new HttpError(
+      503,
+      'STORAGE_UNAVAILABLE',
+      'No se pudo contactar con el almacenamiento. Reintenta.',
+    );
+  const target = (path) => {
     if (!/^[a-f0-9-]{36}\/[a-f0-9-]{36}\/[a-f0-9-]{36}$/.test(path))
       throw new Error('Invalid internal evidence path');
-    return `${EVIDENCE_BUCKET}/${path}`;
+    return { Bucket: EVIDENCE_BUCKET, Key: path };
+  };
+  const send = async (command) => {
+    try {
+      return await client.send(command, { abortSignal: AbortSignal.timeout(20000) });
+    } catch {
+      throw unavailable();
+    }
   };
   return {
-    upload: async (path, image) => {
-      await call(`object/${objectPath(path)}`, {
-        method: 'POST',
-        body: image.bytes,
-        headers: {
-          'Content-Type': image.mimeType,
-          'x-upsert': 'false',
-          'Cache-Control': 'no-store',
-        },
-      });
+    async upload(path, image) {
+      const object = target(path);
+      try {
+        await client.send(new HeadObjectCommand(object), {
+          abortSignal: AbortSignal.timeout(20000),
+        });
+      } catch (error) {
+        if (error.$metadata?.httpStatusCode !== 404) throw unavailable();
+        // Supabase no garantiza PutObject condicional: la exclusión entre cargas reside en la reserva DB.
+        await send(
+          new PutObjectCommand({
+            ...object,
+            Body: image.bytes,
+            ContentLength: image.size,
+            ContentType: image.mimeType,
+            CacheControl: 'no-store',
+            IfNoneMatch: '*',
+          }),
+        );
+        return;
+      }
+      throw new HttpError(409, 'EVIDENCE_EXISTS', 'El archivo ya existe y no puede sobrescribirse');
     },
     remove: async (path) => {
-      objectPath(path);
-      await call(`object/${EVIDENCE_BUCKET}`, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prefixes: [path] }),
-      });
+      await send(new DeleteObjectCommand(target(path)));
     },
-    sign: async (path) => {
-      const issuedAt = Date.now();
-      const response = await call(`object/sign/${objectPath(path)}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ expiresIn: 120 }),
-      });
+    async sign(path) {
+      const issuedAt = new Date();
       try {
-        const payload = await response.json();
-        const url = new URL(`/storage/v1${payload.signedURL}`, config.url);
-        if (
-          url.origin !== config.url ||
-          !url.searchParams.has('token') ||
-          url.pathname !== `/storage/v1/object/sign/${objectPath(path)}`
-        )
-          throw new Error('Invalid signature');
-        return { src: url.href, expiresAt: new Date(issuedAt + 120000).toISOString() };
+        const src = await presign(
+          client,
+          new GetObjectCommand({ ...target(path), ResponseCacheControl: 'no-store' }),
+          { expiresIn: 120, signingDate: issuedAt },
+        );
+        return { src, expiresAt: new Date(issuedAt.getTime() + 120000).toISOString() };
       } catch {
-        throw new HttpError(503, 'STORAGE_UNAVAILABLE', 'Respuesta de almacenamiento inválida');
+        throw unavailable();
       }
     },
-    check: async () => (await call(`bucket/${EVIDENCE_BUCKET}`)).json(),
+    check: async () => {
+      await send(new HeadBucketCommand({ Bucket: EVIDENCE_BUCKET }));
+    },
+    close: () => client.destroy(),
   };
 }

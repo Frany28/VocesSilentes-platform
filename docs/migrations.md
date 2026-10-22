@@ -1,10 +1,11 @@
 # Migraciones de la fase 1
 
-Nueva migración preparada: `20261021000100_report_evidence`, aditiva sobre Report y nueva tabla
+Nueva migración: `20261021000100_report_evidence`, aditiva sobre Report y nueva tabla
 ReportEvidence con restricciones, RLS y revocaciones. El bucket/política del proveedor tienen su
 procedimiento separado `Backend/storage/001_report_evidence.sql`; no forman parte del esquema Prisma.
-Ambos están preparados, sin aplicar remotamente; la inspección del 21 de octubre encontró solo
-la migración inicial aplicada. Revisar [pasos, permisos y comprobaciones](report-evidence.md).
+El 21 de octubre se aplicaron AuditLog y ReportEvidence mediante `migrate deploy` en el proyecto
+Supabase de desarrollo, después de revisar SQL y destino. El procedimiento de bucket también se
+aplicó y su política se comprobó por catálogo. Ver [pasos y comprobaciones](report-evidence.md).
 
 Prisma **7.10.0** es la única fuente de migraciones de aplicación. No ejecutar `db push`,
 `migrate reset` ni editar `_prisma_migrations` para resolver errores. No usar el SQL Editor
@@ -76,8 +77,8 @@ Los REVOKE solo restringen acceso a la aplicación nueva; no afectan auth/storag
 El Día 1 del Módulo II añade `20261020000100_admin_audit`: enum AuditOperation y tabla AuditLog,
 FK de actor RESTRICT/CASCADE, tres índices, CHECK de entidad, RLS y revocaciones de Data API.
 Es aditiva, no altera ni reescribe la migración inicial y no inserta datos. Se preparó mediante
-SQL revisado contra el modelo Prisma y se verifica en PostgreSQL WASM aislado. **No se ha aplicado
-a Supabase en esta tarea**. Revisar este archivo nuevo antes de cualquier `db:migrate` autorizado.
+SQL revisado contra el modelo Prisma y se verifica en PostgreSQL WASM aislado. Se aplicó a
+Supabase de desarrollo el 21 de octubre junto con evidencia; no inserta fixtures ni usuarios.
 Los [scripts académicos](module-ii/database.md) son para bases limpias aisladas, no para actualizar
 una base compartida ni el historial Prisma.
 

@@ -3,7 +3,7 @@
 Implementación del 21 de octubre de 2026. El flujo usa las sesiones opacas propias de
 VocesSilentes (`User`/`Session`), **no Supabase Auth**. Reutiliza DATABASE_URL/Prisma,
 requireSession, transporte HTTPS, CSRF firmado y el cliente HTTP compartido.
-Las credenciales PostgreSQL existentes no son credenciales de la API Storage.
+Reutiliza las claves S3 existentes mediante los SDK oficiales AWS, sin requerir service_role REST.
 
 ## Contrato y permisos
 
@@ -20,8 +20,9 @@ Las credenciales PostgreSQL existentes no son credenciales de la API Storage.
   eliminación, bloqueo, revocación y expiración. Ni IDs/roles del body ni la UI conceden permisos.
 - Listado filtrado por autor en USER y global en ADMIN. Detalle/acceso ajeno devuelve 404.
   No existe endpoint que liste objetos ni que acepte bucket, ruta, propietario o URL del navegador.
-- La clave `service_role` omite RLS en Storage: la autorización de aplicación se hace explícitamente
-  en Express antes de firmar o cargar. Nunca se expone esa clave en VITE_* ni en respuestas/logs.
+- Las claves S3 administrativas omiten RLS: la autorización se hace explícitamente en Express antes
+  de firmar o cargar. El secreto nunca llega a VITE_*, respuestas ni logs. Las firmas SigV4 de lectura
+  incluyen el identificador de acceso y una firma temporal, nunca el secreto que la genera.
 
 `Backend/storage/001_report_evidence.sql` configura bucket, límite y MIME. Su política
 **restrictiva** para PUBLIC niega SELECT/INSERT/UPDATE/DELETE en ese bucket a los roles sujetos
@@ -43,8 +44,13 @@ RLS y REVOKE aíslan la tabla de Data API; no se persisten URLs firmadas ni nomb
    misma entrada devuelve el mismo ID; reutilizar requestId con otro contenido devuelve 409.
 2. Si hay selección, la API vuelve a autorizar propiedad y valida/decodifica. Persiste una reserva
    PENDING con UUID del servidor **antes** de contactar Storage.
-3. Carga el archivo saneado con `x-upsert: false` y confirma READY. Solo READY permite lectura.
+3. Consulta HEAD y carga el archivo saneado por S3; confirma READY. Solo READY permite lectura.
    Un reintento con el mismo digest READY devuelve 204 sin otra carga; otro archivo devuelve 409.
+   La reserva única de DB y los UUID del servidor excluyen dos escritores de la misma ruta.
+   S3 recibe `If-None-Match: *` como defensa adicional, pero no se presume que Supabase lo aplique
+   atómicamente en PutObject: su implementación documentada realiza upsert. No hay subida directa
+   desde el cliente ni reutilización de rutas. HEAD rechaza un archivo preexistente sin borrarlo
+   en la compensación, y un HEAD fallido distinto de 404 no permite iniciar PUT.
 4. Ante fallo, reclama PENDING → DELETING, intenta eliminar por ruta exacta y retira la reserva
    solo tras confirmar el borrado. Un commit READY ambiguo no se elimina por compensación.
 5. Si el proceso cae o falla el borrado, la reserva queda en DB. `evidence:cleanup` reclama PENDING
@@ -91,17 +97,23 @@ La creación actual es de reportes generales; no implementa resolución/comentar
 
 Variables exclusivas de Backend/.env o del gestor de secretos del servidor:
 
-| Variable                  | Uso                                                                            |
-| ------------------------- | ------------------------------------------------------------------------------ |
-| DATABASE_URL              | Conexión Prisma runtime ya existente                                           |
-| DIRECT_URL                | Conexión Session/direct del mismo proyecto para SQL versionado                 |
-| SUPABASE_URL              | Origen HTTPS exacto de la API del **mismo proyecto**, sin slash final ni rutas |
-| SUPABASE_SERVICE_ROLE_KEY | Clave privada service_role de ese proyecto; nunca frontend                     |
+| Variable             | Uso                                                                                             |
+| -------------------- | ----------------------------------------------------------------------------------------------- |
+| DATABASE_URL         | Conexión Prisma runtime ya existente                                                            |
+| DIRECT_URL           | Conexión Session/direct del mismo proyecto para SQL versionado y comprobación de políticas      |
+| S3_ENDPOINT          | Endpoint HTTPS de Supabase terminado en `/storage/v1/s3`, copiado de Storage → S3 Configuration |
+| S3_REGION            | Región indicada en esa misma configuración                                                      |
+| s3_access_key_id     | Identificador S3 existente, conservando su nombre en minúsculas                                 |
+| s3_secret_access_key | Secreto S3 existente, exclusivo del servidor                                                    |
+| S3_BUCKET_NAME       | Bucket general anterior; **no cambia** el destino de evidencias, siempre `report-evidence`      |
 
-Ambas variables Storage vacías deshabilitan adjuntos con 503; configuración parcial/inválida impide
+Sin variables de conexión S3 se deshabilitan adjuntos con 503; configuración parcial/inválida impide
 arrancar. No se modifica el .env privado existente ni se derivan secretos de DATABASE_URL.
-Confirmar que DB, DIRECT_URL y SUPABASE_URL pertenecen al mismo proyecto de desarrollo antes de aplicar.
-Revisar las dos migraciones pendientes: `db:migrate` aplica **todas**, incluida AuditLog previa.
+Se comprueba que el endpoint sea de Supabase, sin credenciales/query y del mismo proyecto que las
+URLs PostgreSQL de Supabase cuando se puede extraer su referencia. El SDK usa credenciales explícitas,
+path-style, un intento, timeout 20 s y cálculo de checksum solo cuando se exige; se cierra al salir
+del servidor/CLI. No necesita SUPABASE_URL ni SUPABASE_SERVICE_ROLE_KEY.
+`db:migrate` aplica todas las migraciones pendientes; AuditLog y evidencia ya se aplicaron en desarrollo.
 
 Desde PowerShell, después de configurar secretos privadamente y revisar el destino autorizado:
 
@@ -113,6 +125,8 @@ pnpm db:check
 pnpm db:migrate
 pnpm --filter @vocessilentes/backend evidence:configure
 pnpm --filter @vocessilentes/backend evidence:check
+# Prueba remota explícita: sube y elimina tres imágenes temporales, sin filas de aplicación:
+pnpm --filter @vocessilentes/backend evidence:probe
 # Operación periódica privada:
 pnpm --filter @vocessilentes/backend evidence:cleanup
 ```
@@ -121,7 +135,15 @@ El procedimiento Storage es idempotente, no instala extensiones, no modifica fot
 reescribe migraciones aplicadas. Es independiente de Prisma porque storage es administrado por
 Supabase y no existe en PostgreSQL genérico/PGlite. Requiere permisos para bucket y políticas;
 no cambiar propietarios ni elevar permisos globales para evitar un error. `evidence:check` comprueba
-la API, privacidad, tamaño y MIME; **no** certifica carga real, políticas remotas ni identidades.
+S3 HeadBucket y, por SQL, privacidad, tamaño, MIME, RLS y la política restrictiva exacta;
+no certifica por sí solo carga real ni identidades. `evidence:probe` verifica carga/lectura exacta de
+JPEG/PNG/WEBP, rechazo de reemplazo, GET/listado anónimo denegados, firma vencida rechazada y firma
+renovada válida. La firma vencida se genera con fecha de emisión 125 s anterior y TTL 120 s;
+no se simula el rechazo del proveedor ni se espera un temporizador del navegador.
+Registra primero las rutas en `.local/evidence-s3-probe.json` (sin secretos/URLs firmadas), elimina
+los tres objetos incluso ante fallo y retira el registro al confirmar borrado. Si el proceso muere
+o falla el borrado, conservar ese registro y retirar únicamente sus rutas por S3 antes de repetir;
+el archivo existente bloquea otra prueba para evitar perder el seguimiento. No crea cuentas/reportes.
 El máximo global de Storage debe admitir al menos 5 MiB y la API/proxy debe permitir ese cuerpo.
 
 **Vercel:** su límite de cuerpo es 4,5 MB, menor que el máximo de esta API. Para aceptar los 5 MiB
@@ -131,28 +153,30 @@ cuarentena requiere diseño de validación confiable y promoción antes de ofrec
 
 ## Evidencia de ejecución y límites
 
-- Preparado: migración de aplicación y procedimiento Storage; no ejecutados en el proyecto remoto.
-- Ejecutado localmente: pruebas Sharp, SQL/RLS en PGlite, Express/Prisma/sesiones efímeras y frontend.
-  Storage se sustituye explícitamente en pruebas de integración; no equivale a una carga Supabase.
-  `pnpm verify` completo: 194 pruebas aprobadas (104 frontend, 39 backend, 51 SQL/auth), lint sin
-  advertencias, formato, validación Prisma y build correctos. Ver [verificación](verification.md).
-- Comprobado en lectura remota: SELECT 1 correcto; historial contiene únicamente
-  `20261009000100_phase_one`. AuditLog y evidencia pendientes. No se insertaron fixtures remotos.
-- `evidence:check` falló: faltan SUPABASE_URL y SUPABASE_SERVICE_ROLE_KEY en el entorno local.
-  No se afirma que exista el bucket ni que una imagen se haya cargado o abierto remotamente.
-- No se ejecutó GitHub Actions, despliegue ni programación remota de limpieza.
+- Aplicado en Supabase de desarrollo: migraciones AuditLog y ReportEvidence mediante Prisma deploy,
+  más procedimiento versionado de bucket/política. La inspección previa confirmó el mismo proyecto
+  para endpoint S3 y PostgreSQL; no se insertaron fixtures ni cuentas/reportes de prueba remotos.
+- Comprobado remotamente: `evidence:check` correcto; `evidence:probe` correcto en los tres formatos,
+  incluidos rechazo anónimo, sobrescritura y firma vencida. Los objetos temporales se eliminaron.
+- Localmente se prueban Sharp, SQL/RLS en PGlite, Express/Prisma/sesiones efímeras, firma SigV4,
+  transporte HTTP S3 en loopback y frontend. `pnpm verify` completo pasó con 198 pruebas
+  (104 frontend, 43 backend, 51 SQL/auth), lint sin advertencias, Prisma y build correctos.
+  Resultados completos en [verificación](verification.md).
+- La prueba remota de Storage no es una prueba de la UI desplegada ni login de usuarios remotos.
+  No se ejecutó GitHub Actions, despliegue ni programación remota de limpieza.
 
 Pruebas cubren anónimo, CSRF, otro propietario, ADMIN y degradación, aislamiento de listado,
 MIME falso, SVG/GIF/documentos, corrupción, tamaño/dimensiones, idempotencia, compensación/purga,
 política restrictiva frente a otra permisiva y renovación/reintento del visor con reloj controlado.
-La expiración criptográfica real de un token Supabase y concurrencia multiworker sobre PostgreSQL 17
-requieren probar el proyecto configurado. Antes de declarar integración remota, con cuentas propias
-de desarrollo: cargar cada formato, abrir como autor/ADMIN, negar otro usuario/anónimo, verificar
-que un enlace caduque tras 120 s y que su renovación autorice de nuevo; revisar que no queden reservas
-antiguas tras provocar un fallo. No usar los fixtures académicos en la base compartida.
+La concurrencia multiworker sobre PostgreSQL 17 y la navegación desplegada requieren comprobación
+adicional con cuentas propias: adjuntar desde Student, abrir como autor/ADMIN y negar otro usuario.
+La autorización de esas sesiones se prueba localmente con persistencia efímera real y no se sustituye
+por permisos S3. No usar los fixtures académicos en la base compartida.
 
 Fuentes oficiales: [buckets privados](https://supabase.com/docs/guides/storage/buckets/fundamentals),
 [service keys/RLS](https://supabase.com/docs/guides/storage/security/access-control),
+[autenticación S3](https://supabase.com/docs/guides/storage/s3/authentication),
+[compatibilidad S3](https://supabase.com/docs/guides/storage/s3/compatibility),
 [decodificación y límites Sharp](https://sharp.pixelplumbing.com/api-constructor/),
 [Sharp estable](https://github.com/lovell/sharp/releases/tag/v0.35.5) y
 [límite Vercel](https://vercel.com/docs/functions/limitations#request-body-size).

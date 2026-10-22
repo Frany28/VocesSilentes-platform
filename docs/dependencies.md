@@ -41,8 +41,10 @@ El único pnpm-lock.yaml fija transitivas. pnpm exige engines y peers compatible
 Ampliación del 21 de octubre: **sharp 0.35.5** en producción, versión estable publicada en
 [releases oficiales](https://github.com/lovell/sharp/releases/tag/v0.35.5), para decodificar y
 recodificar evidencias en el servidor con límites de píxeles/tiempo. Compatible con Node 22;
-el lockfile fija los binarios opcionales por plataforma. No se instala un SDK Supabase:
-Storage utiliza fetch nativo del backend y la conexión PostgreSQL existente permanece intacta.
+el lockfile fija los binarios opcionales por plataforma. Para reutilizar las credenciales S3
+existentes se fijan `@aws-sdk/client-s3` y `@aws-sdk/s3-request-presigner` **3.1155.0**:
+transporte S3 y firma SigV4 oficiales, sin implementar criptografía propia. No se instala el SDK
+Supabase Auth; la conexión PostgreSQL y las sesiones propias se conservan.
 
 | Dependencia                         | Versión         | Clasificación / necesidad                                                                      |
 | ----------------------------------- | --------------- | ---------------------------------------------------------------------------------------------- |

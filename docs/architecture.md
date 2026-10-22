@@ -3,10 +3,10 @@
 Dos aplicaciones privadas en un workspace, un solo lockfile. No se comparten secretos entre ellas.
 
 Actualización de evidencia (21 de octubre): `modules/reports/` implementa creación idempotente,
-consulta autorizada y evidencia privada mediante la API Storage. `features/reports/` separa servicios,
+consulta autorizada y evidencia privada mediante S3 de Supabase. `features/reports/` separa servicios,
 selección/envío y renovación de enlaces del visor compartido en Admin. Las sesiones siguen siendo
 propias. Reservas durables compensan fallos entre PostgreSQL y Storage; configuración y cambios
-pendientes de aplicar se detallan en [evidencias](report-evidence.md). La resolución sigue pendiente.
+aplicados en desarrollo se detallan en [evidencias](report-evidence.md). La resolución sigue pendiente.
 Las referencias históricas a reportes sin backend del resto del documento describen la etapa previa.
 
 ```mermaid
@@ -133,7 +133,7 @@ Auth usa sesiones opacas y transacciones sobre User/Session sin cambios de esque
 endpoints de contenido/progreso/reportes, OAuth, correo, recuperación y despliegue de producción.
 
 El [Módulo II, Día 1](module-ii/README.md) añade una décima tabla AuditLog mediante migración
-aditiva versionada, probada en memoria y todavía no aplicada a Supabase en esta tarea. El módulo
+aditiva versionada, probada en memoria y aplicada a Supabase de desarrollo junto con evidencia. El módulo
 administrativo incorpora listado paginado real y borrado lógico: conserva advisory lock/bloqueos
 de fila y registra cada creación/edición/eliminación ADMIN en su misma transacción. Borrar revoca
 las sesiones, conserva relaciones e impide quitar el último ADMIN activo. La bitácora permite

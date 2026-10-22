@@ -14,6 +14,7 @@ import { createEvidenceStorage } from './modules/reports/evidence-storage.js';
 loadEnv();
 let database;
 let logger;
+let storage;
 try {
   const config = parseEnv(process.env);
   logger = createLogger(config.logLevel);
@@ -21,9 +22,8 @@ try {
   if (database) await database.$connect();
   const authService = database ? await createAuthService(database, config.auth) : undefined;
   const usersService = database ? await createUsersService(database) : undefined;
-  const reportsService = database
-    ? createReportsService(database, createEvidenceStorage(config.storage))
-    : undefined;
+  storage = database ? createEvidenceStorage(config.storage) : undefined;
+  const reportsService = database ? createReportsService(database, storage) : undefined;
   const server = createServer(
     createApp(config, logger, { authService, usersService, reportsService }),
   );
@@ -43,9 +43,11 @@ try {
     }, 10000);
     try {
       await closeResources(server, database);
+      storage?.close();
       clearTimeout(deadline);
       process.exitCode = 0;
     } catch (error) {
+      storage?.close();
       logger.error({ err: error }, 'No se pudieron cerrar los recursos');
       process.exit(1);
     }
@@ -56,5 +58,6 @@ try {
   if (logger) logger.fatal({ err: error }, 'No se pudo iniciar la API');
   else console.error(error instanceof ConfigurationError ? error.message : 'Error de arranque');
   await database?.$disconnect();
+  storage?.close();
   process.exitCode = 1;
 }

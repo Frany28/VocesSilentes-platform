@@ -4,7 +4,7 @@ Actualización del 21 de octubre: reportes y evidencia ya consultan servicios re
 El listado se pagina/filtra en backend y el visor existente obtiene enlaces temporales autorizados.
 La resolución y las fotos de perfil siguen pendientes. Las secciones históricas siguientes que
 describen evidencia/reportes sin backend corresponden al rediseño anterior; ver el
-[contrato actual y configuración todavía sin aplicar a Supabase](report-evidence.md).
+[contrato actual y comprobación real de Supabase S3](report-evidence.md).
 
 Fuente actual: [Admin · Rediseño moderno, 286:50](https://www.figma.com/design/GRbHCgOXNZZxRWSpIcHKVU/VocesSilentes-Website?node-id=286-50).
 La revisión del 21 de octubre de 2026 inventarió los 170 frames de la página mediante metadata.

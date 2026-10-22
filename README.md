@@ -141,8 +141,9 @@ Las carpetas de funcionalidades futuras se crean cuando tengan contenido útil.
 
 El flujo de evidencias añade reportes generales reales, selección/preview y carga privada validada
 en servidor, más listado y visor Admin con acceso temporal autorizado. La migración y el bucket
-están preparados, **sin aplicar remotamente**; PostgreSQL responde, pero faltan credenciales Storage
-locales. La resolución y fotos de perfil siguen pendientes. Para estado y configuración actuales
+ya se aplicaron en Supabase de desarrollo; las credenciales S3 existentes permiten carga/lectura real
+comprobada con objetos temporales eliminados. La resolución y fotos de perfil siguen pendientes.
+Para estado y configuración actuales
 consultar [evidencias de reportes](docs/report-evidence.md); las descripciones históricas de reportes
 sin backend en los párrafos siguientes corresponden a la etapa anterior.
 
