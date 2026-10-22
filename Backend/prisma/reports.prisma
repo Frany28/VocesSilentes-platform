@@ -16,6 +16,7 @@ enum ReportStatus {
 model Report {
   id              String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   authorId        String         @db.Uuid
+  requestId       String?        @db.Uuid
   description     String
   category        ReportCategory
   status          ReportStatus   @default(PENDING)
@@ -32,12 +33,33 @@ model Report {
   module          Module?        @relation(fields: [moduleId], references: [id], onDelete: Restrict, onUpdate: Cascade)
   lesson          Lesson?        @relation(fields: [lessonId], references: [id], onDelete: Restrict, onUpdate: Cascade)
   exercise        Exercise?      @relation(fields: [exerciseId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  evidence        ReportEvidence?
 
+  @@unique([authorId, requestId])
+  @@unique([id, authorId])
   @@index([authorId, createdAt])
   @@index([status, createdAt])
   @@index([resolvedById])
   @@index([moduleId])
   @@index([lessonId])
   @@index([exerciseId])
+  @@schema("vocessilentes")
+}
+
+model ReportEvidence {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  reportId  String   @unique @db.Uuid
+  ownerId   String   @db.Uuid
+  bucket    String   @default("report-evidence")
+  path      String   @unique
+  mimeType  String
+  size      Int
+  digest    String   @db.Char(64)
+  state     String   @default("PENDING")
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  report    Report   @relation(fields: [reportId, ownerId], references: [id, authorId], onDelete: Restrict, onUpdate: Cascade)
+
+  @@index([state, createdAt])
+  @@unique([reportId, ownerId])
   @@schema("vocessilentes")
 }

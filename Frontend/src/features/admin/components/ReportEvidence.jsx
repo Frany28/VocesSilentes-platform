@@ -5,15 +5,15 @@ import { EvidenceImage } from './EvidenceImage.jsx';
 
 /**
  * Evidencia de solo lectura; su ausencia no se sustituye por una imagen de ejemplo.
- * @param {{evidence?: {src: string, name: string, description?: string, details?: string}}} props Archivo autorizado.
+ * @param {{evidence?: object, loading?: boolean, onRenew?: Function}} props Archivo y acceso autorizado renovable.
  * @returns {import('react').ReactElement} Tarjeta, estado sin imagen y visor ampliado con foco/Escape.
  */
-export function ReportEvidence({ evidence }) {
+export function ReportEvidence({ evidence, loading = false, onRenew }) {
   const [open, setOpen] = useState(false);
   return (
     <section className="admin-evidence-section">
       <h3>Imagen de evidencia</h3>
-      {!evidence?.src ? (
+      {!evidence || (!evidence.src && evidence.state !== 'READY') ? (
         <div className="admin-evidence-empty">Sin imagen adjunta</div>
       ) : (
         <>
@@ -23,11 +23,18 @@ export function ReportEvidence({ evidence }) {
                 key={evidence.src}
                 src={evidence.src}
                 alt={evidence.description || 'Imagen adjunta al reporte'}
+                loading={loading}
+                onRenew={onRenew}
               />
             </div>
             <strong>{evidence.name}</strong>
             {evidence.details && <p className="admin-demo-note">{evidence.details}</p>}
-            <Button variant="secondary" icon={null} onClick={() => setOpen(true)}>
+            <Button
+              variant="secondary"
+              icon={null}
+              disabled={loading}
+              onClick={() => setOpen(true)}
+            >
               Ver imagen
             </Button>
           </div>
@@ -41,6 +48,8 @@ export function ReportEvidence({ evidence }) {
                 key={evidence.src}
                 src={evidence.src}
                 alt={evidence.description || 'Imagen adjunta al reporte'}
+                loading={loading}
+                onRenew={onRenew}
               />
               <p>
                 {evidence.name}

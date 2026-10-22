@@ -5,6 +5,8 @@ import { createDatabase } from './src/lib/database.js';
 import { createLogger } from './src/lib/logger.js';
 import { createAuthService } from './src/modules/auth/auth.service.js';
 import { createUsersService } from './src/modules/admin/users.service.js';
+import { createReportsService } from './src/modules/reports/reports.service.js';
+import { createEvidenceStorage } from './src/modules/reports/evidence-storage.js';
 
 // Vercel/CLI proporcionan el entorno; esta entrada no carga archivos .env privados.
 const config = parseEnv(process.env);
@@ -13,10 +15,14 @@ const vercel = process.env.VERCEL === '1';
 const database = await createDatabase(config.databaseUrl, { vercel });
 const authService = database ? await createAuthService(database, config.auth) : undefined;
 const usersService = database ? await createUsersService(database) : undefined;
+const reportsService = database
+  ? createReportsService(database, createEvidenceStorage(config.storage))
+  : undefined;
 const app = createApp(config, createLogger(config.logLevel), {
   app: express(),
   authService,
   usersService,
+  reportsService,
 });
 
 // Solo esta entrada acepta el salto de Vercel, que sobrescribe X-Forwarded-*.

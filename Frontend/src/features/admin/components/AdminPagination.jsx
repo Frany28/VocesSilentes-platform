@@ -5,11 +5,12 @@ import { Button } from '../../../components/ui/Button.jsx';
  * @returns {import('react').ReactElement} Controles y recuento accesibles.
  */
 export function AdminPagination({ list }) {
+  const size = list.pageSize ?? 3;
   return (
     <div className="admin-pagination">
       <p aria-live="polite">
-        Mostrando {list.total ? (list.page - 1) * 3 + 1 : 0}–{Math.min(list.page * 3, list.total)}{' '}
-        de {list.total}
+        Mostrando {list.total ? (list.page - 1) * size + 1 : 0}–
+        {Math.min(list.page * size, list.total)} de {list.total}
       </p>
       <div className="admin-pagination-controls">
         <Button

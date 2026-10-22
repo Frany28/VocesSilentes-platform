@@ -10,11 +10,20 @@ import { AdminPagination } from '../components/AdminPagination.jsx';
 
 /**
  * Presenta reportes proporcionados por el consumidor; sin servicio publicado muestra integración pendiente.
- * @param {{reports?: object[], status?: string, error?: object, retry?: Function}} props Lectura del consumidor.
+ * @param {{reports?: object[], status?: string, error?: object, retry?: Function,
+ * serverList?: object, complete?: boolean}} props Lectura y paginación del consumidor.
  * @returns {import('react').ReactElement} Listado adaptable y estados de lectura.
  */
-export function AdminReports({ reports = [], status = 'unavailable', error, retry } = {}) {
-  const list = useAdminList(reports, 'status');
+export function AdminReports({
+  reports = [],
+  status = 'unavailable',
+  error,
+  retry,
+  serverList,
+  complete = true,
+} = {}) {
+  const localList = useAdminList(reports, 'status');
+  const list = serverList ?? localList;
   const pending = reports.filter((report) => report.status === 'PENDING').length;
   const resolved = reports.filter((report) => report.status === 'RESOLVED').length;
   return (
@@ -22,7 +31,7 @@ export function AdminReports({ reports = [], status = 'unavailable', error, retr
       <AdminHeading title="Reportes de la comunidad">
         Revisa cada caso y acompaña el aprendizaje.
       </AdminHeading>
-      {status === 'ready' && (
+      {status === 'ready' && complete && (
         <div className="admin-status-line admin-report-counts">
           <Badge tone="warning">
             {pending} {pending === 1 ? 'pendiente' : 'pendientes'}

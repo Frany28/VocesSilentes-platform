@@ -4,6 +4,7 @@ import { StudentModules } from './pages/StudentModules.jsx';
 import { StudentPractice } from './pages/StudentPractice.jsx';
 import { StudentProgress } from './pages/StudentProgress.jsx';
 import { StudentProfile } from './pages/StudentProfile.jsx';
+import { ReportForm } from '../reports/ReportForm.jsx';
 
 /**
  * Publica las cinco vistas académicas bajo el guard USER del router, sin bypass de sesión.
@@ -18,6 +19,7 @@ export function studentRoutes() {
       { path: '/student/practice', element: <StudentPractice /> },
       { path: '/student/progress', element: <StudentProgress /> },
       { path: '/student/profile', element: <StudentProfile /> },
+      { path: '/student/reports/new', element: <ReportForm /> },
     ],
   };
 }

@@ -9,12 +9,14 @@ import { createHealthRouter } from './modules/health/health.routes.js';
 import { createAuthRouter } from './modules/auth/auth.routes.js';
 import { createCsrf } from './modules/auth/auth.csrf.js';
 import { createUsersRouter } from './modules/admin/users.routes.js';
+import { createReportsRouter } from './modules/reports/reports.routes.js';
 
 /**
  * Configura Express sin abrir puertos ni depender de PostgreSQL.
  * @param {ReturnType<import('./config/env.js').parseEnv>} config Configuración validada.
  * @param {import('pino').Logger} logger Logger con serializadores seguros.
- * @param {{authService?: object, usersService?: object, app?: import('express').Express}} [dependencies] Servicios y app.
+ * @param {{authService?: object, usersService?: object, reportsService?: object,
+ * app?: import('express').Express}} [dependencies] Servicios y app.
  * @returns {import('express').Express} Aplicación lista para arrancar o probar.
  */
 export function createApp(config, logger, dependencies = {}) {
@@ -39,6 +41,10 @@ export function createApp(config, logger, dependencies = {}) {
   app.use('/api/health', createHealthRouter());
   const csrf = createCsrf(config.auth);
   app.use('/api/auth', createAuthRouter(config, dependencies.authService, csrf));
+  app.use(
+    '/api/reports',
+    createReportsRouter(config, dependencies.authService, dependencies.reportsService, csrf),
+  );
   app.use(
     '/api/admin',
     createUsersRouter(config, dependencies.authService, dependencies.usersService, csrf),

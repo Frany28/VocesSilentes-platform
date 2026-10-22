@@ -4,10 +4,10 @@ import { Icon } from '../../../components/ui/Icon.jsx';
 
 /**
  * Representa carga y fallo reales de una imagen; el reintento vuelve a cargar el recurso recibido.
- * @param {{src: string, alt: string}} props Imagen proporcionada por el consumidor.
+ * @param {{src?: string, alt: string, loading?: boolean, onRenew?: Function}} props Imagen y renovación del consumidor.
  * @returns {import('react').ReactElement} Imagen contenida en su visor sin estirar la proporción.
  */
-export function EvidenceImage({ src, alt }) {
+export function EvidenceImage({ src, alt, loading = false, onRenew }) {
   const [status, setStatus] = useState('loading');
   const [revision, setRevision] = useState(0);
   return (
@@ -21,6 +21,7 @@ export function EvidenceImage({ src, alt }) {
             variant="secondary"
             icon={null}
             onClick={() => {
+              if (onRenew) return onRenew();
               setStatus('loading');
               setRevision((value) => value + 1);
             }}
@@ -29,14 +30,17 @@ export function EvidenceImage({ src, alt }) {
           </Button>
         </div>
       )}
-      <img
-        key={revision}
-        src={src}
-        alt={alt}
-        hidden={status !== 'ready'}
-        onLoad={() => setStatus('ready')}
-        onError={() => setStatus('error')}
-      />
+      {src && !loading && (
+        <img
+          key={revision}
+          src={src}
+          alt={alt}
+          hidden={status !== 'ready'}
+          onLoad={() => setStatus('ready')}
+          onError={() => setStatus('error')}
+          referrerPolicy="no-referrer"
+        />
+      )}
     </div>
   );
 }

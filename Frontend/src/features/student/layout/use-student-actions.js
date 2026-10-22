@@ -14,11 +14,13 @@ export function useStudentActions() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState(null);
   useEffect(() => () => request.current?.abort(), []);
-  const onUnavailable = (name) =>
+  const onUnavailable = (name) => {
+    if (name === 'Reportar un error') return navigate('/student/reports/new');
     setNotice((previous) => ({
       message: `${name}: disponible próximamente.`,
       id: (previous?.id || 0) + 1,
     }));
+  };
   const logout = async () => {
     if (request.current) return;
     const controller = new AbortController();

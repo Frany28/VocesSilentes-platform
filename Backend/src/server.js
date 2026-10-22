@@ -8,6 +8,8 @@ import { createLogger } from './lib/logger.js';
 import { closeResources } from './lib/shutdown.js';
 import { createAuthService } from './modules/auth/auth.service.js';
 import { createUsersService } from './modules/admin/users.service.js';
+import { createReportsService } from './modules/reports/reports.service.js';
+import { createEvidenceStorage } from './modules/reports/evidence-storage.js';
 
 loadEnv();
 let database;
@@ -19,7 +21,12 @@ try {
   if (database) await database.$connect();
   const authService = database ? await createAuthService(database, config.auth) : undefined;
   const usersService = database ? await createUsersService(database) : undefined;
-  const server = createServer(createApp(config, logger, { authService, usersService }));
+  const reportsService = database
+    ? createReportsService(database, createEvidenceStorage(config.storage))
+    : undefined;
+  const server = createServer(
+    createApp(config, logger, { authService, usersService, reportsService }),
+  );
   server.listen(config.port, config.host);
   await once(server, 'listening');
   logger.info({ port: config.port, persistence: Boolean(database) }, 'API iniciada');

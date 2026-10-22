@@ -18,7 +18,10 @@
     "db:status": "prisma migrate status",
     "db:inspect": "node scripts/inspect-database.js",
     "db:test": "node --test --test-concurrency=1 tests/database/*.test.js tests/auth/*.test.js",
-    "db:check": "node scripts/check-database.js"
+    "db:check": "node scripts/check-database.js",
+    "evidence:configure": "node scripts/evidence-maintenance.js configure",
+    "evidence:check": "node scripts/evidence-maintenance.js check",
+    "evidence:cleanup": "node scripts/evidence-maintenance.js cleanup"
   },
   "dependencies": {
     "@prisma/adapter-pg": "7.10.0",
@@ -35,6 +38,7 @@
     "pg": "8.23.1",
     "pino": "10.4.0",
     "pino-http": "11.0.0",
+    "sharp": "0.34.5",
     "zod": "4.6.5"
   },
   "devDependencies": {

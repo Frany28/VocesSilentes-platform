@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { parseAuthEnv } from './auth-env.js';
+import { parseStorageEnv } from './storage-env.js';
 
 const origin = z
   .string()
@@ -52,8 +53,10 @@ export function parseEnv(input) {
   }
   const env = result.data;
   let auth;
+  let storage;
   try {
     auth = parseAuthEnv(input, { nodeEnv: env.NODE_ENV, corsOrigins: env.CORS_ORIGINS });
+    storage = parseStorageEnv(input);
   } catch (error) {
     throw new ConfigurationError(error.message);
   }
@@ -65,5 +68,6 @@ export function parseEnv(input) {
     logLevel: env.LOG_LEVEL,
     databaseUrl: env.DATABASE_URL,
     auth,
+    storage,
   });
 }

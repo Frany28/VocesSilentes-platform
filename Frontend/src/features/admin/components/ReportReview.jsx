@@ -8,6 +8,7 @@ import { AdminConfirmation } from './AdminConfirmation.jsx';
 import { AdminFacts } from './AdminFacts.jsx';
 import { ReportStatus } from './ReportStatus.jsx';
 import { ReportEvidence } from './ReportEvidence.jsx';
+import { AuthorizedEvidence } from './AuthorizedEvidence.jsx';
 
 /**
  * Revisión de un reporte suministrado, sin peticiones en la presentación ni éxito antes de persistir.
@@ -35,7 +36,14 @@ export function ReportReview({ report, onResolve }) {
         <h3>Mensaje de la comunidad</h3>
         <p className="admin-muted">{current.description}</p>
       </section>
-      <ReportEvidence evidence={current.evidence} />
+      {current.evidence?.state === 'READY' ? (
+        <AuthorizedEvidence report={current} />
+      ) : (
+        <ReportEvidence evidence={current.evidence} />
+      )}
+      {current.evidence && current.evidence.state !== 'READY' && (
+        <p role="status">La imagen todavía no está confirmada.</p>
+      )}
       <AdminFacts
         items={[
           ['Categoría', current.categoryLabel || current.category || 'No indicada'],
