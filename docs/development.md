@@ -12,9 +12,16 @@ de pruebas conservan su configuración. La foto privada requiere aplicar, en el 
 
 ## Preparación
 
-Instalar Node 22.23.1 y pnpm 10.18.2 como describe README. Verificar versiones después de abrir una
+Instalar Node 22.23.4 y pnpm 10.18.2 como describe README. Verificar versiones después de abrir una
 terminal nueva. Abrir la raíz del workspace en VS Code; `.vscode/extensions.json` recomienda ESLint,
 Prettier y Tailwind IntelliSense. Los scripts son JavaScript o comandos pnpm, sin dependencia de Bash.
+
+El parche de seguridad 22.23.4 se publicó el 21 de octubre de 2026. En este equipo se instaló el ZIP
+oficial x64, comprobado con su SHA-256 publicado, en el perfil de usuario y se actualizó su PATH.
+WinGet no ofrecía un instalador aplicable al alcance portátil existente. Corepack conserva pnpm
+10.18.2. Reiniciar VS Code y sus terminales para que hereden el PATH nuevo; los procesos Node ya
+abiertos deben reiniciarse. Los archivos `.nvmrc` y `.node-version` fijan el parche y engines declara
+la versión mínima admitida dentro de la rama 22. Esto no actualiza despliegues remotos existentes.
 `.editorconfig`, `.gitattributes` y Prettier mantienen UTF-8, espacios y LF.
 Tailwind CSS 4 se configura en CSS y ya usa el plugin oficial de Vite; seguir
 [las convenciones de capas, tokens y utilidades](tailwind.md). Las entradas de cada funcionalidad

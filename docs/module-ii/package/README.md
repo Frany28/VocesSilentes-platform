@@ -19,7 +19,7 @@ Las dependencias se instalan con pnpm; los builds y la configuración privada se
 
 ## Inicio rápido sin credenciales externas
 
-Instalar Node **22.23.1** y pnpm **10.18.2**. Abrir PowerShell en `proyecto/`:
+Instalar Node **22.23.4** y pnpm **10.18.2**. Abrir PowerShell en `proyecto/`:
 
 ```powershell
 pnpm install --frozen-lockfile

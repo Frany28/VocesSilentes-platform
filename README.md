@@ -11,12 +11,12 @@ véase [criterios de uso y mantenimiento](docs/tailwind.md).
 
 ## Requisitos
 
-- Node.js **22.23.1 LTS**, fijado en `.nvmrc`, `.node-version` y CI. La rama 22 sigue en LTS;
+- Node.js **22.23.4 LTS**, fijado en `.nvmrc`, `.node-version` y CI. La rama 22 sigue en LTS;
   cumple los mínimos de Vite, Vitest y Prisma. [Política oficial](https://nodejs.org/en/about/previous-releases).
 - pnpm **10.18.2**, declarado en `packageManager`; instalarlo con `npm install --global pnpm@10.18.2`
   si no está disponible. No mezclar npm/yarn para instalar dependencias de este workspace.
-- Windows: PowerShell, VS Code y Node desde la [distribución oficial](https://nodejs.org/dist/v22.23.1/).
-  Un gestor existente como nvm-windows puede usar `nvm install 22.23.1` y `nvm use 22.23.1`.
+- Windows: PowerShell, VS Code y Node desde la [distribución oficial](https://nodejs.org/dist/v22.23.4/).
+  Un gestor existente como nvm-windows puede usar `nvm install 22.23.4` y `nvm use 22.23.4`.
 - PostgreSQL **17.x actualizado** solo para persistencia. La base HTTP, tests y build no lo necesitan.
   Instalar PostgreSQL local o usar una base de desarrollo autorizada; esta etapa no incluye Docker.
 

@@ -2,7 +2,7 @@
 
 ## Requisitos e instalación
 
-Node **22.23.1**, pnpm **10.18.2** y PostgreSQL **17** para persistencia. La demo y `pnpm verify`
+Node **22.23.4**, pnpm **10.18.2** y PostgreSQL **17** para persistencia. La demo y `pnpm verify`
 no necesitan un servidor PostgreSQL externo. Desde `proyecto/`, en PowerShell:
 
 ```powershell

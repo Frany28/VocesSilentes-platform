@@ -29,8 +29,11 @@ Para el frontend usar el dominio estable `https://voces-silentes-platform.vercel
 las URLs de despliegues individuales pueden exigir autenticación de Vercel y devolver un redirect
 al proveedor antes de llegar a Express. No usarlas como VITE_API_URL.
 
-Vercel administra parches de Node 22. El workspace requiere al menos 22.23.1 y fija esa versión
+Vercel administra parches de Node 22. El workspace requiere al menos 22.23.4 y fija esa versión
 localmente; si el build informa un Node menor, comprobar la versión del runtime en Vercel.
+Mantener Node.js Version en **22.x** y desplegar nuevamente para comprobar el runtime publicado.
+Vercel selecciona la versión mayor y distribuye sus parches; actualizar estos archivos localmente
+no verifica ni reemplaza un despliegue existente. [Política del proveedor](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions).
 
 ## Variables en Settings → Environment Variables
 

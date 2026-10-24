@@ -14,7 +14,7 @@ Backend confirmado por el usuario: <https://voces-silentes-platform.vercel.app/>
 | Base directory    | Raíz del repositorio (`.`)                       |
 | Build command     | `pnpm --filter @vocessilentes/frontend build`    |
 | Publish directory | `Frontend/dist`                                  |
-| Node              | `22.23.1`                                        |
+| Node              | `22.23.4`                                        |
 | pnpm              | `10.18.2`                                        |
 | VITE_API_URL      | `https://voces-silentes-platform.vercel.app/api` |
 | VITE_STUDENT_DEMO | `true` (prototipo educativo identificado)        |

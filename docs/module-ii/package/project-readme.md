@@ -5,7 +5,7 @@ Incluye autenticación propia, cuentas, reportes con imágenes privadas, dashboa
 
 ## Ejecutar la demostración local
 
-Requisitos: Node **22.23.1**, pnpm **10.18.2** y puerto 5280 libre.
+Requisitos: Node **22.23.4**, pnpm **10.18.2** y puerto 5280 libre.
 
 ```powershell
 pnpm install --frozen-lockfile

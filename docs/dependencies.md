@@ -1,5 +1,11 @@
 # Dependencias y decisiones de versiones
 
+Actualización de seguridad del 23 de octubre de 2026: Node.js **22.23.4 LTS**, publicado el
+21 de octubre, sustituye al parche anterior en los archivos de versión, engines y Netlify.
+Se mantiene la rama 22 y pnpm 10.18.2; CI lee `.nvmrc`. Las demás dependencias no cambian.
+[Publicación oficial](https://nodejs.org/en/blog/release/v22.23.4) y
+[aviso de seguridad](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases).
+
 Consulta realizada el 9 de octubre de 2026. Se verificaron documentación oficial, publicaciones de
 npm y engines/peerDependencies. Se eligieron publicaciones estables explícitas, excluyendo rc y nightly
 aunque un dist-tag pudiera apuntar a ellas (el latest de Prisma apuntaba a 8.0.0-rc.22).
@@ -7,18 +13,18 @@ El único pnpm-lock.yaml fija transitivas. pnpm exige engines y peers compatible
 
 ## Herramientas
 
-| Herramienta                 | Versión          | Razón                                                                                  |
-| --------------------------- | ---------------- | -------------------------------------------------------------------------------------- |
-| Node.js                     | 22.23.1 LTS      | Disponible y compatible con todos los engines; reproducido en CI y archivos de versión |
-| pnpm                        | 10.18.2          | Disponible, workspaces y scripts de instalación controlados                            |
-| ESLint / @eslint/js         | 10.12.0 / 10.0.1 | Configuración flat ESM                                                                 |
-| Prettier                    | 3.9.9            | Formato común y LF                                                                     |
-| eslint-config-prettier      | 10.1.8           | Evita conflictos de formato sin desactivar controles funcionales                       |
-| eslint-plugin-jsdoc         | 65.2.2           | Contratos exportados y consistencia de anotaciones                                     |
-| eslint-plugin-react-hooks   | 7.1.1            | Reglas de hooks                                                                        |
-| eslint-plugin-react-refresh | 0.5.7            | Exportaciones compatibles con Fast Refresh                                             |
-| globals                     | 17.13.0          | Entornos navegador y Node                                                              |
-| vercel                      | 63.1.2           | CLI local de desarrollo para vincular, construir y publicar la API en Vercel           |
+| Herramienta                 | Versión          | Razón                                                                        |
+| --------------------------- | ---------------- | ---------------------------------------------------------------------------- |
+| Node.js                     | 22.23.4 LTS      | Parche de seguridad de la rama 22; fijado para desarrollo, CI y Netlify      |
+| pnpm                        | 10.18.2          | Disponible, workspaces y scripts de instalación controlados                  |
+| ESLint / @eslint/js         | 10.12.0 / 10.0.1 | Configuración flat ESM                                                       |
+| Prettier                    | 3.9.9            | Formato común y LF                                                           |
+| eslint-config-prettier      | 10.1.8           | Evita conflictos de formato sin desactivar controles funcionales             |
+| eslint-plugin-jsdoc         | 65.2.2           | Contratos exportados y consistencia de anotaciones                           |
+| eslint-plugin-react-hooks   | 7.1.1            | Reglas de hooks                                                              |
+| eslint-plugin-react-refresh | 0.5.7            | Exportaciones compatibles con Fast Refresh                                   |
+| globals                     | 17.13.0          | Entornos navegador y Node                                                    |
+| vercel                      | 63.1.2           | CLI local de desarrollo para vincular, construir y publicar la API en Vercel |
 
 ## Frontend
 
