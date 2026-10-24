@@ -9,14 +9,18 @@ export async function confirmEvidence(database, id) {
     const row = await tx.reportEvidence.findUnique({ where: { id } });
     if (!row) return { count: 0 };
     const result = await tx.reportEvidence.updateMany({
-      where: { id, state: 'PENDING' }, data: { state: 'READY' },
+      where: { id, state: 'PENDING' },
+      data: { state: 'READY' },
     });
-    if (result.count) await tx.auditLog.create({
-      data: {
-        actorId: row.ownerId, entityId: row.id, entityType: 'ReportEvidence',
-        operation: 'REPORT_EVIDENCE_ATTACHED',
-      },
-    });
+    if (result.count)
+      await tx.auditLog.create({
+        data: {
+          actorId: row.ownerId,
+          entityId: row.id,
+          entityType: 'ReportEvidence',
+          operation: 'REPORT_EVIDENCE_ATTACHED',
+        },
+      });
     return result;
   });
 }

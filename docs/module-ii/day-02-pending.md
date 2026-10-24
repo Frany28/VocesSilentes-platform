@@ -1,5 +1,11 @@
 # Pendientes del Día 2 — módulos educativos
 
+**Actualización del 23 de octubre:** catálogo publicado, progreso manual, reportes, resolución/reapertura
+y UI de bitácora ya están implementados y probados en base aislada; ver [entrega final](final-delivery.md).
+Siguen pendientes CMS ADMIN de contenido, recursos LSV validados, reconocimiento, OAuth, perfil USER
+editable, contraseña/foto y validación PostgreSQL 17 nativo multiworker. La lista siguiente conserva
+las decisiones históricas del Día 1 y no debe interpretarse como el estado final actual.
+
 El Día 1 no implementa backend educativo, reconocimiento LSV, cámara, métricas ni reportes reales.
 Los modelos existentes permiten preparar los siguientes procesos cuando se apruebe su alcance.
 

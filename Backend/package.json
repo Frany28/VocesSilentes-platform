@@ -7,6 +7,9 @@
     "node": ">=22.23.1 <23"
   },
   "scripts": {
+    "academic:prepare": "node scripts/prepare-module-ii-sql.js",
+    "academic:demo": "node scripts/academic-demo.js",
+    "academic:verify": "node scripts/academic-review.js",
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
     "test": "node --test tests/*.test.js",

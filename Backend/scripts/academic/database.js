@@ -13,26 +13,40 @@ export async function createAcademicDatabase({ seed = false } = {}) {
   const db = new PGlite();
   let socket;
   let database;
-  const close = async () => { await database?.$disconnect(); await socket?.stop(); await db.close(); };
+  const close = async () => {
+    await database?.$disconnect();
+    await socket?.stop();
+    await db.close();
+  };
   try {
     if (seed) {
       for (const name of ['01_schema.sql', '02_seed.sql']) {
-        await db.exec(await readFile(new URL(`../../../docs/module-ii/sql/${name}`, import.meta.url), 'utf8'));
+        await db.exec(
+          await readFile(new URL(`../../../docs/module-ii/sql/${name}`, import.meta.url), 'utf8'),
+        );
       }
     } else {
       const directory = new URL('../../prisma/migrations/', import.meta.url);
       const names = (await readdir(directory)).filter((name) => /^\d/.test(name)).sort();
-      for (const name of names) await db.exec(await readFile(new URL(`${name}/migration.sql`, directory), 'utf8'));
+      for (const name of names)
+        await db.exec(await readFile(new URL(`${name}/migration.sql`, directory), 'utf8'));
     }
     socket = new PGLiteSocketServer({ db, host: '127.0.0.1', port: 0, inspect: false });
     await socket.start();
     database = new PrismaClient({
-      adapter: new PrismaPg({
-        connectionString: `postgresql://postgres@${socket.getServerConn()}/postgres?sslmode=disable`, max: 1,
-      }, { schema: 'vocessilentes' }),
+      adapter: new PrismaPg(
+        {
+          connectionString: `postgresql://postgres@${socket.getServerConn()}/postgres?sslmode=disable`,
+          max: 1,
+        },
+        { schema: 'vocessilentes' },
+      ),
       log: [],
     });
     await database.$connect();
     return { db, database, close };
-  } catch (error) { await close(); throw error; }
+  } catch (error) {
+    await close();
+    throw error;
+  }
 }

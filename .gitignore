@@ -9,6 +9,7 @@ Backend/generated/
 .npm-cache/
 .pnpm-store/
 .local/
+entrega-modulo-ii/*.zip
 .vercel/
 *.log
 .DS_Store

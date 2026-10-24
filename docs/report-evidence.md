@@ -1,5 +1,11 @@
 # Evidencias de reportes
 
+Actualización del 23 de octubre: PATCH `/api/reports/:id/status` permite resolver/reabrir a ADMIN,
+con comentario privado, metadatos y bitácora atómicos. Confirmar READY añade REPORT_EVIDENCE_ATTACHED
+en la misma transacción; un fallo de auditoría conserva la recuperación/compensación existente.
+La [entrega académica](module-ii/final-delivery.md) prueba cinco imágenes en Storage local sustituido
+explícitamente, no en Supabase; no se repite la carga remota histórica como parte de esta tarea.
+
 Implementación del 21 de octubre de 2026. El flujo usa las sesiones opacas propias de
 VocesSilentes (`User`/`Session`), **no Supabase Auth**. Reutiliza DATABASE_URL/Prisma,
 requireSession, transporte HTTPS, CSRF firmado y el cliente HTTP compartido.

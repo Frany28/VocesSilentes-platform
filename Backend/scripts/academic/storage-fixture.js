@@ -10,7 +10,9 @@ export function createAcademicStorageFixture() {
       if (objects.has(path)) throw new Error('Academic object already exists');
       objects.set(path, { bytes: image.bytes, mimeType: image.mimeType });
     },
-    async remove(path) { objects.delete(path); },
+    async remove(path) {
+      objects.delete(path);
+    },
     async sign(path) {
       const object = objects.get(path);
       if (!object) throw new Error('Academic image missing');

@@ -10,21 +10,30 @@ import { waitForAcademic } from './browser-session.js';
  * @returns {object} Navegación, interacción, captura y lecturas DOM; no sustituye fetch de la aplicación.
  */
 export function createAcademicDriver(browser, origin, output) {
+  const captures = [];
   const evaluate = async (expression) => {
-    const response = await browser.send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true });
-    if (response.exceptionDetails) throw new Error('Falló la interacción con un formulario de prueba');
+    const response = await browser.send('Runtime.evaluate', {
+      expression,
+      awaitPromise: true,
+      returnByValue: true,
+    });
+    if (response.exceptionDetails)
+      throw new Error('Falló la interacción con un formulario de prueba');
     return response.result.value;
   };
   const wait = (expression) => waitForAcademic(() => evaluate(`Boolean(${expression})`));
   return {
-    evaluate, wait,
+    evaluate,
+    wait,
+    captures,
     async navigate(path) {
       await evaluate('window.__academicOldPage=true');
       await browser.send('Page.navigate', { url: origin + path });
       await wait('!window.__academicOldPage && document.querySelector("main")');
       await evaluate('document.fonts.ready');
     },
-    fill: (values) => evaluate(`(()=>{for(const [label,value] of Object.entries(${JSON.stringify(values)})){
+    fill: (values) =>
+      evaluate(`(()=>{for(const [label,value] of Object.entries(${JSON.stringify(values)})){
       const owner=[...document.querySelectorAll('label')].find(n=>n.textContent.trim()===label);
       const node=owner?document.getElementById(owner.htmlFor):document.querySelector('[name="'+label+'"]');
       if(!node)throw new Error('Campo ausente');
@@ -33,7 +42,9 @@ export function createAcademicDriver(browser, origin, output) {
       node.focus();Object.getOwnPropertyDescriptor(prototype,'value').set.call(node,value);
       node.dispatchEvent(new Event('input',{bubbles:true}));node.dispatchEvent(new Event('change',{bubbles:true}));
     }})()`),
-    click: (text) => evaluate(`(()=>{const node=[...document.querySelectorAll('button,a,summary')]
+    click: (text) =>
+      evaluate(`(()=>{const dialogs=[...document.querySelectorAll('dialog[open]')];
+      const scope=dialogs.at(-1)||document;const node=[...scope.querySelectorAll('button,a,summary')]
       .find(n=>n.textContent.trim()===${JSON.stringify(text)}&&!n.disabled);
       if(!node)throw new Error('Acción ausente');node.focus();node.click();})()`),
     async file(selector, path) {
@@ -44,8 +55,12 @@ export function createAcademicDriver(browser, origin, output) {
     },
     async capture(name) {
       await evaluate('new Promise(done=>requestAnimationFrame(()=>requestAnimationFrame(done)))');
-      const { data } = await browser.send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: true });
+      const { data } = await browser.send('Page.captureScreenshot', {
+        format: 'png',
+        captureBeyondViewport: true,
+      });
       await writeFile(resolve(output, `${name}.png`), Buffer.from(data, 'base64'));
+      captures.push(`${name}.png`);
     },
     async login(email, password) {
       await this.navigate('/login');

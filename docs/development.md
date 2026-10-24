@@ -33,6 +33,14 @@ Windows se comprobó el binario precompilado. Revisar nuevos scripts antes de au
 
 ## Trabajo diario
 
+La [entrega académica](module-ii/final-delivery.md) añade scripts `academic:prepare`, `academic:demo`,
+`academic:verify` y `academic:package`. No leen Backend/.env ni escriben en Supabase; el primero
+genera artefactos, demo/revisión abren PostgreSQL WASM efímero y el empaquetador PowerShell copia
+fuentes permitidas a un staging nuevo en `.local/`. Chrome usa un perfil propio de prueba.
+Las imágenes de ese entorno usan un sustituto local explícito de Storage, nunca el adaptador productivo.
+`VITE_STUDENT_DEMO` ahora es false por defecto también en desarrollo; las pruebas históricas de
+presentación eligen true explícitamente en Vitest. No se añaden dependencias ni excepciones de tamaño.
+
 1. Leer AGENTS.md y la documentación relacionada; revisar el estado existente.
 2. Iniciar `pnpm dev`; cada app admite ejecución independiente.
 3. Implementar solo la tarea acordada y actualizar contratos/documentación cuando corresponda.

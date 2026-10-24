@@ -1,5 +1,33 @@
 # Verificación
 
+## Entrega final del Módulo II — 23 de octubre de 2026
+
+`pnpm verify` completo terminó con código **0**: lint sin errores ni advertencias, formato correcto,
+**107 pruebas frontend, 43 backend y 56 SQL/auth: 206 aprobadas**, Prisma válido y build correcto.
+Se conservaron las pruebas existentes y se añadieron persistencia de estado de reportes, avance
+propio, auditoría atómica y autenticación desde los SQL reconstruidos. La prueba histórica de
+eliminación ahora comprueba tanto USER_REGISTERED como USER_DELETED y sus actores correctos.
+
+`pnpm academic:verify` terminó con código **0**, usando Chrome, Express, PrismaPg/pg y PostgreSQL
+WASM/TCP efímero en una base sin seed: cinco usuarios creados por modal, listado paginado, edición,
+borrado lógico, cinco reportes con cinco PNG reales, visor, resolución/reapertura, recarga y progreso
+manual. Admin consultó **24 eventos en cinco páginas**. Pasaron **40 combinaciones** de cinco vistas,
+cuatro viewports y ambos temas; sin desbordamiento horizontal, llamadas a cámara ni errores JavaScript.
+Se guardaron once capturas y un manifiesto de resultados. Las imágenes usan un sustituto explícito
+local de Storage; esta prueba no acredita un proveedor S3 remoto.
+
+Los SQL crean **50 filas en diez tablas**, con ReportEvidence = **0** como excepción documentada;
+no se inventan objetos S3. ExternalIdentity usa identificadores de fixture explícitos, sin OAuth.
+La reconstrucción y las credenciales académicas se comprobaron en otra base nueva independiente.
+El paquete inferior a 10 MB omite configuración privada, dependencias y generados, e incluye los
+tres SQL, fuentes, README, TXT y pruebas. Ver [informe final](module-ii/final-delivery.md) y
+[guía del paquete](../entrega-modulo-ii/README.md).
+
+Las lecturas de reportes se agruparon secuencialmente para corregir el aviso de Client.query de pg,
+sin desactivar avisos ni cambiar versiones. La ejecución final no presenta ese aviso.
+No se aplicó la nueva migración a Supabase compartido ni se ejecutaron despliegues o GitHub Actions.
+No se probó PostgreSQL 17 nativo ni concurrencia multiworker; esos límites se mantienen explícitos.
+
 ## Integración de Tailwind CSS — 23 de octubre de 2026
 
 Se conserva Tailwind CSS 4.3.3 y su plugin oficial de Vite, sin dependencias nuevas ni cambios

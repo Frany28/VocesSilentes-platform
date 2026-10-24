@@ -27,7 +27,13 @@ export async function persistLearningProgress(database, userId, kind, id, status
     const where = { [`userId_${field}`]: { userId, [field]: id } };
     const current = await tx[model].findUnique({ where });
     if (current && (current.status === status || current.status === 'COMPLETED')) return current;
-    const now = new Date();
+    const now = new Date(
+      Math.max(
+        Date.now(),
+        current?.startedAt?.getTime() ?? 0,
+        current?.lastActivityAt?.getTime() ?? 0,
+      ),
+    );
     const timestamps =
       kind === 'lesson' ? { startedAt: current?.startedAt ?? now } : { lastActivityAt: now };
     const data = { status, ...timestamps, completedAt: status === 'COMPLETED' ? now : null };

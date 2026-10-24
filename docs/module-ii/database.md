@@ -1,5 +1,11 @@
 # Base de datos del Día 1
 
+**Nota histórica:** las cuentas inactivas y la excepción ExternalIdentity descritas abajo pertenecen
+al Día 1. Los SQL fueron actualizados para la [entrega final](final-delivery.md#cinco-registros-por-tabla):
+50 filas, cuentas sintéticas activas con contraseña pública aislada, cinco identidades de fixture y
+ReportEvidence vacío. `03_verificacion.sql` añade consultas de solo lectura. `pnpm academic:demo`
+reconstruye la entrega sin leer Backend/.env; la prueba UI usa otra base vacía sin seed.
+
 El [modelo existente](../data-model.md) define nueve entidades y sus restricciones.
 `Backend/prisma/audit.prisma` añade `AuditLog`: UUID, actor nullable, operación enumerada,
 entidad `User`, UUID afectado y fecha `timestamptz(3)`. Hay diez tablas de aplicación.

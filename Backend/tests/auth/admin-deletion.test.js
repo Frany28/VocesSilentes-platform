@@ -43,7 +43,14 @@ test('borrado persistente revoca todas las sesiones, conserva relaciones y recha
     .set('X-CSRF-Token', admin.csrf)
     .send({ firstName, lastName, username, email, role: 'USER' })
     .expect(409);
-  const events = await fixture.database.auditLog.findMany({ where: { entityId: target.user.id } });
-  assert.equal(events.length, 1);
-  assert.equal(events[0].operation, 'USER_DELETED');
+  const events = await fixture.database.auditLog.findMany({
+    where: { entityId: target.user.id },
+    orderBy: { createdAt: 'asc' },
+  });
+  assert.deepEqual(
+    events.map((event) => event.operation),
+    ['USER_REGISTERED', 'USER_DELETED'],
+  );
+  assert.equal(events[0].actorId, target.user.id);
+  assert.equal(events[1].actorId, admin.user.id);
 });

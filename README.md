@@ -3,6 +3,9 @@
 Base de desarrollo de una aplicación educativa de Lengua de Señas Venezolana (LSV).
 Incluye dos aplicaciones en un workspace pnpm, JavaScript ESM y JSDoc, los datos de la primera fase
 y autenticación local con sesiones persistidas. Las funciones educativas del MVP siguen pendientes.
+La entrega del Módulo II conecta reportes, resolución/reapertura, bitácora visual y progreso manual
+con PostgreSQL. [Auditoría y resultados](docs/module-ii/final-delivery.md),
+[paquete para el profesor](entrega-modulo-ii/README.md).
 El frontend usa Tailwind CSS 4 con el plugin oficial de Vite, tokens existentes y capas de estilos;
 véase [criterios de uso y mantenimiento](docs/tailwind.md).
 
@@ -47,6 +50,11 @@ Sin DATABASE_URL arranca en modo HTTP sin persistencia; auth devuelve 503. Al co
 generar primero el cliente. `/register` y `/login` permiten probar autenticación con PostgreSQL.
 
 ## Comandos de la raíz
+
+Para la entrega aislada: `pnpm academic:prepare` regenera SQL/hashes; `pnpm academic:demo` abre
+la aplicación con PostgreSQL WASM y datos académicos, `pnpm academic:verify` prueba los formularios
+en Chrome sobre otra base sin seed y `pnpm academic:package` genera el ZIP inferior a 10 MB.
+No usan Supabase compartido. La demostración de imágenes usa un sustituto local explícito, no S3.
 
 | Comando                                           | Función                                                                |
 | ------------------------------------------------- | ---------------------------------------------------------------------- |
@@ -144,7 +152,8 @@ Las carpetas de funcionalidades futuras se crean cuando tengan contenido útil.
 El flujo de evidencias añade reportes generales reales, selección/preview y carga privada validada
 en servidor, más listado y visor Admin con acceso temporal autorizado. La migración y el bucket
 ya se aplicaron en Supabase de desarrollo; las credenciales S3 existentes permiten carga/lectura real
-comprobada con objetos temporales eliminados. La resolución y fotos de perfil siguen pendientes.
+comprobada con objetos temporales eliminados. La resolución/reapertura ya tiene backend;
+las fotos de perfil siguen pendientes.
 Para estado y configuración actuales
 consultar [evidencias de reportes](docs/report-evidence.md); las descripciones históricas de reportes
 sin backend en los párrafos siguientes corresponden a la etapa anterior.
@@ -158,16 +167,17 @@ con destinos de sesión. `/admin` reproduce el rediseño moderno, con temas y na
 usuarios, creación/edición modal y datos personales del administrador usan servicios reales.
 El Día 1 del Módulo II añade listado paginado, eliminación lógica y bitácora
 persistente; requiere la nueva migración versionada antes de usarlo en una base de desarrollo
-autorizada. Admin retira sus demos; solo el censo de cuentas tiene datos reales. Reportes, progreso,
-agregados de actividad, cambio de isActive, contraseña y persistencia de foto requieren backend futuro.
+autorizada. Admin usa servicios reales de usuarios, reportes y bitácora; Student consulta catálogo
+y progreso manual. Agregados de actividad, cambio de isActive, contraseña y persistencia de foto
+requieren backend futuro.
 El visor de evidencia y la selección/encuadre local de foto tienen presentación y estados implementados,
 con guardado deshabilitado cuando falta el servicio. Ver [alcance y funcionamiento de Admin](docs/admin.md).
 No se insertan fixtures de demostración en la base compartida.
 Student dispone de Inicio, Mis módulos, Practicar, Mi progreso y Mi perfil; solo USER puede acceder.
-Contenido y progreso usan demostración explícita configurable también en producción. Practicar
-presenta estados manuales sin cámara ni evaluación; Perfil muestra identidad real sin edición.
+Contenido y progreso usan la API real por defecto; la demostración exige `VITE_STUDENT_DEMO=true`.
+Practicar registra lectura y actividad manual sin cámara ni evaluación; Perfil muestra identidad real sin edición.
 Ver [primera fase académica](docs/phase-one-prototype.md) y [matriz de Figma](docs/student-design-audit.md).
-No hay backend educativo/reportes ni reconocimiento LSV. Hay componentes generales del UI Kit de Figma
+Hay backend de catálogo/progreso declarado y reportes, sin reconocimiento LSV. Hay componentes del UI Kit de Figma
 y una galería de desarrollo en `/ui.html`; véase [sistema visual](docs/design-system.md).
 La pantalla `/login` reproduce Auth en ambos temas y tres composiciones adaptables, con el flujo
 existente de sesión y sus errores; véase [implementación y límites](docs/login.md).

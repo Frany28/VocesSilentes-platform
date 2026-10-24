@@ -2,6 +2,13 @@
 
 Dos aplicaciones privadas en un workspace, un solo lockfile. No se comparten secretos entre ellas.
 
+Actualización del Módulo II (23 de octubre): `modules/learning/` consulta publicaciones y persiste
+progreso manual propio. Reportes resuelve/reabre con actor ADMIN revalidado y auditoría atómica;
+registro y confirmación de evidencia también auditan. `/admin/audit` consulta el historial real.
+La API educativa es el valor predeterminado; la demo visual exige una bandera explícita.
+[Contratos, pruebas y límites actuales](module-ii/final-delivery.md). Las referencias posteriores
+a estas integraciones como pendientes pertenecen a etapas históricas.
+
 Actualización de evidencia (21 de octubre): `modules/reports/` implementa creación idempotente,
 consulta autorizada y evidencia privada mediante S3 de Supabase. `features/reports/` separa servicios,
 selección/envío y renovación de enlaces del visor compartido en Admin. Las sesiones siguen siendo

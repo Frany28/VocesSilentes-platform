@@ -1,5 +1,10 @@
 # Administración
 
+Actualización del Módulo II (23 de octubre): el detalle de reporte guarda resolución y comentario
+interno y permite reabrir conservando evidencia. `/admin/audit` consulta la bitácora con la navegación
+y componentes existentes. [Pruebas y límites actuales](module-ii/final-delivery.md).
+Las descripciones posteriores de resolución/bitácora pendiente son históricas.
+
 Actualización compartida del 22 de octubre: perfil, seguridad y foto reutilizan `features/account/`;
 Avatar, Dialog, Select, IconAction y ThemeAction viven en `components/ui/`. Button/Input eligen
 la densidad compacta mediante prop, con radios 16; sidebar 240/80 y NavigationItem de 44 px,

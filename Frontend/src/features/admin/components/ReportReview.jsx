@@ -84,9 +84,14 @@ export function ReportReview({ report, onResolve }) {
         </div>
       )}
       {confirm && (
-        <ReportStatusConfirmation target={confirm} reference={current.reference}
-          operation={operation} comment={comment} enabled={Boolean(onResolve)}
-          onClose={() => setConfirm(false)} />
+        <ReportStatusConfirmation
+          target={confirm}
+          reference={current.reference}
+          operation={operation}
+          comment={comment}
+          enabled={Boolean(onResolve)}
+          onClose={() => setConfirm(false)}
+        />
       )}
     </section>
   );

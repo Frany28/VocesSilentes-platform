@@ -1,5 +1,11 @@
 # Contratos HTTP
 
+El Módulo II añade PATCH `/api/reports/:id/status` para ADMIN, GET `/api/learning` y
+PUT `/api/learning/lessons|exercises/:id/progress` para USER. Las mutaciones exigen CSRF,
+Zod estricto y revalidación del actor. Resolución/reapertura conserva el reporte; el progreso es
+actividad declarada sin clasificación LSV. `/api/admin/audit-logs` conserva su contrato y ahora tiene UI.
+Ver [entradas, permisos, errores e idempotencia](module-ii/final-delivery.md#contratos-y-reglas).
+
 Reportes y evidencias incorporan POST/GET `/api/reports`, detalle, PUT binario de imagen y
 GET de acceso temporal, con sesión propia y CSRF en escrituras. Ver [contratos completos,
 errores y límites](report-evidence.md#api). La consulta administrativa requiere rol vigente

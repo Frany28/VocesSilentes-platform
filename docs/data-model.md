@@ -1,5 +1,11 @@
 # Modelo de datos — fase 1
 
+Actualización del 23 de octubre: once tablas de aplicación, incluidas AuditLog y ReportEvidence.
+`20261023000100_module_ii_operations` amplía AuditOperation y su CHECK por entidad para registro,
+reportes, evidencia y progreso manual. No añade tablas ni elimina relaciones existentes.
+El [seed final y su excepción Storage](module-ii/final-delivery.md#cinco-registros-por-tabla) se reconstruyen
+solo en base aislada; no se aplican estos fixtures a Supabase compartido.
+
 Ampliación del 21 de octubre: `Report.requestId` y `ReportEvidence` añaden idempotencia y una imagen
 opcional privada por reporte. La FK compuesta verifica propietario = autor; se guardan metadatos
 y ruta, nunca URL firmada. Son once tablas contando AuditLog. Ver [contrato y migración](report-evidence.md).

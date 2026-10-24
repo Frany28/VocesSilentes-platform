@@ -9,6 +9,7 @@ import { DataFeedback } from '../components/DataFeedback.jsx';
 import { PracticeBrief } from './PracticeBrief.jsx';
 import { PracticeGuide } from './PracticeGuide.jsx';
 import { LearningExercise } from './LearningExercise.jsx';
+import { learningStatus } from '../data/learning-status.js';
 
 /**
  * Reutiliza los paneles de práctica para lectura y actividad declarada, con persistencia real.
@@ -51,7 +52,7 @@ export function LearningPractice() {
             ))}
           </Select>
           <p>{lesson.description}</p>
-          <p className="text-muted">Avance de lectura: {lesson.status}</p>
+          <p className="text-muted">Avance de lectura: {learningStatus[lesson.status]}</p>
           <p className="text-muted">
             Este registro expresa tu actividad declarada. No activa la cámara ni evalúa señas LSV.
           </p>

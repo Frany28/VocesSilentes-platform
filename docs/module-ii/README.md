@@ -1,5 +1,11 @@
 # Módulo II — PostgreSQL y operaciones funcionales
 
+**Entrega final del 23 de octubre:** consultar [formularios, contratos, filas y pruebas](final-delivery.md)
+y [el paquete académico](../../entrega-modulo-ii/README.md). Incluye resolución/reapertura, bitácora visual
+y progreso manual real. SQL definitivo: [estructura](sql/01_schema.sql), [seed](sql/02_seed.sql),
+[verificación](sql/03_verificacion.sql). Hay cinco filas en diez tablas y la excepción ReportEvidence = 0;
+las identidades externas son fixtures explícitos. Las secciones siguientes documentan el Día 1 histórico.
+
 Entrega del Día 1: administración de usuarios conectada a PostgreSQL, validaciones, eliminación
 lógica y bitácora administrativa persistente. Se conserva React/Express/Prisma, JavaScript ESM,
 sesiones HttpOnly, CSRF y separación de responsabilidades. No incluye el MVP educativo completo.

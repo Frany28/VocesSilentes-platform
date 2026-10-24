@@ -9,6 +9,10 @@
     "pnpm": "10.18.2"
   },
   "scripts": {
+    "academic:prepare": "pnpm --filter @vocessilentes/backend academic:prepare",
+    "academic:demo": "pnpm --filter @vocessilentes/backend academic:demo",
+    "academic:verify": "pnpm --filter @vocessilentes/backend academic:verify",
+    "academic:package": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-module-ii.ps1",
     "dev": "pnpm --parallel --filter @vocessilentes/frontend --filter @vocessilentes/backend run dev",
     "dev:frontend": "pnpm --filter @vocessilentes/frontend dev",
     "dev:backend": "pnpm --filter @vocessilentes/backend dev",

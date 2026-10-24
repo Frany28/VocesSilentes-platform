@@ -5,16 +5,15 @@ import { lockActor } from '../auth/auth-transaction.js';
  * @param {object} database Prisma existente.
  * @param {object} actor Sesión autorizada.
  * @param {object} input Reporte validado.
- * @param {object} include Proyección compartida del repositorio.
  * @returns {Promise<object>} Reporte existente o nuevo; propaga fallos transaccionales.
  */
-export async function persistReport(database, actor, input, include) {
+export async function persistReport(database, actor, input) {
   return database.$transaction(async (tx) => {
     await lockActor(tx, actor.id);
     const where = { authorId_requestId: { authorId: actor.id, requestId: input.requestId } };
-    const existing = await tx.report.findUnique({ where, include });
+    const existing = await tx.report.findUnique({ where });
     if (existing) return existing;
-    const report = await tx.report.create({ data: { ...input, authorId: actor.id }, include });
+    const report = await tx.report.create({ data: { ...input, authorId: actor.id } });
     await tx.auditLog.create({
       data: {
         actorId: actor.id,

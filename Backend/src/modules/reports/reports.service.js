@@ -57,7 +57,7 @@ export function createReportsService(database, storage) {
           'REPORT_REQUEST_CONFLICT',
           'Este envío ya corresponde a otro reporte',
         );
-      return present(report, actor.role === 'ADMIN');
+      return present(await repository.get(actor, report.id), actor.role === 'ADMIN');
     },
     get: async (actor, id) => present(await repository.get(actor, id), actor.role === 'ADMIN'),
     async list(actor, query) {

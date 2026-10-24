@@ -1,5 +1,10 @@
 # Primera fase del prototipo académico
 
+La fase descrita aquí es histórica. La [entrega final del Módulo II](module-ii/final-delivery.md)
+consulta catálogo real y registra progreso manual desde Practicar; también resuelve/reabre reportes
+y consulta bitácora. La demo original requiere `VITE_STUDENT_DEMO=true`; sin bandera se usa la API,
+en desarrollo y producción. No se activa cámara ni se acredita reconocimiento LSV.
+
 ## 4.1 Descripción del prototipo
 
 VocesSilentes presenta una plataforma educativa de Lengua de Señas Venezolana con autenticación

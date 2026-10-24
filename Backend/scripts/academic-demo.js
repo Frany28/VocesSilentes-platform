@@ -9,7 +9,9 @@ try {
   console.log(`ADMIN: ${academicAdmin}; USER: ${academicStudent}`);
   console.log(`Contraseña pública exclusiva de este fixture: ${academicPassword}`);
   console.log('PostgreSQL WASM efímero; los cambios se descartan al salir. No conecta a Supabase.');
-  console.log('Imágenes: sustituto local de prueba en memoria, NO S3. Ctrl+C cierra los procesos propios.');
+  console.log(
+    'Imágenes: sustituto local de prueba en memoria, NO S3. Ctrl+C cierra los procesos propios.',
+  );
   let closing = false;
   const close = async () => {
     if (closing) return;

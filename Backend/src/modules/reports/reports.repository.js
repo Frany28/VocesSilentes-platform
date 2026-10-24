@@ -23,23 +23,47 @@ export function createReportsRepository(database) {
       if (!report) throw new HttpError(404, 'REPORT_NOT_FOUND', 'Reporte no encontrado');
       return report;
     },
-    create: (actor, input) => persistReport(database, actor, input, include),
+    create: (actor, input) => persistReport(database, actor, input),
     async list(actor, { page, q, status }) {
       const where = {
         ...scope(actor),
         ...(status ? { status } : {}),
         ...(q ? { description: { contains: q, mode: 'insensitive' } } : {}),
       };
-      const [reports, total] = await database.$transaction([
-        database.report.findMany({
-          where,
-          include,
-          skip: (page - 1) * 30,
-          take: 30,
-          orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
-        }),
-        database.report.count({ where }),
-      ]);
+      const [reports, total] = await database.$transaction(
+        async (tx) => {
+          const rows = await tx.report.findMany({
+            where,
+            skip: (page - 1) * 30,
+            take: 30,
+            orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
+          });
+          const total = await tx.report.count({ where });
+          const ids = [
+            ...new Set(rows.flatMap((row) => [row.authorId, row.resolvedById]).filter(Boolean)),
+          ];
+          // Consultas agrupadas y secuenciales: una instantánea sin queries paralelas sobre el mismo Client pg.
+          const users = await tx.user.findMany({
+            where: { id: { in: ids } },
+            select: { id: true, firstName: true, lastName: true, username: true },
+          });
+          const images = await tx.reportEvidence.findMany({
+            where: { reportId: { in: rows.map((row) => row.id) } },
+          });
+          const people = new Map(users.map((user) => [user.id, user]));
+          const evidence = new Map(images.map((image) => [image.reportId, image]));
+          return [
+            rows.map((row) => ({
+              ...row,
+              author: people.get(row.authorId),
+              resolvedBy: people.get(row.resolvedById) ?? null,
+              evidence: evidence.get(row.id) ?? null,
+            })),
+            total,
+          ];
+        },
+        { isolationLevel: 'RepeatableRead' },
+      );
       return { reports, total, page, pages: Math.max(1, Math.ceil(total / 30)) };
     },
     reserve: (data) => database.reportEvidence.create({ data }),
