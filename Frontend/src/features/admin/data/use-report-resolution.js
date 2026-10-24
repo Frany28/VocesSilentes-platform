@@ -13,16 +13,16 @@ export function useReportResolution(resolve, report) {
   const [success, setSuccess] = useState(false);
   const request = useRef();
   useEffect(() => () => request.current?.abort(), []);
-  const submit = async (comment) => {
+  const submit = async (comment, status = 'RESOLVED') => {
     if (!resolve || request.current) return false;
     const controller = new AbortController();
     request.current = controller;
     setPending(true);
     setError(null);
     try {
-      const result = await resolve(report.id, comment, controller.signal);
+      const result = await resolve(report.id, comment, controller.signal, status);
       if (controller.signal.aborted) return false;
-      if (!result || result.id !== report.id || result.status !== 'RESOLVED')
+      if (!result || result.id !== report.id || result.status !== status)
         throw new Error('La respuesta no confirma la resolución. Vuelve a consultar el reporte.');
       setSaved(result);
       setSuccess(true);

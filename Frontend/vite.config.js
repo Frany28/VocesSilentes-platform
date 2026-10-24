@@ -18,6 +18,8 @@ export default defineConfig(({ mode }) => {
     server: { host: 'localhost', port: port.data, strictPort: true },
     preview: { host: 'localhost', port: 4173, strictPort: true },
     test: {
+      // Las pruebas históricas de presentación eligen la demo explícitamente; runtime usa la API.
+      env: { VITE_STUDENT_DEMO: 'true' },
       environment: 'jsdom',
       setupFiles: ['./src/test/setup.js'],
       clearMocks: true,

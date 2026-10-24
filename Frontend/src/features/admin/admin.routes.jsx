@@ -7,6 +7,7 @@ import { AdminUserCreated } from './pages/AdminUserCreated.jsx';
 import { AdminReportsRoute } from './pages/AdminReportsRoute.jsx';
 import { AdminReportRoute } from './pages/AdminReportRoute.jsx';
 import { AdminProfile } from './pages/AdminProfile.jsx';
+import { AdminAudit } from './pages/AdminAudit.jsx';
 /**
  * Rutas del entorno administrativo; el consumidor debe montarlas debajo de AdminGuard.
  * @returns {import('react-router').RouteObject} Layout y siete pantallas, incluida respuesta de creación.
@@ -18,6 +19,7 @@ export function adminRoutes() {
     children: [
       { index: true, element: <AdminSummary /> },
       { path: 'users', element: <AdminUsers /> },
+      { path: 'audit', element: <AdminAudit /> },
       { path: 'users/new', element: <AdminUserForm /> },
       { path: 'users/:id', element: <AdminUserDetail /> },
       { path: 'users/:id/edit', element: <AdminUserForm /> },

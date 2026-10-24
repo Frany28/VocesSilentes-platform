@@ -10,6 +10,7 @@ import { createAuthService } from './modules/auth/auth.service.js';
 import { createUsersService } from './modules/admin/users.service.js';
 import { createReportsService } from './modules/reports/reports.service.js';
 import { createEvidenceStorage } from './modules/reports/evidence-storage.js';
+import { createLearningService } from './modules/learning/learning.service.js';
 
 loadEnv();
 let database;
@@ -24,8 +25,9 @@ try {
   const usersService = database ? await createUsersService(database) : undefined;
   storage = database ? createEvidenceStorage(config.storage) : undefined;
   const reportsService = database ? createReportsService(database, storage) : undefined;
+  const learningService = database ? createLearningService(database) : undefined;
   const server = createServer(
-    createApp(config, logger, { authService, usersService, reportsService }),
+    createApp(config, logger, { authService, usersService, reportsService, learningService }),
   );
   server.listen(config.port, config.host);
   await once(server, 'listening');

@@ -30,6 +30,7 @@ export function StudentProvider({ read = readStudentSnapshot, children }) {
       value={{
         ...state,
         scenario,
+        refresh: () => setRevision((value) => value + 1),
         setScenario: (value) => {
           setState({ status: 'loading', snapshot: null });
           setScenario(value);

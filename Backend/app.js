@@ -7,6 +7,7 @@ import { createAuthService } from './src/modules/auth/auth.service.js';
 import { createUsersService } from './src/modules/admin/users.service.js';
 import { createReportsService } from './src/modules/reports/reports.service.js';
 import { createEvidenceStorage } from './src/modules/reports/evidence-storage.js';
+import { createLearningService } from './src/modules/learning/learning.service.js';
 
 // Vercel/CLI proporcionan el entorno; esta entrada no carga archivos .env privados.
 const config = parseEnv(process.env);
@@ -23,6 +24,7 @@ const app = createApp(config, createLogger(config.logLevel), {
   authService,
   usersService,
   reportsService,
+  learningService: database ? createLearningService(database) : undefined,
 });
 
 // Solo esta entrada acepta el salto de Vercel, que sobrescribe X-Forwarded-*.

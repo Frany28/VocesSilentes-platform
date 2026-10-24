@@ -7,7 +7,18 @@ export function createAuthRepository(database) {
   return {
     findUser: (email) => database.user.findUnique({ where: { email } }),
     register: (data, session) =>
-      database.user.create({ data: { ...data, sessions: { create: session } } }),
+      database.$transaction(async (tx) => {
+        const user = await tx.user.create({ data: { ...data, sessions: { create: session } } });
+        await tx.auditLog.create({
+          data: {
+            actorId: user.id,
+            operation: 'USER_REGISTERED',
+            entityType: 'User',
+            entityId: user.id,
+          },
+        });
+        return user;
+      }),
     findSession: (tokenHash) =>
       database.session.findUnique({ where: { tokenHash }, include: { user: true } }),
     revoke: (tokenHash, revokedAt) =>

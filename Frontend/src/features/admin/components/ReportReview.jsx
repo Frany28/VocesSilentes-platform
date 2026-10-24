@@ -4,7 +4,7 @@ import { Button } from '../../../components/ui/Button.jsx';
 import { Alert } from '../../../components/ui/Alert.jsx';
 import { adminDate } from '../data/admin-labels.js';
 import { useReportResolution } from '../data/use-report-resolution.js';
-import { AdminConfirmation } from './AdminConfirmation.jsx';
+import { ReportStatusConfirmation } from './ReportStatusConfirmation.jsx';
 import { AdminFacts } from './AdminFacts.jsx';
 import { ReportStatus } from './ReportStatus.jsx';
 import { ReportAttachment } from './ReportAttachment.jsx';
@@ -65,36 +65,28 @@ export function ReportReview({ report, onResolve }) {
         onChange={(event) => setComment(event.target.value)}
       />
       {operation.success && (
-        <Alert tone="success" title="Reporte resuelto">
-          La resolución fue confirmada por el servicio.
+        <Alert
+          tone="success"
+          title={current.status === 'RESOLVED' ? 'Reporte resuelto' : 'Reporte reabierto'}
+        >
+          El cambio de estado fue confirmado por el servicio.
         </Alert>
       )}
-      {current.status !== 'RESOLVED' && (
+      {(current.status !== 'RESOLVED' || onResolve) && (
         <div className="admin-actions">
-          <Button density="compact" icon={null} onClick={() => setConfirm(true)}>
-            Marcar como resuelto
+          <Button
+            density="compact"
+            icon={null}
+            onClick={() => setConfirm(current.status === 'RESOLVED' ? 'PENDING' : 'RESOLVED')}
+          >
+            {current.status === 'RESOLVED' ? 'Reabrir reporte' : 'Marcar como resuelto'}
           </Button>
         </div>
       )}
       {confirm && (
-        <AdminConfirmation
-          title="Resolver reporte"
-          confirm="Confirmar resolución"
-          pending={operation.pending}
-          error={operation.error}
-          disabled={!onResolve}
-          onCancel={() => setConfirm(false)}
-          onConfirm={async () => {
-            if (await operation.submit(comment)) setConfirm(false);
-          }}
-        >
-          <p>Confirma que el problema de {current.reference} fue atendido.</p>
-          <p>
-            {onResolve
-              ? 'Esta acción actualizará el estado del reporte a Resuelto.'
-              : 'Acción no disponible: falta el servicio de resolución y guardado de comentarios.'}
-          </p>
-        </AdminConfirmation>
+        <ReportStatusConfirmation target={confirm} reference={current.reference}
+          operation={operation} comment={comment} enabled={Boolean(onResolve)}
+          onClose={() => setConfirm(false)} />
       )}
     </section>
   );

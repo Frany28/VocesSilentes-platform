@@ -20,6 +20,8 @@ async function write(path, method, body, signal, binary = false) {
 export function createReportsApi() {
   return {
     create: async (input, signal) => (await write('reports', 'POST', input, signal)).data.report,
+    updateStatus: async (id, input, signal) =>
+      (await write(`reports/${id}/status`, 'PATCH', input, signal)).data.report,
     attach: (id, file, signal) => write(`reports/${id}/evidence`, 'PUT', file, signal, true),
     get: async (id, signal) => (await requestJson(`reports/${id}`, { signal })).data.report,
     list: async (query, signal) => (await requestJson('reports', { query, signal })).data,

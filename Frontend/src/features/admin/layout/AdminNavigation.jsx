@@ -18,7 +18,12 @@ export function AdminNavigation({ compact = false }) {
         ['/admin', 'Resumen', 'grid'],
         ['/admin/users', 'Usuarios', 'users'],
         ['/admin/reports', 'Reportes', 'flag'],
-        ...(!compact ? [['/admin/profile', 'Mi perfil', 'profile']] : []),
+        ...(!compact
+          ? [
+              ['/admin/audit', 'Bitácora', 'grid'],
+              ['/admin/profile', 'Mi perfil', 'profile'],
+            ]
+          : []),
       ].map(([to, label, icon]) => (
         <NavigationItem
           as={Link}

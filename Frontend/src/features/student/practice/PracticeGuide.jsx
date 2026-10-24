@@ -4,9 +4,10 @@ import { practiceSteps } from './practice-demo.js';
 
 /**
  * Guía original de Figma reutilizada en el lateral y el diálogo de instrucciones.
+ * @param {{demo?: boolean}} props Identifica la demostración explícita frente al avance declarado.
  * @returns {import('react').ReactElement} Pasos de preparación sin prometer reconocimiento real.
  */
-export function PracticeGuide() {
+export function PracticeGuide({ demo = true }) {
   const navigate = useNavigate();
   return (
     <section className="practice-guide flex min-w-0 flex-col gap-4 rounded-3xl bg-surface p-6">
@@ -30,7 +31,9 @@ export function PracticeGuide() {
         Volver a mis módulos
       </Button>
       <p className="text-muted">
-        Demostración visual: este prototipo no reconoce ni evalúa señas LSV.
+        {demo
+          ? 'Demostración visual: este prototipo no reconoce ni evalúa señas LSV.'
+          : 'El avance registrado es declarado por ti; no acredita reconocimiento ni dominio de LSV.'}
       </p>
     </section>
   );

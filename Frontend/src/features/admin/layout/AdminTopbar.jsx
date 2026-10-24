@@ -23,9 +23,11 @@ export function AdminTopbar({ onLogout }) {
     ? 'Mi perfil'
     : pathname.includes('/reports')
       ? 'Reportes'
-      : pathname.includes('/users')
-        ? 'Usuarios'
-        : 'Resumen';
+      : pathname.includes('/audit')
+        ? 'Bitácora'
+        : pathname.includes('/users')
+          ? 'Usuarios'
+          : 'Resumen';
   return (
     <div className="admin-topbar">
       {profile ? (

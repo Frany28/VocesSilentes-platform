@@ -3,7 +3,7 @@ import { useLocation } from 'react-router';
 import { publicConfig } from '../../../lib/config.js';
 import { useStudent } from '../data/use-student.js';
 import { StudentPageHeader } from '../components/StudentPageHeader.jsx';
-import { DataFeedback } from '../components/DataFeedback.jsx';
+import { LearningPractice } from '../practice/LearningPractice.jsx';
 import { PracticeBrief } from '../practice/PracticeBrief.jsx';
 import { PracticeCamera } from '../practice/PracticeCamera.jsx';
 import { PracticeGuide } from '../practice/PracticeGuide.jsx';
@@ -28,7 +28,7 @@ export function StudentPractice() {
         description="Conecta lo que aprendes con lo que tus manos expresan."
       />
       {!publicConfig.studentDemo ? (
-        <DataFeedback kind="unavailable" />
+        <LearningPractice />
       ) : (
         <>
           <PracticeBrief />

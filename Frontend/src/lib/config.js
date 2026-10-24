@@ -23,9 +23,7 @@ export function parsePublicConfig(env) {
     })
     .safeParse(env.VITE_API_URL ?? 'http://localhost:3000/api');
   if (!result.success) throw new Error('Configuración pública inválida: VITE_API_URL');
-  const demo = z
-    .enum(['true', 'false'])
-    .safeParse(env.VITE_STUDENT_DEMO ?? (env.DEV ? 'true' : 'false'));
+  const demo = z.enum(['true', 'false']).safeParse(env.VITE_STUDENT_DEMO ?? 'false');
   if (!demo.success) throw new Error('Configuración pública inválida: VITE_STUDENT_DEMO');
   return Object.freeze({
     apiUrl: result.data.replace(/\/+$/, ''),

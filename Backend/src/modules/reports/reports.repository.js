@@ -1,4 +1,6 @@
 import { HttpError } from '../../errors/http-error.js';
+import { persistReport } from './reports.creation.js';
+import { confirmEvidence } from './evidence-confirmation.js';
 
 /**
  * Reutiliza Prisma; los permisos de lectura se filtran antes de proyectar datos.
@@ -9,6 +11,7 @@ export function createReportsRepository(database) {
   const include = {
     evidence: true,
     author: { select: { firstName: true, lastName: true, username: true } },
+    resolvedBy: { select: { firstName: true, lastName: true } },
   };
   const scope = (actor) => (actor.role === 'ADMIN' ? {} : { authorId: actor.id });
   return {
@@ -20,22 +23,7 @@ export function createReportsRepository(database) {
       if (!report) throw new HttpError(404, 'REPORT_NOT_FOUND', 'Reporte no encontrado');
       return report;
     },
-    async create(actor, input) {
-      try {
-        return await database.report.upsert({
-          where: { authorId_requestId: { authorId: actor.id, requestId: input.requestId } },
-          create: { ...input, authorId: actor.id },
-          update: {},
-          include,
-        });
-      } catch (error) {
-        if (error.code !== 'P2002') throw error;
-        return database.report.findUnique({
-          where: { authorId_requestId: { authorId: actor.id, requestId: input.requestId } },
-          include,
-        });
-      }
-    },
+    create: (actor, input) => persistReport(database, actor, input, include),
     async list(actor, { page, q, status }) {
       const where = {
         ...scope(actor),
@@ -55,11 +43,7 @@ export function createReportsRepository(database) {
       return { reports, total, page, pages: Math.max(1, Math.ceil(total / 30)) };
     },
     reserve: (data) => database.reportEvidence.create({ data }),
-    ready: (id) =>
-      database.reportEvidence.updateMany({
-        where: { id, state: 'PENDING' },
-        data: { state: 'READY' },
-      }),
+    ready: (id) => confirmEvidence(database, id),
     claim: (id, before = new Date()) =>
       database.reportEvidence.updateMany({
         where: { id, state: 'PENDING', createdAt: { lt: before } },

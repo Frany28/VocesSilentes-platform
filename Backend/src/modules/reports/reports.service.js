@@ -1,6 +1,7 @@
 import { HttpError } from '../../errors/http-error.js';
 import { createReportsRepository } from './reports.repository.js';
 import { createEvidenceService } from './evidence.service.js';
+import { updateReportStatus } from './reports.status.js';
 
 function present(report, admin) {
   const result = {
@@ -27,6 +28,9 @@ function present(report, admin) {
     Object.assign(result, {
       internalComment: report.internalComment,
       resolvedAt: report.resolvedAt,
+      resolvedBy: report.resolvedBy
+        ? [report.resolvedBy.firstName, report.resolvedBy.lastName].filter(Boolean).join(' ')
+        : null,
     });
   return result;
 }
@@ -35,12 +39,16 @@ function present(report, admin) {
  * Negocio real mínimo de reportes para el flujo de evidencia; conserva idempotencia por autor/requestId.
  * @param {object} database Prisma existente con conexión privada configurada.
  * @param {object | undefined} storage Storage exclusivo del servidor.
- * @returns {object} create/get/list/attach/read/cleanup; no implementa resolución ni contexto educativo.
+ * @returns {object} Reportes con resolución/reapertura ADMIN y evidencia; propaga HttpError.
  */
 export function createReportsService(database, storage) {
   const repository = createReportsRepository(database);
   const evidence = createEvidenceService(repository, storage);
   return {
+    async updateStatus(actor, id, input) {
+      await updateReportStatus(database, actor.id, id, input);
+      return present(await repository.get(actor, id), true);
+    },
     async create(actor, input) {
       const report = await repository.create(actor, input);
       if (report.description !== input.description || report.category !== input.category)

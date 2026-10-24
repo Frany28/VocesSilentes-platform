@@ -1,6 +1,7 @@
 import { readFile, readdir, writeFile } from 'node:fs/promises';
 import { randomBytes, createHash } from 'node:crypto';
 import { createPasswords } from '../src/modules/auth/passwords.js';
+import { academicPassword } from './academic/credentials.js';
 
 // Solo prepara artefactos locales: no carga .env ni abre conexiones PostgreSQL.
 const directory = new URL('../prisma/migrations/', import.meta.url);
@@ -22,12 +23,12 @@ await writeFile(
 const passwords = await createPasswords();
 const values = [];
 for (let n = 1; n <= 5; n += 1) {
-  const passwordHash = await passwords.hash(randomBytes(32).toString('base64url'));
+  const passwordHash = await passwords.hash(academicPassword);
   const tokenHash = createHash('sha256').update(randomBytes(32)).digest('hex');
   values.push(`(${n}, '${passwordHash}', '${tokenHash}')`);
 }
 const seedPath = new URL('02_seed.sql', output);
-const seed = await readFile(seedPath, 'utf8');
+const seed = await readFile(new URL('./academic/seed.sql', import.meta.url), 'utf8');
 await writeFile(
   seedPath,
   seed.replace(

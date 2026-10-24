@@ -47,18 +47,18 @@ test('auditoría persistente: tres operaciones, actor de sesión, orden y ausenc
   for (const secret of [input.password, input.email, input.username, 'passwordHash', 'tokenHash'])
     assert.equal(JSON.stringify(rows).includes(secret), false);
   const page = (await actor.agent.get('/api/admin/audit-logs?pageSize=2').expect(200)).body.data;
-  assert.equal(page.total, 3);
+  assert.equal(page.total, 4);
   assert.equal(page.items.length, 2);
   assert.equal(page.items[0].operation, 'USER_DELETED');
   assert.equal(
     (await actor.agent.get('/api/admin/audit-logs?pageSize=2&page=2').expect(200)).body.data.items
       .length,
-    1,
+    2,
   );
   await assert.rejects(fixture.usersService.create(actor.user.id, input), {
     code: 'ACCOUNT_IDENTIFIERS_IN_USE',
   });
-  assert.equal(await fixture.database.auditLog.count(), 3);
+  assert.equal(await fixture.database.auditLog.count(), 4);
 });
 
 test('fallo al persistir auditoría revierte creación, edición, eliminación y revocación', async () => {

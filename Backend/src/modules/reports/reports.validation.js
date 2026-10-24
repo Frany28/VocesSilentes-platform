@@ -1,6 +1,12 @@
 import { z } from 'zod';
 
 export const reportIdSchema = z.uuid();
+export const reportStatusSchema = z
+  .object({
+    status: z.enum(['PENDING', 'RESOLVED']),
+    internalComment: z.string().trim().max(2000).default(''),
+  })
+  .strict();
 export const createReportSchema = z
   .object({
     requestId: z.uuid(),

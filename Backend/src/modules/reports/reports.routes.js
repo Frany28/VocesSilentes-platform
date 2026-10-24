@@ -1,8 +1,13 @@
 import { Router, raw } from 'express';
 import { rateLimit } from 'express-rate-limit';
 import { HttpError } from '../../errors/http-error.js';
-import { requireAuthTransport, requireSession } from '../auth/auth.middleware.js';
-import { createReportSchema, reportIdSchema, reportPageSchema } from './reports.validation.js';
+import { requireAuthTransport, requireSession, requireRole } from '../auth/auth.middleware.js';
+import {
+  createReportSchema,
+  reportIdSchema,
+  reportPageSchema,
+  reportStatusSchema,
+} from './reports.validation.js';
 import { EVIDENCE_LIMIT } from './evidence-image.js';
 
 /**
@@ -49,6 +54,14 @@ export function createReportsRouter(config, authService, service, csrf) {
     res.json({
       data: { report: await service.get(req.auth, reportIdSchema.parse(req.params.id)) },
     });
+  });
+  router.patch('/:id/status', requireRole('ADMIN'), limit, csrf.protect, async (req, res) => {
+    const report = await service.updateStatus(
+      req.auth,
+      reportIdSchema.parse(req.params.id),
+      reportStatusSchema.parse(req.body),
+    );
+    res.json({ data: { report } });
   });
   router.put(
     '/:id/evidence',
