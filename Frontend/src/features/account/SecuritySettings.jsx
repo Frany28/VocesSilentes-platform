@@ -16,6 +16,7 @@ export function SecuritySettings() {
         type="password"
         appearance="plain"
         label="Contraseña actual"
+        className="max-w-80"
         placeholder="Contraseña actual"
         autoComplete="current-password"
         disabled
@@ -41,11 +42,11 @@ export function SecuritySettings() {
           disabled
         />
       </div>
-      <div className="account-profile-role">
+      <div className="account-profile-role flex flex-col gap-2 bg-secondary">
         <p>Una contraseña solo para ti</p>
         <p className="account-caption">Evita reutilizar la contraseña de otros servicios.</p>
       </div>
-      <Alert title="Cambio de contraseña no disponible">
+      <Alert density="compact" title="Cambio de contraseña no disponible">
         Falta un servicio que valide la contraseña actual, actualice la credencial y gestione las
         sesiones.
       </Alert>

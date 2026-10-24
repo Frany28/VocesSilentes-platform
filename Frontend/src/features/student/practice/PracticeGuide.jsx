@@ -15,7 +15,7 @@ export function PracticeGuide() {
       {practiceSteps.map((step, index) => (
         <div
           key={step.title}
-          className={`flex flex-col gap-2 rounded-3xl p-4 ${index === 1 ? 'bg-(--surface-secondary)' : 'bg-(--surface-neutral)'}`}
+          className={`flex flex-col gap-2 rounded-3xl p-4 ${index === 1 ? 'bg-secondary' : 'bg-neutral'}`}
         >
           <h3 className="[font:var(--type-subtitle)]">{step.title}</h3>
           <p className="text-muted">{step.description}</p>
@@ -25,7 +25,7 @@ export function PracticeGuide() {
         onClick={() => navigate('/student/modules')}
         variant="secondary"
         icon={null}
-        className="w-full!"
+        className="w-full"
       >
         Volver a mis módulos
       </Button>

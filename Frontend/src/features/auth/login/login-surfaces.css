@@ -18,6 +18,8 @@
   background: linear-gradient(10.58164deg, var(--login-compact-stops));
 }
 .login-education {
+  display: flex;
+  padding: 24px;
   background: linear-gradient(15.46289deg, var(--login-education-stops));
 }
 .login-page::before,

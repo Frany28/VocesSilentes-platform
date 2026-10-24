@@ -3,6 +3,8 @@
 Base de desarrollo de una aplicación educativa de Lengua de Señas Venezolana (LSV).
 Incluye dos aplicaciones en un workspace pnpm, JavaScript ESM y JSDoc, los datos de la primera fase
 y autenticación local con sesiones persistidas. Las funciones educativas del MVP siguen pendientes.
+El frontend usa Tailwind CSS 4 con el plugin oficial de Vite, tokens existentes y capas de estilos;
+véase [criterios de uso y mantenimiento](docs/tailwind.md).
 
 ## Requisitos
 

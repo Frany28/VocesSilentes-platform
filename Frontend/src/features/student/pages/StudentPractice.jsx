@@ -61,7 +61,7 @@ export function StudentPractice() {
             />
             <PracticeGuide />
           </div>
-          <section className="flex flex-col gap-2 rounded-3xl bg-(--surface-secondary) p-6">
+          <section className="flex flex-col gap-2 rounded-3xl bg-secondary p-6">
             <h2 className="[font:var(--type-subtitle)]">Tu ritmo también cuenta.</h2>
             <p className="text-muted">
               Cada intento es una oportunidad para mejorar. Revisa la referencia de tu lección y

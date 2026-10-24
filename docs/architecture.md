@@ -36,6 +36,10 @@ componentes, hooks, servicios y validaciones cuando sean necesarios. `components
 `components/layout/` solo presentan controles y estructuras reutilizables.
 `hooks/` contiene estado compartido, `lib/` contiene HTTP/configuración/adaptadores y `styles/`
 mantiene tokens globales. `assets/` reúne los recursos locales extraídos para el sistema visual.
+Tailwind 4 usa el plugin oficial de Vite y una entrada global con detección explícita de clases.
+Los tokens se exponen mediante `tailwind-theme.css`; CSS de funcionalidades y controles usa la capa
+`components`, seguida de `utilities`. La geometría fluida y los recursos originales conservan CSS
+específico; composición simple y estados locales usan utilidades. Ver [tailwind.md](tailwind.md).
 Los componentes generales extraídos de Figma están en `components/ui/`, con tokens y estilos por
 responsabilidad en `styles/` y fuentes/SVG locales en `assets/`. `ui.html` y `src/dev/` contienen una
 galería independiente para desarrollo: no usa router/auth/API y no se incluye en el build de producción.
@@ -66,6 +70,13 @@ Navegación, tema y logout reutilizan el layout existente. Ver [primera fase](ph
 `features/auth/login/` presenta Auth de Figma como una ruta independiente del layout técnico.
 Reutiliza controles generales con variantes y el mismo hook/proveedor/cliente de autenticación.
 La validación local y traducción de errores están separadas de la presentación; véase [login.md](login.md).
+
+La actualización Student del 22 de octubre extrae features/account para compartir identidad, campos,
+seguridad y selector/encuadre local de foto con Admin. components/ui incorpora Avatar, Dialog, Select,
+IconAction y ThemeAction, y hooks/use-dialog.js coordina foco/scroll también en práctica. Button/Input
+eligen densidad por prop. /student/profile/security es una ruta USER protegida; el guard de rol no cambia.
+El reporte añade presentación/validación de título y ubicación sin cambiar el contrato HTTP: se conservan
+en description. Ver [auditoría del diseño](student-design-audit.md).
 
 ## Backend
 

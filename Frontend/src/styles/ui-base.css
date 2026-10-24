@@ -20,6 +20,13 @@
 .vs-ui .vs-icon {
   flex: none;
 }
+.vs-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip-path: inset(50%);
+  overflow: hidden;
+}
 
 @media (forced-colors: active) {
   .vs-ui:focus-visible {

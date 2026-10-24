@@ -36,6 +36,32 @@
   color: var(--text-secondary);
   background: var(--surface-neutral);
 }
+.account-profile-submit > .vs-button {
+  flex: none;
+  min-width: 184px;
+}
+.account-page .account-profile-submit > .account-caption {
+  flex: 1;
+}
+.account-page .vs-badge {
+  width: fit-content;
+  min-height: 28px;
+  padding: 4px 12px;
+  border: 0;
+  border-radius: 8px;
+  font: 600 13px / 20px var(--font-brand);
+}
+.account-page .vs-badge-dot {
+  display: none;
+}
+.account-page .account-profile-tabs a {
+  color: var(--text-secondary);
+  font: 600 13px / 20px var(--font-brand);
+  text-decoration: none;
+}
+.account-page .account-profile-tabs [aria-current] {
+  color: var(--action-primary);
+}
 @media (width >= 600px) {
   .account-profile-page h1 {
     font-size: 36px;

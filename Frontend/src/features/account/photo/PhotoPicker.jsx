@@ -11,7 +11,7 @@ export function PhotoPicker({ error, onSelect, onChoose }) {
   if (error)
     return (
       <>
-        <Alert tone="error" title="No pudimos usar esta imagen.">
+        <Alert tone="error" title="No pudimos usar esta imagen." icon={<Icon name="photo-alert" />}>
           {error}
         </Alert>
         <Button density="compact" icon={null} onClick={onChoose}>

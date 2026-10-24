@@ -15,8 +15,8 @@ export function StudentLoading({ catalog = false }) {
           className="flex flex-col gap-3 rounded-3xl bg-surface p-6"
           aria-hidden="true"
         >
-          <div className="h-4 w-2/3 rounded-lg bg-(--surface-neutral)" />
-          <div className="h-4 w-full rounded-lg bg-(--surface-neutral)" />
+          <div className="h-4 w-2/3 rounded-lg bg-neutral" />
+          <div className="h-4 w-full rounded-lg bg-neutral" />
         </div>
       ))}
     </div>

@@ -6,6 +6,10 @@ Instalar Node 22.23.1 y pnpm 10.18.2 como describe README. Verificar versiones d
 terminal nueva. Abrir la raíz del workspace en VS Code; `.vscode/extensions.json` recomienda ESLint,
 Prettier y Tailwind IntelliSense. Los scripts son JavaScript o comandos pnpm, sin dependencia de Bash.
 `.editorconfig`, `.gitattributes` y Prettier mantienen UTF-8, espacios y LF.
+Tailwind CSS 4 se configura en CSS y ya usa el plugin oficial de Vite; seguir
+[las convenciones de capas, tokens y utilidades](tailwind.md). Las entradas de cada funcionalidad
+declaran el mismo orden de capas antes de importar estilos. No añadir CSS sin capa ni `!important`
+para corregir precedencia; comprobar que una utilidad fija no sustituya una medida fluida existente.
 
 Si PowerShell impide ejecutar un shim `.ps1`, usar `pnpm.cmd` en lugar de cambiar globalmente las
 políticas de ejecución. Si Corepack está disponible, puede gestionar la versión packageManager;
@@ -120,10 +124,8 @@ La migración inicial
 el DDL generado por Prisma para los cuatro dominios y las reglas SQL adicionales en una sola
 transacción revisable. Dividirla artificialmente dificultaría aplicar y revisar el contrato completo.
 La razón también se documenta al principio del SQL; no se desactivan reglas ESLint.
-`Frontend/src/styles/button.css` es otra excepción (aproximadamente 108 líneas útiles): reúne
-la superficie, jerarquías y precedencias de hover/pressed/focus/disabled/loading con su movimiento
-y reducción de movimiento. Mantener esta cascada de un solo componente en un archivo permite revisar
-interacciones entre estados sin fragmentar reglas que se sobrescriben. La razón aparece junto al CSS.
+`Frontend/src/styles/button.css` conserva superficie y estados coordinados del botón. Su composición
+simple pasó a utilidades en Button.jsx y ya no necesita la anterior excepción de tamaño.
 ESLint advierte tamaño/largo/documentación y comprueba consistencia JSDoc, hooks y Fast Refresh.
 
 `Frontend/src/features/auth/login/motion-desktop.css` (aproximadamente 1058 líneas útiles)
@@ -169,3 +171,13 @@ Las pruebas de integración no usan `.env` ni escriben en la base compartida; PG
 CI está preparado en `.github/workflows/verify.yml`, con Node/pnpm fijados y matriz Linux/Windows.
 Usa frozen-lockfile, no base real, no despliegue y no secretos de producción. Subir archivos a un
 repositorio GitHub y comprobar la ejecución remota es una tarea posterior.
+
+## Componentes compartidos — actualización Student del 22 de octubre
+
+features/account contiene la presentación de perfil y foto común a ambos roles. Las mutaciones
+ADMIN permanecen en features/admin; Student conserva solo lectura hasta contar con endpoint propio.
+Dialog/Select/Avatar/IconAction se trasladaron a components/ui y se comprobaron sus consumidores;
+sus antiguos archivos de Admin se retiraron. El hook de diálogo vive en hooks/use-dialog.js.
+Las reglas compactas están en styles/density.css, sin nuevas dependencias ni cambios de entorno.
+Los escenarios de navegador usan cuentas y PostgreSQL WASM efímeros; Storage se sustituye explícitamente
+en la prueba de integración visual. No se escribe en Supabase ni se modifica Backend/.env.

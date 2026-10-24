@@ -44,13 +44,10 @@ export function AuthForm({
         <span className="rounded-full bg-tertiary p-2 [font:var(--type-label)]">
           {register ? 'COMIENZA TU CAMINO' : 'APRENDE A CONECTAR'}
         </span>
-        <h1
-          id={`${mode}-title`}
-          className="text-[30px]/[38px] font-bold min-[600px]:[font:var(--type-h1)]"
-        >
+        <h1 id={`${mode}-title`} className="font-bold">
           {register ? 'Crea tu cuenta' : 'Inicia sesión'}
         </h1>
-        <p className="text-base/[26px] text-muted">
+        <p className="text-muted">
           {register
             ? 'Da el primer paso para aprender Lengua de Señas Venezolana.'
             : 'Retoma tu aprendizaje de Lengua de Señas Venezolana.'}
@@ -61,7 +58,7 @@ export function AuthForm({
           tone="error"
           title={feedback.title}
           id={`${mode}-result`}
-          className="login-feedback w-full!"
+          className="login-feedback w-full"
         >
           {feedback.message}
         </Alert>
@@ -73,7 +70,7 @@ export function AuthForm({
           loading={pending}
           loadingLabel={loadingLabel}
           disabled={retryIn > 0}
-          className="w-full! [--size-control:48px]"
+          className="w-full [--size-control:48px]"
         >
           {retryIn > 0 ? `Reintentar en ${retryIn} s` : feedback?.retry ? 'Reintentar' : action}
         </Button>

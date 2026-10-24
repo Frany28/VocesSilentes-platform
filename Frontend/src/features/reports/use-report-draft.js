@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { reportsApi } from './reports.api.js';
 import { useEvidenceSelection } from './use-evidence-selection.js';
 import { useReportFields } from './use-report-fields.js';
+import { useReportLeave } from './use-report-leave.js';
 
 /**
  * Conserva el envío idempotente y el archivo ante errores; un reintento nunca crea otro reporte.
@@ -18,15 +19,8 @@ export function useReportDraft() {
   const requestId = useRef(crypto.randomUUID());
   const request = useRef(null);
   const dirty = status !== 'success' && (fields.changed || Boolean(image.selection));
+  const confirmLeave = useReportLeave(dirty);
   useEffect(() => () => request.current?.abort(), []);
-  useEffect(() => {
-    const warn = (event) => {
-      event.preventDefault();
-      event.returnValue = '';
-    };
-    if (dirty) window.addEventListener('beforeunload', warn);
-    return () => window.removeEventListener('beforeunload', warn);
-  }, [dirty]);
   const submit = async (event) => {
     event.preventDefault();
     if (request.current || image.validating || image.error || status === 'success') return;
@@ -78,6 +72,7 @@ export function useReportDraft() {
     submitted,
     submit,
     dirty,
+    confirmLeave,
     selectionLocked: submitted && !correctImage,
     invalidSelection: Boolean(image.error),
     pending: image.validating || ['saving', 'uploading'].includes(status),

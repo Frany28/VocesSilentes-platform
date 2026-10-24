@@ -27,15 +27,13 @@ export function StudentHero({ module, next, catalog = false, onOpen }) {
         : `Retoma ${module.title}.\nTu siguiente paso: aprender a presentarte.`;
   return (
     <section
-      className="student-hero relative flex min-h-82 flex-col gap-3 rounded-3xl p-6 min-[600px]:min-h-80
+      className="student-hero relative flex flex-col gap-3 rounded-3xl p-6
       min-[600px]:p-8"
       aria-label="Tu próxima conversación"
     >
       <div className="student-hero-copy relative z-10 flex min-w-0 flex-col items-start gap-3">
         <p className="text-muted [font:var(--type-label)]">TU PRÓXIMA CONVERSACIÓN EMPIEZA AQUÍ</p>
-        <h2 className="text-[30px]/[38px] font-bold whitespace-pre-line min-[600px]:[font:var(--type-h1)]">
-          {title}
-        </h2>
+        <h2 className="font-bold whitespace-pre-line">{title}</h2>
         <p className="text-muted whitespace-pre-line">{description}</p>
         <Button onClick={() => onOpen((complete ? next : module)?.title || module.title)}>
           {complete ? 'Explorar módulo' : first ? 'Comenzar lección' : 'Continuar lección'}

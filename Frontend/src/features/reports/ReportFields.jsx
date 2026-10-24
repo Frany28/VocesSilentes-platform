@@ -9,9 +9,12 @@ import { Alert } from '../../components/ui/Alert.jsx';
  */
 export function ReportFields({ draft }) {
   return (
-    <fieldset disabled={draft.pending || draft.submitted} className="report-fields">
+    <fieldset
+      disabled={draft.pending || draft.submitted}
+      className="m-0 flex min-w-0 flex-col gap-4 border-0 border-current p-0"
+    >
       {Object.keys(draft.errors).length > 0 && (
-        <Alert tone="error" title="Revisa los campos obligatorios.">
+        <Alert density="compact" tone="error" title="Revisa los campos obligatorios.">
           El título, el tipo y la descripción nos ayudan a entender el problema.
         </Alert>
       )}
@@ -19,7 +22,7 @@ export function ReportFields({ draft }) {
         density="compact"
         appearance="plain"
         label="Título del problema *"
-        className="report-title-field"
+        className="max-w-80"
         value={draft.title}
         required
         maxLength={120}
@@ -27,7 +30,7 @@ export function ReportFields({ draft }) {
         error={draft.errors.title}
         onChange={(event) => draft.setTitle(event.target.value)}
       />
-      <div className="report-field-pair">
+      <div className="grid grid-cols-2 gap-4 max-[360px]:grid-cols-1">
         <Select
           label="Tipo de error *"
           value={draft.category}
@@ -50,9 +53,14 @@ export function ReportFields({ draft }) {
           onChange={(event) => draft.setLocation(event.target.value)}
         />
       </div>
-      <div className="report-description">
+      <div className="flex min-w-0 flex-col gap-1">
         <label htmlFor="report-description">Descripción del problema *</label>
         <textarea
+          className="box-border min-h-28 w-full max-w-112 resize-y rounded-md border border-border
+            bg-surface px-4 py-3 font-field text-sm/5 text-content placeholder:text-muted
+            placeholder:opacity-100 focus-visible:outline-2 focus-visible:-outline-offset-2
+            focus-visible:outline-focus aria-invalid:border-error disabled:bg-action-disabled
+            disabled:text-disabled"
           id="report-description"
           value={draft.description}
           required
@@ -64,7 +72,9 @@ export function ReportFields({ draft }) {
         />
         <p
           id="report-description-help"
-          className={draft.errors.description ? 'report-field-error' : 'account-caption'}
+          className={
+            draft.errors.description ? 'font-brand text-xs/5 text-error' : 'account-caption'
+          }
         >
           {draft.errors.description || 'Incluye los pasos necesarios para repetir el error.'}
         </p>

@@ -1,91 +1,57 @@
 # Comparación de Student con Figma
 
-Referencia: [Student, 175:22520](https://www.figma.com/design/GRbHCgOXNZZxRWSpIcHKVU/VocesSilentes-Website?node-id=175-22520&m=dev).
-Inspección del 9 de octubre de 2026 mediante el plugin, `figma-design-to-code` y `figma-use`.
+Revisión directa del 22 de octubre de 2026 mediante las habilidades figma-design-to-code y figma-use:
+[Student, 175:22520](https://www.figma.com/design/GRbHCgOXNZZxRWSpIcHKVU/VocesSilentes-Website?node-id=175-22520)
+y [estándar compartido, 412:27892](https://www.figma.com/design/GRbHCgOXNZZxRWSpIcHKVU/VocesSilentes-Website?node-id=412-27892).
+No se modificó el archivo Figma. Se conservó el trabajo existente del sidebar y la evidencia real.
 
-Actualización solicitada por el usuario el 22 de octubre: el sidebar implementado sigue ahora
-la alineación de Admin (232/76 px, controles de 44 px y tipografía compacta), con ayuda/cuenta
-al pie. Esto reemplaza sus medidas originales 240/80 px descritas en la inspección histórica;
-no se atribuye a una nueva exportación Figma. Se conservan marca, recursos, temas y navegación móvil.
+## Inventario y diferencias
 
-## Evidencia y límites del acceso
+El árbol actual contiene **202 frames**: Inicio 30, módulos 36, práctica/instrucciones 54,
+perfil/foto/seguridad 52 y reporte 30. Se consultaron directamente nombres, tamaños y textos de
+todas las variantes, más contexto detallado y capturas de las composiciones y estados utilizados.
+El conteo del árbol no equivale a 202 comparaciones visuales individuales. La revisión en navegador
+y sus límites se registran en [verification.md](verification.md).
 
-El árbol contiene 120 frames: 30 de Inicio, 36 de Mis módulos y 54 de Practicar/instrucciones.
-Se obtuvo contexto detallado y captura de los 30 de Inicio, los 36 de Mis módulos y 14 de
-Practicar. El plan Education alcanzó su límite de llamadas: otras 40 variantes de práctica
-solo se pudieron consultar en el árbol de capas y quedan pendientes de verificación visual.
-No se afirma haber inspeccionado su contexto detallado. Mi progreso y Mi perfil no tienen
-frames propios en las cinco páginas del archivo; su composición académica reutiliza los
-componentes inspeccionados y queda pendiente de una referencia visual propia.
+| Área      | Ya coincidía                                                               | Diseño anterior reemplazado / resultado                                                                                                                               |
+| --------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Inicio    | Bienvenida, hero, módulos, lección sugerida, resumen y notas               | Cabecera con acción de tema de 44 px; sidebar 240/80, radio 24 y navegación común; contenido de 1128 px                                                               |
+| Módulos   | Colección demo explícita, filtros, búsqueda, tarjetas ilustradas y estados | Campos compactos, botones por densidad y navegación actualizada; sin perder búsqueda ni bloqueo de módulos                                                            |
+| Lecciones | Fila de siguiente lección existente                                        | La página Student no contiene una pantalla propia de lección; el acceso existente lleva a práctica demo. Faltan contenido/vídeo y servicio educativo                  |
+| Práctica  | Panel, ocho estados manuales, guía y textos honestos de demostración       | Iconos originales de éxito claro, permiso denegado claro y cámara no disponible oscura; badges y acciones; foco/scroll compartidos del diálogo                        |
+| Progreso  | Avance derivado de la colección demo y estados de lectura                  | Adopta layout/navegación/controles comunes. No hay un frame propio de Progreso en la página suministrada                                                              |
+| Perfil    | Identidad real y correo verificado de la sesión                            | Sustituye la tarjeta de solo lectura antigua por identidad, tabs, datos personales y seguridad de Figma, compartidos con Admin                                        |
+| Foto      | Admin ya tenía selector y encuadre locales                                 | Un único selector/diálogo para ambos roles: selección, error, zoom 100–135 %, cancelación y liberación de URL; guardado y borrado deshabilitados por dependencia real |
+| Reporte   | Backend, CSRF, idempotencia, validación confiable y Storage privado reales | Reemplaza formulario anterior por título/tipo/ubicación/descripción, orientación, selección/preview/eliminación de evidencia y confirmación con referencia real       |
 
-Auto Layout inspeccionado: filas desktop/tablet con gap y padding 24, contenido vertical
-FILL/HUG, cabecera horizontal con gap 16, bienvenida vertical con gap 8 y columnas de inicio
-que se apilan en tablet/móvil. Sidebar 240/80 px; móvil con navegación inferior. Manrope,
-tokens claro/oscuro, radios 12/16/24 px y sombras Action/Soft coinciden con el sistema existente.
-Se leyeron propiedades de instancias Sidebar, Navigation/Item, ThemeToggle, Welcome,
-ModuleCard, ProgressSummary, CameraPanel y Practice/Guide. El árbol contiene 824 reacciones
-en instancias; ese conteo no equivale a haber ejecutado los flujos del prototipo en Figma.
+## Fuentes visuales y componentes
 
-## Matriz previa a implementar
+Inicio: 181:50, 181:317, 181:494. Catálogo: 193:4639. Práctica: 206:6604 y los
+paneles 207:10157, 207:12063, 207:8740 y 207:13505. Instrucciones: 209:11844.
+Perfil: 300:11971, 300:12120, 300:12683, 300:13217, 300:13994 y 300:15266.
+Foto: 300:12574/12591/12625/12657. Reporte: 328:14046/14183/14457/14598/14694/15210
+y 329:14716. Navegación: 75:281. Botones compactos: 286:82. Estándar: 412:27892.
 
-| Pantalla / referencia                                        | Estado inicial                      | Diferencias o interacciones faltantes                                            | Reutilización                                                      |
-| ------------------------------------------------------------ | ----------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| Inicio (`181:50`, `181:317`, `181:494` y temas/estados)      | Parcial                             | Datos solo DEV; contenedor ampliado a 1280; accesos educativos pendientes        | StudentHome, StudentHero, LearningAside, ModuleCard, LessonPreview |
-| Mis módulos (`193:4639`, `193:4890`, `193:5096` y variantes) | Parcial                             | Datos solo DEV; navegación de tarjetas pendiente; estados de búsqueda existentes | StudentModules, ModuleFilters, ProgressSummary, StudentNote        |
-| Practicar (`206:6604`, `206:6792`)                           | Faltante                            | Página, panel, guía, instrucciones y estados visuales                            | Layout Student, Button, Badge, Icon, gradiente y notas existentes  |
-| Mi progreso                                                  | Faltante; referencia propia ausente | Navegación y demostración de avance por módulo                                   | ProgressSummary, ModuleCard, progreso derivado de lecciones demo   |
-| Mi perfil                                                    | Faltante; referencia propia ausente | Página de identidad de sesión, disponibilidad de edición                         | Input, Badge, sesión existente, superficies Student                |
-| Layout y navegación                                          | Parcial                             | ADMIN podía entrar; tres enlaces pendientes; progreso omitido en móvil           | AuthGuard, NavigationItem, sidebar, tema, logout                   |
+Button e Input admiten density compact/comfortable; Select, IconAction, ThemeAction, Dialog,
+Avatar y NavigationItem viven en components/ui. El layout de perfil, campos, seguridad y fotos
+viven en features/account; Admin conserva su hook de edición autorizada. Se retiraron los antiguos
+componentes equivalentes de Admin después de sustituir y comprobar sus imports. Las fuentes,
+logos y SVG originales se reutilizan; los recursos descargados no contienen paths redibujados.
 
-Ninguna pantalla principal estaba completa funcionalmente para la entrega desplegada:
-Inicio y Mis módulos ya tenían presentación y estados, pero faltaba demo configurable
-en producción y completar navegación. Sus componentes se conservan.
+## Adaptación y diferencias deliberadas
 
-## Práctica con contexto detallado disponible
+- Aprendizaje usa padding/gap 24, contenido máximo 1128 y sidebar 240/80; cuenta y reporte
+  usan sidebar al borde y contenido centrado de 904. Reporte de tablet se limita a 560.
+  Esto sustituye el máximo anterior de 1044 y el ajuste manual 232/76 por la referencia actual solicitada.
+- La navegación móvil conserva cinco destinos, incluido Progreso; el frame muestra cuatro.
+  El sidebar mantiene Reportar un error y Cerrar sesión al final; Admin solo revisa reportes.
+- Los avisos y selectores demo siguen visibles. No se ocultan para aparentar datos educativos reales.
+- Perfil USER conserva campos de solo lectura y guardar deshabilitado. Seguridad no recoge contraseñas
+  para un endpoint inexistente. Foto solo previsualiza en el dispositivo; no utiliza report-evidence.
+- Título y ubicación del reporte se envían como texto dentro de description, limitado en conjunto
+  a 4000 caracteres. Se mantienen las categorías reales TECHNICAL/CONTENT/OTHER. No hay migración
+  ni nuevos campos/API inventados. Validación y confirmaciones reflejan el resultado real del servicio.
 
-- Cámara apagada: Claro desktop `206:6604`, tablet `206:6792`.
-- Permiso pendiente: Claro desktop `207:7304`, Oscuro desktop `207:7775`.
-- Lista para practicar: Claro móvil `207:8576`.
-- Analizando: Claro tablet `207:9386`, Oscuro tablet `207:9854`.
-- Seña reconocida: Oscuro tablet `207:10797`.
-- Volver a intentar: Claro tablet `207:11272`, Oscuro desktop `207:11575`.
-- Permiso denegado: Oscuro tablet `207:12711`.
-- Cámara no disponible: Claro tablet `207:13190`.
-- Instrucciones: Claro desktop `209:11792`, Oscuro desktop `209:11870`.
-
-Las restantes combinaciones de estos estados/tamaños/temas requieren comparación visual futura;
-se adaptan con los componentes, geometría y tokens verificados, sin afirmar equivalencia exacta.
-
-## Diferencias intencionales
-
-Los SVG nuevos se descargaron sin alterar desde el contexto de los 14 frames de práctica.
-Para combinaciones sin contexto disponible se reutilizan iconos originales del UI Kit:
-éxito claro (check 20 px), denegación clara (lock 32 px), cámara no disponible oscura (info 20 px)
-y cámara lista oscura (camera 48 px). Esas variantes quedan pendientes de cotejo específico;
-no se dibujan recursos ni se afirma que sus tamaños sean los de los frames no inspeccionados.
-
-- El usuario exige máximo 1044 px. Los frames desktop consultados usan contenido de 1128 px;
-  se conserva el máximo solicitado y se distribuyen las columnas dentro de él.
-- Sidebar sticky de altura de viewport, crecimiento natural de páginas y padding fluido de
-  16–24 px conservan la adaptación solicitada antes de esta tarea; Figma usa frames largos.
-- La navegación móvil añade Progreso para que los cinco destinos académicos sean alcanzables;
-  la referencia contiene cuatro. Conserva los mismos controles y pasa a cinco columnas.
-- Banners y selectores de demostración permanecen visibles también en el build habilitado.
-  La práctica representa estados elegidos manualmente, sin cámara ni reconocimiento LSV,
-  y adapta los textos que de otro modo prometerían una integración inexistente.
-- Perfil muestra datos de sesión como solo lectura. No incorpora un formulario que prometa
-  guardar cambios sin endpoint. Progreso usa exclusivamente la colección demo identificada.
-
-La validación final y el alcance funcional se registran en [phase-one-prototype.md](phase-one-prototype.md)
-y [verification.md](verification.md). Sin modificaciones del archivo Figma.
-
-## Matriz después de implementar
-
-| Pantalla    | Resultado funcional                                                            | Verificación visual de diseño                                      |
-| ----------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
-| Inicio      | Conservado; demo configurable y accesos a práctica                             | 30 variantes con contexto; máximo 1044 intencional                 |
-| Mis módulos | Conservado; búsqueda/filtros/estados y tarjetas navegables                     | 36 variantes con contexto                                          |
-| Practicar   | Panel, guía, instrucciones y ocho estados manuales; demo explícita             | 14 variantes con contexto; otras 40 pendientes de cotejo detallado |
-| Mi progreso | Resumen y tarjetas derivados de la colección demo común, con carga/vacío/error | Sin frame propio: composición reutilizada, pendiente de referencia |
-| Mi perfil   | Datos reales de sesión, rol y correo pendiente; edición no disponible          | Sin frame propio: controles reutilizados, pendiente de referencia  |
-| Layout      | Solo USER; cinco enlaces móviles/desktop, tema y logout existente              | Componentes inspeccionados; quinto enlace móvil intencional        |
+Pendientes funcionales: edición propia USER, cambio de contraseña y gestión de sesiones, persistencia
+de foto de perfil, contenido/lecciones/vídeos, progreso y reconocimiento LSV. Pendientes de referencia:
+pantallas propias de lección y progreso. Estos estados no se presentan como operaciones exitosas.

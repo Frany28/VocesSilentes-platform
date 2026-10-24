@@ -55,17 +55,3 @@
   --border: var(--border-subtle);
   --field-focus-shadow: 0 0 8px 2px rgb(183 164 255 / 20%);
 }
-
-@theme inline {
-  --color-page: var(--page);
-  --color-content: var(--content);
-  --color-surface: var(--surface);
-  --color-border: var(--border);
-  --color-focus: var(--focus);
-  --color-action: var(--action-primary);
-  --color-muted: var(--text-secondary);
-  --color-info: var(--status-info);
-  --color-accent: var(--surface-accent);
-  --color-tertiary: var(--surface-tertiary);
-  --font-brand: 'Manrope', sans-serif;
-}

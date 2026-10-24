@@ -1,5 +1,36 @@
 # Verificación
 
+## Integración de Tailwind CSS — 23 de octubre de 2026
+
+Se conserva Tailwind CSS 4.3.3 y su plugin oficial de Vite, sin dependencias nuevas ni cambios
+al lockfile. Se ordenan las capas de todas las entradas CSS, se delimitan las fuentes de clases
+y se centralizan los alias de tokens en `tailwind-theme.css`. Los componentes compartidos,
+Auth, Student, cuenta y reportes eliminan utilidades forzadas o duplicaciones con CSS; las
+animaciones, los recursos originales y la geometría fluida conservan sus reglas específicas.
+Las convenciones de mantenimiento están en [tailwind.md](tailwind.md).
+
+`pnpm verify` terminó con código **0**: lint sin errores ni advertencias, formato correcto,
+**107 pruebas frontend, 43 backend y 51 SQL/auth: 201 aprobadas**, validación Prisma y build
+correctos. Las pruebas SQL usan PostgreSQL WASM efímero; no requieren una base externa.
+
+Chrome headless comparó **88 combinaciones**: login, registro, siete pantallas Student y dos
+Admin, en ambos temas y viewports **1440×960, 834×1100, 390×920 y 320×620**. Se registraron
+propiedades CSS calculadas y rectángulos de los elementos antes y después de la migración:
+sin diferencias detectadas en las propiedades comparadas ni en la geometría, con tolerancia
+de 0,1 px. Ninguna combinación presentó desbordamiento horizontal.
+
+Además pasaron nueve comprobaciones en navegador: borde de error del textarea, foco de teclado
+de 2 px, estado deshabilitado desde fieldset, encaje del diálogo de foto en móvil, selector de
+archivo oculto, retorno del foco con Escape, modal de creación Admin, precedencia de `w-full`
+sobre el ancho del botón con tema oscuro local, y reducción de movimiento. Se inspeccionaron
+capturas locales de formularios y diálogos; no es una comparación automática de píxeles.
+Las sesiones usan usuarios sintéticos en SQL efímero, sin acceder a Supabase ni guardar fotos.
+
+Evidencia local ignorada: `.local/tailwind-baseline.json`, `.local/tailwind-final.json`,
+`.local/tailwind-comparison-final.json`, `.local/tailwind-state-checks.json` y
+`.local/tailwind-review/`. No se ejecutaron GitHub Actions ni despliegues. La revisión de Chrome
+no acredita una matriz completa de navegadores ni dispositivos físicos.
+
 ## Alineación del sidebar Student con Admin — 22 de octubre de 2026
 
 Student adopta el sidebar de 232/76 px, padding 20/16 px y opciones compactas de 44 px de Admin.

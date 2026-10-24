@@ -18,6 +18,7 @@ export function EvidencePicker({ selection, onSelect, disabled, invalid }) {
         ref={input}
         className="vs-file-input"
         type="file"
+        tabIndex={-1}
         accept="image/jpeg,image/png,image/webp"
         disabled={disabled}
         aria-label="Imagen de evidencia (opcional)"

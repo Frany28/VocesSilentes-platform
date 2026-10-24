@@ -41,7 +41,7 @@ export function Input({
       data-error={!!error || undefined}
     >
       <label htmlFor={inputId}>{label}</label>
-      <div className="vs-input-shell">
+      <div className="vs-input-shell flex items-center">
         {icon}
         <input
           {...attributes}

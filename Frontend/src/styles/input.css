@@ -11,8 +11,6 @@
   background: var(--surface);
 }
 .vs-input-shell {
-  display: flex;
-  align-items: center;
   gap: var(--space-12);
   min-height: 48px;
   padding: var(--space-12);

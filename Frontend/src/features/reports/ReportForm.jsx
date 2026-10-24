@@ -24,8 +24,7 @@ function ReportDraft({ onReset }) {
   const navigate = useNavigate();
   const home = () => navigate('/student');
   const cancel = () => {
-    if (!draft.dirty || window.confirm('El envío no está completo. ¿Salir y dejar este borrador?'))
-      home();
+    if (draft.confirmLeave()) home();
   };
   return (
     <div className="account-page report-page">
@@ -46,7 +45,7 @@ function ReportDraft({ onReset }) {
               <p role="status">Reporte guardado. La imagen se confirma por separado.</p>
             )}
             {draft.error && (
-              <Alert tone="error" title="No se completó el envío">
+              <Alert density="compact" tone="error" title="No se completó el envío">
                 {draft.error}
               </Alert>
             )}

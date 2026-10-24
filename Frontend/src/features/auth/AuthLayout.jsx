@@ -26,9 +26,9 @@ export function AuthLayout({ pending, feedback, fieldErrors, children }) {
         <header className="login-header relative flex w-full items-center justify-between gap-4">
           <Brand smallDark />
           <ThemeToggle
-            className="login-theme max-[600px]:absolute! max-[600px]:top-0 max-[600px]:right-0
-              max-[600px]:size-11! max-[600px]:min-h-11! max-[600px]:p-3!
-              max-[600px]:[&_.vs-theme-label]:hidden! max-[600px]:[&_.vs-theme-track]:hidden!"
+            className="login-theme max-[600px]:absolute max-[600px]:top-0 max-[600px]:right-0
+              max-[600px]:size-11 max-[600px]:min-h-11 max-[600px]:p-3
+              max-[600px]:[&_.vs-theme-label]:hidden max-[600px]:[&_.vs-theme-track]:hidden"
           />
         </header>
         <div className="login-spacer" aria-hidden="true" />

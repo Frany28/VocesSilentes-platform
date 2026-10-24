@@ -1,0 +1,17 @@
+.vs-alert[data-density='compact'] {
+  width: 100%;
+  gap: 8px;
+  padding: 12px;
+  border: 0;
+  border-radius: 12px;
+  box-shadow: none;
+}
+.vs-alert[data-density='compact'] .vs-alert-icon {
+  display: none;
+}
+.vs-alert[data-density='compact'] .vs-alert-heading {
+  font: 600 13px / 20px var(--font-brand);
+}
+.vs-alert[data-density='compact'] > p {
+  font: 400 12px / 20px var(--font-brand);
+}

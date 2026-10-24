@@ -1,10 +1,12 @@
-@import './login-tokens.css';
-@import './login-surfaces.css';
-@import './login-illustration.css';
-@import './motion-desktop.css';
-@import './motion-tablet.css';
-@import './motion-mobile.css';
-@import './login-motion.css';
-@import './login-layout.css';
-@import './login-responsive.css';
-@import './login-visual-layout.css';
+@layer theme, base, components, utilities;
+
+@import './login-tokens.css' layer(components);
+@import './login-surfaces.css' layer(components);
+@import './login-illustration.css' layer(components);
+@import './motion-desktop.css' layer(components);
+@import './motion-tablet.css' layer(components);
+@import './motion-mobile.css' layer(components);
+@import './login-motion.css' layer(components);
+@import './login-layout.css' layer(components);
+@import './login-responsive.css' layer(components);
+@import './login-visual-layout.css' layer(components);

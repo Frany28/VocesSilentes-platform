@@ -40,6 +40,10 @@
   font-size: clamp(28px, 3vw, 36px);
   line-height: 1.2;
 }
+.login-welcome > p {
+  font-size: 16px;
+  line-height: 26px;
+}
 @media (min-width: 600px) {
   .login-card[data-mode='register'] {
     width: min(100%, 560px);

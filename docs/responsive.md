@@ -12,16 +12,15 @@ Se conservan colores, fuentes, radios, recursos, tema y componentes compartidos.
   En pantallas bajas se omiten badges y promociones decorativas. Los campos, acciones,
   mensajes y enlaces siguen presentes. Registro agrupa cuatro campos en dos filas desde
   600 px; contraseña ocupa una fila completa. Móvil conserva una columna.
-- **Student:** contenido centrado de hasta 1044 px, conforme al requisito del prototipo. Las columnas de inicio y módulos
-  dependen del ancho disponible después del sidebar mediante container queries. El catálogo
-  distribuye tarjetas automáticamente; el destacado conserva las medidas de sus recursos Figma
-  y omite la ilustración en móvil. Por solicitud del 22 de octubre, el sidebar se alinea con Admin:
-  232 px desde 1200 px y 76 px en tablet, pegado al borde, altura de viewport y scroll propio;
-  opciones compactas de 44 px, iconos alineados y ayuda/cuenta al pie. El contenido conserva su
-  máximo de 1044 px y la navegación móvil mantiene los cinco destinos. Practicar apila panel y guía,
-  Perfil usa campos adaptables y la navegación móvil permite los cinco destinos. Ver
-  [inspección y diferencias del prototipo](student-design-audit.md).
-- **Admin:** rediseño `286:50`, sidebar de 232 px desde 1200 px y de 76 px entre 600 y 1199 px,
+- **Student:** referencia actual 175:22520/412:27892. Aprendizaje tiene contenido máximo 1128 px,
+  padding/gap 24 y sidebar 240 px en escritorio, 80 en tablet y oculto bajo 600. Cuenta/reporte
+  usan sidebar al borde con radio 24 y altura de viewport; aprendizaje conserva el inset de 24.
+  La barra tiene scroll propio y ayuda/cuenta al pie. Móvil conserva los cinco destinos académicos.
+  Perfil comparte grid 320/224 px más configuración, apilado bajo 600 px de contenido; cuenta y
+  reporte limitan el contenido a 904 px. Reporte de tablet se centra en 560 px y dispone evidencia
+  y orientación en dos columnas, apiladas en móvil. Campos compactos de 44 px y vuelta con icono.
+  Ver [comparación actual y pendientes](student-design-audit.md).
+- **Admin:** rediseño `286:50`, sidebar de 240 px desde 1200 px y de 80 px entre 600 y 1199 px,
   con altura de viewport, scroll propio y logout al final. Móvil usa navegación horizontal y menú
   accesible; perfil conserva vuelta/tema. El área principal usa 32 px de padding y móvil 20 px
   (16 px bajo 360). Las tablas mantienen los mismos tracks para cabecera/filas; bajo 620 px de

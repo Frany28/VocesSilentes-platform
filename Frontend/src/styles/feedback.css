@@ -16,14 +16,10 @@
 }
 .vs-badge,
 .vs-alert {
-  max-width: 100%;
   border: 1px solid var(--status);
   background: var(--status-bg);
 }
 .vs-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-8);
   width: var(--size-badge);
   min-height: 40px;
   padding: var(--space-8) var(--space-12);
@@ -38,8 +34,6 @@
   background: var(--status);
 }
 .vs-alert {
-  display: flex;
-  flex-direction: column;
   gap: var(--space-12);
   width: var(--size-alert);
   padding: var(--space-16);
@@ -47,9 +41,6 @@
   box-shadow: var(--shadow-soft);
 }
 .vs-alert-heading {
-  display: flex;
-  align-items: center;
-  gap: var(--space-12);
   color: var(--status);
   font: var(--type-button);
 }

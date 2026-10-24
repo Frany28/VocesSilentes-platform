@@ -9,6 +9,30 @@ Code Connect no permite leer conexiones con el plan educativo actual: requiere u
 en Organization/Enterprise. No se afirma ausencia de mappings; la tabla siguiente es correspondencia
 manual documentada. No se modificó el archivo Figma ni se instalaron dependencias nuevas.
 
+## Estándar compartido actualizado — 22 de octubre
+
+Se consultó directamente [412:27892](https://www.figma.com/design/GRbHCgOXNZZxRWSpIcHKVU/VocesSilentes-Website?node-id=412-27892).
+Las reglas siguientes sustituyen las excepciones históricas de densidad exclusiva de Admin:
+
+- Button: density="compact" (44 px, Manrope 600 13/20) o "comfortable" (52 px, 16/24, predeterminada).
+  Ambas usan radio 16. La compacta conserva color/hover/presión/foco/disabled/loading sin la elevación
+  de la variante cómoda. La densidad se elige en el consumidor por tarea.
+- Input/PasswordInput: density="compact" (44 px, radio 16, Inter 14/20, label persistente 13/20).
+  La cómoda conserva la geometría de Auth. Select comparte los campos compactos, ayudas y errores.
+- NavigationItem: 44 px, icono 20, Manrope 600 16/24 y radio 12, con indicador seleccionado.
+  Sidebar de 240/80 px y radio 24 en ambos roles; ayuda/cuenta al pie. Student conserva Reportar un error.
+- IconAction y ThemeAction: objetivo 44 × 44, icono 20, radio 12; luna en claro y sol en oscuro
+  anuncian el tema de destino. ThemeToggle/ThemeSwitch permanecen disponibles para Auth/UI Kit.
+- Dialog, Avatar y los iconos de aplicación son compartidos. Dialog usa radio 24, foco contenido,
+  Escape, restauración del disparador y coordinación de scroll de diálogos anidados.
+- features/account comparte ProfilePage, ProfileFields, ProfileIdentity, SecuritySettings y photo/.
+  Perfil y reporte usan contenedores de radio 24/padding 24, subtareas de 16 y notas internas de 12.
+  El token --radius-2xl centraliza 24 px. El visor de evidencia sigue separado de las fotos de perfil.
+
+La [auditoría Student](student-design-audit.md) y [verificación](verification.md) describen capturas,
+comportamiento adaptable y dependencias reales. Las tablas siguientes documentan la extracción histórica
+del UI Kit; para densidades y navegación prevalece esta actualización.
+
 ## Correspondencia y contratos
 
 La composición Auth y sus extensiones de controles están documentadas en [login.md](login.md).
@@ -43,7 +67,7 @@ de tablet. No se reconstruye el nombre con tipografía o iconos propios de cada 
 Button implementa normal, hover, presión, foco, disabled y loading; Input vacío, valor, foco,
 error y disabled. Checkbox/Radio implementan selección, foco y disabled. La preferencia elegida
 en ThemeSwitch es independiente del tema visual del contenedor, como en las cuatro variantes Figma.
-No hay tamaños adicionales, spinner ni animaciones de carga especificados. Loading muestra texto,
+Las densidades adicionales actuales se describen arriba; no se añade spinner ni carga ficticia. Loading muestra texto,
 elimina el icono y deshabilita realmente el botón; el consumidor debe activar loading al iniciar
 su operación. No sustituye la protección de concurrencia del formulario o servicio.
 
@@ -55,7 +79,7 @@ sus formularios y lógica originales; solo ThemeToggle adopta la presentación d
 ## Tokens
 
 `styles/tokens.css` contiene ambos temas y mantiene page/content/surface/border/focus, vinculados
-a Tailwind 4 mediante @theme inline. `foundations.css` centraliza tipografías, medidas, radios,
+a Tailwind 4 mediante `@theme inline` en `tailwind-theme.css`. `foundations.css` centraliza tipografías, medidas, radios,
 espaciado y elevaciones. `[data-theme="light|dark"]` permite temas locales además de la raíz;
 los componentes heredan variables y comparten un único markup para ambos temas.
 
@@ -78,18 +102,16 @@ en `appearance="plain"`; PasswordInput lo hereda de `.vs-input-shell`, sin una e
 Foco, error, deshabilitado y mostrar/ocultar contraseña no cambian ese radio.
 El botón interno de visibilidad conserva su radio de 8 px para su propio indicador de foco.
 
-El rediseño administrativo `286:50` define una variante compacta distinta: inputs y botones de
-44 px con radio 8 px, etiqueta Manrope 600 13/20 e input Inter 400 14/20. Se expresa mediante
-estilos bajo `.admin-shell`, reutilizando los componentes y conservando Auth/Student sin cambios.
-Sus badges de 28 px no llevan punto ni contorno. Perfil usa paneles de 24 px y avatar circular;
-el resto de paneles usa 16 px. Icon admite también el slot nativo de 28 px de esa página.
-Ver [administración](admin.md) para fuentes, estados e integración disponible.
+El estándar compartido 412:27892 sustituye los controles de radio 8 exclusivos de Admin:
+Button e Input usan las densidades descritas arriba mediante props; los campos compactos y
+ambos botones tienen radio 16. Los badges compactos de gestión conservan sus 28 px sin punto.
+Alert también admite density="compact": resumen interno sin icono, contorno ni sombra, padding/radio
+12, título 13/20 y mensaje 12/20. Los avisos cómodos conservan la variante del UI Kit; icon permite
+proporcionar el recurso original del error de foto compartido. Auth conserva sus controles cómodos.
 
-El sidebar Student adopta el 22 de octubre, por solicitud del usuario, la geometría y tipografía
-compacta de Admin: 232/76 px, padding 20/16, opciones de 44 px con radio 8 px y Manrope 600 13/20.
-Solo esa barra redefine `--type-button` y `--type-label`; las demás vistas Student conservan sus
-tokens. El marcador del UI Kit se oculta dentro del sidebar para alinear iconos y texto con Admin;
-la selección usa la superficie de acento existente. Ayuda/cuenta queda al pie con separador y scroll.
+Los sidebars actuales comparten NavigationItem de 44 px, radio 12, texto 16 e indicador activo;
+su ancho es 240/80 y el radio exterior 24. Ayuda/cuenta permanece al pie, con scroll vertical.
+Esto sustituye la adaptación manual previa de 232/76 y texto 13 del sidebar Student.
 
 | Token CSS / variable Figma          | Claro             | Oscuro            |
 | ----------------------------------- | ----------------- | ----------------- |
@@ -191,13 +213,16 @@ No se presentan estas extensiones como variantes originales de Figma.
 
 ## Uso
 
-Tailwind 4 está integrado mediante Vite y `global.css`. `@theme inline` en `tokens.css`
+Tailwind 4 está integrado mediante Vite y `global.css`. `@theme inline` en `tailwind-theme.css`
 vincula colores existentes con utilidades: `text-content`, `text-muted`, `text-info`,
 `bg-surface`, `bg-accent`, `bg-tertiary`, `border-border` y `outline-focus`.
 Las áreas combinan utilidades en JSX y CSS de geometría fluida para la
 [adaptación al ancho y la altura](responsive.md), usando `--type-*` para la tipografía;
 los controles del UI Kit conservan su implementación compartida.
 Gradientes animados, keyframes originales y recortes de marca permanecen en CSS específico.
+El CSS de componentes y funcionalidades pertenece a `components`; las utilidades tienen la última
+prioridad sin `!important`. Cada entrada CSS declara el mismo orden de capas para soportar cualquier
+orden de carga. Ver [Tailwind: cascada, alias y criterio de implementación](tailwind.md).
 
 ```jsx
 import { Button } from './components/ui/Button.jsx';

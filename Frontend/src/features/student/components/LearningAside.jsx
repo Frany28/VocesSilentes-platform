@@ -24,7 +24,7 @@ export function LearningAside({ module, onOpen }) {
       <section className="flex flex-col gap-3 rounded-3xl border border-border bg-surface p-6">
         <h2 className="[font:var(--type-subtitle)]">¿Algo no funciona?</h2>
         <p className="text-muted">Tu reporte nos ayuda a mejorar la experiencia.</p>
-        <Button variant="secondary" className="w-full!" onClick={() => onOpen('Reportar un error')}>
+        <Button variant="secondary" className="w-full" onClick={() => onOpen('Reportar un error')}>
           Reportar un error
         </Button>
       </section>

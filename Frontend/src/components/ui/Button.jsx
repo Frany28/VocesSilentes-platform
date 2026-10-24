@@ -33,12 +33,12 @@ export function Button({
       type={type}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
-      className={`vs-ui vs-button ${className}`}
+      className={`vs-ui vs-button inline-block max-w-full appearance-none align-middle ${className}`}
       data-variant={variant}
       data-density={density}
       data-loading={loading || undefined}
     >
-      <span className="vs-button-surface">
+      <span className="vs-button-surface relative isolate flex items-center justify-center gap-2">
         <span>{loading ? loadingLabel : children}</span>
         {!loading && trailing}
       </span>

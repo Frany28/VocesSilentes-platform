@@ -23,7 +23,7 @@ export function ModuleCard({ module, illustrated = false, onOpen }) {
   return (
     <article
       className="student-module-card flex min-w-0 flex-col self-start rounded-3xl border border-border
-      bg-surface shadow-(--shadow-soft)"
+      bg-surface shadow-card"
       aria-label={module.title}
     >
       {illustrated && (
@@ -37,12 +37,12 @@ export function ModuleCard({ module, illustrated = false, onOpen }) {
           <ModuleIllustration />
         </div>
       )}
-      <div className="flex flex-col gap-3 p-6">
+      <div className="flex flex-col gap-3">
         {illustrated ? (
           <p className="text-action [font:var(--type-label)]">NIVEL 01 · COMUNICACIÓN COTIDIANA</p>
         ) : (
           <div className="flex items-start gap-4">
-            <span className="flex rounded-2xl bg-(--surface-secondary) p-3">
+            <span className="flex rounded-2xl bg-secondary p-3">
               <Icon name={locked ? 'student-lock' : 'student-book'} size={32} />
             </span>
             <div className="min-w-0">
@@ -66,7 +66,7 @@ export function ModuleCard({ module, illustrated = false, onOpen }) {
           }
           valueText={`${percent}% · ${completed} de ${total} lecciones`}
         />
-        <Button className="w-full!" disabled={locked} onClick={() => onOpen(module.title)}>
+        <Button className="w-full" disabled={locked} onClick={() => onOpen(module.title)}>
           {locked
             ? 'Módulo bloqueado'
             : state === 'completed'

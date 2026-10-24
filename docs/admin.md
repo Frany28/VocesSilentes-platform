@@ -1,5 +1,11 @@
 # Administración
 
+Actualización compartida del 22 de octubre: perfil, seguridad y foto reutilizan `features/account/`;
+Avatar, Dialog, Select, IconAction y ThemeAction viven en `components/ui/`. Button/Input eligen
+la densidad compacta mediante prop, con radios 16; sidebar 240/80 y NavigationItem de 44 px,
+radio 12 e indicador. El guard ADMIN, edición real, CSRF y visor autorizado se conservan.
+Las medidas históricas siguientes se sustituyen por [el estándar actual](design-system.md).
+
 Actualización del 21 de octubre: reportes y evidencia ya consultan servicios reales de sesión propia.
 El listado se pagina/filtra en backend y el visor existente obtiene enlaces temporales autorizados.
 La resolución y las fotos de perfil siguen pendientes. Las secciones históricas siguientes que

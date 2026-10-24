@@ -25,7 +25,7 @@ export function LoginVisual() {
         </div>
         <LoginIllustration />
         <div
-          className="login-preview flex flex-col gap-3"
+          className="login-preview flex-col gap-3"
           aria-label="Vista previa ilustrativa del contenido previsto"
         >
           <p className="text-info [font:var(--type-label)]">TU PRÓXIMA CONVERSACIÓN EMPIEZA AQUÍ</p>
@@ -43,7 +43,7 @@ export function LoginVisual() {
             <Icon name="chevron" size={16} />
           </div>
         </div>
-        <div className="login-education flex flex-col gap-2 rounded-2xl p-6">
+        <div className="login-education flex-col gap-2 rounded-2xl">
           <h3 className="[font:var(--type-h3)]">Aprende a tu ritmo.</h3>
           <p className="text-muted">Contenido visual, ejercicios y progreso en un solo lugar.</p>
         </div>

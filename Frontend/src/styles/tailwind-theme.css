@@ -1,0 +1,31 @@
+/* Alias de los tokens existentes: los temas locales se resuelven en cada elemento. */
+@theme inline {
+  --color-page: var(--page);
+  --color-content: var(--content);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-focus: var(--focus);
+  --color-action: var(--action-primary);
+  --color-action-text: var(--action-text);
+  --color-action-hover: var(--action-hover);
+  --color-action-pressed: var(--action-pressed);
+  --color-action-disabled: var(--action-disabled);
+  --color-muted: var(--text-secondary);
+  --color-disabled: var(--text-disabled);
+  --color-info: var(--status-info);
+  --color-success: var(--status-success);
+  --color-error: var(--status-error);
+  --color-warning: var(--status-warning);
+  --color-accent: var(--surface-accent);
+  --color-secondary: var(--surface-secondary);
+  --color-tertiary: var(--surface-tertiary);
+  --color-neutral: var(--surface-neutral);
+  --color-success-soft: var(--status-success-bg);
+  --color-error-soft: var(--status-error-bg);
+  --font-brand: 'Manrope', sans-serif;
+  --font-field: 'Inter', sans-serif;
+  --radius-field: var(--radius-lg);
+  --radius-control: var(--radius-xl);
+  --radius-card: var(--radius-2xl);
+  --shadow-card: var(--shadow-soft);
+}

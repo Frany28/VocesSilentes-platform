@@ -1,4 +1,5 @@
 import { Outlet, useLocation } from 'react-router';
+import { useEffect } from 'react';
 import { StudentTopbar } from './StudentTopbar.jsx';
 import { Alert } from '../../../components/ui/Alert.jsx';
 import { StudentProvider } from '../data/StudentProvider.jsx';
@@ -15,8 +16,13 @@ import '../student.css';
  */
 export function StudentLayout() {
   const actions = useStudentActions();
-  const page = useLocation().pathname.split('/')[2] || 'home';
+  const { pathname } = useLocation();
+  const page = pathname.split('/')[2] || 'home';
   const account = ['profile', 'reports'].includes(page);
+  useEffect(() => {
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [pathname]);
   return (
     <StudentProvider>
       <div
@@ -34,20 +40,20 @@ export function StudentLayout() {
           pending={actions.pending}
         />
         <div className="student-content min-w-0 flex-1">
-          <div className="student-container mx-auto flex w-full flex-col gap-6">
+          <div className="student-container mx-auto flex w-full flex-col">
             <StudentTopbar page={page} account={account} />
             <main id="student-content" tabIndex={-1}>
               <Outlet context={{ onOpen: actions.openLearning }} />
             </main>
             <div className="empty:hidden" role="status" aria-live="polite" aria-atomic="true">
               {actions.notice && (
-                <Alert key={actions.notice.id} className="w-full!" title="Próximamente">
+                <Alert key={actions.notice.id} className="w-full" title="Próximamente">
                   {actions.notice.message}
                 </Alert>
               )}
             </div>
             {actions.error && (
-              <Alert tone="error" className="w-full!" title="Sesión activa">
+              <Alert tone="error" className="w-full" title="Sesión activa">
                 {actions.error}
               </Alert>
             )}
@@ -57,7 +63,7 @@ export function StudentLayout() {
                 type="button"
                 onClick={actions.logout}
                 disabled={actions.pending}
-                className="min-h-11 rounded-lg bg-transparent! p-2! text-content! min-[600px]:hidden
+                className="min-h-11 rounded-lg bg-transparent p-2 text-content min-[600px]:hidden
                   focus-visible:outline-3 focus-visible:outline-focus"
               >
                 {actions.pending ? 'Cerrando…' : 'Cerrar sesión'}

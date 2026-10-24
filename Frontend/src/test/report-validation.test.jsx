@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
+import { Link, MemoryRouter, Route, Routes } from 'react-router';
 import { expect, test, vi } from 'vitest';
 import { ReportForm } from '../features/reports/ReportForm.jsx';
 import { reportsApi } from '../features/reports/reports.api.js';
@@ -36,4 +36,27 @@ test('reporte: valida campos y conserva título/ubicación en el contrato real s
   fireEvent.click(screen.getByRole('button', { name: 'Crear otro reporte' }));
   expect(screen.getByLabelText('Título del problema *')).toHaveValue('');
   expect(screen.getByLabelText('Tipo de error *')).toHaveValue('');
+});
+
+test('reporte: cancelar regreso conserva campos y confirmar descarte permite navegar', async () => {
+  const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false);
+  render(
+    <MemoryRouter initialEntries={['/student/reports/new']}>
+      <Link to="/student">Volver al aprendizaje</Link>
+      <Routes>
+        <Route path="/student/reports/new" element={<ReportForm />} />
+        <Route path="/student" element={<h1>Inicio de prueba</h1>} />
+      </Routes>
+    </MemoryRouter>,
+  );
+  fireEvent.change(screen.getByLabelText('Título del problema *'), {
+    target: { value: 'Borrador' },
+  });
+  fireEvent.click(screen.getByRole('link', { name: 'Volver al aprendizaje' }));
+  expect(confirm).toHaveBeenCalledOnce();
+  expect(screen.getByLabelText('Título del problema *')).toHaveValue('Borrador');
+  confirm.mockReturnValue(true);
+  fireEvent.click(screen.getByRole('link', { name: 'Volver al aprendizaje' }));
+  expect(await screen.findByRole('heading', { name: 'Inicio de prueba' })).toBeVisible();
+  confirm.mockRestore();
 });

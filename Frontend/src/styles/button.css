@@ -1,11 +1,6 @@
-/* Excepción de tamaño: estados, superficie y movimiento comparten la misma cascada.
-   Se mantienen juntos para revisar precedencias; véase docs/development.md. */
+/* Superficie y estados interactivos; la composición simple usa utilidades en Button.jsx. */
 .vs-button {
-  appearance: none;
-  display: inline-block;
-  vertical-align: middle;
   width: var(--size-button);
-  max-width: 100%;
   min-height: var(--size-control);
   padding: 0;
   border: 0;
@@ -17,12 +12,6 @@
 }
 
 .vs-button-surface {
-  position: relative;
-  isolation: isolate;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-8);
   min-height: var(--size-control);
   padding: var(--space-12) var(--space-16);
   transition: transform 180ms ease-in-out;

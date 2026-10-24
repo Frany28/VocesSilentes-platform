@@ -37,7 +37,7 @@ export function StudentModules() {
         <DataFeedback kind="empty" catalog />
       ) : (
         <>
-          <div className="student-overview-grid grid items-start gap-6">
+          <div className="student-overview-grid grid items-start">
             <StudentHero module={modules[0]} catalog onOpen={onOpen} />
             <div className="student-summary-slot">
               <ProgressSummary module={modules[0]} />

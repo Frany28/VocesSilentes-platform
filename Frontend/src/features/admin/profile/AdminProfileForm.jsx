@@ -21,17 +21,17 @@ export function AdminProfileForm({ user }) {
         Mantén tus datos al día y personaliza cómo se muestra tu cuenta.
       </p>
       {state?.message && (
-        <Alert tone="success" title="Cambios guardados">
+        <Alert density="compact" tone="success" title="Cambios guardados">
           {state.message}
         </Alert>
       )}
       {operation.error && (
-        <Alert tone="error" title="No se pudo guardar">
+        <Alert density="compact" tone="error" title="No se pudo guardar">
           {operation.error}
         </Alert>
       )}
       {Object.keys(operation.errors).length > 0 && (
-        <Alert tone="error" title="Revisa los campos indicados">
+        <Alert density="compact" tone="error" title="Revisa los campos indicados">
           Corrige los datos antes de guardar.
         </Alert>
       )}

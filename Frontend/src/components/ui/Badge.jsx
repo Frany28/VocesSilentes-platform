@@ -8,7 +8,11 @@
  */
 export function Badge({ tone = 'info', children, className = '', ...attributes }) {
   return (
-    <span {...attributes} className={`vs-ui vs-badge ${className}`} data-tone={tone}>
+    <span
+      {...attributes}
+      className={`vs-ui vs-badge inline-flex max-w-full items-center gap-2 ${className}`}
+      data-tone={tone}
+    >
       <span className="vs-badge-dot" aria-hidden="true" />
       <span>{children}</span>
     </span>

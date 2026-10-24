@@ -12,7 +12,7 @@ export function PracticeCamera({ state, exercise, onState, onInstructions }) {
   const tone = view.tone === 'neutral' ? 'info' : view.tone;
   return (
     <section
-      className="practice-camera flex min-w-0 flex-col gap-4 rounded-3xl bg-surface p-6 shadow-(--shadow-soft)"
+      className="practice-camera flex min-w-0 flex-col gap-4 rounded-3xl bg-surface p-6 shadow-card"
       data-state={state}
       data-tone={view.tone}
     >
@@ -51,10 +51,10 @@ export function PracticeCamera({ state, exercise, onState, onInstructions }) {
         <p className="text-muted">{view.description}</p>
       </div>
       <div className="practice-actions flex gap-3">
-        <Button className="w-full!" disabled={view.disabled} onClick={() => onState(view.next)}>
+        <Button className="w-full" disabled={view.disabled} onClick={() => onState(view.next)}>
           {view.action}
         </Button>
-        <Button variant="secondary" className="w-full!" onClick={onInstructions}>
+        <Button variant="secondary" className="w-full" onClick={onInstructions}>
           Ver instrucciones
         </Button>
       </div>

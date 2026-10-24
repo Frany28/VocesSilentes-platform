@@ -27,7 +27,7 @@ export function PracticeInstructions({ onClose }) {
         Instrucciones de práctica
       </h2>
       <PracticeGuide />
-      <Button data-practice-close className="w-full!" icon={null} onClick={onClose}>
+      <Button data-practice-close className="w-full" icon={null} onClick={onClose}>
         Volver a practicar
       </Button>
     </dialog>

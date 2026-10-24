@@ -180,3 +180,14 @@ Fuentes oficiales: [buckets privados](https://supabase.com/docs/guides/storage/b
 [decodificación y límites Sharp](https://sharp.pixelplumbing.com/api-constructor/),
 [Sharp estable](https://github.com/lovell/sharp/releases/tag/v0.35.5) y
 [límite Vercel](https://vercel.com/docs/functions/limitations#request-body-size).
+
+## Presentación Student actualizada — 22 de octubre
+
+ReportForm reutiliza Input/Select/Button compactos y muestra título, tipo, ubicación y descripción,
+además de selección, previsualización y eliminación local de evidencia. El título (120 caracteres) y
+ubicación opcional (160) se conservan dentro de description junto al detalle (3600), verificando el
+límite conjunto de 4000. La API y las categorías TECHNICAL/CONTENT/OTHER no cambian; no se requiere
+migración para esta presentación. El requestId permanece durante el reintento; Crear otro reporte
+genera un borrador nuevo únicamente tras éxito confirmado. Los errores no eliminan el archivo elegido.
+Esta revisión visual no reaplica migraciones ni vuelve a ejecutar pruebas contra el Storage remoto.
+Fotos de perfil permanecen en features/account/photo y no escriben en report-evidence.

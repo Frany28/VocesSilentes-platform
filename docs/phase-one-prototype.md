@@ -14,20 +14,22 @@ El contenido educativo, las lecciones y el progreso son demostraciones explícit
 en `student-demo.js`. Practicar presenta ocho estados visuales elegidos manualmente y una guía;
 no activa cámara ni reconoce señas; tampoco captura vídeo ni guarda resultados. Perfil muestra únicamente
 la identidad real de la sesión y su estado real de verificación del correo, sin edición simulada.
-Las métricas, listados completos, reportes y cambios de estado de Admin conservan sus avisos demo.
+El listado de usuarios y los reportes/evidencias usan ahora servicios reales; métricas educativas,
+resolución de reportes, cambio de contraseña y persistencia de foto continúan pendientes.
 
-La [comparación con Figma](student-design-audit.md) registra la inspección previa y las diferencias
-intencionales: 120 variantes inventariadas, 80 con contexto detallado/captura y 40 pendientes.
+La [comparación con Figma](student-design-audit.md) registra la revisión del 22 de octubre:
+202 frames inventariados, componentes comunes con Admin, perfil/seguridad/foto y formulario de
+reportes actualizados. Los límites de la comparación visual están explícitos en esa auditoría.
 
 ## 4.2 Alcance y requisitos obligatorios
 
-| Requisito académico                 | Implementación y evidencia                                                                                                                    |
-| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| Autenticación funcional             | AuthProvider, cliente CSRF y endpoints register/login/me/logout existentes; pruebas HTTP/SQL y navegador con sesiones reales                  |
-| Dos niveles de usuario              | StudentGuard permite USER; AdminGuard permite ADMIN; `/account` es compartida; pruebas de acceso, sesión inválida y actualización de rol      |
-| Interfaces principales              | Cinco rutas Student y pantallas Admin existentes; datos educativos demo visibles, perfil real y navegación sin botones de destino pendiente   |
-| Diseño adaptable                    | Temas claro/oscuro, navegación móvil de cinco destinos, columnas por container queries, máximo Student 1044 px y diálogo limitado al viewport |
-| Prototipo verificable y documentado | `pnpm verify`, integración SQL aislada y revisión de producción local; instalación, limitaciones y URLs descritas aquí                        |
+| Requisito académico                 | Implementación y evidencia                                                                                                                  |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Autenticación funcional             | AuthProvider, cliente CSRF y endpoints register/login/me/logout existentes; pruebas HTTP/SQL y navegador con sesiones reales                |
+| Dos niveles de usuario              | StudentGuard permite USER; AdminGuard permite ADMIN; `/account` es compartida; pruebas de acceso, sesión inválida y actualización de rol    |
+| Interfaces principales              | Cinco rutas Student y pantallas Admin existentes; datos educativos demo visibles, perfil real y navegación sin botones de destino pendiente |
+| Diseño adaptable                    | Temas claro/oscuro, cinco destinos móviles, container queries, aprendizaje de 1128 px, cuenta de 904 y diálogos limitados al viewport       |
+| Prototipo verificable y documentado | `pnpm verify`, integración SQL aislada y revisión de producción local; instalación, limitaciones y URLs descritas aquí                      |
 
 Este alcance satisface la primera fase mediante interfaces demostrables; no constituye el MVP
 educativo, un clasificador de LSV ni integración de los endpoints futuros.
@@ -129,9 +131,10 @@ compartida. Resultados y revisión de navegador en [verification.md](verificatio
 
 - No hay backend educativo, guardado de progreso, reconocimiento LSV, captura ni evaluación de cámara.
 - No hay envío/verificación de correo, edición de perfil, recuperación de contraseña ni OAuth.
-- Métricas, reportes, desactivación/reactivación y listado completo de Admin requieren backend futuro.
-- Figma: 40 variantes de práctica requieren comprobación detallada; Progreso y Perfil no tienen
-  frames propios accesibles. Se reutilizan componentes verificados sin afirmar una equivalencia inexistente.
+- Métricas educativas, resolución de reportes y desactivación/reactivación requieren servicios futuros.
+  Reportes, evidencia privada y listado de usuarios ya usan servicios reales.
+- Figma: la página actual contiene Perfil, Seguridad y Foto; Lección y Progreso no tienen frames
+  propios. La auditoría actual distingue inventario, capturas y dependencias pendientes.
 - La emulación Chrome y SQL en memoria no sustituyen validación con hardware, cookies de terceros
   ni toda la matriz de navegadores. Las pruebas no escriben fixtures en PostgreSQL compartido.
 

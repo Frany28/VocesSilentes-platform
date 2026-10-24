@@ -1,11 +1,22 @@
-@import 'tailwindcss';
-@import './tokens.css';
-@import './ui.css';
-@import './layout.css';
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss' source(none);
+@import './foundations.css' layer(theme);
+@import './tokens.css' layer(theme);
+@import './tailwind-theme.css';
+@import './ui.css' layer(components);
+@import './layout.css' layer(components);
+
+@source '../app';
+@source '../components';
+@source '../features';
+@source '../dev';
+@source '../../index.html';
+@source '../../ui.html';
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
-/* Se conserva la presentación nativa hasta disponer del sistema de Figma. */
+/* Compatibilidad de las vistas técnicas con el reset; el UI Kit define sus controles. */
 @layer base {
   body {
     margin: revert;

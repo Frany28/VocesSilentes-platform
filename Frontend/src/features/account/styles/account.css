@@ -1,103 +1,79 @@
-@import './account-profile.css';
-@import './account-profile-responsive.css';
-@import './account-profile-details.css';
-.account-page,
-.account-form,
-.account-form fieldset {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  min-width: 0;
-}
-.account-page,
-.account-photo-dialog {
-  --type-secondary: 400 14px / 20px var(--font-brand);
-  --type-label: 400 12px / 20px var(--font-brand);
-  font: var(--type-secondary);
-}
-.account-page h2,
-.account-photo-dialog h2 {
-  font: 700 20px / 28px var(--font-brand);
-}
-.account-heading {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.account-page .account-heading h1 {
-  font: 700 36px / 44px var(--font-brand);
-}
-.account-heading > p:last-child,
-.account-muted,
-.account-caption {
-  color: var(--text-secondary);
-}
-.account-kicker,
-.account-caption {
-  font: 400 12px / 20px var(--font-brand);
-}
-.account-heading .account-kicker {
-  color: var(--action-primary);
-}
-.account-panel {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  padding: 24px;
-  border: 1px solid var(--border-subtle);
-  background: var(--surface);
-}
-.account-form fieldset {
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-.account-name-row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-.account-page .vs-alert {
-  width: 100%;
-  border-radius: 12px;
-}
-.account-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.account-profile-submit > .vs-button {
-  flex: none;
-  min-width: 184px;
-}
-.account-page .account-profile-submit > .account-caption {
-  flex: 1;
-}
-.account-page .vs-badge {
-  width: fit-content;
-  min-height: 28px;
-  padding: 4px 12px;
-  border: 0;
-  border-radius: 8px;
-  font: 600 13px / 20px var(--font-brand);
-}
-.account-page .vs-badge-dot {
-  display: none;
-}
-.account-page .account-profile-tabs a {
-  color: var(--text-secondary);
-  font: 600 13px / 20px var(--font-brand);
-  text-decoration: none;
-}
-.account-page .account-profile-tabs [aria-current] {
-  color: var(--action-primary);
-}
-@media (width < 600px) {
+@layer theme, base, components, utilities;
+
+@import './account-profile.css' layer(components);
+@import './account-profile-responsive.css' layer(components);
+@import './account-profile-details.css' layer(components);
+
+@layer components {
+  .account-page,
+  .account-form,
+  .account-form fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-width: 0;
+  }
+  .account-page,
+  .account-photo-dialog {
+    --type-secondary: 400 14px / 20px var(--font-brand);
+    --type-label: 400 12px / 20px var(--font-brand);
+    font: var(--type-secondary);
+  }
+  .account-page h2,
+  .account-photo-dialog h2 {
+    font: 700 20px / 28px var(--font-brand);
+  }
+  .account-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
   .account-page .account-heading h1 {
-    font-size: 28px;
-    line-height: 36px;
+    font: 700 36px / 44px var(--font-brand);
+  }
+  .account-heading > p:last-child,
+  .account-muted,
+  .account-caption {
+    color: var(--text-secondary);
+  }
+  .account-kicker,
+  .account-caption {
+    font: 400 12px / 20px var(--font-brand);
+  }
+  .account-heading .account-kicker {
+    color: var(--action-primary);
   }
   .account-panel {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
     padding: 24px;
+    border: 1px solid var(--border-subtle);
+    background: var(--surface);
+  }
+  .account-form fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  .account-name-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .account-page .vs-alert {
+    width: 100%;
+    border-radius: 12px;
+  }
+  .account-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  @media (width < 600px) {
+    .account-page .account-heading h1 {
+      font-size: 28px;
+      line-height: 36px;
+    }
   }
 }

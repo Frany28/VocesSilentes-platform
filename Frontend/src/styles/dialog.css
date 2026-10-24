@@ -59,7 +59,4 @@
   .vs-dialog .account-actions {
     align-items: stretch;
   }
-  .vs-dialog .account-actions > * {
-    flex: 1;
-  }
 }

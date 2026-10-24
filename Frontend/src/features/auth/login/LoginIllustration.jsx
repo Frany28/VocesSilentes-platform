@@ -8,18 +8,18 @@ import darkLogo from '../../../assets/auth/0ad79.png';
 export function LoginIllustration() {
   return (
     <div
-      className="login-illustration relative flex h-75 items-center justify-center"
+      className="login-illustration relative flex items-center justify-center"
       aria-hidden="true"
     >
       <span
-        className="login-orbit login-orbit-outer absolute top-[-14px] left-24 size-82 bg-center bg-no-repeat
+        className="login-orbit login-orbit-outer absolute bg-center bg-no-repeat
           [background-image:var(--login-orbit-outer)]"
       />
       <span
-        className="login-orbit login-orbit-inner absolute top-2.5 left-30 size-70 bg-center bg-no-repeat
+        className="login-orbit login-orbit-inner absolute bg-center bg-no-repeat
           [background-image:var(--login-orbit-inner)]"
       />
-      <div className="login-emblem flex size-60 items-center justify-center rounded-full">
+      <div className="login-emblem flex items-center justify-center rounded-full">
         <div className="login-emblem-light">
           <img src={lightLogo} alt="" />
         </div>
@@ -28,13 +28,13 @@ export function LoginIllustration() {
         </div>
       </div>
       <span
-        className="login-float login-float-hello absolute top-[26px] left-0 rounded-2xl bg-surface px-4 py-3
+        className="login-float login-float-hello absolute rounded-2xl bg-surface px-4 py-3
           [font:var(--type-button)] whitespace-nowrap shadow-[0_8px_20px_rgb(20_15_51/10%)]"
       >
         Hola, un nuevo comienzo
       </span>
       <span
-        className="login-float login-float-pace absolute top-[238px] left-[326px] rounded-2xl bg-tertiary
+        className="login-float login-float-pace absolute rounded-2xl bg-tertiary
           px-4 py-3 [font:var(--type-button)] whitespace-nowrap shadow-[0_8px_20px_rgb(20_15_51/10%)]"
       >
         LSV · A tu ritmo
