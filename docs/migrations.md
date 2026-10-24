@@ -1,5 +1,10 @@
 # Migraciones de la fase 1
 
+Actualización del 23 de octubre: `20261023000100_module_ii_operations` ya está aplicada mediante
+`migrate deploy` en Supabase de desarrollo. El usuario autorizó además la importación de los 50
+registros académicos conservando los existentes; [resultado y controles](module-ii/supabase-import.md).
+Los apartados siguientes describen la preparación y las aplicaciones anteriores.
+
 Nueva migración: `20261021000100_report_evidence`, aditiva sobre Report y nueva tabla
 ReportEvidence con restricciones, RLS y revocaciones. El bucket/política del proveedor tienen su
 procedimiento separado `Backend/storage/001_report_evidence.sql`; no forman parte del esquema Prisma.

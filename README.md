@@ -5,7 +5,7 @@ Incluye dos aplicaciones en un workspace pnpm, JavaScript ESM y JSDoc, los datos
 y autenticación local con sesiones persistidas. Las funciones educativas del MVP siguen pendientes.
 La entrega del Módulo II conecta reportes, resolución/reapertura, bitácora visual y progreso manual
 con PostgreSQL. [Auditoría y resultados](docs/module-ii/final-delivery.md),
-[paquete para el profesor](entrega-modulo-ii/README.md).
+[paquete para el profesor](modulo-ii-franciely%20vivas/README.md).
 El frontend usa Tailwind CSS 4 con el plugin oficial de Vite, tokens existentes y capas de estilos;
 véase [criterios de uso y mantenimiento](docs/tailwind.md).
 
@@ -172,7 +172,9 @@ y progreso manual. Agregados de actividad, cambio de isActive, contraseña y per
 requieren backend futuro.
 El visor de evidencia y la selección/encuadre local de foto tienen presentación y estados implementados,
 con guardado deshabilitado cuando falta el servicio. Ver [alcance y funcionamiento de Admin](docs/admin.md).
-No se insertan fixtures de demostración en la base compartida.
+El 23 de octubre, por solicitud expresa del usuario, se importaron los 50 registros académicos
+en Supabase de desarrollo, conservando las cuentas anteriores y desactivando las cuentas de
+contraseña pública. Ver [datos importados y verificación remota](docs/module-ii/supabase-import.md).
 Student dispone de Inicio, Mis módulos, Practicar, Mi progreso y Mi perfil; solo USER puede acceder.
 Contenido y progreso usan la API real por defecto; la demostración exige `VITE_STUDENT_DEMO=true`.
 Practicar registra lectura y actividad manual sin cámara ni evaluación; Perfil muestra identidad real sin edición.

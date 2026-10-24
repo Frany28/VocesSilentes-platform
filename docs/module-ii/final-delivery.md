@@ -1,5 +1,10 @@
 # Entrega final del Módulo II — 23 de octubre de 2026
 
+**Actualización posterior:** por solicitud del usuario ya se aplicó la migración pendiente y se
+importaron los 50 registros académicos en Supabase de desarrollo, conservando los datos existentes.
+Ver [resultado de la carga remota](supabase-import.md). El informe siguiente documenta la entrega
+aislada original; sus límites de no escritura remota corresponden a aquella ejecución.
+
 Se conservan React/Tailwind, Express, Prisma 7.10.0, PostgreSQL y S3 existente. No se reescribe el
 CRUD de usuarios ni se rediseñan pantallas. La nueva migración se prueba únicamente en PostgreSQL
 aislado; no se aplica a Supabase compartido ni a producción.

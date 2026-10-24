@@ -1,5 +1,9 @@
 # Sistema visual y componentes generales
 
+El favicon usa el icono SVG proporcionado por el usuario el 23 de octubre de 2026, convertido
+a `Frontend/src/assets/favicon.png` (64×64, transparencia conservada). Se referencia desde las
+entradas HTML; Vite genera su URL con hash en producción. No añade tokens ni modifica la marca del UI Kit.
+
 Referencia consultada el **9 de octubre de 2026**: [VocesSilentes / UI Kit, nodo 75:67](https://www.figma.com/design/GRbHCgOXNZZxRWSpIcHKVU/VocesSilentes-Website?node-id=75-67&m=dev).
 Es un frame de 1776 × 5380 con component sets originales, variables Theme Claro/Oscuro,
 estilos tipográficos y ocho componentes de iconografía. Se consultaron los hijos de la respuesta
