@@ -10,6 +10,7 @@ Backend/generated/
 .pnpm-store/
 .local/
 entrega-modulo-ii/*.zip
+modulo-ii-*/*.zip
 .vercel/
 *.log
 .DS_Store

@@ -1,5 +1,11 @@
 # Entrega final del Módulo II — 23 de octubre de 2026
 
+**Paquete actualizado:** la entrega actual incluye dashboard, estado, perfiles, contraseña, fotos
+y conexión TLS; sus controles suman 218 pruebas. `pnpm academic:package` reconstruye la carpeta
+de Franciely y el ZIP con código actual y documentación de instalación/API.
+[Selección y validación de archivos](package-delivery.md). El informe siguiente conserva el estado
+de la primera entrega de 206 pruebas como registro histórico.
+
 **Actualización posterior:** por solicitud del usuario ya se aplicó la migración pendiente y se
 importaron los 50 registros académicos en Supabase de desarrollo, conservando los datos existentes.
 Ver [resultado de la carga remota](supabase-import.md). El informe siguiente documenta la entrega

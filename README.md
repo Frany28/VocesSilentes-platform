@@ -56,6 +56,11 @@ la aplicación con PostgreSQL WASM y datos académicos, `pnpm academic:verify` p
 en Chrome sobre otra base sin seed y `pnpm academic:package` genera el ZIP inferior a 10 MB.
 No usan Supabase compartido. La demostración de imágenes usa un sustituto local explícito, no S3.
 
+`pnpm academic:package` actualiza `modulo-ii-franciely vivas/` y su ZIP con el código actual,
+documentación de instalación/API y resultados de pruebas. Conserva los datos personales del TXT y
+excluye herramientas internas, archivos privados y artefactos generados.
+[Preparación y validación de la entrega](docs/module-ii/package-delivery.md).
+
 | Comando                                           | Función                                                                |
 | ------------------------------------------------- | ---------------------------------------------------------------------- |
 | `pnpm dev`                                        | Frontend y backend simultáneos                                         |

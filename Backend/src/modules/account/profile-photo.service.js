@@ -4,6 +4,7 @@ import { HttpError } from '../../errors/http-error.js';
 import { validateEvidenceImage } from '../reports/evidence-image.js';
 import { lockActor } from '../auth/auth-transaction.js';
 import { publicUser } from '../auth/public-user.js';
+import { removeProfilePhoto } from './profile-photo.removal.js';
 
 /**
  * Recorta fotos en servidor y confirma su referencia con auditoría; nunca usa rutas del cliente.
@@ -51,9 +52,9 @@ export function createProfilePhotoService(database, storage) {
         .webp({ quality: 85 })
         .toBuffer();
       const path = `${actorId}/${randomUUID()}.webp`;
-      await storage.upload(path, bytes);
       let saved;
       try {
+        await storage.upload(path, bytes);
         saved = await write(actorId, async (tx, current) => {
           const user = await tx.user.update({
             where: { id: actorId },
@@ -67,25 +68,18 @@ export function createProfilePhotoService(database, storage) {
         throw error;
       }
       // La referencia nueva ya está confirmada; no se revierte ante un fallo de limpieza del objeto anterior.
-      if (saved.previous) await storage.remove(saved.previous).catch(() => {});
+      if (saved.previous)
+        await storage.remove(saved.previous).catch(() => {
+          process.emitWarning(
+            'La foto anterior requiere reconciliación de almacenamiento.',
+            'ProfilePhotoCleanupWarning',
+          );
+        });
       return saved.user;
     },
     async removePhoto(actorId) {
       requireStorage();
-      // Borrar primero evita confirmar un borrado si S3 lo rechazó; la ruta se relee bajo bloqueo.
-      return database.$transaction(
-        async (tx) => {
-          await lockActor(tx, actorId);
-          const current = await tx.user.findUnique({ where: { id: actorId } });
-          if (current.profileImagePath) {
-            await storage.remove(current.profileImagePath);
-            await tx.user.update({ where: { id: actorId }, data: { profileImagePath: null } });
-            await audit(tx, actorId);
-          }
-          return publicUser({ ...current, profileImagePath: null });
-        },
-        { timeout: 30000 },
-      );
+      return removeProfilePhoto(database, storage, actorId);
     },
     async readPhoto(actor, userId, bytes = false) {
       requireStorage();

@@ -30,18 +30,27 @@ export function createAccountRouter(config, authService, service, csrf) {
         : new HttpError(503, 'ACCOUNT_UNAVAILABLE', 'Configuración de cuenta no disponible'),
     ),
   );
-  const limit = rateLimit({ keyGenerator: (req) => req.auth.id, windowMs: 600000, limit: 10 });
+  const limit = () =>
+    rateLimit({
+      keyGenerator: (req) => req.auth.id,
+      windowMs: 600000,
+      limit: 10,
+      standardHeaders: 'draft-8',
+      legacyHeaders: false,
+      handler: (_req, _res, next) =>
+        next(new HttpError(429, 'ACCOUNT_RATE_LIMIT', 'Espera antes de reintentar')),
+    });
   router.patch('/profile', csrf.protect, async (req, res) => {
     res.json({ data: { user: await service.profile(req.auth.id, profileSchema.parse(req.body)) } });
   });
-  router.put('/password', limit, csrf.protect, async (req, res) => {
+  router.put('/password', limit(), csrf.protect, async (req, res) => {
     const hash = sessionTokenHash(req.cookies[authCookies(config.auth).session]);
     await service.password(req.auth.id, hash, passwordSchema.parse(req.body));
     res.status(204).end();
   });
   router.put(
     '/photo',
-    limit,
+    limit(),
     csrf.protect,
     raw({ type: () => true, limit: EVIDENCE_LIMIT, inflate: false }),
     async (req, res) => {

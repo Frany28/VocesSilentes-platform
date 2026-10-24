@@ -1,6 +1,10 @@
 # Desarrollo en Windows y VS Code
 
 Las acciones de cuenta y el dashboard ya están conectados; ver [contratos y pruebas](account-functionality.md).
+
+`pnpm academic:package` reconstruye la carpeta de Franciely y su ZIP con una selección de archivos,
+documentación actual y accesos de demo consistentes. Conserva los datos personales y una copia de
+la entrega anterior bajo `.local/`. [Criterios y verificación del paquete](module-ii/package-delivery.md).
 Supabase utiliza el certificado público incluido en `Backend/certs/` para TLS verificado, también
 en herramientas Prisma. El backend normaliza las URLs sin modificar `.env`; las bases loopback
 de pruebas conservan su configuración. La foto privada requiere aplicar, en el destino autorizado,

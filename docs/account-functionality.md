@@ -49,6 +49,8 @@ decisión previa del usuario. Cambiar el correo restablece emailVerified=false; 
 Perfil, contraseña, estado y foto usan USER_UPDATED en AuditLog sin guardar valores sensibles.
 Errores específicos: CURRENT_PASSWORD_INVALID (400), CREDENTIALS_CHANGED (409),
 PHOTO_STORAGE_UNAVAILABLE (503), PHOTO_NOT_FOUND (404), además de permisos/conflictos existentes.
+El límite devuelve ACCOUNT_RATE_LIMIT (429) en el mismo envelope JSON; las cuotas de foto y
+contraseña son independientes y no se comparten entre usuarios.
 
 ## Fotos y almacenamiento real
 
@@ -63,10 +65,15 @@ La carga precede a la referencia SQL. Si falla la transacción/auditoría se int
 nuevo. Después de guardar un reemplazo se retira la foto anterior; un fallo de esa limpieza no revierte
 la foto nueva. SQL y S3 no comparten transacción: una caída del proceso o del proveedor puede dejar
 objetos sin referencia y requiere reconciliación operativa. No se promete atomicidad distribuida.
+Al quitar una foto se conserva temporalmente su contenido en memoria para compensar un fallo de
+confirmación SQL; un fallo de auditoría no retira el objeto ni confirma el borrado.
 El límite del host sigue aplicando: Vercel admite menos de los 5 MiB del servidor Express; ver
 [límites de carga existentes](report-evidence.md). No se implementa una cuarentena de subida directa.
 
 ## Conexiones y comprobación
+
+`pnpm verify` final terminó con código **0**: **109 frontend + 44 backend + 65 SQL/auth = 218 pruebas
+aprobadas**, lint sin advertencias, formato, esquema Prisma y build correctos.
 
 Runtime y CLI fuerzan `verify-full` en Supabase, con CA pública versionada en `Backend/certs/`.
 Se comprobó TLS activo y certificado autorizado para DATABASE_URL y DIRECT_URL. Las URLs y secretos

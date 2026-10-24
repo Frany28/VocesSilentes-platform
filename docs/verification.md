@@ -1,5 +1,27 @@
 # Verificación
 
+## Cuentas y dashboard conectados — 23 de octubre de 2026
+
+Verificación final `pnpm verify`: código **0**, lint sin advertencias, formato, Prisma y build
+correctos. **109 pruebas frontend + 44 backend + 65 SQL/auth = 218 aprobadas**. Incluye permisos,
+CSRF, reactivación/desactivación, revocación, protección del último ADMIN, recuentos globales,
+perfil propio, cambio de contraseña, foto saneada y rollback/compensación ante fallos de bitácora.
+
+Chrome comprobó las nuevas acciones y recarga de perfil/foto, contraseña y login con la nueva
+credencial. Pasaron 16 combinaciones de perfil/seguridad, cuatro anchos y ambos temas sin
+desbordamiento ni errores JS. La suite de formularios existente también pasó: cinco usuarios,
+cinco reportes con cinco PNG locales, visor, resolución/reapertura, 24 eventos y 40 combinaciones.
+Esas pruebas usan PostgreSQL WASM y Storage de prueba explícito.
+
+Separadamente se comprobaron las mismas operaciones de cuenta y un reporte con imagen contra
+Supabase y S3 **reales**, incluidos dashboard y acceso privado. Se retiraron las cuentas, reportes,
+sesiones, eventos y objetos creados exclusivamente por esa prueba. TLS y certificado autorizado
+se verificaron para runtime/CLI; Prisma confirmó cuatro migraciones al día. Se creó el bucket privado
+de fotos mediante su SQL versionado, sin migración de aplicación ni modificación de datos previos.
+
+No se modificaron estilos ni lecciones. No se ejecutaron despliegues ni GitHub Actions. Alcance,
+contratos, artefactos locales y límites operativos en [funcionalidad de cuentas](account-functionality.md).
+
 ## Entrega final del Módulo II — 23 de octubre de 2026
 
 `pnpm verify` completo terminó con código **0**: lint sin errores ni advertencias, formato correcto,

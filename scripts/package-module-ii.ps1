@@ -1,73 +1,65 @@
-# Genera una entrega local revisable; nunca lee .env ni credenciales del proveedor.
+﻿# Prepara una entrega autocontenida y conserva la versión anterior fuera del paquete.
+param([string]$Destination = 'modulo-ii-franciely vivas')
 $ErrorActionPreference = 'Stop'
-$academicRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
-$academicDelivery = Join-Path $academicRoot 'entrega-modulo-ii'
-$academicStage = Join-Path $academicRoot ('.local/academic-package-' + [guid]::NewGuid())
-$academicSource = Join-Path $academicStage 'proyecto'
-New-Item -ItemType Directory -Path $academicSource -Force | Out-Null
-# El staging siempre es un directorio nuevo bajo el workspace; no se elimina trabajo previo.
-if (-not [IO.Path]::GetFullPath($academicStage).StartsWith($academicRoot + [IO.Path]::DirectorySeparatorChar)) {
-    throw 'Staging fuera del workspace'
-}
-$academicRootFiles = @('README.md', 'AGENTS.md', 'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml',
-    '.npmrc', '.nvmrc', '.node-version', '.editorconfig', '.gitattributes', '.gitignore',
-    '.prettierrc.json', '.prettierignore', 'eslint.config.js', 'netlify.toml')
-$academicFiles = @(git -C $academicRoot ls-files --cached --others --exclude-standard) |
-    Sort-Object -Unique | Where-Object {
-        ($_ -in $academicRootFiles -or $_ -match '^(Frontend|Backend|docs|scripts|\.github|\.vscode)/') -and
-        $_ -notmatch '(^|/)(node_modules|generated|dist|coverage|\.vercel|\.local)/' -and
-        $_ -notmatch '^Frontend/src/assets/Logos/' -and
-        ($_ -notmatch '(^|/)\.env($|\.)' -or $_ -match '(^|/)\.env\.example$') -and
-        $_ -notmatch '\.(zip|log)$'
+. (Join-Path $PSScriptRoot 'module-ii-source.ps1')
+. (Join-Path $PSScriptRoot 'module-ii-proofs.ps1')
+$packageRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
+$packageDelivery = [IO.Path]::GetFullPath((Join-Path $packageRoot $Destination))
+$packageStage = Join-Path $packageRoot ('.local/module-ii-package-' + [guid]::NewGuid())
+$packagePrepared = Join-Path $packageStage 'entrega'
+$packagePrevious = Join-Path $packageStage 'anterior'
+foreach ($packagePath in @($packageDelivery, $packageStage, $packagePrepared, $packagePrevious)) {
+    if (-not $packagePath.StartsWith($packageRoot + [IO.Path]::DirectorySeparatorChar)) {
+        throw 'La ruta de entrega debe permanecer dentro del workspace'
     }
-foreach ($academicFile in $academicFiles) {
-    $academicInput = Join-Path $academicRoot $academicFile
-    if (-not (Test-Path -LiteralPath $academicInput -PathType Leaf)) { continue }
-    $academicTarget = Join-Path $academicSource $academicFile
-    New-Item -ItemType Directory -Path (Split-Path -Parent $academicTarget) -Force | Out-Null
-    Copy-Item -LiteralPath $academicInput -Destination $academicTarget
 }
-foreach ($academicSql in @('01_schema.sql', '02_seed.sql', '03_verificacion.sql')) {
-    Copy-Item -LiteralPath (Join-Path $academicRoot ('docs/module-ii/sql/' + $academicSql)) `
-        -Destination (Join-Path $academicDelivery $academicSql) -Force
+if (-not (Test-Path -LiteralPath (Join-Path $packageDelivery 'DATOS-DEL-ESTUDIANTE.txt'))) {
+    throw 'Falta el TXT de la estudiante en la carpeta de destino; no se inventan datos personales'
 }
-$academicUiResult = Join-Path $academicRoot '.local/module-ii-review/results.json'
-if (-not (Test-Path -LiteralPath $academicUiResult)) { throw 'Ejecutar primero pnpm academic:verify' }
-$academicProof = Get-Content -LiteralPath $academicUiResult -Raw -Encoding UTF8 | ConvertFrom-Json
-if (-not $academicProof.completed) { throw 'La revisión de formularios no terminó correctamente' }
-$academicEvidence = Join-Path $academicDelivery 'pruebas'
-New-Item -ItemType Directory -Path $academicEvidence -Force | Out-Null
-Copy-Item -LiteralPath $academicUiResult -Destination (Join-Path $academicEvidence 'resultados-ui.json') -Force
-$academicStageEvidence = Join-Path $academicStage 'pruebas'
-New-Item -ItemType Directory -Path $academicStageEvidence -Force | Out-Null
-Copy-Item -LiteralPath $academicUiResult -Destination (Join-Path $academicStageEvidence 'resultados-ui.json')
-foreach ($academicCapture in @($academicProof.captures) + @($academicProof.inputImage)) {
-    if ([IO.Path]::GetFileName($academicCapture) -ne $academicCapture -or $academicCapture -notlike '*.png') {
-        throw 'Nombre de captura inválido'
-    }
-    $academicCapturePath = Join-Path (Split-Path -Parent $academicUiResult) $academicCapture
-    Copy-Item -LiteralPath $academicCapturePath -Destination $academicEvidence -Force
-    Copy-Item -LiteralPath $academicCapturePath -Destination $academicStageEvidence
+New-Item -ItemType Directory -Path $packagePrepared -Force | Out-Null
+Copy-ModuleSource $packageRoot (Join-Path $packagePrepared 'proyecto')
+$packageTemplates = Join-Path $packageRoot 'docs/module-ii/package'
+foreach ($packageDocument in @('README.md', 'PRUEBAS.md')) {
+    Copy-Item -LiteralPath (Join-Path $packageTemplates $packageDocument) -Destination $packagePrepared
 }
-Get-ChildItem -LiteralPath $academicDelivery -File | Where-Object { $_.Extension -ne '.zip' } |
-    ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $academicStage }
-$academicFiles | Set-Content -LiteralPath (Join-Path $academicStage 'ARCHIVOS-FUENTE.txt') -Encoding UTF8
-$academicPrivateFiles = @(Get-ChildItem -LiteralPath $academicSource -Recurse -File |
-    Where-Object { $_.Name -like '.env*' -and $_.Name -ne '.env.example' })
-if ($academicPrivateFiles.Count -ne 0) { throw 'La entrega contiene configuración privada' }
+foreach ($packageSql in @('01_schema.sql', '02_seed.sql', '03_verificacion.sql', '04_verificacion_supabase.sql')) {
+    Copy-Item -LiteralPath (Join-Path $packageRoot ('docs/module-ii/sql/' + $packageSql)) -Destination $packagePrepared
+}
+$packageStorage = @('-- Solo Supabase de desarrollo autorizado; revisar destino y permisos antes de aplicar.')
+foreach ($packageSql in @('001_report_evidence.sql', '002_profile_photos.sql')) {
+    $packageStorage += [IO.File]::ReadAllText((Join-Path $packageRoot ('Backend/storage/' + $packageSql)))
+}
+Write-ModuleText (Join-Path $packagePrepared '05_storage_supabase.sql') ($packageStorage -join "`n")
+$packageStudent = [IO.File]::ReadAllText((Join-Path $packageDelivery 'DATOS-DEL-ESTUDIANTE.txt'))
+# Solo se sustituyen accesos de demostración: nombres, cédula y enlace se conservan.
+$packageCredentials = @{
+    '(?m)^(Usuario de demostraci\u00f3n ADMIN[^:]*:)[^\r\n]*' = '${1} academic_1@example.invalid'
+    '(?m)^(Usuario de demostraci\u00f3n Estudiante[^:]*:)[^\r\n]*' = '${1} academic_2@example.invalid'
+    '(?m)^(Contrase\u00f1a de demostraci\u00f3n:)[^\r\n]*' = '${1} Solo practica local 2026!'
+}
+foreach ($packagePattern in $packageCredentials.Keys) {
+    if ([regex]::Matches($packageStudent, $packagePattern).Count -ne 1) { throw 'Formato de credenciales ambiguo en TXT' }
+    $packageStudent = [regex]::Replace($packageStudent, $packagePattern, $packageCredentials[$packagePattern])
+}
+Write-ModuleText (Join-Path $packagePrepared 'DATOS-DEL-ESTUDIANTE.txt') $packageStudent
+Copy-ModuleProofs $packageRoot $packagePrepared
+$packageInventory = Get-ChildItem -LiteralPath (Join-Path $packagePrepared 'proyecto') -Recurse -File |
+    ForEach-Object { $_.FullName.Substring($packagePrepared.Length + 1).Replace('\', '/') } | Sort-Object
+Write-ModuleText (Join-Path $packagePrepared 'ARCHIVOS-FUENTE.txt') (($packageInventory -join "`n") + "`n")
+& node (Join-Path $packageRoot 'Backend/scripts/verify-module-ii-package.js') $packagePrepared
+if ($LASTEXITCODE -ne 0) { throw 'La entrega no pasó la verificación de contenido e imports' }
 Add-Type -AssemblyName System.IO.Compression.FileSystem
-Add-Type -AssemblyName System.IO.Compression
-$academicZip = Join-Path $academicDelivery 'VocesSilentes-Modulo-II.zip'
-$academicStream = [IO.File]::Open($academicZip, [IO.FileMode]::Create)
-$academicArchive = [IO.Compression.ZipArchive]::new($academicStream, [IO.Compression.ZipArchiveMode]::Create)
-try {
-    Get-ChildItem -LiteralPath $academicStage -Recurse -File | ForEach-Object {
-        $academicEntry = $_.FullName.Substring($academicStage.Length + 1).Replace('\', '/')
-        [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($academicArchive, $_.FullName,
-            $academicEntry, [IO.Compression.CompressionLevel]::Optimal) | Out-Null
-    }
-} finally { $academicArchive.Dispose(); $academicStream.Dispose() }
-$academicZipFile = Get-Item -LiteralPath $academicZip
-if ($academicZipFile.Length -ge 10000000) { throw 'El ZIP debe ser inferior a 10 MB decimales' }
-Write-Output ('ZIP: ' + $academicZipFile.FullName)
-Write-Output ('Bytes: ' + $academicZipFile.Length)
+$packageZip = Join-Path $packageStage 'VocesSilentes-Modulo-II.zip'
+[IO.Compression.ZipFile]::CreateFromDirectory($packagePrepared, $packageZip, [IO.Compression.CompressionLevel]::Optimal, $false)
+$packageBytes = (Get-Item -LiteralPath $packageZip).Length
+if ($packageBytes -ge 10000000) { throw 'El ZIP debe ser inferior a 10 MB decimales' }
+# Ambas rutas se validaron antes del movimiento recursivo; no se borra la entrega anterior.
+Move-Item -LiteralPath $packageDelivery -Destination $packagePrevious
+try { Move-Item -LiteralPath $packagePrepared -Destination $packageDelivery }
+catch { Move-Item -LiteralPath $packagePrevious -Destination $packageDelivery; throw }
+Copy-Item -LiteralPath $packageZip -Destination $packageDelivery
+Write-Output ('Entrega actualizada: ' + $packageDelivery)
+Write-Output ('ZIP: ' + (Join-Path $packageDelivery 'VocesSilentes-Modulo-II.zip'))
+Write-Output ('Bytes: ' + $packageBytes)
+Write-Output ('Archivos fuente: ' + $packageInventory.Count)
+Write-Output ('Copia anterior conservada: ' + $packagePrevious)
