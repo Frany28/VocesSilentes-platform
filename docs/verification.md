@@ -1,5 +1,17 @@
 # Verificación
 
+## Node.js 22.23.4 — 24 de octubre de 2026
+
+Se instaló el parche de seguridad de la rama 22 desde el ZIP oficial x64, contrastando su SHA-256
+con el manifiesto del proveedor. Una terminal con el PATH actualizado confirma Node **22.23.4** y
+pnpm **10.18.2**. Se alinearon `.nvmrc`, `.node-version`, engines, Netlify y las guías de instalación;
+GitHub Actions ya lee `.nvmrc`. El lockfile y las dependencias se conservan.
+
+Con este runtime pasaron lint sin advertencias, formato, validación Prisma y build, además de
+**109 pruebas frontend + 44 backend + 65 SQL/auth = 218 aprobadas**. `pnpm db:check` también confirmó
+la conexión real a PostgreSQL mediante su consulta de solo lectura. No se ejecutaron despliegues
+ni GitHub Actions; los procesos locales existentes necesitan reiniciarse para heredar el PATH nuevo.
+
 ## Cuentas y dashboard conectados — 23 de octubre de 2026
 
 Verificación final `pnpm verify`: código **0**, lint sin advertencias, formato, Prisma y build
