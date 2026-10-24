@@ -1,16 +1,16 @@
-import { useUsersList } from '../data/use-users-list.js';
+import { useAdminSummary } from '../data/use-admin-summary.js';
 import { AdminHeading } from '../components/AdminHeading.jsx';
 import { AdminAction } from '../components/AdminAction.jsx';
 import { AdminFeedback } from '../components/AdminFeedback.jsx';
-import { AdminUnavailable } from '../components/AdminUnavailable.jsx';
+import { AdminReportRow } from '../components/AdminReportRow.jsx';
 import { Icon } from '../../../components/ui/Icon.jsx';
 
 /**
- * Resumen con censo real de cuentas y dependencias explícitas para métricas/reportes aún no publicados.
+ * Resumen global de cuentas y reportes consultado al backend, conservando las tarjetas originales.
  * @returns {import('react').ReactElement} Indicadores sin cifras sintéticas ni progreso inventado.
  */
 export function AdminSummary() {
-  const list = useUsersList({ census: true });
+  const list = useAdminSummary();
   return (
     <div className="admin-page">
       <AdminHeading title="Tu comunidad, en perspectiva">
@@ -29,8 +29,10 @@ export function AdminSummary() {
           </div>
           {list.status === 'ready' ? (
             <>
-              <strong>{list.total}</strong>
-              <p>Cuentas no eliminadas</p>
+              <strong>{list.data.users}</strong>
+              <p>
+                {list.data.activeUsers} activas · {list.data.inactiveUsers} desactivadas
+              </p>
             </>
           ) : (
             <AdminFeedback status={list.status} error={list.error} retry={list.retry} />
@@ -45,17 +47,32 @@ export function AdminSummary() {
                 size={20}
               />
             </div>
-            <strong aria-label="Sin datos disponibles">—</strong>
-            <p>Consulta de reportes pendiente de integración</p>
+            {list.status === 'ready' ? (
+              <>
+                <strong>
+                  {label.endsWith('pendientes')
+                    ? list.data.pendingReports
+                    : list.data.resolvedReports}
+                </strong>
+                <p>Reportes registrados</p>
+              </>
+            ) : (
+              <AdminFeedback status={list.status} error={list.error} retry={list.retry} />
+            )}
           </article>
         ))}
       </section>
       <section className="admin-panel">
         <h2>Prioridad de hoy</h2>
-        <AdminUnavailable title="Reportes no disponibles">
-          El backend todavía no permite consultar ni resolver reportes. No hay un recuento
-          verificable.
-        </AdminUnavailable>
+        {list.status === 'ready' ? (
+          list.data.reports.length ? (
+            list.data.reports.map((report) => <AdminReportRow key={report.id} report={report} />)
+          ) : (
+            <p className="admin-muted">No hay reportes pendientes.</p>
+          )
+        ) : (
+          <AdminFeedback status={list.status} error={list.error} retry={list.retry} />
+        )}
         <div className="admin-actions">
           <AdminAction to="/admin/reports">Ver todos los reportes</AdminAction>
           <AdminAction to="/admin/users">Gestionar usuarios</AdminAction>

@@ -16,7 +16,7 @@ test('los cinco destinos móviles navegan; perfil usa sesión real y progreso el
   await userEvent.click(within(nav).getByRole('link', { name: 'Perfil' }));
   expect(await screen.findByRole('heading', { name: 'Tu perfil, a tu manera.' })).toBeVisible();
   expect(screen.getByLabelText('Correo de acceso')).toHaveValue(user.email);
-  expect(screen.getByLabelText('Nombre')).toHaveAttribute('readonly');
+  expect(screen.getByLabelText('Nombre')).not.toHaveAttribute('readonly');
   expect(screen.getByText('Correo pendiente de verificación')).toBeVisible();
   expect(screen.getByRole('button', { name: 'Guardar cambios' })).toBeDisabled();
 });

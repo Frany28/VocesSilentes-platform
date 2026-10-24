@@ -1,5 +1,9 @@
 # Comparación de Student con Figma
 
+Actualización funcional: la composición visual de perfil/seguridad/foto se conserva, ahora con edición
+de identidad propia, cambio de contraseña y almacenamiento privado de fotos. No se modifica contenido
+de lecciones. [Conexión y comprobaciones actuales](account-functionality.md).
+
 Revisión directa del 22 de octubre de 2026 mediante las habilidades figma-design-to-code y figma-use:
 [Student, 175:22520](https://www.figma.com/design/GRbHCgOXNZZxRWSpIcHKVU/VocesSilentes-Website?node-id=175-22520)
 y [estándar compartido, 412:27892](https://www.figma.com/design/GRbHCgOXNZZxRWSpIcHKVU/VocesSilentes-Website?node-id=412-27892).

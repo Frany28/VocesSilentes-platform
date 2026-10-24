@@ -3,10 +3,10 @@ import { Button } from '../../../components/ui/Button.jsx';
 
 /**
  * Encuadre local circular del archivo seleccionado; el zoom permanece entre 100 y 135 % como en Figma.
- * @param {{photo: object, onError: Function, onChoose: Function}} props Archivo, fallo de decodificación y reemplazo.
- * @returns {import('react').ReactElement} Vista previa con controles de teclado y guardado deshabilitado.
+ * @param {{photo: object, onError: Function, onChoose: Function, onSave: Function, pending?: boolean}} props Foto y acciones.
+ * @returns {import('react').ReactElement} Vista previa con zoom y guardado del encuadre elegido.
  */
-export function PhotoCropPreview({ photo, onError, onChoose }) {
+export function PhotoCropPreview({ photo, onError, onChoose, onSave, pending }) {
   const [zoom, setZoom] = useState(100);
   return (
     <>
@@ -29,7 +29,7 @@ export function PhotoCropPreview({ photo, onError, onChoose }) {
           variant="secondary"
           icon={null}
           aria-label="Reducir encuadre"
-          disabled={zoom <= 100}
+          disabled={pending || zoom <= 100}
           onClick={() => setZoom((value) => Math.max(100, value - 5))}
         >
           −
@@ -39,7 +39,7 @@ export function PhotoCropPreview({ photo, onError, onChoose }) {
           variant="secondary"
           icon={null}
           aria-label="Ampliar encuadre"
-          disabled={zoom >= 135}
+          disabled={pending || zoom >= 135}
           onClick={() => setZoom((value) => Math.min(135, value + 5))}
         >
           +
@@ -47,10 +47,22 @@ export function PhotoCropPreview({ photo, onError, onChoose }) {
       </div>
       <p className="account-caption">{photo.name} · Vista previa local, sin guardar</p>
       <div className="account-actions">
-        <Button density="compact" variant="secondary" icon={null} onClick={onChoose}>
+        <Button
+          density="compact"
+          variant="secondary"
+          icon={null}
+          onClick={onChoose}
+          disabled={pending}
+        >
           Elegir otra
         </Button>
-        <Button density="compact" icon={null} disabled aria-describedby="photo-unavailable">
+        <Button
+          density="compact"
+          icon={null}
+          loading={pending}
+          loadingLabel="Guardando…"
+          onClick={() => onSave(zoom)}
+        >
           Usar esta foto
         </Button>
       </div>

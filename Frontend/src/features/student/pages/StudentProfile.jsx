@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router';
 import { useAuth } from '../../auth/use-auth.js';
 import { ProfilePage } from '../../account/ProfilePage.jsx';
-import { ProfileReadOnly } from '../../account/ProfileReadOnly.jsx';
+import { ProfileForm } from '../../account/ProfileForm.jsx';
 import { SecuritySettings } from '../../account/SecuritySettings.jsx';
 
 /**
@@ -13,7 +13,7 @@ export function StudentProfile() {
   const security = useLocation().pathname.endsWith('/security');
   return (
     <ProfilePage user={user} basePath="/student/profile">
-      {security ? <SecuritySettings /> : <ProfileReadOnly user={user} />}
+      {security ? <SecuritySettings /> : <ProfileForm user={user} />}
     </ProfilePage>
   );
 }

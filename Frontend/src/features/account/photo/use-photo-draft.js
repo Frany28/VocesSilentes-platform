@@ -25,7 +25,7 @@ export function usePhotoDraft() {
       return;
     }
     setError(null);
-    setPhoto({ url: URL.createObjectURL(file), name: file.name });
+    setPhoto({ url: URL.createObjectURL(file), name: file.name, file });
   };
   return {
     photo,

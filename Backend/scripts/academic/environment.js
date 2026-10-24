@@ -8,6 +8,7 @@ import { createAuthService } from '../../src/modules/auth/auth.service.js';
 import { createUsersService } from '../../src/modules/admin/users.service.js';
 import { createReportsService } from '../../src/modules/reports/reports.service.js';
 import { createLearningService } from '../../src/modules/learning/learning.service.js';
+import { createAccountService } from '../../src/modules/account/account.service.js';
 import { createApp } from '../../src/app.js';
 import { createLogger } from '../../src/lib/logger.js';
 import { parseEnv } from '../../src/config/env.js';
@@ -35,6 +36,11 @@ export async function createAcademicEnvironment({ seed = false, port = 5280 } = 
       usersService: await createUsersService(state.database),
       reportsService: createReportsService(state.database, storage),
       learningService: createLearningService(state.database),
+      accountService: await createAccountService(state.database, {
+        ...storage,
+        upload: (path, bytes) => storage.upload(path, { bytes, mimeType: 'image/webp' }),
+        read: async (path) => storage.objects.get(path).bytes,
+      }),
     }),
   );
   app.listen(0, 'localhost');

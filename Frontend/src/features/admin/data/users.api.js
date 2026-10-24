@@ -19,6 +19,9 @@ async function write(path, method, input, signal) {
  */
 export function createUsersApi() {
   return {
+    summary: async (signal) => (await requestJson('admin/summary', { signal })).data,
+    state: (id, isActive, signal) =>
+      write(`admin/users/${encodeURIComponent(id)}/state`, 'PATCH', { isActive }, signal),
     list: async ({ q = '', role = '', page = 1, pageSize = 3 }, signal) => {
       const query = new URLSearchParams({ q, page: String(page), pageSize: String(pageSize) });
       if (role) query.set('role', role);

@@ -3,7 +3,7 @@ import { Button } from '../../components/ui/Button.jsx';
 import { Badge } from '../../components/ui/Badge.jsx';
 import { Icon } from '../../components/ui/Icon.jsx';
 import { Avatar } from '../../components/ui/Avatar.jsx';
-import { Dialog } from '../../components/ui/Dialog.jsx';
+import { RemovePhotoDialog } from './photo/RemovePhotoDialog.jsx';
 import { PhotoDialog } from './photo/PhotoDialog.jsx';
 
 /**
@@ -52,30 +52,7 @@ export function ProfileIdentity({ user }) {
         Tu correo y tu contraseña no aparecen en esta vista previa.
       </p>
       {photo && <PhotoDialog onClose={() => setPhoto(false)} />}
-      {remove && (
-        <Dialog
-          title="¿Quitar tu foto?"
-          className="account-photo-dialog"
-          onClose={() => setRemove(false)}
-        >
-          <p>Se eliminará la foto de tu perfil y volverán a mostrarse tus iniciales.</p>
-          <Avatar user={{ ...user, profileImagePath: null }} large />
-          <p role="status">Acción no disponible: falta el servicio para eliminar fotos.</p>
-          <div className="account-actions">
-            <Button
-              density="compact"
-              variant="secondary"
-              icon={null}
-              onClick={() => setRemove(false)}
-            >
-              Conservar foto
-            </Button>
-            <Button density="compact" icon={null} disabled>
-              Quitar foto
-            </Button>
-          </div>
-        </Dialog>
-      )}
+      {remove && <RemovePhotoDialog user={user} onClose={() => setRemove(false)} />}
     </aside>
   );
 }

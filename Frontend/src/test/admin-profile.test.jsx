@@ -68,7 +68,7 @@ test('perfil: valida, conserva borrador tras conflicto y pide descarte antes de 
       name: 'Descartar cambios',
     }),
   );
-  expect(await screen.findByText('Cambio de contraseña no disponible')).toBeVisible();
-  expect(screen.getByLabelText('Contraseña actual')).toBeDisabled();
-  expect(screen.getByRole('button', { name: 'Actualizar contraseña' })).toBeDisabled();
+  expect(await screen.findByText('Tu acceso, bajo control')).toBeVisible();
+  expect(screen.getByLabelText('Contraseña actual')).toBeEnabled();
+  expect(screen.getByRole('button', { name: 'Actualizar contraseña' })).toBeEnabled();
 });

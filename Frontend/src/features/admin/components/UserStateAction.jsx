@@ -3,14 +3,16 @@ import { Button } from '../../../components/ui/Button.jsx';
 import { AdminConfirmation } from './AdminConfirmation.jsx';
 import { Avatar } from '../../../components/ui/Avatar.jsx';
 import { fullName } from '../data/admin-labels.js';
+import { useUserState } from '../data/use-user-state.js';
 
 /**
- * Presenta el modal diseñado sin confundir isActive con eliminación lógica ni enviar un PATCH no soportado.
- * @param {{user: object}} props Cuenta actual.
- * @returns {import('react').ReactElement} Confirmación con dependencia y mutación deshabilitada.
+ * Confirma reactivación/desactivación real en el diálogo original.
+ * @param {{user: object, onSaved: Function}} props Cuenta actual y recarga del detalle.
+ * @returns {import('react').ReactElement} Confirmación con estado pendiente y errores de permisos.
  */
-export function UserStateAction({ user }) {
+export function UserStateAction({ user, onSaved }) {
   const [confirm, setConfirm] = useState(false);
+  const operation = useUserState(user, onSaved);
   return (
     <div className="admin-state-action">
       <Button
@@ -26,9 +28,10 @@ export function UserStateAction({ user }) {
         <AdminConfirmation
           title={user.isActive ? '¿Desactivar esta cuenta?' : '¿Reactivar esta cuenta?'}
           confirm={user.isActive ? 'Desactivar cuenta' : 'Reactivar cuenta'}
-          disabled
+          pending={operation.pending}
+          error={operation.error}
           danger
-          onConfirm={() => {}}
+          onConfirm={() => operation.change(() => setConfirm(false))}
           onCancel={() => setConfirm(false)}
         >
           <div className="admin-page">
@@ -44,9 +47,6 @@ export function UserStateAction({ user }) {
                 <p>{user.email}</p>
               </div>
             </div>
-            <p>
-              Acción no disponible: el backend todavía no permite cambiar el estado de una cuenta.
-            </p>
           </div>
         </AdminConfirmation>
       )}

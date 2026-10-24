@@ -9,7 +9,7 @@ import { createUsersController } from './users.controller.js';
  * @param {object | undefined} authService Autenticación existente.
  * @param {object | undefined} usersService Negocio de usuarios o undefined sin DB.
  * @param {object} csrf Protección compartida con auth, también en desarrollo.
- * @returns {import('express').Router} Rutas administrativas sin métricas ni cambio de isActive.
+ * @returns {import('express').Router} Rutas administrativas con métricas y estado de cuentas.
  */
 export function createUsersRouter(config, authService, usersService, csrf) {
   const router = Router();
@@ -28,10 +28,12 @@ export function createUsersRouter(config, authService, usersService, csrf) {
     ),
   );
   router.get('/audit-logs', controller.audit);
+  router.get('/summary', controller.summary);
   router.get('/users', controller.list);
   router.get('/users/:id', controller.get);
   router.post('/users', csrf.protect, controller.create);
   router.patch('/users/:id', csrf.protect, controller.edit);
+  router.patch('/users/:id/state', csrf.protect, controller.state);
   router.delete('/users/:id', csrf.protect, controller.delete);
   return router;
 }

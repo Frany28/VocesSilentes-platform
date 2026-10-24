@@ -1,5 +1,10 @@
 # Administración
 
+**Actualización funcional del 23 de octubre:** estado de cuentas, dashboard y actividad ya consultan
+servicios reales. Perfil USER, contraseña y fotos también están conectados. Ver
+[contratos, permisos, Supabase/S3 y comprobaciones](account-functionality.md).
+Las secciones posteriores que describen estas acciones como pendientes son históricas.
+
 Actualización del Módulo II (23 de octubre): el detalle de reporte guarda resolución y comentario
 interno y permite reabrir conservando evidencia. `/admin/audit` consulta la bitácora con la navegación
 y componentes existentes. [Pruebas y límites actuales](module-ii/final-delivery.md).

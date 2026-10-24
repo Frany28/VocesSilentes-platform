@@ -5,7 +5,7 @@
   "buildCommand": "pnpm run build",
   "functions": {
     "app.js": {
-      "includeFiles": "generated/client.js"
+      "includeFiles": "{generated/client.js,certs/*.crt}"
     }
   }
 }

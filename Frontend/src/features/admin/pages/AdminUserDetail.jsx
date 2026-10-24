@@ -67,7 +67,7 @@ export function AdminUserDetail() {
           <UserAccountData user={user} />
           {!user.isDeleted && (
             <>
-              <UserStateAction user={user} />
+              <UserStateAction user={user} onSaved={result.retry} />
               <details className="admin-demo-note">
                 <summary>Otras acciones de cuenta</summary>
                 <UserDeleteAction user={user} />

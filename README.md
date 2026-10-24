@@ -152,8 +152,8 @@ Las carpetas de funcionalidades futuras se crean cuando tengan contenido útil.
 El flujo de evidencias añade reportes generales reales, selección/preview y carga privada validada
 en servidor, más listado y visor Admin con acceso temporal autorizado. La migración y el bucket
 ya se aplicaron en Supabase de desarrollo; las credenciales S3 existentes permiten carga/lectura real
-comprobada con objetos temporales eliminados. La resolución/reapertura ya tiene backend;
-las fotos de perfil siguen pendientes.
+comprobada con objetos temporales eliminados. Resolución/reapertura, dashboard, estado de cuentas,
+perfil propio, contraseña y fotos privadas ya están conectados; ver [acciones y pruebas](docs/account-functionality.md).
 Para estado y configuración actuales
 consultar [evidencias de reportes](docs/report-evidence.md); las descripciones históricas de reportes
 sin backend en los párrafos siguientes corresponden a la etapa anterior.
@@ -168,16 +168,15 @@ usuarios, creación/edición modal y datos personales del administrador usan ser
 El Día 1 del Módulo II añade listado paginado, eliminación lógica y bitácora
 persistente; requiere la nueva migración versionada antes de usarlo en una base de desarrollo
 autorizada. Admin usa servicios reales de usuarios, reportes y bitácora; Student consulta catálogo
-y progreso manual. Agregados de actividad, cambio de isActive, contraseña y persistencia de foto
-requieren backend futuro.
-El visor de evidencia y la selección/encuadre local de foto tienen presentación y estados implementados,
-con guardado deshabilitado cuando falta el servicio. Ver [alcance y funcionamiento de Admin](docs/admin.md).
+y progreso manual. Los agregados globales, cambio de isActive, contraseña y fotos persistidas usan
+servicios reales, permisos en backend y bitácora. Ver [alcance y funcionamiento de Admin](docs/admin.md).
 El 23 de octubre, por solicitud expresa del usuario, se importaron los 50 registros académicos
 en Supabase de desarrollo, conservando las cuentas anteriores y desactivando las cuentas de
 contraseña pública. Ver [datos importados y verificación remota](docs/module-ii/supabase-import.md).
 Student dispone de Inicio, Mis módulos, Practicar, Mi progreso y Mi perfil; solo USER puede acceder.
 Contenido y progreso usan la API real por defecto; la demostración exige `VITE_STUDENT_DEMO=true`.
-Practicar registra lectura y actividad manual sin cámara ni evaluación; Perfil muestra identidad real sin edición.
+Practicar registra lectura y actividad manual sin cámara ni evaluación; Perfil permite editar identidad,
+foto y contraseña propias. Las lecciones no se amplían en esta actualización.
 Ver [primera fase académica](docs/phase-one-prototype.md) y [matriz de Figma](docs/student-design-audit.md).
 Hay backend de catálogo/progreso declarado y reportes, sin reconocimiento LSV. Hay componentes del UI Kit de Figma
 y una galería de desarrollo en `/ui.html`; véase [sistema visual](docs/design-system.md).

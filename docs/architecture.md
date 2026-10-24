@@ -1,5 +1,10 @@
 # Arquitectura
 
+Las acciones de cuenta se agrupan en `Backend/src/modules/account/`: perfil propio, contraseña
+y fotos privadas. Admin incorpora estado y agregados reales, sin modificar la presentación ni las
+lecciones. Runtime y CLI normalizan conexiones Supabase a TLS con certificado validado.
+[Contratos y comprobación funcional](account-functionality.md).
+
 Dos aplicaciones privadas en un workspace, un solo lockfile. No se comparten secretos entre ellas.
 
 Actualización del Módulo II (23 de octubre): `modules/learning/` consulta publicaciones y persiste

@@ -62,6 +62,8 @@ export function useAuthSession(api) {
   };
   return {
     ...state,
+    updateUser: (user) =>
+      setState((current) => (current.user?.id === user.id ? { ...current, user } : current)),
     login: (input, signal) => authenticate('login', input, signal),
     register: (input, signal) => authenticate('register', input, signal),
     async logout(signal) {

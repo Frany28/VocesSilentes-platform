@@ -1,5 +1,9 @@
 # Primera fase del prototipo académico
 
+Actualización funcional: perfil propio USER, contraseña y fotos ya guardan mediante servicios reales;
+el dashboard ADMIN y el cambio de estado también están conectados. Las lecciones no se amplían.
+[Contrato y controles actuales](account-functionality.md). Las dependencias posteriores son históricas.
+
 La fase descrita aquí es histórica. La [entrega final del Módulo II](module-ii/final-delivery.md)
 consulta catálogo real y registra progreso manual desde Practicar; también resuelve/reabre reportes
 y consulta bitácora. La demo original requiere `VITE_STUDENT_DEMO=true`; sin bandera se usa la API,

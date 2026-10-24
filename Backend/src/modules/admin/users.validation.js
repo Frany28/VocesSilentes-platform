@@ -15,6 +15,7 @@ export const createUserSchema = identity.extend({
 });
 export const editUserSchema = identity.required({ firstName: true, email: true, username: true });
 export const userIdSchema = z.uuid();
+export const userStateSchema = z.strictObject({ isActive: z.boolean() });
 export const paginationSchema = z.strictObject({
   page: z.coerce.number().int().min(1).max(1000000).default(1),
   pageSize: z.coerce.number().int().min(1).max(100).default(20),

@@ -1,5 +1,10 @@
 # Backend en Vercel
 
+La actualización de cuentas conecta dashboard, estado, perfil propio, contraseña y fotos privadas.
+`includeFiles` conserva tanto `generated/client.js` como la CA pública `certs/*.crt`, requerida por
+la conexión Supabase con certificado validado. No retirar esa carpeta del despliegue.
+[Contratos y comprobación remota](account-functionality.md).
+
 El proyecto usa la integración nativa de Express en Node.js, con **Root Directory: Backend**.
 `Backend/app.js` exporta la app; Vercel gestiona HTTP. `src/server.js` sigue siendo la entrada local
 con puerto, señales y cierre de Prisma. Las rutas conservan `/api`, sin rewrites ni carpeta api.

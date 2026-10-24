@@ -1,4 +1,9 @@
-import { createUserSchema, editUserSchema, userIdSchema } from './users.validation.js';
+import {
+  createUserSchema,
+  editUserSchema,
+  userIdSchema,
+  userStateSchema,
+} from './users.validation.js';
 
 /**
  * Traduce HTTP validado a operaciones de usuarios y devuelve exclusivamente el DTO permitido.
@@ -7,6 +12,14 @@ import { createUserSchema, editUserSchema, userIdSchema } from './users.validati
  */
 export function createUsersController(service) {
   return {
+    async summary(_req, res) {
+      res.json({ data: await service.summary() });
+    },
+    async state(req, res) {
+      const { isActive } = userStateSchema.parse(req.body);
+      const user = await service.state(req.auth.id, userIdSchema.parse(req.params.id), isActive);
+      res.json({ data: { user } });
+    },
     async list(req, res) {
       res.json({ data: await service.list(req.query) });
     },

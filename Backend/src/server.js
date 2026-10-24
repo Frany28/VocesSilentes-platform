@@ -11,11 +11,14 @@ import { createUsersService } from './modules/admin/users.service.js';
 import { createReportsService } from './modules/reports/reports.service.js';
 import { createEvidenceStorage } from './modules/reports/evidence-storage.js';
 import { createLearningService } from './modules/learning/learning.service.js';
+import { createAccountService } from './modules/account/account.service.js';
+import { createProfilePhotoStorage } from './modules/account/profile-photo.storage.js';
 
 loadEnv();
 let database;
 let logger;
 let storage;
+let photoStorage;
 try {
   const config = parseEnv(process.env);
   logger = createLogger(config.logLevel);
@@ -26,8 +29,16 @@ try {
   storage = database ? createEvidenceStorage(config.storage) : undefined;
   const reportsService = database ? createReportsService(database, storage) : undefined;
   const learningService = database ? createLearningService(database) : undefined;
+  photoStorage = database ? createProfilePhotoStorage(config.storage) : undefined;
+  const accountService = database ? await createAccountService(database, photoStorage) : undefined;
   const server = createServer(
-    createApp(config, logger, { authService, usersService, reportsService, learningService }),
+    createApp(config, logger, {
+      authService,
+      usersService,
+      reportsService,
+      learningService,
+      accountService,
+    }),
   );
   server.listen(config.port, config.host);
   await once(server, 'listening');
@@ -46,10 +57,12 @@ try {
     try {
       await closeResources(server, database);
       storage?.close();
+      photoStorage?.close();
       clearTimeout(deadline);
       process.exitCode = 0;
     } catch (error) {
       storage?.close();
+      photoStorage?.close();
       logger.error({ err: error }, 'No se pudieron cerrar los recursos');
       process.exit(1);
     }
@@ -61,5 +74,6 @@ try {
   else console.error(error instanceof ConfigurationError ? error.message : 'Error de arranque');
   await database?.$disconnect();
   storage?.close();
+  photoStorage?.close();
   process.exitCode = 1;
 }

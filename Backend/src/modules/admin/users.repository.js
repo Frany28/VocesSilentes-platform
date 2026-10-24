@@ -40,6 +40,12 @@ export function createUsersRepository(database) {
             SET "revokedAt" = GREATEST(clock_timestamp(), "createdAt")
             WHERE "userId" = ${userId}::uuid AND "revokedAt" IS NULL
           `,
+          revokeOtherSessions: (tokenHash) => tx.$executeRaw`
+            UPDATE vocessilentes."Session"
+            SET "revokedAt" = GREATEST(clock_timestamp(), "createdAt")
+            WHERE "userId" = ${actorId}::uuid AND "revokedAt" IS NULL
+              AND "tokenHash" <> ${tokenHash}
+          `,
           audit: (operation, entityId) =>
             tx.auditLog.create({ data: { actorId, operation, entityType: 'User', entityId } }),
         });

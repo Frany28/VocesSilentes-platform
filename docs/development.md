@@ -1,5 +1,11 @@
 # Desarrollo en Windows y VS Code
 
+Las acciones de cuenta y el dashboard ya están conectados; ver [contratos y pruebas](account-functionality.md).
+Supabase utiliza el certificado público incluido en `Backend/certs/` para TLS verificado, también
+en herramientas Prisma. El backend normaliza las URLs sin modificar `.env`; las bases loopback
+de pruebas conservan su configuración. La foto privada requiere aplicar, en el destino autorizado,
+`Backend/storage/002_profile_photos.sql`; ya se aplicó en Supabase de desarrollo.
+
 ## Preparación
 
 Instalar Node 22.23.1 y pnpm 10.18.2 como describe README. Verificar versiones después de abrir una

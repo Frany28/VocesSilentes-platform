@@ -1,5 +1,11 @@
 # Contratos HTTP
 
+**Actualización funcional:** están disponibles GET `/api/admin/summary`, PATCH
+`/api/admin/users/:id/state` y `/api/account/profile|password|photo`, más lectura privada de fotos.
+[Métodos, entradas, permisos y respuestas actuales](account-functionality.md#api-y-protección).
+Las limitaciones de estado/perfil/contraseña/foto de los apartados históricos quedan sustituidas
+por ese contrato. Registro y nuevas acciones propias generan auditoría confirmada.
+
 El Módulo II añade PATCH `/api/reports/:id/status` para ADMIN, GET `/api/learning` y
 PUT `/api/learning/lessons|exercises/:id/progress` para USER. Las mutaciones exigen CSRF,
 Zod estricto y revalidación del actor. Resolución/reapertura conserva el reporte; el progreso es

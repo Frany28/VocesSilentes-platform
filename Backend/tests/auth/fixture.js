@@ -9,6 +9,7 @@ import { createAuthService } from '../../src/modules/auth/auth.service.js';
 import { createUsersService } from '../../src/modules/admin/users.service.js';
 import { createReportsService } from '../../src/modules/reports/reports.service.js';
 import { createLearningService } from '../../src/modules/learning/learning.service.js';
+import { createAccountService } from '../../src/modules/account/account.service.js';
 import { createApp } from '../../src/app.js';
 import { createLogger } from '../../src/lib/logger.js';
 import { parseEnv } from '../../src/config/env.js';
@@ -18,7 +19,7 @@ import { once } from 'node:events';
 
 /**
  * Registra integración HTTP + PrismaPg + PostgreSQL WASM/TCP efímero, sin leer .env.
- * @param {{storage?: object}} [options] Doble explícito de Storage para pruebas, nunca credenciales reales.
+ * @param {{storage?: object, photoStorage?: object}} [options] Dobles explícitos de Storage, nunca credenciales reales.
  * @returns {object} Fixture inicializada en before y cerrada en after; no conecta a Supabase.
  */
 export function authFixture(options = {}) {
@@ -54,6 +55,7 @@ export function authFixture(options = {}) {
         usersService: fixture.usersService,
         reportsService: fixture.reportsService,
         learningService: createLearningService(database),
+        accountService: await createAccountService(database, options.photoStorage),
       }),
     );
     fixture.app.listen(0, '127.0.0.1');

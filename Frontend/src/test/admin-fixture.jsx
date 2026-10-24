@@ -21,11 +21,20 @@ export function renderAdmin(
   path,
   handler = (url) =>
     jsonResponse({
-      data: url.includes('/reports?')
-        ? { reports: [], total: 0, page: 1, pages: 1 }
-        : url.includes('/admin/users?')
-          ? { items: [account], total: 1, page: 1, pageSize: 3, pages: 1 }
-          : { user: account },
+      data: url.endsWith('/admin/summary')
+        ? {
+            users: 1,
+            activeUsers: 1,
+            inactiveUsers: 0,
+            pendingReports: 0,
+            resolvedReports: 0,
+            reports: [],
+          }
+        : url.includes('/reports?')
+          ? { reports: [], total: 0, page: 1, pages: 1 }
+          : url.includes('/admin/users?')
+            ? { items: [account], total: 1, page: 1, pageSize: 3, pages: 1 }
+            : { user: account },
     }),
 ) {
   const fetchMock = vi.fn().mockImplementation((url, options) => {

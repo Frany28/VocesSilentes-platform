@@ -2,7 +2,7 @@ import { fireEvent, screen, within } from '@testing-library/react';
 import { expect, test, vi } from 'vitest';
 import { renderAdmin } from './admin-fixture.jsx';
 
-test('foto: valida tipo/tamaño, permite encuadre local y libera URLs sin subir ni simular guardado', async () => {
+test('foto: valida tipo/tamaño y encuadre; permite guardar y libera URLs al cancelar sin enviar', async () => {
   const create = vi.fn(() => 'blob:photo-preview');
   const revoke = vi.fn();
   vi.stubGlobal(
@@ -35,7 +35,7 @@ test('foto: valida tipo/tamaño, permite encuadre local y libera URLs sin subir 
     fireEvent.click(screen.getByRole('button', { name: 'Ampliar encuadre' }));
   expect(screen.getByLabelText('Encuadre actual')).toHaveTextContent('135%');
   expect(screen.getByRole('button', { name: 'Ampliar encuadre' })).toBeDisabled();
-  expect(screen.getByRole('button', { name: 'Usar esta foto' })).toBeDisabled();
+  expect(screen.getByRole('button', { name: 'Usar esta foto' })).toBeEnabled();
   fireEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Cancelar' }));
   expect(revoke).toHaveBeenCalledWith('blob:photo-preview');
   expect(trigger).toHaveFocus();

@@ -1,5 +1,10 @@
 # Autenticación y seguridad
 
+Actualización de cuentas: cambio de contraseña con verificación de la actual, revocación de las
+demás sesiones, perfil propio y fotos privadas ya están disponibles para ambos roles. Admin puede
+desactivar/reactivar con revocación y protección del último administrador. Runtime/CLI Supabase
+usan TLS y CA validada. [Contrato y comprobaciones](account-functionality.md).
+
 Reportes y evidencias reutilizan estas sesiones propias y CSRF, sin Supabase Auth. El backend
 filtra propiedad, consulta rol vigente y firma lecturas de 120 s; la clave privada Storage omite
 RLS y nunca se entrega al navegador. Ver [permisos y política restrictiva](report-evidence.md).

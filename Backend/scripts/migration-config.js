@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { secureDatabaseUrl } from '../src/config/database-url.js';
 
 const connection = z
   .string()
@@ -31,7 +32,7 @@ export function migrationDatasource(input) {
     if (!input[name]) continue;
     if (!connection.safeParse(input[name]).success)
       throw new Error(`Configuración inválida: ${name}`);
-    urls[name] = new URL(input[name]);
+    urls[name] = new URL(secureDatabaseUrl(input[name]));
     if (urls[name].searchParams.get('pgbouncer') === 'true') {
       throw new Error(`Se requiere conexión directa o Session: ${name}`);
     }

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { publicConfig } from '../../lib/config.js';
 
 /**
  * Iniciales o imagen de la cuenta proporcionada; no solicita ni sustituye imágenes remotas.
@@ -6,6 +7,11 @@ import { useState } from 'react';
  * @returns {import('react').ReactElement} Avatar decorativo junto al nombre de la cuenta.
  */
 export function Avatar({ user, large = false }) {
+  const path = user.profileImagePath;
+  const source =
+    path && /^[a-f0-9-]{36}\/[a-f0-9-]{36}\.webp$/.test(path)
+      ? `${publicConfig.apiUrl}/account/photos/${user.id}/image?v=${path.split('/')[1]}`
+      : path;
   const [failedSource, setFailedSource] = useState(null);
   const initials = [user.firstName, user.lastName]
     .filter(Boolean)
@@ -15,7 +21,8 @@ export function Avatar({ user, large = false }) {
     <span className={`vs-avatar ${large ? 'vs-avatar-large' : ''}`} aria-hidden="true">
       {user.profileImagePath && failedSource !== user.profileImagePath ? (
         <img
-          src={user.profileImagePath}
+          src={source}
+          crossOrigin={source === path ? undefined : 'use-credentials'}
           alt=""
           onError={() => setFailedSource(user.profileImagePath)}
         />
