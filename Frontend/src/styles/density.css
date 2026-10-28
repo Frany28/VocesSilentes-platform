@@ -6,12 +6,9 @@
 }
 .vs-button[data-density='compact'] .vs-button-surface {
   padding: 12px 16px;
-  transform: none;
-  transition: none;
 }
 .vs-button[data-density='compact'] .vs-button-surface::before {
   box-shadow: none;
-  transition: none;
 }
 .vs-button[data-density='compact']:active .vs-button-surface::before {
   inset: 0;

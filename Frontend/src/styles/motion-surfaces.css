@@ -1,0 +1,55 @@
+/* Solo controles ya interactivos; las tarjetas de datos y módulos permanecen inmóviles. */
+.account-profile-tabs a,
+.account-profile-link,
+.login-link,
+.admin-mobile-logout,
+.student-content footer button {
+  transition-property: color, background-color, border-color, box-shadow, opacity;
+  transition-duration: var(--motion-control);
+  transition-timing-function: var(--motion-ease);
+}
+.student-lesson {
+  transition: box-shadow var(--motion-surface) var(--motion-ease);
+}
+.login-link {
+  text-decoration: none;
+}
+.student-lesson:focus-visible {
+  box-shadow: var(--shadow-soft);
+}
+@media (hover: hover) and (pointer: fine) {
+  .student-lesson:hover:not(:disabled) {
+    box-shadow: var(--shadow-soft);
+  }
+  .account-profile-tabs a:not([aria-current]):hover,
+  .account-profile-link:hover,
+  .admin-mobile-logout:hover:not(:disabled),
+  .student-content footer button:hover:not(:disabled) {
+    box-shadow: inset 0 0 0 1px var(--border-subtle);
+  }
+  .login-link:hover {
+    text-decoration: underline;
+  }
+}
+.student-lesson:active:not(:disabled) {
+  box-shadow: none;
+}
+.login-link:active {
+  opacity: 0.7;
+}
+.vs-alert {
+  animation: vs-feedback-enter var(--motion-control) var(--motion-ease);
+}
+@keyframes vs-feedback-enter {
+  from {
+    opacity: 0.85;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vs-alert {
+    animation: none;
+  }
+}

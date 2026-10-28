@@ -1,0 +1,35 @@
+/* Solo entrada: desmontaje, callbacks y restauración del foco no esperan a una animación. */
+.vs-dialog[open],
+.practice-instructions[open] {
+  animation: vs-dialog-enter var(--motion-dialog) var(--motion-ease);
+}
+.vs-dialog[open]::backdrop,
+.practice-instructions[open]::backdrop {
+  animation: vs-backdrop-enter var(--motion-dialog) var(--motion-ease);
+}
+@keyframes vs-dialog-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes vs-backdrop-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vs-dialog[open],
+  .practice-instructions[open],
+  .vs-dialog[open]::backdrop,
+  .practice-instructions[open]::backdrop {
+    animation: none;
+  }
+}

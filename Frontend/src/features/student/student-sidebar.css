@@ -48,8 +48,10 @@
 .student-sidebar .student-nav-item > span:last-child {
   min-width: 0;
 }
-.student-sidebar .student-nav-item:hover {
-  background: var(--surface-neutral);
+@media (hover: hover) and (pointer: fine) {
+  .student-sidebar .student-nav-item:hover:not(:disabled) {
+    background: var(--surface-neutral);
+  }
 }
 .student-sidebar .student-nav-item[aria-current] {
   --icon-student-nav-user-default: url('../../assets/student/04253.svg');

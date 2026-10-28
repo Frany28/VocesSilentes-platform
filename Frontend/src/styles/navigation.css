@@ -18,8 +18,13 @@
   border-radius: var(--radius-full);
   background: var(--surface);
 }
-.vs-navigation:is(:hover, .vs-preview-hover, [aria-current]) {
+.vs-navigation:is(.vs-preview-hover, [aria-current]):not(:disabled) {
   background: var(--surface-neutral);
+}
+@media (hover: hover) and (pointer: fine) {
+  .vs-navigation:hover:not(:disabled) {
+    background: var(--surface-neutral);
+  }
 }
 .vs-navigation[aria-current] {
   color: var(--action-primary);

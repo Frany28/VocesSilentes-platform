@@ -9,12 +9,13 @@
   cursor: pointer;
   font: var(--type-button);
   color: var(--action-text);
+  transition: color var(--motion-control) var(--motion-ease);
 }
 
 .vs-button-surface {
   min-height: var(--size-control);
   padding: var(--space-12) var(--space-16);
-  transition: transform 180ms ease-in-out;
+  transition: transform var(--motion-control) var(--motion-ease);
 }
 
 .vs-button-surface::before {
@@ -26,9 +27,9 @@
   background: var(--action-primary);
   box-shadow: var(--shadow-action);
   transition:
-    inset 180ms ease-in-out,
-    background-color 180ms ease-in-out,
-    box-shadow 180ms ease-in-out;
+    background-color var(--motion-control) var(--motion-ease),
+    border-color var(--motion-control) var(--motion-ease),
+    box-shadow var(--motion-control) var(--motion-ease);
 }
 
 .vs-button[data-variant='secondary'] {
@@ -38,40 +39,40 @@
   background: var(--surface);
   border: 1px solid var(--border-subtle);
 }
-.vs-button:is(:hover, .vs-preview-hover):not(:disabled) .vs-button-surface {
-  transform: translateY(-2px);
+.vs-button.vs-preview-hover:not(:disabled) .vs-button-surface {
+  transform: translateY(var(--motion-lift));
 }
-.vs-button:is(:hover, .vs-preview-hover):not(:disabled) .vs-button-surface::before {
+.vs-button.vs-preview-hover:not(:disabled) .vs-button-surface::before {
   background: var(--action-hover);
   box-shadow: var(--shadow-hover);
 }
 .vs-button:is(:active, .vs-preview-pressed):not(:disabled) .vs-button-surface {
   transform: none;
-  transition-duration: 100ms;
+  transition-duration: var(--motion-press);
 }
 .vs-button:is(:active, .vs-preview-pressed):not(:disabled) .vs-button-surface::before {
   inset: 1px 2px;
   background: var(--action-pressed);
   box-shadow: none;
-  transition-duration: 100ms;
+  transition-duration: var(--motion-press);
 }
 .vs-button[data-variant='secondary']:is(
-    :hover,
     :active,
     .vs-preview-hover,
     .vs-preview-pressed,
     [data-loading]
-  ) {
+  ):not(:disabled),
+.vs-button[data-variant='secondary'][data-loading] {
   color: var(--action-primary);
 }
 .vs-button[data-variant='secondary']:is(
-    :hover,
     :active,
     .vs-preview-hover,
     .vs-preview-pressed,
     [data-loading]
-  )
-  .vs-button-surface::before {
+  ):not(:disabled)
+  .vs-button-surface::before,
+.vs-button[data-variant='secondary'][data-loading] .vs-button-surface::before {
   background: var(--surface-neutral);
   border-color: var(--action-primary);
 }

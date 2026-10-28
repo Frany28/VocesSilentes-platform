@@ -19,12 +19,14 @@
   background: var(--surface-accent);
   color: var(--content);
 }
-.admin-nav-item:hover,
-.admin-logout:hover {
-  background: var(--surface-neutral);
-}
-.admin-nav-item[aria-current]:hover {
-  background: var(--surface-accent);
+@media (hover: hover) and (pointer: fine) {
+  .admin-nav-item:hover:not(:disabled),
+  .admin-logout:hover:not(:disabled) {
+    background: var(--surface-neutral);
+  }
+  .admin-nav-item[aria-current]:hover:not(:disabled) {
+    background: var(--surface-accent);
+  }
 }
 .admin-identity-message {
   display: flex;

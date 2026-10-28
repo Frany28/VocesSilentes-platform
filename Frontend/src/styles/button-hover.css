@@ -1,0 +1,17 @@
+/* La superficie se mueve; el botón y su objetivo de interacción conservan su geometría. */
+@media (hover: hover) and (pointer: fine) {
+  .vs-button:hover:not(:disabled) .vs-button-surface {
+    transform: translateY(var(--motion-lift));
+  }
+  .vs-button:hover:not(:disabled) .vs-button-surface::before {
+    background: var(--action-hover);
+    box-shadow: var(--shadow-hover);
+  }
+  .vs-button[data-variant='secondary']:hover:not(:disabled) {
+    color: var(--action-primary);
+  }
+  .vs-button[data-variant='secondary']:hover:not(:disabled) .vs-button-surface::before {
+    background: var(--surface-neutral);
+    border-color: var(--action-primary);
+  }
+}

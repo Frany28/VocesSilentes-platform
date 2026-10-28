@@ -11,9 +11,8 @@ export function LoginLink({ to, children }) {
   return (
     <Link
       to={to}
-      className="inline-flex min-h-11 items-center justify-center p-2 text-center text-info
-        [font:var(--type-button)] no-underline underline-offset-[7px] transition-opacity
-        duration-180 ease-in-out hover:underline active:opacity-70 motion-reduce:transition-none
+      className="login-link inline-flex min-h-11 items-center justify-center p-2 text-center text-info
+        [font:var(--type-button)] underline-offset-[7px]
         focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-focus"
     >
       {children}

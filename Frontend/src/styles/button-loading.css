@@ -1,0 +1,35 @@
+/* Reserva el contenido de reposo incluso con ancho automático y etiquetas de carga largas. */
+.vs-button-rest {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  min-width: 0;
+}
+.vs-button-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--space-8);
+}
+.vs-button-loading > span {
+  max-height: 100%;
+  overflow: hidden;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.vs-button[data-loading] .vs-button-rest {
+  visibility: hidden;
+}
+.vs-button:disabled .vs-button-surface {
+  transform: none;
+  transition: none;
+}
+.vs-button:disabled .vs-button-surface::before {
+  transition: none;
+}
+.vs-button:disabled {
+  transition: none;
+}

@@ -1,0 +1,54 @@
+/* Propiedades acotadas: foco y estado nativo siguen siendo inmediatos y funcionales. */
+.vs-icon-action,
+.vs-navigation,
+.vs-navigation-marker,
+.vs-input-shell,
+.vs-select select,
+.vs-selection-mark,
+.vs-password-toggle,
+.vs-theme-switch,
+.vs-theme-track,
+.report-form-panel textarea {
+  transition-property: background-color, border-color, box-shadow, color, opacity;
+  transition-duration: var(--motion-control);
+  transition-timing-function: var(--motion-ease);
+}
+.vs-icon-action .vs-icon,
+.vs-theme-track span {
+  transition: transform var(--motion-control) var(--motion-ease);
+}
+.vs-icon-action:active:not(:disabled) .vs-icon {
+  transform: scale(0.95);
+  transition-duration: var(--motion-press);
+}
+.vs-selection-mark > * {
+  transition: opacity var(--motion-control) var(--motion-ease);
+}
+.vs-input-shell:has(.vs-input:focus-visible),
+.vs-selection input:focus-visible + .vs-selection-mark,
+.vs-navigation:focus-visible {
+  /* El indicador de foco no espera a la transición de sombra. */
+  transition-property: background-color, border-color, color, opacity;
+}
+.vs-icon-action:disabled,
+.vs-navigation:disabled,
+.vs-field:has(:disabled) .vs-input-shell,
+.vs-select select:disabled,
+.vs-selection:has(:disabled) .vs-selection-mark,
+.vs-password-toggle:disabled {
+  transition: none;
+}
+.vs-icon-action:disabled .vs-icon {
+  transform: none;
+  transition: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .vs-password-toggle:hover:not(:disabled) {
+    background: var(--surface-neutral);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vs-icon-action:active:not(:disabled) .vs-icon {
+    transform: none;
+  }
+}

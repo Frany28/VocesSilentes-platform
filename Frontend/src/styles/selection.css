@@ -42,7 +42,7 @@
 }
 .vs-checkmark,
 .vs-radio-dot {
-  visibility: hidden;
+  opacity: 0;
 }
 .vs-radio-dot {
   width: 10px;
@@ -51,7 +51,7 @@
   border-radius: var(--radius-full);
 }
 .vs-selection input:checked + .vs-selection-mark > * {
-  visibility: visible;
+  opacity: 1;
 }
 .vs-selection input:focus-visible + .vs-selection-mark,
 .vs-selection.vs-preview-focus .vs-selection-mark {

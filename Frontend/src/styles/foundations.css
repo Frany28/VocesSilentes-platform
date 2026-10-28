@@ -48,4 +48,20 @@
   --size-badge: 200px;
   --size-alert: 350px;
   --size-control: 52px;
+  /* Movimiento compartido; decisiones de implementación solicitadas, no variables de Figma. */
+  --motion-press: 100ms;
+  --motion-control: 180ms;
+  --motion-surface: 220ms;
+  --motion-dialog: 240ms;
+  --motion-ease: ease-in-out;
+  --motion-lift: -2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-press: 0s;
+    --motion-control: 0s;
+    --motion-surface: 0s;
+    --motion-dialog: 0s;
+    --motion-lift: 0px;
+  }
 }

@@ -33,7 +33,10 @@
   background: var(--action-text);
 }
 .vs-theme-switch[aria-pressed='true'] .vs-theme-track {
-  justify-content: end;
+  --theme-thumb-offset: var(--space-16);
+}
+.vs-theme-track span {
+  transform: translateX(var(--theme-thumb-offset, 0px));
 }
 .vs-theme-switch:disabled {
   cursor: default;

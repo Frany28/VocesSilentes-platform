@@ -1,7 +1,7 @@
 import { Icon } from './Icon.jsx';
 
 /**
- * Botón nativo; loading impide activaciones y conserva su nombre accesible.
+ * Botón nativo; loading impide activaciones, anuncia la carga y reserva las dimensiones de reposo.
  * @param {object} props Atributos HTML (incluye ref), contenido y eventos.
  * @param {'primary'|'secondary'} [props.variant] Jerarquía de Figma; primary por defecto.
  * @param {'compact'|'comfortable'} [props.density] Altura 44/52 px elegida según la tarea.
@@ -39,8 +39,15 @@ export function Button({
       data-loading={loading || undefined}
     >
       <span className="vs-button-surface relative isolate flex items-center justify-center gap-2">
-        <span>{loading ? loadingLabel : children}</span>
-        {!loading && trailing}
+        <span className="vs-button-rest" aria-hidden={loading || undefined}>
+          <span>{children}</span>
+          {trailing}
+        </span>
+        {loading && (
+          <span className="vs-button-loading">
+            <span>{loadingLabel}</span>
+          </span>
+        )}
       </span>
     </button>
   );

@@ -2,9 +2,6 @@
 .login-card {
   animation-iteration-count: 1;
 }
-.vs-field[data-appearance='plain'] .vs-input-shell {
-  transition: box-shadow 200ms ease-in-out;
-}
 @media (prefers-reduced-motion: reduce) {
   .login-page::before,
   .login-visual::before,
@@ -17,8 +14,5 @@
     transform: none;
     translate: none;
     scale: none;
-  }
-  .vs-field[data-appearance='plain'] .vs-input-shell {
-    transition: none;
   }
 }

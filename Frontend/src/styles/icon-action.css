@@ -12,8 +12,10 @@
   color: var(--content);
   cursor: pointer;
 }
-.vs-icon-action:hover:not(:disabled) {
-  background: var(--surface-neutral);
+@media (hover: hover) and (pointer: fine) {
+  .vs-icon-action:hover:not(:disabled) {
+    background: var(--surface-neutral);
+  }
 }
 .vs-icon-action:active:not(:disabled) {
   background: var(--surface-accent);

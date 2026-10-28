@@ -114,6 +114,14 @@ DATABASE_URL ni secretos bajo ese prefijo. Reiniciar/reconstruir al cambiar valo
 
 ## Convenciones y controles
 
+El [sistema de movimiento](motion-system.md) usa tokens en `Frontend/src/styles/foundations.css`.
+Las hojas `motion-controls.css`, `motion-surfaces.css` y `motion-overlays.css` se importan desde
+`ui.css` dentro de `components`. `button-hover.css` separa el estado de puntero y `button-loading.css`
+reserva el contenido para carga estable; no introducen dependencias ni excepciones de tamaño.
+No añadir duraciones literales dispersas, `transition: all`, animaciones globales de tema o
+temporizadores para demorar los callbacks de los diálogos. Verificar estilos computados y geometría
+en navegador: jsdom no calcula transiciones ni layout.
+
 La [auditoría de componentes](component-consistency-audit.md) comparte el antiguo modal de Admin en
 `Frontend/src/components/ui/ConfirmationDialog.jsx` y la operación abortable de logout en
 `features/auth/use-logout.js`. Los tres consumidores (Student, Admin y cuenta técnica) confirman

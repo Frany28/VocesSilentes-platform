@@ -19,8 +19,9 @@ Se consultó directamente [412:27892](https://www.figma.com/design/GRbHCgOXNZZxR
 Las reglas siguientes sustituyen las excepciones históricas de densidad exclusiva de Admin:
 
 - Button: density="compact" (44 px, Manrope 600 13/20) o "comfortable" (52 px, 16/24, predeterminada).
-  Ambas usan radio 16. La compacta conserva color/hover/presión/foco/disabled/loading sin la elevación
-  de la variante cómoda. La densidad se elige en el consumidor por tarea.
+  Ambas usan radio 16. La compacta conserva su superficie sin sombra en reposo y comparte la respuesta
+  hover/presión/foco/disabled/loading del estándar de movimiento actualizado abajo.
+  La densidad se elige en el consumidor por tarea.
 - Input/PasswordInput: density="compact" (44 px, radio 16, Inter 14/20, label persistente 13/20).
   La cómoda conserva la geometría de Auth. Select comparte los campos compactos, ayudas y errores.
 - NavigationItem: 44 px, icono 20, Manrope 600 16/24 y radio 12, con indicador seleccionado.
@@ -36,6 +37,41 @@ Las reglas siguientes sustituyen las excepciones históricas de densidad exclusi
 La [auditoría Student](student-design-audit.md) y [verificación](verification.md) describen capturas,
 comportamiento adaptable y dependencias reales. Las tablas siguientes documentan la extracción histórica
 del UI Kit; para densidades y navegación prevalece esta actualización.
+
+## Movimiento compartido — 27 de octubre de 2026
+
+La [auditoría e implementación de microinteracciones](motion-system.md) amplía los estados existentes
+por solicitud del usuario, sin rediseño. Los tokens siguientes son decisiones de implementación;
+no se presentan como variables nuevas extraídas de Figma. Viven en `styles/foundations.css`.
+
+| Token              | Valor       | Uso                                                                             |
+| ------------------ | ----------- | ------------------------------------------------------------------------------- |
+| `--motion-press`   | 100 ms      | Presión/retorno de botones e iconos                                             |
+| `--motion-control` | 180 ms      | Fondos, bordes, sombras, colores y selección de controles/enlaces               |
+| `--motion-surface` | 220 ms      | Sombra de superficies que ya funcionan como botón, como la fila de lección      |
+| `--motion-dialog`  | 240 ms      | Entrada de diálogos, menús modales y backdrop                                   |
+| `--motion-ease`    | ease-in-out | Curva compartida ya presente en Button                                          |
+| `--motion-lift`    | −2 px       | Elevación de la superficie de Button; el objetivo de interacción permanece fijo |
+
+Button cómodo/compacto, primario/secundario/destructivo comparten respuesta gradual. Se conservan
+los colores y sombras de cada variante; el foco visible es inmediato. Disabled/loading bloquean hover,
+presión y envíos como antes. Durante carga se reserva el contenido de reposo oculto al lector, incluido
+el icono, y la etiqueta de carga ocupa esa misma superficie, envolviendo texto si necesita dos líneas.
+El nombre accesible anuncia únicamente la carga; las dimensiones del botón no dependen de esa etiqueta.
+
+Input/Select/textarea/Checkbox/Radio/PasswordInput, navegación y tabs usan propiedades explícitas,
+sin `transition: all`. ThemeSwitch desplaza su indicador conservando sus dos posiciones originales.
+Solo la fila clicable de lección recibe sombra de interacción; tarjetas con CTA interno y métricas
+informativas permanecen quietas. Las alertas aparecen con opacidad 0,85 → 1, sin retrasar su anuncio.
+
+Dialog y las instrucciones de práctica entran con opacidad y 4 px de desplazamiento; el cierre sigue
+siendo inmediato. No se añaden temporizadores, estados de salida ni demoras a callbacks, Escape,
+cancelación, foco o scroll. Se conserva el ciclo de vida nativo de los modales.
+
+Hover se limita a puntero fino con hover real. Teclado y táctil conservan sus propios estados;
+la información esencial no depende del hover. `prefers-reduced-motion` pone duraciones y elevación a
+cero y elimina entradas; selección, validación y foco permanecen disponibles. Las ilustraciones
+animadas originales de Auth conservan su implementación y su regla de movimiento reducido.
 
 ## Correspondencia y contratos
 
