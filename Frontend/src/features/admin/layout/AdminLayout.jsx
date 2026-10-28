@@ -1,11 +1,10 @@
-import { useState } from 'react';
 import { Outlet } from 'react-router';
-import { useAuth } from '../../auth/use-auth.js';
+import { useLogout } from '../../auth/use-logout.js';
+import { LogoutConfirmation } from '../../auth/LogoutConfirmation.jsx';
 import { AdminProvider } from '../data/AdminProvider.jsx';
 import { AdminNavigation } from './AdminNavigation.jsx';
 import { AdminSidebar } from './AdminSidebar.jsx';
 import { AdminTopbar } from './AdminTopbar.jsx';
-import { AdminConfirmation } from '../components/AdminConfirmation.jsx';
 import { AdminLeaveGuard } from './AdminLeaveGuard.jsx';
 import '../styles/admin.css';
 
@@ -14,28 +13,14 @@ import '../styles/admin.css';
  * @returns {import('react').ReactElement} Navegación y contenido administrativo.
  */
 export function AdminLayout() {
-  const auth = useAuth();
-  const [confirm, setConfirm] = useState(false);
-  const [pending, setPending] = useState(false);
-  const [error, setError] = useState(null);
-  const logout = async () => {
-    if (pending) return;
-    setPending(true);
-    setError(null);
-    try {
-      await auth.logout();
-    } catch (reason) {
-      setError(reason.message);
-      setPending(false);
-    }
-  };
+  const logout = useLogout();
   return (
     <AdminProvider>
       <AdminLeaveGuard>
         <div className="admin-shell">
-          <AdminSidebar onLogout={() => setConfirm(true)} />
+          <AdminSidebar onLogout={logout.open} />
           <div className="admin-content">
-            <AdminTopbar onLogout={() => setConfirm(true)} />
+            <AdminTopbar onLogout={logout.open} />
             <div className="admin-mobile-nav">
               <AdminNavigation compact />
             </div>
@@ -43,25 +28,11 @@ export function AdminLayout() {
               <Outlet />
             </main>
             <footer>VocesSilentes · Más señas, menos barreras.</footer>
-            <button type="button" className="admin-mobile-logout" onClick={() => setConfirm(true)}>
+            <button type="button" className="admin-mobile-logout" onClick={logout.open}>
               Cerrar sesión
             </button>
           </div>
-          {confirm && (
-            <AdminConfirmation
-              title="¿Cerrar sesión?"
-              confirm="Cerrar sesión"
-              pending={pending}
-              error={error}
-              onCancel={() => {
-                setConfirm(false);
-                setError(null);
-              }}
-              onConfirm={logout}
-            >
-              Tendrás que iniciar sesión para volver al panel de administración.
-            </AdminConfirmation>
-          )}
+          <LogoutConfirmation operation={logout} />
         </div>
       </AdminLeaveGuard>
     </AdminProvider>

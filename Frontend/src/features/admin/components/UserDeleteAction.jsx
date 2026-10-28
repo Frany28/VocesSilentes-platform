@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '../../../components/ui/Button.jsx';
 import { useUserDelete } from '../data/use-user-delete.js';
-import { AdminConfirmation } from './AdminConfirmation.jsx';
+import { ConfirmationDialog } from '../../../components/ui/ConfirmationDialog.jsx';
 
 /**
  * Confirma explícitamente la eliminación lógica y explica la revocación del acceso.
@@ -23,7 +23,7 @@ export function UserDeleteAction({ user }) {
         Eliminar cuenta
       </Button>
       {confirm && (
-        <AdminConfirmation
+        <ConfirmationDialog
           title="¿Eliminar esta cuenta?"
           confirm="Confirmar eliminación"
           onConfirm={deletion.remove}
@@ -32,7 +32,7 @@ export function UserDeleteAction({ user }) {
           error={deletion.error}
         >
           Se revocarán sus sesiones y se impedirá su acceso. Sus datos relacionados se conservarán.
-        </AdminConfirmation>
+        </ConfirmationDialog>
       )}
     </div>
   );

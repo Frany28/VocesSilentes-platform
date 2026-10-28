@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from '../../../components/ui/Button.jsx';
-import { AdminConfirmation } from './AdminConfirmation.jsx';
+import { ConfirmationDialog } from '../../../components/ui/ConfirmationDialog.jsx';
 import { Avatar } from '../../../components/ui/Avatar.jsx';
 import { fullName } from '../data/admin-labels.js';
 import { useUserState } from '../data/use-user-state.js';
@@ -25,7 +25,7 @@ export function UserStateAction({ user, onSaved }) {
         {user.isActive ? 'Desactivar cuenta' : 'Reactivar cuenta'}
       </Button>
       {confirm && (
-        <AdminConfirmation
+        <ConfirmationDialog
           title={user.isActive ? '¿Desactivar esta cuenta?' : '¿Reactivar esta cuenta?'}
           confirm={user.isActive ? 'Desactivar cuenta' : 'Reactivar cuenta'}
           pending={operation.pending}
@@ -48,7 +48,7 @@ export function UserStateAction({ user, onSaved }) {
               </div>
             </div>
           </div>
-        </AdminConfirmation>
+        </ConfirmationDialog>
       )}
     </div>
   );

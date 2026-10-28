@@ -20,6 +20,7 @@ export function RemovePhotoDialog({ user, onClose }) {
       className="account-photo-dialog"
       onClose={onClose}
       pending={operation.pending}
+      initialFocus="[data-cancel]"
     >
       <p>Se eliminará la foto de tu perfil y volverán a mostrarse tus iniciales.</p>
       <Avatar user={{ ...user, profileImagePath: null }} large />
@@ -35,6 +36,7 @@ export function RemovePhotoDialog({ user, onClose }) {
           icon={null}
           onClick={onClose}
           disabled={operation.pending}
+          data-cancel
         >
           Conservar foto
         </Button>

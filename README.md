@@ -8,6 +8,8 @@ con PostgreSQL. [Auditoría y resultados](docs/module-ii/final-delivery.md),
 [paquete para el profesor](modulo-ii-franciely%20vivas/README.md).
 El frontend usa Tailwind CSS 4 con el plugin oficial de Vite, tokens existentes y capas de estilos;
 véase [criterios de uso y mantenimiento](docs/tailwind.md).
+La [auditoría de componentes y comportamientos](docs/component-consistency-audit.md) reúne el mapa,
+las inconsistencias comprobadas, las correcciones compartidas y sus verificaciones locales.
 
 ## Requisitos
 

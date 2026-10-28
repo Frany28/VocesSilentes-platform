@@ -38,8 +38,12 @@ export function AdminAudit() {
         />
       ) : (
         <section className="admin-panel flex flex-col gap-4">
-          {!list.items.length && (
-            <p className="admin-muted">Todavía no hay operaciones registradas.</p>
+          {!list.items.length && list.total > 0 ? (
+            <AdminFeedback status="empty-page" noun="operaciones" retry={() => list.go(1)} />
+          ) : (
+            !list.items.length && (
+              <p className="admin-muted">Todavía no hay operaciones registradas.</p>
+            )
           )}
           {list.items.map((event) => (
             <article key={event.id} className="admin-message">
@@ -54,7 +58,7 @@ export function AdminAudit() {
               />
             </article>
           ))}
-          <AdminPagination list={list} />
+          {list.items.length > 0 && <AdminPagination list={list} />}
         </section>
       )}
     </div>

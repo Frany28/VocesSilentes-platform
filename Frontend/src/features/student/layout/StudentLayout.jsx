@@ -8,6 +8,7 @@ import { StudentNavigation } from './StudentNavigation.jsx';
 import { StudentDemoControls } from './StudentDemoControls.jsx';
 import { useStudentActions } from './use-student-actions.js';
 import { publicConfig } from '../../../lib/config.js';
+import { LogoutConfirmation } from '../../auth/LogoutConfirmation.jsx';
 import '../student.css';
 
 /**
@@ -52,11 +53,6 @@ export function StudentLayout() {
                 </Alert>
               )}
             </div>
-            {actions.error && (
-              <Alert tone="error" className="w-full" title="Sesión activa">
-                {actions.error}
-              </Alert>
-            )}
             <footer className="flex flex-wrap items-center justify-between gap-3 text-muted [font:var(--type-label)]">
               <p>VocesSilentes · Más señas, menos barreras.</p>
               <button
@@ -77,6 +73,7 @@ export function StudentLayout() {
             )}
           </div>
         </div>
+        <LogoutConfirmation operation={actions.session} />
       </div>
     </StudentProvider>
   );

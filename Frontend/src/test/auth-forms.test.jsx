@@ -1,4 +1,4 @@
-﻿import { screen } from '@testing-library/react';
+﻿import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, test, vi } from 'vitest';
 import { user, jsonResponse, unauthorized, renderAuthApp } from './auth-fixture.jsx';
@@ -81,9 +81,14 @@ test('logout: un fallo de red conserva estado; éxito posterior lo limpia', asyn
   renderAuthApp('/account');
   await screen.findByRole('heading', { name: 'Mi cuenta' });
   await userEvent.click(screen.getByRole('button', { name: 'Cerrar sesión' }));
+  await userEvent.click(
+    within(screen.getByRole('dialog')).getByRole('button', { name: 'Cerrar sesión' }),
+  );
   expect(await screen.findByRole('alert')).toHaveTextContent('No se pudo contactar con la API');
   expect(screen.getByRole('heading', { name: 'Mi cuenta' })).toBeVisible();
   fail = false;
-  await userEvent.click(screen.getByRole('button', { name: 'Cerrar sesión' }));
+  await userEvent.click(
+    within(screen.getByRole('dialog')).getByRole('button', { name: 'Cerrar sesión' }),
+  );
   expect(await screen.findByRole('heading', { name: 'Inicia sesión' })).toBeVisible();
 });

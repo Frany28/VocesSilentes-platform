@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useAdmin } from '../data/admin-context.js';
-import { AdminConfirmation } from '../components/AdminConfirmation.jsx';
+import { ConfirmationDialog } from '../../../components/ui/ConfirmationDialog.jsx';
 /**
  * Intercepta navegación de enlaces/botones del panel para proteger formularios pendientes.
  * @param {{children: import('react').ReactNode}} props Panel administrativo.
@@ -23,7 +23,7 @@ export function AdminLeaveGuard({ children }) {
     <div className="admin-leave-guard" onClickCapture={intercept}>
       {children}
       {destination && (
-        <AdminConfirmation
+        <ConfirmationDialog
           title="¿Descartar los cambios?"
           confirm="Descartar cambios"
           onCancel={() => setDestination(null)}
@@ -34,7 +34,7 @@ export function AdminLeaveGuard({ children }) {
           }}
         >
           Los datos que no has guardado se perderán al cambiar de pantalla.
-        </AdminConfirmation>
+        </ConfirmationDialog>
       )}
     </div>
   );

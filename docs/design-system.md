@@ -39,6 +39,13 @@ del UI Kit; para densidades y navegación prevalece esta actualización.
 
 ## Correspondencia y contratos
 
+La [auditoría de consistencia del 27 de octubre](component-consistency-audit.md) traslada la
+confirmación existente de Admin a `components/ui/ConfirmationDialog.jsx`, sin cambiar su composición.
+Admin, Student y la cuenta técnica comparten confirmación de logout con cancelar inicialmente enfocado,
+envío único y errores dentro del modal. Perfil Student y reporte reutilizan el descarte de cambios de
+Admin para enlaces internos. `Select` conserva id y descripciones externas igual que `Input`.
+La variante de quitar foto mantiene su diseño y enfoca Conservar foto al abrir.
+
 La composición Auth y sus extensiones de controles están documentadas en [login.md](login.md).
 Input/PasswordInput admiten `appearance="plain"` para Field/Input y Field/Password,
 con Eye/EyeOff originales, y ThemeToggle propaga atributos de ThemeSwitch. Icon admite también

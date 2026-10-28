@@ -1,4 +1,4 @@
-import { AdminConfirmation } from './AdminConfirmation.jsx';
+import { ConfirmationDialog } from '../../../components/ui/ConfirmationDialog.jsx';
 
 /**
  * Confirma resolución o reapertura reutilizando el diálogo administrativo existente.
@@ -16,7 +16,7 @@ export function ReportStatusConfirmation({
 }) {
   const reopen = target === 'PENDING';
   return (
-    <AdminConfirmation
+    <ConfirmationDialog
       title={reopen ? 'Reabrir reporte' : 'Resolver reporte'}
       confirm={reopen ? 'Confirmar reapertura' : 'Confirmar resolución'}
       pending={operation.pending}
@@ -33,6 +33,6 @@ export function ReportStatusConfirmation({
           ? `Esta acción actualizará el reporte a ${reopen ? 'Pendiente' : 'Resuelto'}.`
           : 'Acción no disponible: falta el servicio de resolución y guardado de comentarios.'}
       </p>
-    </AdminConfirmation>
+    </ConfirmationDialog>
   );
 }

@@ -114,6 +114,15 @@ DATABASE_URL ni secretos bajo ese prefijo. Reiniciar/reconstruir al cambiar valo
 
 ## Convenciones y controles
 
+La [auditoría de componentes](component-consistency-audit.md) comparte el antiguo modal de Admin en
+`Frontend/src/components/ui/ConfirmationDialog.jsx` y la operación abortable de logout en
+`features/auth/use-logout.js`. Los tres consumidores (Student, Admin y cuenta técnica) confirman
+antes de enviar. `hooks/use-draft-leave.js` comparte la protección de enlaces internos y beforeunload
+del perfil Student y el reporte; la raíz protegida se suministra explícitamente. No bloquea historial
+ni toda navegación programática. `features/account/use-profile-form.js` separa borrador/validación/servicio
+de presentación, y `features/reports/ReportActions.jsx` conserva las acciones existentes en una unidad
+enfocada. No se añadieron dependencias ni excepciones al tamaño de archivos.
+
 Evidencia utiliza Sharp 0.35.5 para decodificar y sanear imágenes no confiables en el servidor;
 el adaptador usa los SDK oficiales `@aws-sdk/client-s3` y `@aws-sdk/s3-request-presigner` 3.1155.0
 para protocolo S3 y firma SigV4. Los secretos solo residen en backend. Los binarios

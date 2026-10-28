@@ -1,4 +1,4 @@
-import { fireEvent, screen, waitFor, within } from '@testing-library/react';
+import { fireEvent, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, test, vi } from 'vitest';
 import { user, jsonResponse, unauthorized, renderAuthApp } from './auth-fixture.jsx';
@@ -50,36 +50,4 @@ test('filtra por nombre/estado y abre la práctica demostrativa desde el catálo
   expect(await screen.findByRole('heading', { name: 'Practicar' })).toBeVisible();
   expect(screen.getByText(/Demostración de práctica/)).toBeVisible();
   expect(screen.getByRole('heading', { name: 'Cómo presentarme' })).toBeVisible();
-});
-
-test('logout preserva sesión ante fallo, evita duplicados y usa cookies/CSRF; éxito vuelve a login', async () => {
-  let finish;
-  const fetchMock = vi.fn().mockImplementation((url) => {
-    if (url.endsWith('/me')) return Promise.resolve(jsonResponse({ data: { user } }));
-    if (url.endsWith('/csrf'))
-      return Promise.resolve(jsonResponse({ data: { csrfToken: 'test-csrf' } }));
-    return new Promise((resolve, reject) => {
-      finish = { resolve, reject };
-    });
-  });
-  vi.stubGlobal('fetch', fetchMock);
-  renderAuthApp('/student');
-  await screen.findByRole('heading', { name: 'Hola, Persona.' });
-  const logout = screen.getAllByRole('button', { name: 'Cerrar sesión' })[0];
-  fireEvent.click(logout);
-  fireEvent.click(logout);
-  await waitFor(() => expect(finish).toBeDefined());
-  expect(fetchMock.mock.calls.filter(([url]) => url.endsWith('/logout'))).toHaveLength(1);
-  const options = fetchMock.mock.calls.find(([url]) => url.endsWith('/logout'))[1];
-  expect(options.credentials).toBe('include');
-  expect(options.headers.get('X-CSRF-Token')).toBe('test-csrf');
-  finish.reject(new TypeError('network'));
-  expect(await screen.findByText(/No pudimos cerrar la sesión/)).toBeVisible();
-  expect(screen.getByRole('heading', { name: 'Hola, Persona.' })).toBeVisible();
-  fireEvent.click(screen.getAllByRole('button', { name: 'Cerrar sesión' })[0]);
-  await waitFor(() =>
-    expect(fetchMock.mock.calls.filter(([url]) => url.endsWith('/logout'))).toHaveLength(2),
-  );
-  finish.resolve(new Response(null, { status: 204 }));
-  expect(await screen.findByRole('heading', { name: 'Inicia sesión' })).toBeVisible();
 });

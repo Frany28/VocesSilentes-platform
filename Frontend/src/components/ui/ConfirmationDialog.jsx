@@ -1,6 +1,6 @@
-import { Button } from '../../../components/ui/Button.jsx';
-import { Alert } from '../../../components/ui/Alert.jsx';
-import { Dialog } from '../../../components/ui/Dialog.jsx';
+import { Button } from './Button.jsx';
+import { Alert } from './Alert.jsx';
+import { Dialog } from './Dialog.jsx';
 
 /**
  * Confirmación nativa compartida; no comunica éxito ni ejecuta negocio por su cuenta.
@@ -8,7 +8,7 @@ import { Dialog } from '../../../components/ui/Dialog.jsx';
  * onCancel: Function, pending?: boolean, error?: string, disabled?: boolean, danger?: boolean}} props Confirmación.
  * @returns {import('react').ReactElement} Diálogo con cancelación inicial y envío protegido.
  */
-export function AdminConfirmation({
+export function ConfirmationDialog({
   title,
   children,
   confirm,
@@ -27,7 +27,7 @@ export function AdminConfirmation({
           {error}
         </Alert>
       )}
-      <div className="admin-actions">
+      <div className="vs-confirmation-actions">
         <Button
           density="compact"
           variant="secondary"

@@ -7,20 +7,33 @@ import { Icon } from './Icon.jsx';
  * @param {string} props.label Nombre accesible del campo.
  * @param {string} [props.help] Ayuda opcional.
  * @param {string} [props.error] Error de validación.
+ * @param {string} [props.id] Identificador explícito; se genera uno si falta.
+ * @param {string} [props.'aria-describedby'] Descripciones externas que se conservan junto a ayuda/error.
  * @param {import('react').ReactNode} props.children Opciones nativas.
  * @returns {import('react').ReactElement} Campo accesible que comparte tokens con Input.
  */
-export function Select({ label, help, error, children, ...props }) {
-  const id = useId();
+export function Select({
+  label,
+  help,
+  error,
+  children,
+  id,
+  'aria-describedby': describedBy,
+  ...props
+}) {
+  const generatedId = useId();
+  const selectId = id || generatedId;
+  const messageId = help || error ? `${selectId}-help` : undefined;
+  const description = [describedBy, messageId].filter(Boolean).join(' ') || undefined;
   return (
     <div className="vs-select">
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={selectId}>{label}</label>
       <div className="vs-select-shell">
         <select
           {...props}
-          id={id}
-          aria-invalid={!!error}
-          aria-describedby={help || error ? `${id}-help` : undefined}
+          id={selectId}
+          aria-invalid={error ? true : props['aria-invalid']}
+          aria-describedby={description}
         >
           {children}
         </select>
@@ -29,7 +42,7 @@ export function Select({ label, help, error, children, ...props }) {
         </span>
       </div>
       {(help || error) && (
-        <p id={`${id}-help`} data-error={!!error}>
+        <p id={messageId} data-error={!!error}>
           {error || help}
         </p>
       )}

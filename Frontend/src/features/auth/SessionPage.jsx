@@ -1,5 +1,6 @@
-import { useState } from 'react';
 import { useAuth } from './use-auth.js';
+import { useLogout } from './use-logout.js';
+import { LogoutConfirmation } from './LogoutConfirmation.jsx';
 
 /**
  * Verifica el flujo con una vista provisional de usuario/administrador y logout explícito.
@@ -8,19 +9,7 @@ import { useAuth } from './use-auth.js';
  */
 export function SessionPage({ admin = false }) {
   const auth = useAuth();
-  const [pending, setPending] = useState(false);
-  const [error, setError] = useState('');
-  const logout = async () => {
-    setPending(true);
-    setError('');
-    try {
-      await auth.logout();
-    } catch (failure) {
-      setError(failure.message);
-    } finally {
-      setPending(false);
-    }
-  };
+  const logout = useLogout();
   return (
     <section>
       <h1>{admin ? 'Administración' : 'Mi cuenta'}</h1>
@@ -32,13 +21,13 @@ export function SessionPage({ admin = false }) {
         {auth.user.email} · {auth.user.role}
       </p>
       <p>Correo {auth.user.emailVerified ? 'verificado' : 'pendiente de verificación'}.</p>
-      <button onClick={auth.refresh} disabled={pending}>
+      <button onClick={auth.refresh} disabled={logout.pending}>
         Comprobar sesión
       </button>
-      <button onClick={logout} disabled={pending}>
-        {pending ? 'Cerrando…' : 'Cerrar sesión'}
+      <button onClick={logout.open} disabled={logout.pending}>
+        {logout.pending ? 'Cerrando…' : 'Cerrar sesión'}
       </button>
-      {error && <p role="alert">{error}</p>}
+      <LogoutConfirmation operation={logout} />
     </section>
   );
 }

@@ -79,8 +79,7 @@
     min-width: 0;
   }
   .admin-heading p,
-  .admin-muted,
-  .vs-dialog-description {
+  .admin-muted {
     color: var(--text-secondary);
     font: var(--type-secondary);
   }

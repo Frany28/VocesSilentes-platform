@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { Alert } from '../../../components/ui/Alert.jsx';
 import { Button } from '../../../components/ui/Button.jsx';
 import { Dialog } from '../../../components/ui/Dialog.jsx';
-import { AdminConfirmation } from '../components/AdminConfirmation.jsx';
+import { ConfirmationDialog } from '../../../components/ui/ConfirmationDialog.jsx';
 import { useUserDraft } from './use-user-draft.js';
 import { UserFields } from './UserFields.jsx';
 import { useUserSubmit } from './use-user-submit.js';
@@ -91,14 +91,14 @@ export function UserForm({ user }) {
         </form>
       </Dialog>
       {confirm && (
-        <AdminConfirmation
+        <ConfirmationDialog
           title="¿Descartar los cambios?"
           confirm="Descartar cambios"
           onConfirm={leave}
           onCancel={() => setConfirm(false)}
         >
           Los datos que no has guardado se perderán.
-        </AdminConfirmation>
+        </ConfirmationDialog>
       )}
     </>
   );

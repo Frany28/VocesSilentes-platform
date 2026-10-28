@@ -70,11 +70,13 @@ export function AdminReports({
           </AdminUnavailable>
         ) : status !== 'ready' ? (
           <AdminFeedback status={status} error={error} retry={retry} noun="reportes" />
-        ) : !list.total ? (
+        ) : !list.items.length ? (
           <AdminFeedback
-            status={list.query || list.filter ? 'empty' : 'no-data'}
+            status={list.total ? 'empty-page' : list.query || list.filter ? 'empty' : 'no-data'}
             noun="reportes"
-            retry={list.query || list.filter ? list.reset : undefined}
+            retry={
+              list.total ? () => list.go(1) : list.query || list.filter ? list.reset : undefined
+            }
           />
         ) : (
           <>

@@ -6,7 +6,7 @@ import { Button } from '../../../components/ui/Button.jsx';
  * @returns {import('react').ReactElement} Mensaje accesible y esqueleto sin temporizadores simulados.
  */
 export function AdminFeedback({ status, noun = 'usuarios', error, retry }) {
-  const collection = noun === 'reportes' ? 'reportes' : 'cuentas';
+  const collection = ['reportes', 'operaciones'].includes(noun) ? noun : 'cuentas';
   const subject = noun === 'reportes' ? 'Los reportes' : 'Las cuentas';
   const messages = {
     loading: [`Cargando ${noun}…`, 'Estamos recuperando la información.'],
@@ -19,8 +19,8 @@ export function AdminFeedback({ status, noun = 'usuarios', error, retry }) {
       `${subject} aparecerán aquí cuando estén disponibles.`,
     ],
     'empty-page': [
-      'No hay cuentas en esta página',
-      'Vuelve a la primera página para consultar las cuentas disponibles.',
+      `No hay ${collection} en esta página`,
+      `Vuelve a la primera página para consultar ${collection === 'reportes' ? 'los' : 'las'} ${collection} disponibles.`,
     ],
   };
   const [title, description] = messages[status] ?? [

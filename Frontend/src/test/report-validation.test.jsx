@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { Link, MemoryRouter, Route, Routes } from 'react-router';
 import { expect, test, vi } from 'vitest';
 import { ReportForm } from '../features/reports/ReportForm.jsx';
@@ -39,7 +39,6 @@ test('reporte: valida campos y conserva título/ubicación en el contrato real s
 });
 
 test('reporte: cancelar regreso conserva campos y confirmar descarte permite navegar', async () => {
-  const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false);
   render(
     <MemoryRouter initialEntries={['/student/reports/new']}>
       <Link to="/student">Volver al aprendizaje</Link>
@@ -53,10 +52,12 @@ test('reporte: cancelar regreso conserva campos y confirmar descarte permite nav
     target: { value: 'Borrador' },
   });
   fireEvent.click(screen.getByRole('link', { name: 'Volver al aprendizaje' }));
-  expect(confirm).toHaveBeenCalledOnce();
+  let dialog = screen.getByRole('dialog', { name: '¿Descartar los cambios?' });
+  expect(within(dialog).getByRole('button', { name: 'Cancelar' })).toHaveFocus();
+  fireEvent.click(within(dialog).getByRole('button', { name: 'Cancelar' }));
   expect(screen.getByLabelText('Título del problema *')).toHaveValue('Borrador');
-  confirm.mockReturnValue(true);
   fireEvent.click(screen.getByRole('link', { name: 'Volver al aprendizaje' }));
+  dialog = screen.getByRole('dialog', { name: '¿Descartar los cambios?' });
+  fireEvent.click(within(dialog).getByRole('button', { name: 'Descartar cambios' }));
   expect(await screen.findByRole('heading', { name: 'Inicio de prueba' })).toBeVisible();
-  confirm.mockRestore();
 });

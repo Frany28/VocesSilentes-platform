@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Button } from '../../components/ui/Button.jsx';
+import { ReportActions } from './ReportActions.jsx';
 import { Alert } from '../../components/ui/Alert.jsx';
 import { EvidencePicker } from './EvidencePicker.jsx';
 import { ReportFields } from './ReportFields.jsx';
 import { ReportGuidance } from './ReportGuidance.jsx';
 import { ReportSuccess } from './ReportSuccess.jsx';
 import { useReportDraft } from './use-report-draft.js';
+import { useDraftLeave } from '../../hooks/use-draft-leave.js';
+import { ConfirmationDialog } from '../../components/ui/ConfirmationDialog.jsx';
 import '../account/styles/account.css';
 import './report.css';
 
@@ -21,11 +23,9 @@ export function ReportForm() {
 
 function ReportDraft({ onReset }) {
   const draft = useReportDraft();
+  const leave = useDraftLeave(draft.dirty, draft.pending, '/student');
   const navigate = useNavigate();
   const home = () => navigate('/student');
-  const cancel = () => {
-    if (draft.confirmLeave()) home();
-  };
   return (
     <div className="account-page report-page">
       <header className="account-heading">
@@ -49,33 +49,7 @@ function ReportDraft({ onReset }) {
                 {draft.error}
               </Alert>
             )}
-            <div className="report-actions">
-              <Button
-                density="compact"
-                variant="secondary"
-                icon={null}
-                disabled={draft.pending}
-                onClick={cancel}
-              >
-                Cancelar
-              </Button>
-              <Button
-                density="compact"
-                type="submit"
-                icon={null}
-                loading={draft.pending}
-                disabled={draft.invalidSelection}
-                loadingLabel={
-                  draft.status === 'uploading'
-                    ? 'Subiendo imagen…'
-                    : draft.status === 'validating'
-                      ? 'Validando…'
-                      : 'Guardando…'
-                }
-              >
-                {draft.status === 'error' ? 'Reintentar envío' : 'Enviar reporte'}
-              </Button>
-            </div>
+            <ReportActions draft={draft} onCancel={() => leave.requestLeave(home)} />
           </section>
           <div className="report-aside">
             <EvidencePicker
@@ -90,6 +64,17 @@ function ReportDraft({ onReset }) {
       )}
       {draft.status !== 'success' && (
         <p className="account-caption">Tu reporte se enviará desde tu cuenta de VocesSilentes.</p>
+      )}
+      {leave.confirm && (
+        <ConfirmationDialog
+          title="¿Descartar los cambios?"
+          confirm="Descartar cambios"
+          onCancel={leave.cancel}
+          onConfirm={leave.proceed}
+          pending={draft.pending}
+        >
+          El envío no está completo. Los datos que no has guardado se perderán al salir.
+        </ConfirmationDialog>
       )}
     </div>
   );

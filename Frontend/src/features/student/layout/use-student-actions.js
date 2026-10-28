@@ -1,19 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useAuth } from '../../auth/use-auth.js';
+import { useLogout } from '../../auth/use-logout.js';
 
 /**
  * Cierra sesión con el flujo CSRF/cookies existente, sin duplicar envíos; anuncia disponibilidad pendiente.
  * @returns {object} Acciones y mensajes controlados del layout.
  */
 export function useStudentActions() {
-  const auth = useAuth();
+  const session = useLogout();
   const navigate = useNavigate();
-  const request = useRef(null);
-  const [pending, setPending] = useState(false);
-  const [error, setError] = useState('');
   const [notice, setNotice] = useState(null);
-  useEffect(() => () => request.current?.abort(), []);
   const onUnavailable = (name) => {
     if (name === 'Reportar un error') return navigate('/student/reports/new');
     setNotice((previous) => ({
@@ -21,30 +17,11 @@ export function useStudentActions() {
       id: (previous?.id || 0) + 1,
     }));
   };
-  const logout = async () => {
-    if (request.current) return;
-    const controller = new AbortController();
-    request.current = controller;
-    setPending(true);
-    setError('');
-    try {
-      await auth.logout(controller.signal);
-      if (!controller.signal.aborted) navigate('/login', { replace: true });
-    } catch {
-      if (!controller.signal.aborted)
-        setError('No pudimos cerrar la sesión. Comprueba tu conexión y reintenta.');
-    } finally {
-      if (!controller.signal.aborted) {
-        request.current = null;
-        setPending(false);
-      }
-    }
-  };
   return {
-    pending,
-    error,
+    session,
+    pending: session.pending,
     notice,
-    logout,
+    logout: session.open,
     openLearning: (moduleTitle) => {
       if (moduleTitle === 'Reportar un error') onUnavailable(moduleTitle);
       else navigate('/student/practice', { state: { moduleTitle } });

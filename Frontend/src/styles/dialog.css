@@ -38,6 +38,16 @@
 .vs-dialog .account-form {
   background: transparent;
 }
+.vs-dialog-description {
+  color: var(--text-secondary);
+  font: var(--type-secondary);
+}
+.vs-confirmation-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
 .account-form fieldset > .account-actions {
   flex-direction: row-reverse;
   justify-content: flex-end;
