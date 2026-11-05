@@ -11,6 +11,7 @@ import { App } from '../app/App.jsx';
 const paths = [
   '/student',
   '/student/modules',
+  '/student/modules/education-demo',
   '/student/modules/a1000001-0000-4000-8000-000000000001/lessons/a1000001-0000-4000-8000-000000000002',
   '/student/practice',
   '/student/progress',

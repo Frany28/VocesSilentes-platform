@@ -1,5 +1,10 @@
 # Fase 1 — primera lectura educativa
 
+Actualización visual: la [maquetación educativa desde Figma](educational-flow-ui.md) añade el marcador
+multimedia, la continuación por ID y una demo de desarrollo separada con seis vistas. Mantiene los
+contratos, permisos, texto publicado y progreso manual descritos aquí. Los resultados inferiores
+corresponden a la entrega inicial de lectura.
+
 `/student/modules/:moduleId/lessons/:lessonId` muestra una lección publicada del módulo indicado.
 Las tarjetas del catálogo y el inicio abren la siguiente lectura usando IDs de la respuesta actual,
 con alternativa a la primera lección. El índice permite elegir cualquier lectura del mismo módulo,
@@ -8,7 +13,8 @@ Recargar o abrir el enlace directamente reconstruye la lectura desde la API.
 
 Se reutilizan StudentLayout, StudentProvider, StudentPageHeader, Alert, DataFeedback y NavigationItem,
 los tokens y los temas existentes. El foco pasa al contenido al cambiar de lectura o terminar la carga.
-No hay tokens nuevos ni una especificación Figma nueva atribuida a esta vista.
+La maquetación inicial no añadía tokens ni una especificación Figma; la referencia visual posterior
+y sus diferencias están documentadas en el flujo educativo enlazado arriba.
 
 ## Contrato y datos
 

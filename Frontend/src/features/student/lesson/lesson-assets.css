@@ -1,0 +1,36 @@
+.education-page {
+  --icon-education-back-24: url('../../../assets/education/4d132.svg');
+  --icon-education-play-24: url('../../../assets/education/768fb.svg');
+  --icon-education-check-24: url('../../../assets/education/3862f.svg');
+  --icon-education-retry-24: url('../../../assets/education/8353a.svg');
+  --education-content-art: url('../../../assets/education/2d800.svg');
+  --education-visual-art: url('../../../assets/education/26c14.svg');
+}
+[data-theme='dark'] .education-page {
+  --icon-education-back-24: url('../../../assets/education/a3a14.svg');
+  --icon-education-play-24: url('../../../assets/education/c586d.svg');
+  --icon-education-check-24: url('../../../assets/education/e6072.svg');
+  --icon-education-retry-24: url('../../../assets/education/1fbf9.svg');
+  --education-content-art: url('../../../assets/education/6eab7.svg');
+  --education-visual-art: url('../../../assets/education/52ccb.svg');
+}
+@media (width >= 1200px) {
+  .education-page {
+    --education-content-art: url('../../../assets/education/6f7d2.svg');
+    --education-visual-art: url('../../../assets/education/c69f4.svg');
+  }
+  [data-theme='dark'] .education-page {
+    --education-content-art: url('../../../assets/education/7e9be.svg');
+    --education-visual-art: url('../../../assets/education/84783.svg');
+  }
+}
+@media (width < 600px) {
+  .education-page {
+    --education-content-art: url('../../../assets/education/0ced2.svg');
+    --education-visual-art: url('../../../assets/education/897e7.svg');
+  }
+  [data-theme='dark'] .education-page {
+    --education-content-art: url('../../../assets/education/800c7.svg');
+    --education-visual-art: url('../../../assets/education/027a4.svg');
+  }
+}

@@ -1,0 +1,41 @@
+.education-media {
+  margin: 0;
+  width: 100%;
+}
+.education-media-stage {
+  height: 245px;
+}
+.education-media-art {
+  display: block;
+  flex: none;
+  width: 432px;
+  height: 80.64px;
+  background: var(--education-content-art) no-repeat;
+}
+.education-media[data-visual] .education-media-art {
+  background-image: var(--education-visual-art);
+}
+.education-media-preview .vs-icon {
+  flex: none;
+}
+@media (width >= 1200px) {
+  .education-media-art {
+    width: 356.4px;
+  }
+  .education-media[data-visual] .education-media-art {
+    width: 753.12px;
+  }
+}
+@media (width < 600px) {
+  .education-media-stage {
+    height: 190px;
+  }
+  .education-media-art {
+    width: 154.56px;
+    height: 62.72px;
+  }
+}
+/* El SVG conserva su tamaño de exportación. El contenedor recorta el desborde decorativo del diseño. */
+.education-media-stage {
+  overflow: hidden;
+}

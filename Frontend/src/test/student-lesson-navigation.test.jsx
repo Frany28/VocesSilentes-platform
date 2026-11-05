@@ -65,3 +65,18 @@ test('inicio abre la lección sugerida y el enlace directo reconstruye la lectur
   renderAuthApp(lessonPath);
   expect(await screen.findByText('Primera explicación.')).toBeVisible();
 });
+
+test('continuar en la lectura publicada navega por ID y al terminar vuelve al catálogo sin ejercicios demo', async () => {
+  const fetchMock = mockLessonApi();
+  renderAuthApp(lessonPath);
+  expect(await screen.findByText('Video de referencia · pendiente')).toBeVisible();
+  expect(screen.queryByRole('radio')).toBeNull();
+  expect(screen.queryByLabelText('Vista de demostración')).toBeNull();
+  await userEvent.click(screen.getByRole('button', { name: 'Continuar aprendiendo' }));
+  expect(await screen.findByText('Texto anterior sin objetivo separado.')).toBeVisible();
+  await userEvent.click(screen.getByRole('button', { name: 'Continuar aprendiendo' }));
+  expect(await screen.findByRole('heading', { level: 1, name: 'Mis módulos' })).toBeVisible();
+  expect(fetchMock.mock.calls.every(([, options]) => (options.method ?? 'GET') === 'GET')).toBe(
+    true,
+  );
+});

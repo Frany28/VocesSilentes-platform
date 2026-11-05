@@ -1,5 +1,9 @@
 # Arquitectura
 
+El [flujo educativo visual](educational-flow-ui.md) adapta StudentLesson y separa sus componentes
+de presentación del controlador/fixtures de una demo exclusiva de desarrollo bajo los guards Student.
+No modifica API, base de datos ni progreso manual.
+
 La [primera clase educativa](first-lesson.md) añade lectura bajo Student por IDs de Module/Lesson,
 reutilizando el catálogo API y `Lesson.description` como texto plano, sin cambiar esquema ni progreso.
 

@@ -1,5 +1,9 @@
 # Sistema visual y componentes generales
 
+Las [seis vistas educativas Student](educational-flow-ui.md) aplican los diseños claro/oscuro
+457:15338 y 457:17358, reutilizan controles/tokens y añaden únicamente recursos originales y
+geometría específica de las lecciones. La demo se limita a desarrollo y conserva el shell existente.
+
 El favicon usa el icono SVG proporcionado por el usuario el 23 de octubre de 2026, convertido
 a `Frontend/src/assets/favicon.png` (64×64, transparencia conservada). Se referencia desde las
 entradas HTML; Vite genera su URL con hash en producción. No añade tokens ni modifica la marca del UI Kit.

@@ -3,6 +3,8 @@
 Base de desarrollo de una aplicación educativa de Lengua de Señas Venezolana (LSV).
 La [primera lectura educativa de LSV](docs/first-lesson.md) ya dispone de navegación por IDs,
 con contenido inicial revisable y carga local aislada mediante `pnpm learning:demo`.
+La [maquetación del flujo educativo de Figma](docs/educational-flow-ui.md) incorpora seis vistas
+adaptables y una demo visual de desarrollo separada de la lectura publicada.
 Incluye dos aplicaciones en un workspace pnpm, JavaScript ESM y JSDoc, los datos de la primera fase
 y autenticación local con sesiones persistidas. Las demás funciones educativas del MVP siguen pendientes.
 La entrega del Módulo II conecta reportes, resolución/reapertura, bitácora visual y progreso manual
