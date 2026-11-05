@@ -16,3 +16,12 @@ modulo-ii-*/*.zip
 .DS_Store
 Thumbs.db
 .AGENTS.md
+
+# Markdown conservado solo en el equipo local
+*.[mM][dD]
+
+# Skills locales de Prisma y sus referencias Markdown
+**/.agents/skills/prisma-*
+**/.claude/skills/prisma-*
+**/.windsurf/skills/prisma-*
+**/skills-lock.json
