@@ -22,8 +22,8 @@ export function StudentHome() {
   const next = modules.find(
     (module) => module !== current && moduleProgress(module).state === 'available',
   );
-  const lesson = (current && moduleProgress(current).state === 'completed' ? next : current)
-    ?.nextLesson;
+  const lessonModule = current && moduleProgress(current).state === 'completed' ? next : current;
+  const lesson = lessonModule?.nextLesson;
   const demo = snapshot?.source === 'demo';
   return (
     <div className="flex flex-col gap-6">
@@ -57,7 +57,7 @@ export function StudentHome() {
                 ))}
               </div>
             </section>
-            {lesson && <LessonPreview lesson={lesson} onOpen={onOpen} />}
+            {lesson && <LessonPreview lesson={lesson} module={lessonModule} onOpen={onOpen} />}
             <StudentNote />
           </div>
           <LearningAside module={current} onOpen={onOpen} />

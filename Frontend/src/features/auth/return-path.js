@@ -5,6 +5,13 @@
  * @returns {string} Destino autorizado o inicio disponible según el rol confirmado.
  */
 export function safeReturnPath(target, role) {
+  const uuid = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}';
+  if (
+    role === 'USER' &&
+    typeof target === 'string' &&
+    new RegExp(`^/student/modules/${uuid}/lessons/${uuid}$`, 'i').test(target)
+  )
+    return target;
   if (target === '/admin' && role === 'ADMIN') return target;
   if (role === 'ADMIN' && ['/admin/profile', '/admin/profile/security'].includes(target))
     return target;

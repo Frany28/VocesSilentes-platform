@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useLogout } from '../../auth/use-logout.js';
+import { publicConfig } from '../../../lib/config.js';
 
 /**
  * Cierra sesión con el flujo CSRF/cookies existente, sin duplicar envíos; anuncia disponibilidad pendiente.
@@ -22,9 +23,12 @@ export function useStudentActions() {
     pending: session.pending,
     notice,
     logout: session.open,
-    openLearning: (moduleTitle) => {
-      if (moduleTitle === 'Reportar un error') onUnavailable(moduleTitle);
-      else navigate('/student/practice', { state: { moduleTitle } });
+    openLearning: (module) => {
+      if (module === 'Reportar un error') return onUnavailable(module);
+      if (publicConfig.studentDemo)
+        return navigate('/student/practice', { state: { moduleTitle: module.title } });
+      const lesson = module.nextLesson ?? module.lessons[0];
+      if (lesson) navigate(`/student/modules/${module.id}/lessons/${lesson.id}`);
     },
     onUnavailable,
   };

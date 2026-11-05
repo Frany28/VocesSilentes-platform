@@ -1,8 +1,10 @@
 # VocesSilentes
 
 Base de desarrollo de una aplicación educativa de Lengua de Señas Venezolana (LSV).
+La [primera lectura educativa de LSV](docs/first-lesson.md) ya dispone de navegación por IDs,
+con contenido inicial revisable y carga local aislada mediante `pnpm learning:demo`.
 Incluye dos aplicaciones en un workspace pnpm, JavaScript ESM y JSDoc, los datos de la primera fase
-y autenticación local con sesiones persistidas. Las funciones educativas del MVP siguen pendientes.
+y autenticación local con sesiones persistidas. Las demás funciones educativas del MVP siguen pendientes.
 La entrega del Módulo II conecta reportes, resolución/reapertura, bitácora visual y progreso manual
 con PostgreSQL. [Auditoría y resultados](docs/module-ii/final-delivery.md),
 [paquete para el profesor](modulo-ii-franciely%20vivas/README.md).
@@ -191,7 +193,7 @@ La pantalla `/login` reproduce Auth en ambos temas y tres composiciones adaptabl
 existente de sesión y sus errores; véase [implementación y límites](docs/login.md).
 Login, Registro, Student, Admin y cuenta ajustan espacios, columnas y paneles al ancho y altura
 disponibles; véase [adaptación de pantallas](docs/responsive.md).
-Faltan la integración educativa y entrenamiento/validación de un modelo específico;
+Quedan la ampliación de contenidos educativos y el entrenamiento/validación de un modelo específico;
 tampoco hay OAuth, recuperación ni envío de correo.
 
 La preparación inicial partió de una carpeta sin código ni historial. Esta tarea no crea commits,

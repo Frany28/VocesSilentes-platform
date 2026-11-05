@@ -1,5 +1,8 @@
 # Desarrollo en Windows y VS Code
 
+La [primera lectura educativa](first-lesson.md) se prueba con `pnpm learning:demo`: cuenta USER,
+Module/Lesson y PostgreSQL WASM efímeros; no modifica datos existentes ni usa Supabase.
+
 Las acciones de cuenta y el dashboard ya están conectados; ver [contratos y pruebas](account-functionality.md).
 
 `pnpm academic:package` reconstruye la carpeta de Franciely y su ZIP con una selección de archivos,

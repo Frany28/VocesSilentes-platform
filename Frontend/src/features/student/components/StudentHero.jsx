@@ -21,7 +21,7 @@ export function StudentHero({ module, next, catalog = false, onOpen }) {
   const description = complete
     ? `Completaste ${module.title}.\n${next ? `${next.title} ya está disponible.` : 'Puedes volver a repasar.'}`
     : first
-      ? `Empieza con ${module.title}.\nAprende con videos y práctica visual.`
+      ? `Empieza con ${module.title}.\nLee y aprende a tu ritmo.`
       : catalog
         ? `Continúa con ${module.title}.\nUna seña a la vez, a tu ritmo.`
         : `Retoma ${module.title}.\nTu siguiente paso: aprender a presentarte.`;
@@ -35,7 +35,10 @@ export function StudentHero({ module, next, catalog = false, onOpen }) {
         <p className="text-muted [font:var(--type-label)]">TU PRÓXIMA CONVERSACIÓN EMPIEZA AQUÍ</p>
         <h2 className="font-bold whitespace-pre-line">{title}</h2>
         <p className="text-muted whitespace-pre-line">{description}</p>
-        <Button onClick={() => onOpen((complete ? next : module)?.title || module.title)}>
+        <Button
+          disabled={state === 'locked'}
+          onClick={() => onOpen((complete ? next : null) || module)}
+        >
           {complete ? 'Explorar módulo' : first ? 'Comenzar lección' : 'Continuar lección'}
         </Button>
       </div>

@@ -1,17 +1,17 @@
 import { Icon } from '../../../components/ui/Icon.jsx';
 
 /**
- * Acción de la lección sugerida sin inventar una ruta ni una finalización.
- * @param {{lesson: object, onOpen: Function}} props Próxima lección entregada por datos.
+ * Abre la lección sugerida con los identificadores del catálogo, sin registrar progreso.
+ * @param {{lesson: object, module: object, onOpen: Function}} props Lección y módulo publicados.
  * @returns {import('react').ReactElement} Fila accesible con los SVG originales.
  */
-export function LessonPreview({ lesson, onOpen }) {
+export function LessonPreview({ lesson, module, onOpen }) {
   return (
     <section className="flex flex-col gap-3">
       <h2 className="[font:var(--type-h3)]">Tu siguiente paso</h2>
       <button
         type="button"
-        onClick={() => onOpen(lesson.title)}
+        onClick={() => onOpen({ ...module, nextLesson: lesson })}
         className="student-lesson flex w-full items-center gap-3 rounded-2xl border border-border bg-surface
           p-4 text-left text-content focus-visible:outline-3 focus-visible:outline-focus"
       >
@@ -22,7 +22,7 @@ export function LessonPreview({ lesson, onOpen }) {
           <span>
             {String(lesson.position).padStart(2, '0')} · {lesson.title}
           </span>
-          <span className="text-muted [font:var(--type-label)]">Video y práctica visual</span>
+          <span className="text-muted [font:var(--type-label)]">Lectura educativa</span>
         </span>
         <span className="hidden text-muted min-[600px]:block">Ver lección</span>
         <span className="min-[600px]:hidden">

@@ -1,5 +1,8 @@
 # Arquitectura
 
+La [primera clase educativa](first-lesson.md) añade lectura bajo Student por IDs de Module/Lesson,
+reutilizando el catálogo API y `Lesson.description` como texto plano, sin cambiar esquema ni progreso.
+
 Las acciones de cuenta se agrupan en `Backend/src/modules/account/`: perfil propio, contraseña
 y fotos privadas. Admin incorpora estado y agregados reales, sin modificar la presentación ni las
 lecciones. Runtime y CLI normalizan conexiones Supabase a TLS con certificado validado.
