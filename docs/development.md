@@ -4,6 +4,10 @@ El [alfabeto manual](alphabet-module.md) se abre con `pnpm alphabet:dev` en loca
 siete lecturas y preguntas en DRAFT, API/sesiones reales y PostgreSQL WASM descartable. No lee .env
 ni escribe en Supabase. `pnpm alphabet:verify` revisa las siete lecciones en Chrome, ambos temas y
 tres tamaños, además de corrección y persistencia local. No añade dependencias ni excepciones de tamaño.
+Testing Library espera hasta cinco segundos por estados asíncronos: la importación inicial de rutas
+React.lazy superó el segundo predeterminado tanto en Student como en una prueba existente de Admin
+al ejecutar toda la suite en Windows. No se añaden pausas ni reintentos de pruebas fallidas; las
+aserciones y los servicios de ambas funcionalidades se mantienen.
 
 La [primera lectura educativa](first-lesson.md) se prueba con `pnpm learning:demo`: cuenta USER,
 Module/Lesson y PostgreSQL WASM efímeros; no modifica datos existentes ni usa Supabase.

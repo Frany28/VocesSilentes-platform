@@ -161,6 +161,7 @@ componen esos elementos; no añaden dibujos de señas ni colores de un sistema p
   `LessonQuestion` y `LessonFeedback`: compatibilidad con contenido anterior y nuevos estados.
 - Pruebas `Backend/tests/alphabet-source.test.js`, `auth/alphabet-*.test.js`,
   `database/alphabet-schema.test.js`, fixture auth y `Frontend/src/test/student-curriculum*`.
+  `Frontend/src/test/setup.js` admite cinco segundos para estados asíncronos de rutas diferidas.
 - Scripts de raíz/backend y referencias en README, architecture, api, data-model, migrations,
   development, first-lesson y educational-flow-ui. Sin dependencias nuevas ni cambios al lockfile.
 
@@ -168,14 +169,30 @@ componen esos elementos; no añaden dibujos de señas ni colores de un sistema p
 
 `pnpm alphabet:verify` abre Chrome con perfil propio sobre otra base efímera (puerto 5284).
 Revisa catálogo → lección por UUID, las siete lecturas en claro/oscuro a 1440, 834 y 390 px,
-Manrope, navegación lateral/inferior, ausencia de desbordamiento y medios/cámara. Envía las siete
-respuestas de texto a Express/Prisma, prueba error/reintento, recarga el avance, recorre preguntas
-pendientes y comprueba que siguen en DRAFT. Capturas y resultados se guardan en
+Manrope, navegación lateral/inferior, ausencia de desbordamiento y medios/cámara. Añade 36 capturas
+del cuestionario real: sin selección, seleccionado, incorrecto, correcto, material pendiente y
+resumen, cada estado en ambos temas y los tres tamaños. Las capturas esperan a que se estabilicen
+las transiciones de los controles. Envía las siete respuestas de texto a Express/Prisma, prueba
+error/reintento, recarga el avance, recorre preguntas pendientes y comprueba que siguen en DRAFT.
+Capturas y resultados se guardan en
 `.local/alphabet-review/`; son evidencia local, no recursos de producto. Requiere Chrome disponible
 en el equipo. Las pruebas de teclado, cancelación, espera y error HTTP también están en Vitest.
 
-Los resultados finales de `pnpm verify` y de la revisión de navegador se incorporan tras su ejecución.
-GitHub Actions y despliegues remotos no se ejecutan como parte de esta entrega.
+`pnpm verify` terminó con código 0: ESLint sin advertencias, Prettier, **143 pruebas frontend**
+(54 archivos), **46 pruebas backend**, validación Prisma, build de ambas aplicaciones y
+**74 pruebas de integración** sobre PostgreSQL WASM. Total: **263 pruebas**, sin fallos ni omitidas.
+Las primeras ejecuciones detectaron una espera de un segundo insuficiente durante importaciones
+React.lazy, primero en una prueba nueva de Student y después en una existente de Admin. Se ajustó
+la espera asíncrona de Testing Library a cinco segundos; la ejecución completa posterior pasó.
+El comportamiento de administración no cambió.
+
+`pnpm alphabet:verify` terminó con código 0: 42 composiciones de lectura y 36 de cuestionario,
+siete preguntas de texto resueltas y persistidas, una lectura manual conservada al recargar,
+27 preguntas visuales bloqueadas y cero errores de ejecución. No se solicitaron cámara ni videos.
+
+También se comprobó igualdad semántica del JSON versionado con el archivo original entregado,
+`git diff --check` y ausencia de claves, explicaciones privadas y paquete fuente en el bundle frontend.
+GitHub Actions, db:check contra un servidor externo y despliegues remotos no se ejecutaron.
 
 Pendiente: autorización de recursos, revisión lingüística, aprobación editorial/publicación y
 validación del despliegue en PostgreSQL del destino autorizado. Reconocimiento por cámara,
