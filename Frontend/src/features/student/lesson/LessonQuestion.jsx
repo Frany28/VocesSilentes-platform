@@ -5,13 +5,23 @@ import { LessonMedia } from './LessonMedia.jsx';
 
 /**
  * Presenta opciones sin conocer la clave; el consumidor realiza la comprobación o la demo explícita.
- * @param {{question: object, selection: string, onSelect: Function, onCheck: Function, busy?: boolean}} props Estado visual.
+ * @param {{question: object, selection: string, onSelect: Function, onCheck: Function,
+ * busy?: boolean, formId?: string, showAction?: boolean}} props Estado visual y acción interna o del pie.
  * @returns {import('react').ReactElement} Opciones nativas operables con Tab, Espacio y flechas.
  */
-export function LessonQuestion({ question, selection, onSelect, onCheck, busy = false }) {
+export function LessonQuestion({
+  question,
+  selection,
+  onSelect,
+  onCheck,
+  busy = false,
+  formId,
+  showAction = true,
+}) {
   const id = useId();
   return (
     <form
+      id={formId}
       className="education-card"
       onSubmit={(event) => {
         event.preventDefault();
@@ -47,15 +57,17 @@ export function LessonQuestion({ question, selection, onSelect, onCheck, busy = 
           ))}
         </fieldset>
       </div>
-      <Button
-        className="education-action education-action-check"
-        type="submit"
-        disabled={!selection}
-        loading={busy}
-        loadingLabel="Comprobando…"
-      >
-        Comprobar respuesta
-      </Button>
+      {showAction && (
+        <Button
+          className="education-action education-action-check"
+          type="submit"
+          disabled={!selection}
+          loading={busy}
+          loadingLabel="Comprobando…"
+        >
+          Comprobar respuesta
+        </Button>
+      )}
     </form>
   );
 }

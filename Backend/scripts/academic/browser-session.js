@@ -24,9 +24,10 @@ export async function waitForAcademic(condition) {
 /**
  * Abre Chrome headless aislado; CHROME_PATH admite una instalación local distinta.
  * @param {string} output Directorio de artefactos local, ajeno a perfiles personales.
+ * @param {{fakeCamera?: boolean}} [options] Dispositivo sintético exclusivo de revisión; nunca cámara física.
  * @returns {Promise<object>} CDP y cierre; no conecta al Chrome del usuario.
  */
-export async function createAcademicBrowser(output) {
+export async function createAcademicBrowser(output, { fakeCamera = false } = {}) {
   const candidates = [
     process.env.CHROME_PATH,
     'C:/Program Files/Google/Chrome/Application/chrome.exe',
@@ -55,6 +56,9 @@ export async function createAcademicBrowser(output) {
       '--remote-debugging-port=0',
       '--no-first-run',
       '--no-default-browser-check',
+      ...(fakeCamera
+        ? ['--use-fake-device-for-media-stream', '--use-fake-ui-for-media-stream']
+        : []),
       `--user-data-dir=${profile}`,
       'about:blank',
     ],

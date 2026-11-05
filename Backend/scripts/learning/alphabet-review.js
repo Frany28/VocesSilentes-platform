@@ -9,9 +9,8 @@ import { seedAlphabet } from './seed-alphabet.js';
 import { alphabetModuleId, alphabetId, readAlphabetSource } from './alphabet-source.js';
 import { reviewAlphabetLayout } from './review-alphabet-layout.js';
 import { reviewAlphabetAnswers } from './review-alphabet-answers.js';
-import { reviewAlphabetAssessment } from './review-alphabet-assessment.js';
 
-const output = fileURLToPath(new URL('../../../.local/alphabet-review/', import.meta.url));
+const output = fileURLToPath(new URL('../../../.local/journey-review/', import.meta.url));
 await mkdir(output, { recursive: true });
 const environment = await createAcademicEnvironment({
   port: 5284,
@@ -56,10 +55,10 @@ try {
     database: environment.database,
     results,
     moduleId: alphabetModuleId,
+    authService: environment.authService,
   };
   await reviewAlphabetLayout(context);
   await reviewAlphabetAnswers(context);
-  await reviewAlphabetAssessment(context);
   await page.navigate(`/student/modules/${alphabetModuleId}/lessons/${alphabetId('m1-l01')}`);
   await page.wait('document.body.textContent.includes("Lectura registrada")');
   assert.deepEqual(browser.errors, []);
@@ -76,7 +75,7 @@ try {
     JSON.stringify({
       completed: true,
       screens: results.screens.length,
-      assessmentScreens: results.assessmentScreens.length,
+      journeys: results.journeys.length,
       ...results.answers,
     }),
   );

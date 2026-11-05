@@ -1,48 +1,70 @@
 import { LessonMedia } from '../lesson/LessonMedia.jsx';
-import { AlphabetCards } from './AlphabetCards.jsx';
+import { LetterPractice } from './LetterPractice.jsx';
+import { PersonalPractice } from './PersonalPractice.jsx';
 
 /**
- * Conserva los objetivos, secciones y práctica originales del JSON, recibidos mediante la API autorizada.
- * @param {{content: object}} props Contenido público de la lección; nunca contiene claves de respuesta.
- * @returns {import('react').ReactElement} Lectura estructurada y referencias visuales pendientes.
+ * Presenta una sola unidad educativa, conservando su texto original y los recursos pendientes agrupados.
+ * @param {{step: object, pending: number}} props Paso del recorrido y número de preguntas no disponibles.
+ * @returns {import('react').ReactElement} Introducción, explicación, letras, recursos o práctica personal.
  */
-export function CurriculumTheory({ content }) {
+export function CurriculumTheory({ step, pending }) {
+  if (step.type === 'letters') return <LetterPractice cards={step.cards} />;
+  if (step.type === 'practice') return <PersonalPractice step={step} />;
   return (
-    <>
-      <article className="education-card">
-        <div className="education-columns">
-          <div className="flex min-w-0 flex-col gap-6">
-            <section className="flex flex-col gap-3" aria-labelledby="curriculum-objectives">
-              <h2 id="curriculum-objectives" className="[font:var(--type-h3)]">
-                Objetivos de aprendizaje
-              </h2>
-              <ul className="list-disc space-y-2 pl-6">
-                {content.objectives.map((objective) => (
-                  <li key={objective}>{objective}</li>
-                ))}
-              </ul>
-            </section>
-            {content.sections.map((section) => (
-              <section key={section.heading} className="flex flex-col gap-3">
-                <h2 className="[font:var(--type-subtitle)]">{section.heading}</h2>
-                <p className="education-paragraph text-muted">{section.body}</p>
-              </section>
-            ))}
-          </div>
-          <LessonMedia />
+    <article className="journey-copy education-card" aria-labelledby="journey-title">
+      <p className="journey-eyebrow text-muted">
+        {
+          {
+            intro: 'Antes de empezar',
+            theory: 'Descubre',
+            resources: 'Material de referencia',
+            practice: 'Ponlo en práctica',
+          }[step.type]
+        }
+      </p>
+      {step.type === 'intro' && (
+        <div className="journey-welcome bg-accent rounded-control">
+          <span className="education-media-art" aria-hidden="true" />
         </div>
-      </article>
-      <AlphabetCards cards={content.letterCards} />
-      <section className="education-card" aria-labelledby="curriculum-practice">
-        <h2 id="curriculum-practice" className="[font:var(--type-subtitle)]">
-          Actividad personal
-        </h2>
-        <p>{content.practiceInstructions}</p>
-        <p className="text-muted">
-          Utiliza únicamente material autorizado y validado. Esta actividad no evalúa ejecución
-          manual.
-        </p>
-      </section>
-    </>
+      )}
+      <h2 id="journey-title">{step.title}</h2>
+      {step.type === 'intro' ? (
+        <section aria-labelledby="curriculum-objectives" className="flex flex-col gap-4">
+          <h3 id="curriculum-objectives" className="[font:var(--type-subtitle)]">
+            Tu objetivo en esta lección
+          </h3>
+          <ul className="journey-objectives list-disc space-y-3 pl-6">
+            {step.objectives.map((objective) => (
+              <li key={objective}>{objective}</li>
+            ))}
+          </ul>
+          <p className="text-muted">
+            Avanza a tu ritmo. Puedes volver o salir y retomar donde te quedaste.
+          </p>
+        </section>
+      ) : step.type === 'resources' ? (
+        <>
+          <LessonMedia />
+          <p>
+            Las ilustraciones del manual ya están disponibles para estudiar. Los vídeos y la
+            validación LSV siguen pendientes.
+          </p>
+          <p className="text-muted">
+            Puedes continuar con la lectura y las letras escritas.
+            {pending > 0 && ` Hay ${pending} ejercicios pendientes; no cuentan como aciertos.`}
+          </p>
+        </>
+      ) : (
+        <>
+          <p className="journey-reading">{step.body}</p>
+          {step.type === 'practice' && (
+            <p className="text-muted">
+              Utiliza únicamente material autorizado y validado. Esta actividad personal no evalúa
+              tu ejecución de LSV.
+            </p>
+          )}
+        </>
+      )}
+    </article>
   );
 }

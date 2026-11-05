@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, Link } from 'react-router';
 import { publicConfig } from '../../../lib/config.js';
 import { useStudent } from '../data/use-student.js';
 import { StudentPageHeader } from '../components/StudentPageHeader.jsx';
@@ -27,6 +27,12 @@ export function StudentPractice() {
         title="Practicar"
         description="Conecta lo que aprendes con lo que tus manos expresan."
       />
+      <Link
+        className="education-back inline-flex min-h-11 items-center"
+        to="/student/practice/camera"
+      >
+        Abrir práctica real con cámara y modelo LSV
+      </Link>
       {!publicConfig.studentDemo ? (
         <LearningPractice />
       ) : (

@@ -1,65 +1,53 @@
-import { useState } from 'react';
-import { Button } from '../../../components/ui/Button.jsx';
-import { Alert } from '../../../components/ui/Alert.jsx';
-import { useLearningProgress } from '../data/use-learning-progress.js';
+import { useLessonJourney } from './use-lesson-journey.js';
 import { CurriculumTheory } from './CurriculumTheory.jsx';
 import { CurriculumAssessment } from './CurriculumAssessment.jsx';
+import { AssessmentSummary } from './AssessmentSummary.jsx';
+import { JourneyHeader } from './JourneyHeader.jsx';
+import { JourneyControls } from './JourneyControls.jsx';
 import './curriculum.css';
 
 /**
- * Separa lectura, registro manual y evaluación del módulo, conservando los servicios de progreso existentes.
- * @param {{lesson: object, module: object, onContinue: Function}} props Lección y navegación por IDs.
- * @returns {import('react').ReactElement} Experiencia curricular con contenido real y materiales pendientes.
+ * Compone una lección progresiva, un paso por pantalla, conservando el progreso y los servicios académicos.
+ * @param {{lesson: object, module: object, onContinue: Function, nextTitle?: string}} props Contenido y siguiente destino.
+ * @returns {import('react').ReactElement} Recorrido enfocado con punto local separado del avance del backend.
  */
-export function CurriculumLesson({ lesson, module, onContinue }) {
-  const [exercising, setExercising] = useState(false);
-  const reading = useLearningProgress();
-  if (exercising)
-    return (
-      <CurriculumAssessment
-        lesson={lesson}
-        module={module}
-        onBack={() => setExercising(false)}
-        onContinue={onContinue}
-      />
-    );
+export function CurriculumLesson({ lesson, module, onContinue, nextTitle }) {
+  const journey = useLessonJourney(lesson, module.id);
+  const { step } = journey;
+  const pending = journey.questions.filter((question) => question.availability !== 'READY').length;
   return (
-    <div className="flex flex-col gap-6">
-      <CurriculumTheory content={lesson.content} />
-      <div className="education-card">
-        <div className="curriculum-actions flex w-full flex-wrap gap-4">
-          <Button
-            className="education-action"
-            disabled={reading.pending || lesson.status === 'COMPLETED'}
-            onClick={() => reading.submit('lessons', lesson.id, 'COMPLETED')}
-          >
-            {lesson.status === 'COMPLETED' ? 'Lectura registrada' : 'Registrar lectura completada'}
-          </Button>
-          <Button
-            className="education-action"
-            disabled={reading.pending}
-            onClick={() => setExercising(true)}
-          >
-            Ir a los ejercicios
-          </Button>
-          <Button variant="secondary" icon={null} disabled={reading.pending} onClick={onContinue}>
-            Continuar aprendiendo
-          </Button>
-        </div>
-        <p className="text-muted">
-          Registrar la lectura no completa las preguntas ni acredita dominio de LSV.
-        </p>
-        {reading.error && (
-          <Alert tone="error" title="No se pudo guardar">
-            {reading.error}
-          </Alert>
-        )}
-        {reading.saved && (
-          <Alert tone="success" title="Lectura guardada">
-            Tu registro se guardó correctamente.
-          </Alert>
-        )}
-      </div>
+    <div className="learning-journey education-page" data-position={step?.id ?? 'summary'}>
+      <JourneyHeader lesson={lesson} module={module} journey={journey} />
+      {!step ? (
+        <AssessmentSummary
+          questions={journey.questions}
+          lesson={lesson}
+          module={module}
+          onContinue={onContinue}
+          onReview={journey.restart}
+          onBack={journey.back}
+          nextTitle={nextTitle}
+        />
+      ) : step.type === 'question' ? (
+        <CurriculumAssessment
+          key={step.id}
+          question={journey.questions.find((item) => item.id === step.questionId)}
+          onConfirmed={journey.confirm}
+          onContinue={journey.next}
+          onBack={journey.back}
+        />
+      ) : (
+        <>
+          <div className="journey-stage" data-step={step.type} key={step.id}>
+            <CurriculumTheory step={step} pending={pending} />
+          </div>
+          <JourneyControls
+            onBack={journey.back}
+            onContinue={journey.next}
+            label={journey.index === journey.steps.length - 1 ? 'Ver mi resumen' : 'Continuar'}
+          />
+        </>
+      )}
     </div>
   );
 }

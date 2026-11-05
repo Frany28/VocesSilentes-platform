@@ -1,0 +1,90 @@
+.student-shell.learning-shell {
+  display: block;
+  padding: 0;
+  overflow-wrap: anywhere;
+}
+.learning-shell .education-page:not(.learning-journey) {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 24px 32px;
+}
+.learning-journey {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 24px;
+  width: 100%;
+  max-width: 1040px;
+  min-height: 100svh;
+  height: 100svh;
+  margin: 0 auto;
+  padding: 24px 32px 0;
+}
+.journey-header .vs-progress {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.journey-header .vs-progress > p:first-child {
+  display: none;
+}
+.journey-header .vs-progress-track {
+  width: 100%;
+}
+.journey-stage {
+  display: flex;
+  align-items: safe center;
+  justify-content: center;
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 16px 0;
+  animation: journey-enter var(--motion-surface) var(--motion-ease);
+}
+.journey-stage > * {
+  max-width: 760px;
+}
+.journey-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 0;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--page);
+}
+.journey-controls .vs-button {
+  width: auto;
+  min-width: 160px;
+}
+@keyframes journey-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (width < 600px) {
+  .learning-shell .education-page:not(.learning-journey) {
+    padding: 16px;
+  }
+  .learning-journey {
+    gap: 12px;
+    padding: 16px 16px 0;
+  }
+  .journey-controls {
+    gap: 12px;
+    padding: 16px 0 max(16px, env(safe-area-inset-bottom));
+  }
+  .journey-controls .vs-button {
+    min-width: 0;
+    flex: 1;
+  }
+  .journey-stage {
+    padding: 8px 0;
+  }
+}

@@ -1,0 +1,94 @@
+.journey-stage .education-card {
+  padding: 32px;
+  gap: 20px;
+}
+.journey-copy h2,
+.journey-activity .education-question-title {
+  font: 700 30px / 40px var(--font-brand);
+}
+.journey-copy .journey-reading {
+  font: var(--type-subtitle);
+  line-height: 32px;
+}
+.journey-eyebrow {
+  font: var(--type-button);
+}
+.journey-welcome {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 144px;
+  overflow: hidden;
+}
+.journey-letters {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+.journey-letters article {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  background: var(--surface-accent);
+  color: var(--action-primary);
+  font: 700 96px / 1 var(--font-brand);
+}
+.journey-references {
+  width: 100%;
+  font: var(--type-label);
+}
+.journey-references summary {
+  min-height: 44px;
+  padding: 12px 0;
+  cursor: pointer;
+}
+.journey-references summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+.journey-activity .education-options {
+  gap: 12px;
+}
+.journey-activity .education-option {
+  min-height: 60px;
+  border: 1px solid var(--border-subtle);
+  transition:
+    border-color var(--motion-control) var(--motion-ease),
+    background-color var(--motion-control) var(--motion-ease);
+}
+.journey-activity .education-option:has(:checked) {
+  border-color: var(--action-primary);
+  background: var(--surface-accent);
+}
+.journey-copy .vs-button {
+  width: auto;
+}
+.journey-summary .vs-progress {
+  width: 100%;
+  padding: 0;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+}
+@media (width < 600px) {
+  .journey-stage .education-card {
+    padding: 20px;
+    gap: 16px;
+  }
+  .journey-copy h2,
+  .journey-activity .education-question-title {
+    font: var(--type-h3);
+  }
+  .journey-letters article {
+    min-height: 160px;
+    font-size: 72px;
+  }
+  .journey-welcome {
+    min-height: 96px;
+  }
+}

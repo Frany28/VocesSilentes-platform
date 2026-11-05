@@ -6,6 +6,7 @@ import { StudentProgress } from './pages/StudentProgress.jsx';
 import { StudentProfile } from './pages/StudentProfile.jsx';
 import { ReportForm } from '../reports/ReportForm.jsx';
 import { StudentLesson } from './lesson/StudentLesson.jsx';
+import { CameraPracticeRoute, ModelLabRoute } from './recognition/RecognitionRoutes.jsx';
 import { lazy, Suspense } from 'react';
 import { DataFeedback } from './components/DataFeedback.jsx';
 
@@ -41,6 +42,14 @@ export function studentRoutes() {
           ]
         : []),
       { path: '/student/practice', element: <StudentPractice /> },
+      {
+        path: '/student/practice/camera',
+        element: <CameraPracticeRoute />,
+      },
+      {
+        path: '/student/practice/model-lab',
+        element: <ModelLabRoute />,
+      },
       { path: '/student/progress', element: <StudentProgress /> },
       { path: '/student/profile', element: <StudentProfile /> },
       { path: '/student/profile/security', element: <StudentProfile /> },

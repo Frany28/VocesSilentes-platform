@@ -28,6 +28,16 @@ export function StudentLesson() {
   const available = snapshot?.source === 'api' && module?.access === 'available' && lesson;
   const continueLearning = () =>
     navigate(next ? `/student/modules/${moduleId}/lessons/${next.id}` : '/student/modules');
+  if (available && lesson.content)
+    return (
+      <CurriculumLesson
+        key={lesson.id}
+        lesson={lesson}
+        module={module}
+        onContinue={continueLearning}
+        nextTitle={next?.title}
+      />
+    );
   return (
     <div className="education-page flex w-full flex-col gap-6">
       <StudentPageHeader
@@ -49,20 +59,11 @@ export function StudentLesson() {
         </Alert>
       ) : (
         <>
-          {lesson.content ? (
-            <CurriculumLesson
-              key={lesson.id}
-              lesson={lesson}
-              module={module}
-              onContinue={continueLearning}
-            />
-          ) : (
-            <LessonReading
-              lesson={lesson}
-              continueLabel="Continuar aprendiendo"
-              onContinue={continueLearning}
-            />
-          )}
+          <LessonReading
+            lesson={lesson}
+            continueLabel="Continuar aprendiendo"
+            onContinue={continueLearning}
+          />
           <LessonNavigation module={module} lessonId={lessonId} />
         </>
       )}

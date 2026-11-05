@@ -1,70 +1,48 @@
 import assert from 'node:assert/strict';
-import { alphabetId } from './alphabet-source.js';
 
 /**
- * Revisa seis estados del cuestionario real en ambos temas y los tres tamaños del diseño.
- * @param {{page: object, browser: object, source: object, results: object, moduleId: string}} context Entorno local.
- * @returns {Promise<void>} Capturas de selección, feedback, pendiente y resumen sin desbordamiento.
+ * Comprueba el corrector real desde radios nativos, sin pasar a otra actividad antes del feedback.
+ * @param {{page: object, question: object, retry: boolean, capture: Function}} context Pregunta privada solo del runner.
+ * @returns {Promise<void>} Reintento opcional y una respuesta correcta confirmada por Express.
  */
-export async function reviewAlphabetAssessment({ page, browser, source, results, moduleId }) {
-  const question = source.exercises.find((item) => item.type === 'MULTIPLE_CHOICE_TEXT');
-  const wrong = question.options.find((option) => option.id !== question.correctOptionId).id;
-  results.assessmentScreens = [];
-  for (const [width, height] of [
-    [1440, 968],
-    [834, 1108],
-    [390, 1032],
-  ]) {
-    await browser.send('Emulation.setDeviceMetricsOverride', {
-      width,
-      height,
-      deviceScaleFactor: 1,
-      mobile: false,
-    });
-    for (const theme of ['light', 'dark']) {
-      const capture = async (state) => {
-        await page.evaluate('window.scrollTo(0,0)');
-        await page.evaluate('new Promise(done=>setTimeout(done,250))');
-        assert.ok(await page.evaluate('document.documentElement.scrollWidth <= innerWidth'));
-        await page.capture(`assessment-${state}-${theme}-${width}`);
-        results.assessmentScreens.push({ state, theme, width });
-      };
-      await page.navigate(`/student/modules/${moduleId}/lessons/${alphabetId(question.lessonKey)}`);
-      await page.wait('document.querySelector("#curriculum-objectives")');
-      await page.evaluate(`(()=>{if(document.documentElement.dataset.theme!==${JSON.stringify(theme)})
-        document.querySelector('button[aria-label="Cambiar a modo ${theme === 'light' ? 'claro' : 'oscuro'}"]').click();})()`);
-      await page.click('Ir a los ejercicios');
-      await page.wait('document.querySelector(".education-options input")');
-      assert.equal(
-        await page.evaluate('document.querySelector("button[type=submit]").disabled'),
-        true,
-      );
-      await capture('unselected');
-      await page.evaluate(
-        `document.querySelector('.education-options input[value="${wrong}"]').click()`,
-      );
-      await page.wait(
-        'document.querySelector(".education-options input:checked") && !document.querySelector("button[type=submit]").disabled',
-      );
-      await capture('selected');
-      await page.click('Comprobar respuesta');
-      await page.wait('document.querySelector(".education-feedback[role=alert]")');
-      await capture('incorrect');
-      await page.click('Reintentar pregunta');
-      await page.evaluate(
-        `document.querySelector('.education-options input[value="${question.correctOptionId}"]').click()`,
-      );
-      await page.click('Comprobar respuesta');
-      await page.wait('document.querySelector(".education-feedback[role=status]")');
-      await capture('correct');
-      await page.navigate(`/student/modules/${moduleId}/lessons/${alphabetId('m1-l02')}`);
-      await page.wait('document.querySelector("#curriculum-objectives")');
-      await page.click('Ir a los ejercicios');
-      await page.wait('document.querySelector("#pending-question")');
-      await capture('pending');
-      for (let index = 0; index < 5; index += 1) await page.click('Ver siguiente pregunta');
-      await page.wait('document.querySelector(".education-result-progress")');
-      await capture('summary');
-    }
+export async function reviewAlphabetAssessment({ page, question, retry, capture }) {
+  const percent = () =>
+    page.evaluate('document.querySelector("[role=progressbar]").getAttribute("aria-valuenow")');
+  const before = await percent();
+  await page.wait('document.querySelector(".education-options input")');
+  assert.equal(
+    await page.evaluate('document.querySelector(".journey-controls button[type=submit]").disabled'),
+    true,
+  );
+  assert.equal(
+    await page.evaluate('document.querySelectorAll(".journey-letters,select").length'),
+    0,
+  );
+  await capture('question');
+  if (retry) {
+    const wrong = question.options.find((option) => option.id !== question.correctOptionId).id;
+    await page.evaluate(
+      `document.querySelector('.education-options input[value="${wrong}"]').click()`,
+    );
+    await page.wait('!document.querySelector(".journey-controls button[type=submit]").disabled');
+    await capture('selected');
+    await page.click('Comprobar respuesta');
+    await page.wait('document.querySelector(".education-feedback[role=alert]")');
+    assert.equal(await percent(), before);
+    await capture('incorrect');
+    await page.click('Reintentar');
+    assert.equal(
+      await page.evaluate('document.querySelectorAll(".education-options input:checked").length'),
+      0,
+    );
   }
+  await page.evaluate(
+    `document.querySelector('.education-options input[value="${question.correctOptionId}"]').click()`,
+  );
+  await page.wait('!document.querySelector(".journey-controls button[type=submit]").disabled');
+  await page.click('Comprobar respuesta');
+  await page.wait('document.querySelector(".education-feedback[role=status]")');
+  assert.ok(Number(await percent()) > Number(before));
+  await capture('correct');
+  await page.click('Continuar');
 }

@@ -9,6 +9,8 @@
     "pnpm": "10.18.2"
   },
   "scripts": {
+    "camera:verify": "pnpm --filter @vocessilentes/backend camera:verify",
+    "lsv:train": "node Backend/scripts/train-lsv.js",
     "alphabet:dev": "pnpm --filter @vocessilentes/backend alphabet:dev",
     "alphabet:verify": "pnpm --filter @vocessilentes/backend alphabet:verify",
     "learning:demo": "pnpm --filter @vocessilentes/backend learning:demo",

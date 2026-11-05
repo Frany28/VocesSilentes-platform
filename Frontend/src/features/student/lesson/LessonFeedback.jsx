@@ -3,7 +3,8 @@ import { Icon } from '../../../components/ui/Icon.jsx';
 
 /**
  * Presenta retroalimentación recibida del consumidor, sin calcular aciertos en la presentación.
- * @param {{feedback: object, onContinue: Function, continueLabel?: string, label?: string}} props Mensaje y acción.
+ * @param {{feedback: object, onContinue?: Function, continueLabel?: string,
+ * label?: string, showAction?: boolean}} props Mensaje y acción interna opcional.
  * @returns {import('react').ReactElement} Mensaje accesible de acierto o error.
  */
 export function LessonFeedback({
@@ -11,6 +12,7 @@ export function LessonFeedback({
   onContinue,
   continueLabel,
   label = 'Retroalimentación de ejemplo',
+  showAction = true,
 }) {
   const success = feedback.tone === 'success';
   return (
@@ -27,12 +29,14 @@ export function LessonFeedback({
         <h2 className="[font:var(--type-h3)]">{feedback.title}</h2>
         <p className="education-paragraph">{feedback.explanation}</p>
       </div>
-      <Button
-        className={`education-action ${success ? 'education-action-continue' : 'education-action-retry'}`}
-        onClick={onContinue}
-      >
-        {continueLabel || (success ? 'Continuar al resultado' : 'Reintentar ejercicio')}
-      </Button>
+      {showAction && (
+        <Button
+          className={`education-action ${success ? 'education-action-continue' : 'education-action-retry'}`}
+          onClick={onContinue}
+        >
+          {continueLabel || (success ? 'Continuar al resultado' : 'Reintentar ejercicio')}
+        </Button>
+      )}
     </section>
   );
 }

@@ -1,28 +1,4 @@
 @layer theme, base, components, utilities;
 
-@layer components {
-  .alphabet-card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
-    gap: 16px;
-    align-items: stretch;
-  }
-  .alphabet-image-placeholder {
-    min-height: 160px;
-    width: 100%;
-    text-align: center;
-    border: 1px dashed var(--border-subtle);
-  }
-  .education-card .education-action {
-    min-width: 0;
-    max-width: 100%;
-  }
-  .curriculum-actions > .vs-button {
-    width: auto;
-  }
-  @media (width < 600px) {
-    .curriculum-actions > .vs-button {
-      width: 100%;
-    }
-  }
-}
+@import './journey-layout.css' layer(components);
+@import './journey-content.css' layer(components);

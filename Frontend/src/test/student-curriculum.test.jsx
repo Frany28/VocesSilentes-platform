@@ -1,34 +1,45 @@
-import { screen, within } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, test, vi } from 'vitest';
 import { jsonResponse, renderAuthApp } from './auth-fixture.jsx';
 import { lessonPath } from './student-lesson-fixture.jsx';
 import { mockCurriculumApi, questionId } from './student-curriculum-fixture.jsx';
+import { reachQuestion } from './student-journey-fixture.js';
 
 vi.mock('../lib/config.js', () => ({
   publicConfig: { apiUrl: 'http://localhost:3000/api', studentDemo: false },
 }));
 
-test('lectura estructurada y tarjetas pendientes conservan objetivos, teclado y navegación por ID', async () => {
+test('presenta un paso por pantalla sin sidebar ni selector; avanzar y volver no escriben progreso académico', async () => {
   const { fetchMock } = mockCurriculumApi(vi.fn());
   renderAuthApp(lessonPath);
-  // La ruta Student se importa de forma diferida también en la primera ejecución de la suite completa.
-  expect(
-    await screen.findByRole('heading', { name: 'Objetivos de aprendizaje' }, { timeout: 5000 }),
-  ).toBeVisible();
+  expect(await screen.findByRole('heading', { name: 'Tu objetivo en esta lección' })).toBeVisible();
   expect(screen.getByText(/Vista previa local · Borrador/)).toBeVisible();
-  expect(screen.getByText('Distinguir la LSV del alfabeto manual.')).toBeVisible();
-  const card = screen.getByRole('article', { name: 'Letra Ñ' });
-  expect(within(card).getByText('Imagen original o autorizada pendiente')).toBeVisible();
-  expect(document.querySelector('video, iframe, .alphabet-card-grid img')).toBeNull();
+  expect(screen.queryByText('Texto recibido de la API de prueba.')).toBeNull();
+  expect(screen.queryByRole('article', { name: 'Letra Ñ' })).toBeNull();
+  expect(document.querySelector('.student-sidebar,.student-bottom')).toBeNull();
+  expect(screen.queryByRole('combobox')).toBeNull();
+  expect(screen.getByRole('progressbar', { name: 'Tu recorrido' })).toHaveAttribute(
+    'aria-valuenow',
+    '0',
+  );
+  await userEvent.click(screen.getByRole('button', { name: 'Continuar' }));
+  expect(screen.getByText('Texto recibido de la API de prueba.')).toBeVisible();
+  const completed = screen
+    .getByRole('progressbar', { name: 'Tu recorrido' })
+    .getAttribute('aria-valuenow');
+  await userEvent.click(screen.getByRole('button', { name: 'Volver' }));
+  expect(screen.getByRole('heading', { name: 'Tu objetivo en esta lección' })).toBeVisible();
+  expect(screen.getByRole('progressbar', { name: 'Tu recorrido' })).toHaveAttribute(
+    'aria-valuenow',
+    completed,
+  );
   expect(fetchMock.mock.calls.every(([, options]) => (options.method ?? 'GET') === 'GET')).toBe(
     true,
   );
-  await userEvent.click(screen.getByRole('button', { name: 'Continuar aprendiendo' }));
-  expect(await screen.findByText('Texto anterior sin objetivo separado.')).toBeVisible();
 });
 
-test('usa opciones opacas y resultado backend; oculta tarjetas al responder y no declara preguntas pendientes como aciertos', async () => {
+test('el teclado selecciona opciones opacas; el feedback backend precede al avance y pendientes no cuentan como aciertos', async () => {
   const answer = vi.fn((options, snapshot) => {
     expect(JSON.parse(options.body)).toEqual({ optionId: 'opt2' });
     snapshot.modules[0].lessons[0].exercises[0].status = 'COMPLETED';
@@ -46,9 +57,7 @@ test('usa opciones opacas y resultado backend; oculta tarjetas al responder y no
   });
   const { fetchMock } = mockCurriculumApi(answer);
   renderAuthApp(lessonPath);
-  await userEvent.click(
-    await screen.findByRole('button', { name: 'Ir a los ejercicios' }, { timeout: 5000 }),
-  );
+  await reachQuestion();
   expect(screen.queryByRole('article', { name: 'Letra Ñ' })).toBeNull();
   expect(screen.getByRole('button', { name: 'Comprobar respuesta' })).toBeDisabled();
   screen.getByRole('radio', { name: 'Primera alternativa' }).focus();
@@ -56,19 +65,23 @@ test('usa opciones opacas y resultado backend; oculta tarjetas al responder y no
   expect(screen.getByRole('radio', { name: 'Segunda alternativa' })).toBeChecked();
   await userEvent.click(screen.getByRole('button', { name: 'Comprobar respuesta' }));
   expect(await screen.findByText('Explicación recibida del servidor.')).toBeVisible();
-  expect(answer).toHaveBeenCalledTimes(1);
+  expect(screen.queryByRole('region', { name: 'Resumen de la lección' })).toBeNull();
   const submission = fetchMock.mock.calls.find(([url]) => url.endsWith('/answer'));
   expect(submission[0]).toContain(questionId);
   expect(submission[1].headers.get('X-CSRF-Token')).toBe('test-csrf');
-  await userEvent.click(screen.getByRole('button', { name: 'Siguiente pregunta' }));
-  expect(screen.getByRole('heading', { name: 'Pregunta pendiente' })).toBeVisible();
-  expect(screen.queryByRole('radio')).toBeNull();
-  expect(screen.getByRole('button', { name: 'Comprobar respuesta' })).toBeDisabled();
-  await userEvent.click(screen.getByRole('button', { name: 'Ver siguiente pregunta' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Continuar' }));
+  expect(screen.getByText('Revisar materiales autorizados.')).toBeVisible();
+  await userEvent.click(screen.getByRole('button', { name: 'Ver mi resumen' }));
   expect(screen.getByRole('progressbar', { name: 'Preguntas resueltas' })).toHaveAttribute(
     'aria-valuenow',
     '50',
   );
   expect(screen.getByText('50% · 1 de 2 preguntas resueltas')).toBeVisible();
   expect(screen.getByText('Preguntas pendientes de material o revisión: 1.')).toBeVisible();
+  expect(screen.getByRole('progressbar', { name: 'Tu recorrido' })).toHaveAttribute(
+    'aria-valuenow',
+    '100',
+  );
+  expect(answer).toHaveBeenCalledTimes(1);
+  expect(screen.getByRole('button', { name: 'Registrar lectura completada' })).toBeEnabled();
 });

@@ -4,6 +4,7 @@ import { expect, test, vi } from 'vitest';
 import { jsonResponse, renderAuthApp } from './auth-fixture.jsx';
 import { lessonPath } from './student-lesson-fixture.jsx';
 import { mockCurriculumApi } from './student-curriculum-fixture.jsx';
+import { reachQuestion } from './student-journey-fixture.js';
 
 vi.mock('../lib/config.js', () => ({
   publicConfig: { apiUrl: 'http://localhost:3000/api', studentDemo: false },
@@ -34,9 +35,7 @@ test('comprobación pendiente impide doble envío, un fallo conserva selección 
     );
   mockCurriculumApi(answer);
   renderAuthApp(lessonPath);
-  await userEvent.click(
-    await screen.findByRole('button', { name: 'Ir a los ejercicios' }, { timeout: 5000 }),
-  );
+  await reachQuestion();
   await userEvent.click(screen.getByRole('radio', { name: 'Cuarta alternativa' }));
   await userEvent.click(screen.getByRole('button', { name: 'Comprobar respuesta' }));
   await waitFor(() => expect(fail).toBeDefined());
@@ -48,7 +47,7 @@ test('comprobación pendiente impide doble envío, un fallo conserva selección 
   expect(screen.getByRole('radio', { name: 'Cuarta alternativa' })).toBeChecked();
   await userEvent.click(screen.getByRole('button', { name: 'Comprobar respuesta' }));
   expect(await screen.findByRole('alert')).toHaveTextContent('Pista devuelta por el servidor.');
-  await userEvent.click(screen.getByRole('button', { name: 'Reintentar pregunta' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Reintentar' }));
   expect(screen.getAllByRole('radio').every((radio) => !radio.checked)).toBe(true);
   expect(answer).toHaveBeenCalledTimes(2);
 });
@@ -63,9 +62,7 @@ test('salir cancela la comprobación y no inserta retroalimentación de una lecc
     });
   });
   const view = renderAuthApp(lessonPath);
-  await userEvent.click(
-    await screen.findByRole('button', { name: 'Ir a los ejercicios' }, { timeout: 5000 }),
-  );
+  await reachQuestion();
   await userEvent.click(screen.getByRole('radio', { name: 'Primera alternativa' }));
   await userEvent.click(screen.getByRole('button', { name: 'Comprobar respuesta' }));
   await waitFor(() => expect(signal).toBeDefined());

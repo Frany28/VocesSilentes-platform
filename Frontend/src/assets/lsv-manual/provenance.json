@@ -1,0 +1,118 @@
+{
+  "source": "manual-lsv.pdf",
+  "sourceSha256": "9b03921e8719cd341c44b8ccad730e52a9db46da29eb8f5058f5b63a7d033139",
+  "credit": "Diseño e ilustración: Yulianny Fuentes. Manual básico de Lengua de Señas Venezolana, julio de 2022.",
+  "reuseBasis": "Uso educativo indicado y autorizado por el usuario el 5 de noviembre de 2026.",
+  "rightsStatus": "USER_ASSERTED_EDUCATIONAL_USE",
+  "validationStatus": "PENDING_LSV_REVIEW",
+  "images": {
+    "A": {
+      "file": "a.webp",
+      "page": 5
+    },
+    "B": {
+      "file": "b.webp",
+      "page": 5
+    },
+    "C": {
+      "file": "c.webp",
+      "page": 5
+    },
+    "D": {
+      "file": "d.webp",
+      "page": 5
+    },
+    "E": {
+      "file": "e.webp",
+      "page": 5
+    },
+    "F": {
+      "file": "f.webp",
+      "page": 5
+    },
+    "G": {
+      "file": "g.webp",
+      "page": 5
+    },
+    "H": {
+      "file": "h.webp",
+      "page": 5
+    },
+    "I": {
+      "file": "i.webp",
+      "page": 5
+    },
+    "J": {
+      "file": "j.webp",
+      "page": 5
+    },
+    "K": {
+      "file": "k.webp",
+      "page": 5
+    },
+    "L": {
+      "file": "l.webp",
+      "page": 5
+    },
+    "M": {
+      "file": "m.webp",
+      "page": 6
+    },
+    "N": {
+      "file": "n.webp",
+      "page": 6
+    },
+    "Ñ": {
+      "file": "enye.webp",
+      "page": 6
+    },
+    "O": {
+      "file": "o.webp",
+      "page": 6
+    },
+    "P": {
+      "file": "p.webp",
+      "page": 6
+    },
+    "Q": {
+      "file": "q.webp",
+      "page": 6
+    },
+    "R": {
+      "file": "r.webp",
+      "page": 6
+    },
+    "S": {
+      "file": "s.webp",
+      "page": 6
+    },
+    "T": {
+      "file": "t.webp",
+      "page": 6
+    },
+    "U": {
+      "file": "u.webp",
+      "page": 6
+    },
+    "V": {
+      "file": "v.webp",
+      "page": 6
+    },
+    "W": {
+      "file": "w.webp",
+      "page": 6
+    },
+    "X": {
+      "file": "x.webp",
+      "page": 6
+    },
+    "Y": {
+      "file": "y.webp",
+      "page": 6
+    },
+    "Z": {
+      "file": "z.webp",
+      "page": 6
+    }
+  }
+}

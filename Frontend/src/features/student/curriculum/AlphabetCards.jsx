@@ -1,39 +1,49 @@
-import { Icon } from '../../../components/ui/Icon.jsx';
+import { Button } from '../../../components/ui/Button.jsx';
+import { ManualReference } from '../recognition/ManualReference.jsx';
 
 /**
- * Muestra las tarjetas de estudio entregadas por la API sin copiar ni simular ilustraciones de señas.
- * @param {{cards: object[]}} props Letras, referencias editoriales y materiales pendientes.
- * @returns {import('react').ReactElement | null} Tarjetas accesibles de letras escritas, sin recursos no aprobados.
+ * Presenta hasta dos letras escritas por paso sin simular sus señas; conserva pistas y créditos editoriales.
+ * @param {{cards: object[], onPractice: Function}} props Grupo y entrada explícita a cámara.
+ * @returns {import('react').ReactElement} Letras protagonistas y referencias consultables.
  */
-export function AlphabetCards({ cards }) {
-  if (!cards.length) return null;
+export function AlphabetCards({ cards, onPractice }) {
   return (
-    <section className="flex flex-col gap-4" aria-labelledby="alphabet-cards">
-      <h2 id="alphabet-cards" className="[font:var(--type-h3)]">
-        Tarjetas de letras
-      </h2>
-      <div className="alphabet-card-grid">
+    <section className="journey-copy education-card" aria-labelledby="alphabet-cards">
+      <p className="journey-eyebrow text-muted">Tu alfabeto, paso a paso</p>
+      <h2 id="alphabet-cards">{cards.map((card) => card.letter).join(' · ')}</h2>
+      <div className="journey-letters">
         {cards.map((card) => (
-          <article key={card.letter} className="education-card" aria-label={`Letra ${card.letter}`}>
-            <h3 className="text-3xl font-bold">{card.letter}</h3>
-            <div className="alphabet-image-placeholder flex flex-col items-center justify-center gap-3 rounded-control bg-neutral p-4">
-              <Icon name="student-book" size={32} />
-              <p>Imagen original o autorizada pendiente</p>
-            </div>
-            <p className="text-muted">Video pendiente de validación LSV.</p>
-            <p>{card.studyHint}</p>
-            {card.sourceIllustrationShowsMotionArrow && (
-              <p className="text-warning">
-                La fuente incluye una flecha; se necesita una demostración validada.
-              </p>
-            )}
-            <p className="text-muted [font:var(--type-label)]">
-              Referencia editorial: {card.source.file}, página {card.source.pdfPage}.{' '}
-              {card.source.credit}.
-            </p>
+          <article key={card.letter} data-letter={card.letter} aria-label={`Letra ${card.letter}`}>
+            <ManualReference letter={card.letter} compact />
+            <Button density="compact" icon={null} onClick={() => onPractice(card.letter)}>
+              Practicar {card.letter} con cámara
+            </Button>
           </article>
         ))}
       </div>
+      <p>
+        Referencias del manual proporcionado para uso educativo. Los vídeos y la revisión
+        lingüística siguen pendientes.
+      </p>
+      {[...new Set(cards.map((card) => card.studyHint))].map((hint) => (
+        <p key={hint} className="text-muted">
+          {hint}
+        </p>
+      ))}
+      {cards.some((card) => card.sourceIllustrationShowsMotionArrow) && (
+        <p className="text-muted">
+          La fuente incluye una flecha; se necesita una demostración validada antes de reproducir el
+          movimiento.
+        </p>
+      )}
+      <details className="journey-references text-muted">
+        <summary>Consultar referencias del material</summary>
+        {cards.map((card) => (
+          <p key={card.letter}>
+            {card.letter}: {card.source.file}, página {card.source.pdfPage}. {card.source.credit}.
+          </p>
+        ))}
+      </details>
     </section>
   );
 }
