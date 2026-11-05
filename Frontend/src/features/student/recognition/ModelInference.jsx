@@ -9,10 +9,13 @@ import { Alert } from '../../../components/ui/Alert.jsx';
 export function ModelInference({ operation, capture, camera }) {
   return (
     <section className="flex flex-col gap-4" aria-label="Modelo propio de LSV">
-      <label className="model-file-label">
-        Importar modelo LSV entrenado (.json)
-        <input type="file" accept=".json,application/json" onChange={operation.load} />
-      </label>
+      <details className="model-settings">
+        <summary>Cargar un modelo entrenado</summary>
+        <label className="model-file-label">
+          Importar modelo LSV entrenado (.json)
+          <input type="file" accept=".json,application/json" onChange={operation.load} />
+        </label>
+      </details>
       {operation.model ? (
         <p className="text-muted">
           Modelo experimental cargado:{' '}

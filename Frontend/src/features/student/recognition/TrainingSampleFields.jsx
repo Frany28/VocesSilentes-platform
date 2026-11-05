@@ -46,8 +46,8 @@ export function TrainingSampleFields({ metadata, disabled, onChange }) {
         className="w-full"
         onChange={(event) => onChange('consent', event.target.checked)}
       >
-        Consiento recopilar y exportar localmente estos puntos de manos para entrenar el modelo
-        experimental.
+        Cuento con el consentimiento de la persona participante para recopilar y exportar localmente
+        estos puntos de manos y entrenar el modelo experimental.
       </Checkbox>
       <p className="text-muted">
         Cada persona debe pertenecer a un solo grupo. Las muestras no se envían automáticamente.

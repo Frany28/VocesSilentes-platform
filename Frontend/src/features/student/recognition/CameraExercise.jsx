@@ -25,8 +25,8 @@ export function CameraExercise({ letter }) {
         {letter ? `Practica la letra ${letter}` : 'Tu práctica con cámara'}
       </h2>
       <div className="camera-reference-grid">
-        {letter && <ManualReference letter={letter} />}
-        <CameraView camera={camera} />
+        {letter && <ManualReference letter={letter} compact />}
+        <CameraView camera={camera} target={letter} />
       </div>
       <ModelInference operation={operation} capture={capture} camera={camera} />
       <Link

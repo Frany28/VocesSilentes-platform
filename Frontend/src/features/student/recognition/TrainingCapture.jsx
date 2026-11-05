@@ -25,7 +25,10 @@ export function TrainingCapture({ camera, capture, collection, letter, onLetter 
         disabled={capture.pending}
         onChange={(field, value) => {
           clear();
-          if (field === 'participantId') setParticipant(value);
+          if (field === 'participantId') {
+            setParticipant(value);
+            setConsent(false);
+          }
           if (field === 'partition') setPartition(value);
           if (field === 'consent') setConsent(value);
           if (field === 'label') onLetter(value);

@@ -3,10 +3,13 @@ import { Alert } from '../../../components/ui/Alert.jsx';
 
 /**
  * Presenta vídeo y landmarks reales, permisos y controles de cámara, sin interpretar señas.
- * @param {{camera: object}} props Estado del controlador local.
+ * @param {{camera: object, target?: string}} props Controlador y etiqueta de referencia, nunca resultado inferido.
  * @returns {import('react').ReactElement} Visor accesible con activación y cierre explícitos.
  */
-export function CameraView({ camera: { videoRef, canvasRef, state, error, hands, start, stop } }) {
+export function CameraView({
+  camera: { videoRef, canvasRef, state, error, hands, start, stop },
+  target,
+}) {
   const active = ['permission', 'loading', 'live'].includes(state);
   const description =
     {
@@ -20,6 +23,7 @@ export function CameraView({ camera: { videoRef, canvasRef, state, error, hands,
       <div className="camera-viewport">
         <video ref={videoRef} muted playsInline autoPlay aria-label="Vista de cámara" />
         <canvas ref={canvasRef} aria-hidden="true" />
+        {target && <p className="camera-target">Referencia: {target}</p>}
         {!active && <p className="camera-placeholder">Activa la cámara cuando estés listo.</p>}
       </div>
       <p role="status" aria-live="polite">

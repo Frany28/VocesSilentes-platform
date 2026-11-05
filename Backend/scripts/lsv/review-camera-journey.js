@@ -15,6 +15,7 @@ export async function reviewCameraJourney({ page, results }) {
     await page.click('Continuar');
   }
   assert.equal(await page.evaluate('window.__cameraReview.calls'), 0);
+  await page.wait('document.querySelector(".manual-reference img")?.naturalWidth>0');
   assert.ok(await page.evaluate('document.querySelector(".manual-reference img").naturalWidth>0'));
   await page.click('Practicar A con cámara');
   await page.wait('document.querySelector(".camera-viewport")');
