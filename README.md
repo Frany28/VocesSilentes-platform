@@ -1,6 +1,9 @@
 # VocesSilentes
 
 Base de desarrollo de una aplicación educativa de Lengua de Señas Venezolana (LSV).
+El [Módulo 1 de alfabeto manual](docs/alphabet-module.md) incorpora siete lecciones, 27 tarjetas y
+34 preguntas en borrador: siete de texto con corrección backend y 27 visuales pendientes de recursos.
+`pnpm alphabet:dev` permite revisar el contenido y su avance en una base local descartable.
 La [primera lectura educativa de LSV](docs/first-lesson.md) ya dispone de navegación por IDs,
 con contenido inicial revisable y carga local aislada mediante `pnpm learning:demo`.
 La [maquetación del flujo educativo de Figma](docs/educational-flow-ui.md) incorpora seis vistas
@@ -70,6 +73,7 @@ excluye herramientas internas, archivos privados y artefactos generados.
 | Comando                                           | Función                                                                |
 | ------------------------------------------------- | ---------------------------------------------------------------------- |
 | `pnpm dev`                                        | Frontend y backend simultáneos                                         |
+| `pnpm alphabet:dev` / `pnpm alphabet:verify`      | Revisión local del alfabeto / comprobación en navegador aislado        |
 | `pnpm dev:frontend` / `pnpm dev:backend`          | Una aplicación                                                         |
 | `pnpm lint`                                       | ESLint, incluyendo advertencias de tamaño y JSDoc                      |
 | `pnpm format` / `pnpm format:check`               | Aplicar / comprobar Prettier                                           |

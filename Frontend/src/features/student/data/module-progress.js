@@ -4,7 +4,9 @@
  * @returns {object} Conteos, porcentaje y estado semántico de la tarjeta.
  */
 export function moduleProgress(module) {
-  const lessons = module.lessons.filter((lesson) => lesson.publicationStatus === 'PUBLISHED');
+  const lessons = module.lessons.filter(
+    (lesson) => lesson.publicationStatus === 'PUBLISHED' || module.preview === true,
+  );
   const completed = lessons.filter((lesson) => lesson.status === 'COMPLETED').length;
   const total = lessons.length;
   const percent = total ? Math.round((100 * completed) / total) : 0;

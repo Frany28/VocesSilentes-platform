@@ -1,5 +1,10 @@
 # Desarrollo en Windows y VS Code
 
+El [alfabeto manual](alphabet-module.md) se abre con `pnpm alphabet:dev` en localhost:5282:
+siete lecturas y preguntas en DRAFT, API/sesiones reales y PostgreSQL WASM descartable. No lee .env
+ni escribe en Supabase. `pnpm alphabet:verify` revisa las siete lecciones en Chrome, ambos temas y
+tres tamaños, además de corrección y persistencia local. No añade dependencias ni excepciones de tamaño.
+
 La [primera lectura educativa](first-lesson.md) se prueba con `pnpm learning:demo`: cuenta USER,
 Module/Lesson y PostgreSQL WASM efímeros; no modifica datos existentes ni usa Supabase.
 

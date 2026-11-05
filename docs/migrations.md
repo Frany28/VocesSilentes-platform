@@ -1,5 +1,12 @@
 # Migraciones de la fase 1
 
+5 de noviembre: `20261105000100_alphabet_curriculum` está **preparada, sin aplicar en Supabase**.
+Añade dos valores de ExerciseType y campos opcionales contentKey/content/definition en las tablas
+existentes, con UNIQUE/CHECK; conserva filas y políticas existentes. Solo se ejecutó en PostgreSQL
+WASM descartable. El [módulo de alfabeto](alphabet-module.md) incluye carga local idempotente sin
+URL remota. Revisar/aplicar esta migración en un destino persistente exige autorización de ese destino;
+no forma parte de abrir la revisión. Generar el cliente después de cambiar el esquema.
+
 Actualización del 23 de octubre: `20261023000100_module_ii_operations` ya está aplicada mediante
 `migrate deploy` en Supabase de desarrollo. El usuario autorizó además la importación de los 50
 registros académicos conservando los existentes; [resultado y controles](module-ii/supabase-import.md).

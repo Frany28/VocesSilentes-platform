@@ -2,14 +2,19 @@ import { Button } from '../../../components/ui/Button.jsx';
 import { Icon } from '../../../components/ui/Icon.jsx';
 
 /**
- * Muestra una retroalimentación de ejemplo con icono, texto y acción; no determina aciertos.
- * @param {{feedback: object, onContinue: Function, continueLabel?: string}} props Ejemplo y acción de la demo.
+ * Presenta retroalimentación recibida del consumidor, sin calcular aciertos en la presentación.
+ * @param {{feedback: object, onContinue: Function, continueLabel?: string, label?: string}} props Mensaje y acción.
  * @returns {import('react').ReactElement} Mensaje accesible de acierto o error.
  */
-export function LessonFeedback({ feedback, onContinue, continueLabel }) {
+export function LessonFeedback({
+  feedback,
+  onContinue,
+  continueLabel,
+  label = 'Retroalimentación de ejemplo',
+}) {
   const success = feedback.tone === 'success';
   return (
-    <section className="education-card" aria-label="Retroalimentación de ejemplo">
+    <section className="education-card" aria-label={label}>
       <div
         className="education-feedback"
         data-tone={feedback.tone}

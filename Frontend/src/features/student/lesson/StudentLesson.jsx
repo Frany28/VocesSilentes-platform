@@ -8,6 +8,7 @@ import { LessonReading } from './LessonReading.jsx';
 import { LessonNavigation } from './LessonNavigation.jsx';
 import { LessonTrail } from './LessonTrail.jsx';
 import './lesson.css';
+import { CurriculumLesson } from '../curriculum/CurriculumLesson.jsx';
 
 /**
  * Lee una lección del catálogo autorizado por IDs; abrirla no modifica el progreso.
@@ -25,11 +26,14 @@ export function StudentLesson() {
     document.getElementById('student-content')?.focus();
   }, [lessonId, status]);
   const available = snapshot?.source === 'api' && module?.access === 'available' && lesson;
+  const continueLearning = () =>
+    navigate(next ? `/student/modules/${moduleId}/lessons/${next.id}` : '/student/modules');
   return (
     <div className="education-page flex w-full flex-col gap-6">
       <StudentPageHeader
         title={available ? lesson.title : 'Lección'}
         description={available ? module.title : 'Tu espacio de lectura educativa.'}
+        preview={available && module.preview}
       />
       <LessonTrail
         step={available ? position + 1 : 0}
@@ -45,15 +49,20 @@ export function StudentLesson() {
         </Alert>
       ) : (
         <>
-          <LessonReading
-            lesson={lesson}
-            continueLabel="Continuar aprendiendo"
-            onContinue={() =>
-              navigate(
-                next ? `/student/modules/${moduleId}/lessons/${next.id}` : '/student/modules',
-              )
-            }
-          />
+          {lesson.content ? (
+            <CurriculumLesson
+              key={lesson.id}
+              lesson={lesson}
+              module={module}
+              onContinue={continueLearning}
+            />
+          ) : (
+            <LessonReading
+              lesson={lesson}
+              continueLabel="Continuar aprendiendo"
+              onContinue={continueLearning}
+            />
+          )}
           <LessonNavigation module={module} lessonId={lessonId} />
         </>
       )}

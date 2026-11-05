@@ -31,6 +31,7 @@ export function StudentHome() {
         status={status}
         moduleState={current && moduleProgress(current).state}
         demo={demo}
+        preview={current?.preview}
       />
       {status === 'loading' ? (
         <StudentLoading />

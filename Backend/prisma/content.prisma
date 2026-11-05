@@ -7,6 +7,8 @@ enum PublicationStatus {
 
 enum ExerciseType {
   SIGN_PRACTICE
+  MULTIPLE_CHOICE_TEXT
+  MULTIPLE_CHOICE_IMAGE
 
   @@schema("vocessilentes")
 }
@@ -18,6 +20,7 @@ model Module {
   imagePath         String?
   order             Int               @unique
   publicationStatus PublicationStatus @default(DRAFT)
+  contentKey        String?           @unique @db.VarChar(100)
   lessons           Lesson[]
   reports           Report[]
 
@@ -32,6 +35,7 @@ model Lesson {
   referenceVideoPath String?
   order              Int
   publicationStatus  PublicationStatus @default(DRAFT)
+  content            Json?
   module             Module            @relation(fields: [moduleId], references: [id], onDelete: Restrict, onUpdate: Cascade)
   exercises          Exercise[]
   progress           LessonProgress[]
@@ -48,6 +52,7 @@ model Exercise {
   order           Int
   type            ExerciseType       @default(SIGN_PRACTICE)
   expectedSignKey String             @db.VarChar(100)
+  definition      Json?
   lesson          Lesson             @relation(fields: [lessonId], references: [id], onDelete: Restrict, onUpdate: Cascade)
   progress        ExerciseProgress[]
   reports         Report[]

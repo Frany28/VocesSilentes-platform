@@ -1,5 +1,7 @@
 import { HttpError } from '../../errors/http-error.js';
 import { lockActor } from '../auth/auth-transaction.js';
+import { accessibleLessons } from './learning-access.js';
+import { saveLearningProgress } from './learning-progress.persistence.js';
 
 /**
  * Persiste avance declarado por el alumno; jamás representa una evaluación automática de LSV.
@@ -8,48 +10,24 @@ import { lockActor } from '../auth/auth-transaction.js';
  * @param {'lesson'|'exercise'} kind Tipo validado por la ruta.
  * @param {string} id UUID del contenido publicado.
  * @param {string} status IN_PROGRESS o COMPLETED; no permite retroceder progreso completado.
+ * @param {string | undefined} [previewModuleId] Único módulo de revisión local; nunca enviado por el navegador.
  * @returns {Promise<object>} Fila persistida; lanza 403/404 y revierte si falla la bitácora.
  */
-export async function persistLearningProgress(database, userId, kind, id, status) {
+export async function persistLearningProgress(database, userId, kind, id, status, previewModuleId) {
   return database.$transaction(async (tx) => {
     await lockActor(tx, userId, 'USER');
-    const published = {
-      publicationStatus: 'PUBLISHED',
-      module: { publicationStatus: 'PUBLISHED' },
-    };
+    const published = accessibleLessons(previewModuleId);
     const content = await tx[kind].findFirst({
       where: { id, ...(kind === 'lesson' ? published : { lesson: published }) },
     });
     if (!content)
       throw new HttpError(404, 'CONTENT_NOT_FOUND', 'Contenido publicado no encontrado');
-    const model = kind === 'lesson' ? 'lessonProgress' : 'exerciseProgress';
-    const field = kind === 'lesson' ? 'lessonId' : 'exerciseId';
-    const where = { [`userId_${field}`]: { userId, [field]: id } };
-    const current = await tx[model].findUnique({ where });
-    if (current && (current.status === status || current.status === 'COMPLETED')) return current;
-    const now = new Date(
-      Math.max(
-        Date.now(),
-        current?.startedAt?.getTime() ?? 0,
-        current?.lastActivityAt?.getTime() ?? 0,
-      ),
-    );
-    const timestamps =
-      kind === 'lesson' ? { startedAt: current?.startedAt ?? now } : { lastActivityAt: now };
-    const data = { status, ...timestamps, completedAt: status === 'COMPLETED' ? now : null };
-    const progress = await tx[model].upsert({
-      where,
-      create: { userId, [field]: id, ...data },
-      update: data,
-    });
-    await tx.auditLog.create({
-      data: {
-        actorId: userId,
-        entityId: progress.id,
-        entityType: kind === 'lesson' ? 'LessonProgress' : 'ExerciseProgress',
-        operation: kind === 'lesson' ? 'LESSON_PROGRESS_UPDATED' : 'EXERCISE_PROGRESS_UPDATED',
-      },
-    });
-    return progress;
+    if (kind === 'exercise' && content.type !== 'SIGN_PRACTICE')
+      throw new HttpError(
+        409,
+        'ASSESSMENT_REQUIRED',
+        'Esta pregunta requiere comprobación de respuesta',
+      );
+    return saveLearningProgress(tx, userId, kind, id, status);
   });
 }

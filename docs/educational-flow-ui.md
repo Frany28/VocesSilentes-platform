@@ -1,5 +1,10 @@
 # Flujo educativo Student — capa visual
 
+Entrega posterior: el [módulo de alfabeto](alphabet-module.md) reutiliza estas piezas visuales con
+contenido estructurado y corrección real de preguntas de texto en backend. Su revisión local conserva
+borradores y preguntas visuales bloqueadas. Esta página describe la demo visual original aislada;
+sus fixtures continúan separados del contenido y progreso de las lecciones reales.
+
 La lectura publicada continúa en `/student/modules/:moduleId/lessons/:lessonId`, atendida por
 `StudentLesson`. Se conservan la consulta por ID dentro del módulo, el acceso directo, StudentGuard,
 StudentProvider, AbortSignal, los estados de carga/error/reintento/no disponible y el progreso manual.

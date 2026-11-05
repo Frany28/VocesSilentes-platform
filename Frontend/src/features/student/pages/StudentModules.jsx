@@ -26,7 +26,12 @@ export function StudentModules() {
   const demo = snapshot?.source === 'demo';
   return (
     <div className="flex flex-col gap-6">
-      <StudentPageHeader catalog status={status} demo={demo} />
+      <StudentPageHeader
+        catalog
+        status={status}
+        demo={demo}
+        preview={modules.some((module) => module.preview)}
+      />
       {status === 'loading' ? (
         <StudentLoading catalog />
       ) : status === 'error' ? (

@@ -10,6 +10,25 @@ export async function readLearning(signal) {
 }
 
 /**
+ * Envía únicamente la opción seleccionada; la corrección y el avance se determinan en el backend.
+ * @param {string} id UUID del ejercicio entregado por el catálogo.
+ * @param {string} optionId ID de una opción pública, nunca una calificación.
+ * @param {AbortSignal} signal Cancelación del consumidor.
+ * @returns {Promise<object>} Resultado y progreso confirmados; propaga ApiError sin fallback.
+ */
+export async function answerLearningExercise(id, optionId, signal) {
+  const { data } = await requestJson('auth/csrf', { signal });
+  return (
+    await requestJson(`learning/exercises/${id}/answer`, {
+      method: 'POST',
+      signal,
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': data.csrfToken },
+      body: JSON.stringify({ optionId }),
+    })
+  ).data;
+}
+
+/**
  * Guarda un avance declarado manualmente; no envía identidad ni resultados de reconocimiento.
  * @param {'lessons'|'exercises'} kind Tipo de contenido.
  * @param {string} id UUID confirmado por el catálogo.

@@ -1,5 +1,9 @@
 # Fase 1 — primera lectura educativa
 
+Actualización posterior: el [módulo de alfabeto](alphabet-module.md) añade contenido estructurado,
+preguntas con corrección backend y una revisión local de borradores. La lectura de esta fase sin
+Lesson.content y su navegación por ID se conservan. Esta página documenta la entrega inicial.
+
 Actualización visual: la [maquetación educativa desde Figma](educational-flow-ui.md) añade el marcador
 multimedia, la continuación por ID y una demo de desarrollo separada con seis vistas. Mantiene los
 contratos, permisos, texto publicado y progreso manual descritos aquí. Los resultados inferiores

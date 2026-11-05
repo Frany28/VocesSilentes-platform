@@ -1,5 +1,12 @@
 # Contratos HTTP
 
+El [alfabeto manual](alphabet-module.md#contrato-y-almacenamiento) añade POST
+`/api/learning/exercises/:id/answer` con `{optionId}`, sesión USER y CSRF. Devuelve corrección,
+explicación y progreso propio; nunca claves. GET `/api/learning` proyecta teoría y preguntas sin
+definiciones privadas. Las visuales permanecen bloqueadas; PUT de progreso manual no puede completar
+cuestionarios. El catálogo normal sigue ocultando borradores; la revisión aislada autoriza un UUID
+explícito sin publicar contenido. Ver el enlace para campos, disponibilidad y códigos de error.
+
 **Actualización funcional:** están disponibles GET `/api/admin/summary`, PATCH
 `/api/admin/users/:id/state` y `/api/account/profile|password|photo`, más lectura privada de fotos.
 [Métodos, entradas, permisos y respuestas actuales](account-functionality.md#api-y-protección).

@@ -1,5 +1,12 @@
 # Arquitectura
 
+El [Módulo 1 de alfabeto manual](alphabet-module.md) amplía las tablas existentes con contenido
+JSON y definiciones privadas de cuestionarios. `features/student/curriculum/` separa presentación
+y estado; `modules/learning/` proyecta contenido permitido, corrige en servidor y conserva progreso
+monótono propio con auditoría. La vista previa DRAFT se inyecta por UUID solo en el proceso local
+aislado. No cambia el arranque productivo, los guards ni la lectura antigua sin contenido estructurado.
+La migración aditiva está preparada y probada en memoria; no se aplicó en Supabase.
+
 El [flujo educativo visual](educational-flow-ui.md) adapta StudentLesson y separa sus componentes
 de presentación del controlador/fixtures de una demo exclusiva de desarrollo bajo los guards Student.
 No modifica API, base de datos ni progreso manual.

@@ -3,7 +3,7 @@ import { useAuth } from '../../auth/use-auth.js';
 /**
  * Identidad real de sesión y origen visible de los indicadores de demostración.
  * @param {{catalog?: boolean, status?: string, moduleState?: string, demo?: boolean,
- * title?: string, description?: string}} props Página, lectura y textos de otras vistas Student.
+ * title?: string, description?: string, preview?: boolean}} props Página, lectura y textos de otras vistas Student.
  * @returns {import('react').ReactElement} Título accesible de página.
  */
 export function StudentPageHeader({
@@ -11,6 +11,7 @@ export function StudentPageHeader({
   status,
   moduleState,
   demo = false,
+  preview = false,
   title,
   description: custom,
 }) {
@@ -37,6 +38,12 @@ export function StudentPageHeader({
       {demo && (
         <p className="text-info [font:var(--type-label)]">
           Demostración: estos datos no son tu progreso real.
+        </p>
+      )}
+      {preview && (
+        <p className="text-warning [font:var(--type-label)]">
+          Vista previa local · Borrador pendiente de revisión lingüística. No es contenido
+          publicado.
         </p>
       )}
     </div>

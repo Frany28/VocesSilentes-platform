@@ -3,6 +3,7 @@ import { rateLimit } from 'express-rate-limit';
 import { z } from 'zod';
 import { HttpError } from '../../errors/http-error.js';
 import { requireAuthTransport, requireSession, requireRole } from '../auth/auth.middleware.js';
+import { answerSchema } from './choice.validation.js';
 
 const idSchema = z.uuid();
 const progressSchema = z.object({ status: z.enum(['IN_PROGRESS', 'COMPLETED']) }).strict();
@@ -40,6 +41,11 @@ export function createLearningRouter(config, authService, service, csrf) {
       }),
   });
   router.get('/', async (req, res) => res.json({ data: await service.snapshot(req.auth.id) }));
+  router.post('/exercises/:id/answer', limit, csrf.protect, async (req, res) => {
+    const { optionId } = answerSchema.parse(req.body);
+    const result = await service.answer(req.auth.id, idSchema.parse(req.params.id), optionId);
+    res.json({ data: result });
+  });
   for (const [path, kind] of [
     ['lessons', 'lesson'],
     ['exercises', 'exercise'],

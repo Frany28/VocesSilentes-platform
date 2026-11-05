@@ -74,9 +74,11 @@ export function LearningPractice() {
               Marcar lectura completada
             </Button>
           </div>
-          {lesson.exercises.map((exercise) => (
-            <LearningExercise key={exercise.id} exercise={exercise} operation={operation} />
-          ))}
+          {lesson.exercises
+            .filter((exercise) => !exercise.type || exercise.type === 'SIGN_PRACTICE')
+            .map((exercise) => (
+              <LearningExercise key={exercise.id} exercise={exercise} operation={operation} />
+            ))}
           {operation.error && (
             <Alert tone="error" title="No se pudo guardar">
               {operation.error}

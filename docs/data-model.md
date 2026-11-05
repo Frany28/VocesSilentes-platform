@@ -102,22 +102,29 @@ cookies, emisión nueva, revocación por logout y middleware. No hay renovación
 
 ## Contenido compartido
 
-| Entidad  | Campos además de `id`                                                                                                        | Relaciones y restricciones                                                                 |
-| -------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Module   | `title` varchar(200), `description`, `imagePath?`, `order`, `publicationStatus`                                              | 0..N Lesson; orden global UNIQUE >= 0                                                      |
-| Lesson   | `moduleId`, `title` varchar(200), `description` (texto o instrucciones), `referenceVideoPath?`, `order`, `publicationStatus` | Un Module; 0..N Exercise; UNIQUE (`moduleId`, `order`), orden >= 0                         |
-| Exercise | `lessonId`, `instructions`, `order`, `type`, `expectedSignKey` varchar(100)                                                  | Una Lesson; UNIQUE (`lessonId`, `order`), orden >= 0; seña objetivo obligatoria y no vacía |
+| Entidad  | Campos además de `id`                                                                               | Relaciones y restricciones                                                                            |
+| -------- | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| Module   | `title`, `description`, `imagePath?`, `order`, `publicationStatus`, `contentKey?`                   | 0..N Lesson; orden global UNIQUE >= 0; contentKey varchar(100) UNIQUE no vacío si existe              |
+| Lesson   | `moduleId`, `title`, `description`, `referenceVideoPath?`, `order`, `publicationStatus`, `content?` | Un Module; 0..N Exercise; UNIQUE (`moduleId`, `order`), orden >= 0; content JSONB objeto opcional     |
+| Exercise | `lessonId`, `instructions`, `order`, `type`, `expectedSignKey`, `definition?`                       | Una Lesson; UNIQUE (`lessonId`, `order`), orden >= 0; clave varchar(100) no vacía; definición privada |
 
-`publicationStatus`: `DRAFT` (default), `PUBLISHED`. `ExerciseType` solo contiene `SIGN_PRACTICE`,
-default del ejercicio demostrativo; no hay estructuras de opciones ni arrastrar y soltar.
-El ejercicio hereda disponibilidad de su lección y módulo: futuros servicios solo ofrecerán
-contenido cuyo módulo y lección estén publicados. No se impone un número fijo de lecciones o ejercicios.
+`publicationStatus`: `DRAFT` (default), `PUBLISHED`. ExerciseType conserva SIGN_PRACTICE por defecto
+y añade MULTIPLE_CHOICE_TEXT / MULTIPLE_CHOICE_IMAGE. SIGN_PRACTICE exige definition null;
+selección múltiple exige un objeto JSONB privado, validado con Zod antes de cargar/corregir.
+Contiene opciones, clave, explicaciones y revisión. La API utiliza una proyección permitida;
+no serializa definition ni claves. No hay arrastrar y soltar.
+El ejercicio hereda publicación de módulo/lección y añade disponibilidad por revisión/materiales.
+La [revisión local del alfabeto](alphabet-module.md) autoriza un único módulo DRAFT por inyección
+del servicio, sin cambiar el catálogo productivo. No se impone un número fijo global de contenidos.
 Los índices UNIQUE por padre/orden sirven también para buscar contenido del padre ordenado.
 
 `expectedSignKey` identifica la seña objetivo en recursos educativos aprobados. Es una clave semántica,
 no una FK a un diccionario (ese módulo está excluido) ni una etiqueta de modelo entrenado.
 Su existencia en los recursos debe validarla el futuro servicio de contenido. No almacena confianza,
 aciertos, métricas ni umbrales. MediaPipe detecta manos; este campo no convierte eso en reconocimiento LSV.
+En selección múltiple conserva la clave editorial del ejercicio, no una seña ni su respuesta correcta.
+Lesson.content guarda objetivos, teoría, práctica, tarjetas y créditos; null conserva la lectura anterior.
+La ampliación es aditiva y está pendiente de aplicar en el destino compartido autorizado.
 El contenido no pertenece a un estudiante y no duplica progreso dentro de User.
 
 ## Progreso persistente
@@ -140,13 +147,13 @@ ausencia de fila equivale a `NOT_STARTED`.
 
 Los CHECK enumeran explícitamente presencia de fechas, evitando que SQL acepte UNKNOWN por NULL.
 Repetir un ejercicio completado puede actualizar última actividad y conservar la finalización previa.
-La política de reinicios y los criterios educativos de finalización requieren un servicio posterior;
-no se deducen de landmarks. La consistencia entre progreso de ejercicios y de lección es una operación
-de negocio futura, no un trigger que inventa aciertos.
+Los servicios actuales conservan COMPLETED sin degradarlo y auditan cambios atómicamente.
+En selección múltiple, una respuesta incorrecta registra IN_PROGRESS y una correcta COMPLETED;
+el endpoint manual no puede completar estos ejercicios. LessonProgress sigue siendo lectura declarada
+explícitamente, sin completarse automáticamente al contestar. No se deduce ejecución de landmarks.
 
-**Al salir se conserva el avance**, incluido IN_PROGRESS, a diferencia del comportamiento antiguo
-descrito en la solicitud. El backend futuro persistirá al cambiar de estado/actividad, no solo al salir;
-estas tablas permiten conservarlo pero esta tarea no implementa peticiones de guardado.
+**Al salir se conserva el avance**, incluido IN_PROGRESS. El backend persiste cada mutación autorizada,
+no al abandonar la página. No se guardan intentos individuales ni notas del último intento.
 
 Módulo: derivar porcentaje como `100 * lecciones publicadas completadas / lecciones publicadas totales`
 para ese usuario y módulo. Usar el mismo conjunto publicado que ve el estudiante; un módulo con cero

@@ -19,7 +19,7 @@ import { once } from 'node:events';
 
 /**
  * Registra integración HTTP + PrismaPg + PostgreSQL WASM/TCP efímero, sin leer .env.
- * @param {{storage?: object, photoStorage?: object}} [options] Dobles explícitos de Storage, nunca credenciales reales.
+ * @param {{storage?: object, photoStorage?: object, previewModuleId?: string}} [options] Dependencias locales aisladas.
  * @returns {object} Fixture inicializada en before y cerrada en after; no conecta a Supabase.
  */
 export function authFixture(options = {}) {
@@ -54,7 +54,9 @@ export function authFixture(options = {}) {
         authService: fixture.service,
         usersService: fixture.usersService,
         reportsService: fixture.reportsService,
-        learningService: createLearningService(database),
+        learningService: createLearningService(database, {
+          previewModuleId: options.previewModuleId,
+        }),
         accountService: await createAccountService(database, options.photoStorage),
       }),
     );

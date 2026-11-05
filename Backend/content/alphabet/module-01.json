@@ -1,0 +1,1879 @@
+{
+  "schemaVersion": "1.0.0",
+  "moduleKey": "modulo-01-alfabeto-manual-lsv",
+  "moduleTitle": "Mi primer contacto con la LSV: alfabeto manual",
+  "moduleDescription": "Conoce el alfabeto manual documentado en un manual básico de LSV. Alterna lectura, demostraciones audiovisuales autorizadas, ejercicios de identificación y práctica personal.",
+  "audience": "principiantes",
+  "estimatedFormat": "7 lecciones de 10 a 20 minutos sugeridos, ajustables al ritmo del estudiante",
+  "publicationStatus": "DRAFT",
+  "source": {
+    "title": "LENGUA DE SEÑAS VENEZOLANA. MANUAL BÁSICO. APRENDE LA LENGUA DE SEÑAS EN CASA",
+    "pdf": "manual-lsv.pdf",
+    "edition": "Primera edición, julio de 2022",
+    "place": "Barcelona, Anzoátegui, Venezuela",
+    "illustrationCredit": "Yulianny Fuentes",
+    "sourcePages": {
+      "credits": 3,
+      "alphabetFirst": 5,
+      "alphabetSecond": 6
+    },
+    "copyrightNotice": "Esta obra fue creada con fines educativos. Prohivida su venta.",
+    "assetPolicy": "La declaración de fines educativos y prohibición de venta NO acredita por sí sola permiso para extraer, republicar o modificar las ilustraciones en una aplicación web. No integrar imágenes originales en una versión pública sin autorización/licencia comprobada; alternativamente producir imágenes originales supervisadas por usuarios competentes de LSV.",
+    "linguisticPolicy": "El manual documenta representaciones gráficas, no instrucciones completas ni videos de todas las letras. Revisar conformidad con LSV con persona competente, preferiblemente comunidad sorda venezolana. No extrapolar otras lenguas de señas."
+  },
+  "learningModel": {
+    "flow": [
+      "Explicación breve",
+      "Tarjetas de letras con referencia autorizada",
+      "Video validado opcional/pendiente",
+      "Pregunta de reconocimiento",
+      "Retroalimentación",
+      "Repaso opcional"
+    ],
+    "completionPolicy": "Una respuesta acertada de opción múltiple no certifica habilidad de ejecución manual. No registrar reconocimiento de señas por cámara sin modelo comprobado.",
+    "cameraPhase": "FUTURE; no camera recognition in this content package",
+    "questionRendering": "En ejercicios de imagen, ocultar letra original y no filtrar correctOptionId/clave en payload público; validar imágenes y accesibilidad."
+  },
+  "lessons": [
+    {
+      "id": "m1-l01",
+      "title": "Conozcamos la LSV y su alfabeto manual",
+      "summary": "Una introducción respetuosa a la lengua de señas venezolana y al uso del alfabeto manual.",
+      "letters": [],
+      "objectives": [
+        "Distinguir la LSV del alfabeto manual.",
+        "Reconocer para qué sirve la dactilología en situaciones cotidianas.",
+        "Comprender que aprender letras no equivale a dominar la LSV."
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "heading": "Bienvenidos a VocesSilentes",
+          "body": "En este módulo darás tus primeros pasos con el alfabeto manual utilizado como referencia en el Manual básico de Lengua de Señas Venezolana. Aprenderás a observar las formas de la mano, identificar letras y practicar con calma. Cada actividad permite repetir la demostración tantas veces como necesites."
+        },
+        {
+          "type": "text",
+          "heading": "¿Qué es la Lengua de Señas Venezolana?",
+          "body": "La LSV es una lengua visual-gestual utilizada por integrantes de la comunidad sorda venezolana. Como otras lenguas naturales, tiene maneras propias de organizar y expresar significados. No es una traducción palabra por palabra del español ni se reduce a mover las manos para representar letras."
+        },
+        {
+          "type": "text",
+          "heading": "¿Qué es el alfabeto manual?",
+          "body": "El alfabeto manual permite representar letras mediante configuraciones y, en algunos casos, movimientos de la mano. Puede utilizarse para deletrear nombres y determinados términos. Es una herramienta útil dentro del aprendizaje, pero no sustituye el vocabulario, la gramática y las expresiones de la LSV."
+        },
+        {
+          "type": "text",
+          "heading": "Cómo aprender en este módulo",
+          "body": "Primero observa la demostración; después identifica la letra en un ejercicio; finalmente intenta reproducirla frente a un espejo o cámara, sin evaluación automática hasta que el reconocimiento esté validado. Si alguna ilustración muestra flechas, consulta una demostración en video para comprender el movimiento. Respeta tu ritmo y vuelve a repasar cuando lo necesites."
+        }
+      ],
+      "practiceInstructions": "Explora las láminas del abecedario en las páginas 5 y 6 del manual y localiza tres letras que ya conozcas por escrito.",
+      "order": 1,
+      "contentReviewStatus": "PENDING_LSV_REVIEW",
+      "video": null
+    },
+    {
+      "id": "m1-l02",
+      "title": "Las cinco vocales: A, E, I, O y U",
+      "summary": "Identificamos cinco letras que aparecen con frecuencia al deletrear nombres.",
+      "letters": ["A", "E", "I", "O", "U"],
+      "objectives": [
+        "Identificar visualmente A, E, I, O y U.",
+        "Comparar las ilustraciones sin confundir letras.",
+        "Practicar con una demostración verificada."
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "heading": "Empezamos con las vocales",
+          "body": "En español escrito tenemos cinco vocales: A, E, I, O y U. En esta lección observarás sus representaciones en el alfabeto manual documentado en el material de referencia. La ilustración ayuda a reconocer la forma, mientras que el video permite verificar orientación y movimiento."
+        },
+        {
+          "type": "text",
+          "heading": "Observa antes de repetir",
+          "body": "Mira cada referencia detenidamente. Presta atención a los dedos visibles, la orientación de la mano y a si la demostración necesita movimiento. Después de ver el video, intenta realizar la configuración sin prisa y compara con la referencia validada."
+        },
+        {
+          "type": "text",
+          "heading": "Tu primera práctica",
+          "body": "Recorre las tarjetas A, E, I, O y U. Reproduce las demostraciones autorizadas y realiza una pregunta de identificación por letra. Cuando termines, repasa las que todavía te resulte difícil distinguir."
+        }
+      ],
+      "practiceInstructions": "Practica las vocales una por una. No marques una configuración como correcta únicamente porque el detector encuentre una mano.",
+      "order": 2,
+      "contentReviewStatus": "PENDING_LSV_REVIEW",
+      "video": null
+    },
+    {
+      "id": "m1-l03",
+      "title": "Consonantes iniciales: B, C, D, F y G",
+      "summary": "Primer grupo de cinco consonantes del alfabeto manual.",
+      "letters": ["B", "C", "D", "F", "G"],
+      "objectives": [
+        "Reconocer las referencias B, C, D, F y G.",
+        "Identificar diferencias visuales entre las letras de este grupo.",
+        "Consolidar la observación antes de practicar."
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "heading": "Cinco consonantes nuevas",
+          "body": "Continuamos con B, C, D, F y G. Trabajaremos en un grupo pequeño para que puedas prestar atención a cada demostración. Las formas exactas no deben deducirse solamente del nombre de la letra: consulta las ilustraciones y, de ser posible, una demostración verificada en video."
+        },
+        {
+          "type": "text",
+          "heading": "Una letra a la vez",
+          "body": "Observa la referencia completa, revisa la posición de la mano y repite. Si dos letras parecen parecidas, vuelve a mirar sus demostraciones y comprueba las diferencias antes de responder."
+        },
+        {
+          "type": "text",
+          "heading": "Comprueba tu aprendizaje",
+          "body": "Responde las preguntas de identificación visual. La meta es reconocer las referencias del módulo, no memorizar una letra que aparezca escrita junto a la imagen."
+        }
+      ],
+      "practiceInstructions": "Observa B, C, D, F y G, realiza una repetición consciente por letra y responde el ejercicio de identificación.",
+      "order": 3,
+      "contentReviewStatus": "PENDING_LSV_REVIEW",
+      "video": null
+    },
+    {
+      "id": "m1-l04",
+      "title": "Consonantes: H, J, K, L y M",
+      "summary": "Segundo grupo de consonantes; atención especial a J, marcada con movimiento en la fuente.",
+      "letters": ["H", "J", "K", "L", "M"],
+      "objectives": [
+        "Identificar H, J, K, L y M.",
+        "Reconocer que algunas letras requieren observar una secuencia.",
+        "Usar el video en vez de adivinar un movimiento a partir de una imagen fija."
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "heading": "Seguimos ampliando el alfabeto",
+          "body": "Conocerás H, J, K, L y M. Las ilustraciones del manual permiten ubicar y comparar cada letra. Procura observar la mano desde una perspectiva semejante a la demostración y toma tu tiempo."
+        },
+        {
+          "type": "text",
+          "heading": "Atención al movimiento",
+          "body": "La referencia de la letra J contiene una flecha de movimiento. La imagen fija por sí sola no explica con suficiente precisión toda la trayectoria o ejecución. Antes de pedir a un estudiante que la reproduzca o usarla para entrenar un modelo, necesitamos una grabación validada de la letra."
+        },
+        {
+          "type": "text",
+          "heading": "Práctica de reconocimiento",
+          "body": "Después de estudiar cada tarjeta, selecciona la letra correspondiente a una imagen de referencia autorizada. Revisa tu respuesta y repite el ejercicio si lo necesitas."
+        }
+      ],
+      "practiceInstructions": "Repasa H, J, K, L y M. Para J, consulta el video validado antes de cualquier práctica motora.",
+      "order": 4,
+      "contentReviewStatus": "PENDING_LSV_REVIEW",
+      "video": null
+    },
+    {
+      "id": "m1-l05",
+      "title": "Consonantes: N, Ñ, P, Q y R",
+      "summary": "Un grupo que incluye la Ñ, presente en el abecedario del manual.",
+      "letters": ["N", "Ñ", "P", "Q", "R"],
+      "objectives": [
+        "Identificar N, Ñ, P, Q y R.",
+        "Observar las particularidades de la referencia de Ñ.",
+        "Distinguir una foto fija de una demostración completa."
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "heading": "La letra Ñ también forma parte del recorrido",
+          "body": "En esta lección estudiaremos N, Ñ, P, Q y R. La Ñ aparece de forma explícita en la página 6 del manual. Así evitamos enseñar un alfabeto incompleto o sustituirlo por otro de una lengua de señas diferente."
+        },
+        {
+          "type": "text",
+          "heading": "Una ilustración puede necesitar movimiento",
+          "body": "En el manual, la letra Ñ se presenta con una flecha. Antes de escribir instrucciones detalladas sobre la trayectoria, debemos contrastarla con una demostración audiovisual auténtica y revisada."
+        },
+        {
+          "type": "text",
+          "heading": "Repaso por comparación",
+          "body": "Alterna la observación de cada letra con preguntas de identificación. Si dudas, vuelve al recurso de referencia; aprender también consiste en revisar."
+        }
+      ],
+      "practiceInstructions": "Practica N, Ñ, P, Q y R. La práctica guiada de Ñ requiere un video validado.",
+      "order": 5,
+      "contentReviewStatus": "PENDING_LSV_REVIEW",
+      "video": null
+    },
+    {
+      "id": "m1-l06",
+      "title": "Consonantes: S, T, V, W y X",
+      "summary": "Cinco nuevas letras para completar la mayor parte del recorrido.",
+      "letters": ["S", "T", "V", "W", "X"],
+      "objectives": [
+        "Identificar S, T, V, W y X en material validado.",
+        "Comparar las letras de forma deliberada.",
+        "Reforzar la autonomía de estudio."
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "heading": "Cinco referencias más",
+          "body": "En este grupo trabajaremos S, T, V, W y X. Utiliza las imágenes del manual como índice visual. Para aprender la ejecución, prioriza videos con una vista clara de la mano, siempre que estén verificados para LSV."
+        },
+        {
+          "type": "text",
+          "heading": "Mira, identifica y repite",
+          "body": "Revisa una letra, oculta su nombre cuando hagas el ejercicio y selecciona la respuesta. Después comprueba el resultado. El objetivo es reconocer la letra por su demostración, no por un rótulo visible."
+        },
+        {
+          "type": "text",
+          "heading": "Repaso consciente",
+          "body": "Regresa a las letras de sesiones anteriores antes de continuar. Puedes tomar descansos y repetir los intentos tantas veces como lo necesites."
+        }
+      ],
+      "practiceInstructions": "Revisa las referencias S, T, V, W y X, y practica la identificación sin mostrar los rótulos de respuesta.",
+      "order": 6,
+      "contentReviewStatus": "PENDING_LSV_REVIEW",
+      "video": null
+    },
+    {
+      "id": "m1-l07",
+      "title": "Y, Z y mi nombre en el alfabeto manual",
+      "summary": "Cerramos el abecedario, repasamos las letras y aprendemos a planificar el deletreo de un nombre.",
+      "letters": ["Y", "Z"],
+      "objectives": [
+        "Reconocer Y y Z.",
+        "Repasar las 27 letras de la serie del manual.",
+        "Preparar una secuencia de letras para deletrear un nombre."
+      ],
+      "sections": [
+        {
+          "type": "text",
+          "heading": "Las últimas dos letras",
+          "body": "Conocerás Y y Z para completar las 27 letras incluidas en las páginas 5 y 6 del manual. Observa sus ilustraciones y compara con demostraciones audiovisuales revisadas."
+        },
+        {
+          "type": "text",
+          "heading": "La Z requiere observar su ejecución",
+          "body": "La ilustración de Z incluye una flecha de movimiento. Necesitamos un video validado para conocer la ejecución completa; no debemos convertir una flecha de una lámina en instrucciones arbitrarias."
+        },
+        {
+          "type": "text",
+          "heading": "¿Cómo practico mi nombre?",
+          "body": "Escribe tu nombre y sepáralo en letras. Busca cada letra en el material de referencia. Observa su demostración y ensaya la secuencia lentamente, manteniendo pausas cuando lo necesites. Este ejercicio trabaja deletreo con alfabeto manual: no pretende enseñar una traducción completa del nombre a una seña propia."
+        },
+        {
+          "type": "text",
+          "heading": "Cierre del módulo",
+          "body": "Has recorrido las 27 letras de la serie ilustrada del manual. Revisa las que necesites, reconoce tus avances y recuerda que esto es el inicio: la LSV tiene señas, expresiones y estructuras lingüísticas que estudiarás en los siguientes módulos."
+        }
+      ],
+      "practiceInstructions": "Escribe tu nombre, identifica cada letra en las tarjetas y practica la secuencia con apoyo audiovisual validado. No guardes nombres escritos sin necesidad.",
+      "order": 7,
+      "contentReviewStatus": "PENDING_LSV_REVIEW",
+      "video": null
+    }
+  ],
+  "letterCards": [
+    {
+      "key": "lsv-manual-a",
+      "letter": "A",
+      "lessonKey": "m1-l02",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 5,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-e",
+      "letter": "E",
+      "lessonKey": "m1-l02",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 5,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-i",
+      "letter": "I",
+      "lessonKey": "m1-l02",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 5,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-o",
+      "letter": "O",
+      "lessonKey": "m1-l02",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 6,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-u",
+      "letter": "U",
+      "lessonKey": "m1-l02",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 6,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-b",
+      "letter": "B",
+      "lessonKey": "m1-l03",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 5,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-c",
+      "letter": "C",
+      "lessonKey": "m1-l03",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 5,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-d",
+      "letter": "D",
+      "lessonKey": "m1-l03",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 5,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-f",
+      "letter": "F",
+      "lessonKey": "m1-l03",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 5,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-g",
+      "letter": "G",
+      "lessonKey": "m1-l03",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 5,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-h",
+      "letter": "H",
+      "lessonKey": "m1-l04",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 5,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-j",
+      "letter": "J",
+      "lessonKey": "m1-l04",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 5,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": true,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-k",
+      "letter": "K",
+      "lessonKey": "m1-l04",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 5,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-l",
+      "letter": "L",
+      "lessonKey": "m1-l04",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 5,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-m",
+      "letter": "M",
+      "lessonKey": "m1-l04",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 6,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-n",
+      "letter": "N",
+      "lessonKey": "m1-l05",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 6,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-enye",
+      "letter": "Ñ",
+      "lessonKey": "m1-l05",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 6,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": true,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-p",
+      "letter": "P",
+      "lessonKey": "m1-l05",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 6,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-q",
+      "letter": "Q",
+      "lessonKey": "m1-l05",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 6,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-r",
+      "letter": "R",
+      "lessonKey": "m1-l05",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 6,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-s",
+      "letter": "S",
+      "lessonKey": "m1-l06",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 6,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-t",
+      "letter": "T",
+      "lessonKey": "m1-l06",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 6,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-v",
+      "letter": "V",
+      "lessonKey": "m1-l06",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 6,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-w",
+      "letter": "W",
+      "lessonKey": "m1-l06",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 6,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-x",
+      "letter": "X",
+      "lessonKey": "m1-l06",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 6,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-y",
+      "letter": "Y",
+      "lessonKey": "m1-l07",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 6,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": false,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    },
+    {
+      "key": "lsv-manual-z",
+      "letter": "Z",
+      "lessonKey": "m1-l07",
+      "source": {
+        "file": "manual-lsv.pdf",
+        "pdfPage": 6,
+        "section": "ABECEDARIO",
+        "credit": "Diseño e ilustración: Yulianny Fuentes (manual 2022)"
+      },
+      "image": null,
+      "imageStatus": "PENDING_REUSE_PERMISSION_OR_ORIGINAL_VALIDATED_ART",
+      "video": null,
+      "videoStatus": "PENDING_VALIDATED_REFERENCE",
+      "sourceIllustrationShowsMotionArrow": true,
+      "signExecutionDescription": null,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "studyHint": "Observa la ilustración y compárala con el video validado. Repite con calma."
+    }
+  ],
+  "exercises": [
+    {
+      "id": "q-m1-l02-01",
+      "lessonKey": "m1-l02",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-a",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "I"
+        },
+        {
+          "id": "opt2",
+          "text": "O"
+        },
+        {
+          "id": "opt3",
+          "text": "A"
+        },
+        {
+          "id": "opt4",
+          "text": "E"
+        }
+      ],
+      "correctOptionId": "opt3",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a A.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l02-02",
+      "lessonKey": "m1-l02",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-e",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "U"
+        },
+        {
+          "id": "opt2",
+          "text": "E"
+        },
+        {
+          "id": "opt3",
+          "text": "I"
+        },
+        {
+          "id": "opt4",
+          "text": "O"
+        }
+      ],
+      "correctOptionId": "opt2",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a E.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l02-03",
+      "lessonKey": "m1-l02",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-i",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "I"
+        },
+        {
+          "id": "opt2",
+          "text": "O"
+        },
+        {
+          "id": "opt3",
+          "text": "U"
+        },
+        {
+          "id": "opt4",
+          "text": "A"
+        }
+      ],
+      "correctOptionId": "opt1",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a I.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l02-04",
+      "lessonKey": "m1-l02",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-o",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "U"
+        },
+        {
+          "id": "opt2",
+          "text": "A"
+        },
+        {
+          "id": "opt3",
+          "text": "E"
+        },
+        {
+          "id": "opt4",
+          "text": "O"
+        }
+      ],
+      "correctOptionId": "opt4",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a O.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l02-05",
+      "lessonKey": "m1-l02",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-u",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "E"
+        },
+        {
+          "id": "opt2",
+          "text": "I"
+        },
+        {
+          "id": "opt3",
+          "text": "U"
+        },
+        {
+          "id": "opt4",
+          "text": "A"
+        }
+      ],
+      "correctOptionId": "opt3",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a U.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l03-01",
+      "lessonKey": "m1-l03",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-b",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "F"
+        },
+        {
+          "id": "opt2",
+          "text": "B"
+        },
+        {
+          "id": "opt3",
+          "text": "C"
+        },
+        {
+          "id": "opt4",
+          "text": "D"
+        }
+      ],
+      "correctOptionId": "opt2",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a B.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l03-02",
+      "lessonKey": "m1-l03",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-c",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "C"
+        },
+        {
+          "id": "opt2",
+          "text": "D"
+        },
+        {
+          "id": "opt3",
+          "text": "F"
+        },
+        {
+          "id": "opt4",
+          "text": "G"
+        }
+      ],
+      "correctOptionId": "opt1",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a C.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l03-03",
+      "lessonKey": "m1-l03",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-d",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "F"
+        },
+        {
+          "id": "opt2",
+          "text": "G"
+        },
+        {
+          "id": "opt3",
+          "text": "B"
+        },
+        {
+          "id": "opt4",
+          "text": "D"
+        }
+      ],
+      "correctOptionId": "opt4",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a D.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l03-04",
+      "lessonKey": "m1-l03",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-f",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "B"
+        },
+        {
+          "id": "opt2",
+          "text": "C"
+        },
+        {
+          "id": "opt3",
+          "text": "F"
+        },
+        {
+          "id": "opt4",
+          "text": "G"
+        }
+      ],
+      "correctOptionId": "opt3",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a F.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l03-05",
+      "lessonKey": "m1-l03",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-g",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "D"
+        },
+        {
+          "id": "opt2",
+          "text": "G"
+        },
+        {
+          "id": "opt3",
+          "text": "B"
+        },
+        {
+          "id": "opt4",
+          "text": "C"
+        }
+      ],
+      "correctOptionId": "opt2",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a G.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l04-01",
+      "lessonKey": "m1-l04",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-h",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "H"
+        },
+        {
+          "id": "opt2",
+          "text": "J"
+        },
+        {
+          "id": "opt3",
+          "text": "K"
+        },
+        {
+          "id": "opt4",
+          "text": "L"
+        }
+      ],
+      "correctOptionId": "opt1",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a H.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l04-02",
+      "lessonKey": "m1-l04",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-j",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "K"
+        },
+        {
+          "id": "opt2",
+          "text": "L"
+        },
+        {
+          "id": "opt3",
+          "text": "M"
+        },
+        {
+          "id": "opt4",
+          "text": "J"
+        }
+      ],
+      "correctOptionId": "opt4",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a J.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l04-03",
+      "lessonKey": "m1-l04",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-k",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "M"
+        },
+        {
+          "id": "opt2",
+          "text": "H"
+        },
+        {
+          "id": "opt3",
+          "text": "K"
+        },
+        {
+          "id": "opt4",
+          "text": "L"
+        }
+      ],
+      "correctOptionId": "opt3",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a K.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l04-04",
+      "lessonKey": "m1-l04",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-l",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "J"
+        },
+        {
+          "id": "opt2",
+          "text": "L"
+        },
+        {
+          "id": "opt3",
+          "text": "M"
+        },
+        {
+          "id": "opt4",
+          "text": "H"
+        }
+      ],
+      "correctOptionId": "opt2",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a L.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l04-05",
+      "lessonKey": "m1-l04",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-m",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "M"
+        },
+        {
+          "id": "opt2",
+          "text": "H"
+        },
+        {
+          "id": "opt3",
+          "text": "J"
+        },
+        {
+          "id": "opt4",
+          "text": "K"
+        }
+      ],
+      "correctOptionId": "opt1",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a M.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l05-01",
+      "lessonKey": "m1-l05",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-n",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "Ñ"
+        },
+        {
+          "id": "opt2",
+          "text": "P"
+        },
+        {
+          "id": "opt3",
+          "text": "Q"
+        },
+        {
+          "id": "opt4",
+          "text": "N"
+        }
+      ],
+      "correctOptionId": "opt4",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a N.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l05-02",
+      "lessonKey": "m1-l05",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-enye",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "Q"
+        },
+        {
+          "id": "opt2",
+          "text": "R"
+        },
+        {
+          "id": "opt3",
+          "text": "Ñ"
+        },
+        {
+          "id": "opt4",
+          "text": "P"
+        }
+      ],
+      "correctOptionId": "opt3",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a Ñ.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l05-03",
+      "lessonKey": "m1-l05",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-p",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "N"
+        },
+        {
+          "id": "opt2",
+          "text": "P"
+        },
+        {
+          "id": "opt3",
+          "text": "Q"
+        },
+        {
+          "id": "opt4",
+          "text": "R"
+        }
+      ],
+      "correctOptionId": "opt2",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a P.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l05-04",
+      "lessonKey": "m1-l05",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-q",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "Q"
+        },
+        {
+          "id": "opt2",
+          "text": "R"
+        },
+        {
+          "id": "opt3",
+          "text": "N"
+        },
+        {
+          "id": "opt4",
+          "text": "Ñ"
+        }
+      ],
+      "correctOptionId": "opt1",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a Q.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l05-05",
+      "lessonKey": "m1-l05",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-r",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "N"
+        },
+        {
+          "id": "opt2",
+          "text": "Ñ"
+        },
+        {
+          "id": "opt3",
+          "text": "P"
+        },
+        {
+          "id": "opt4",
+          "text": "R"
+        }
+      ],
+      "correctOptionId": "opt4",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a R.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l06-01",
+      "lessonKey": "m1-l06",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-s",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "V"
+        },
+        {
+          "id": "opt2",
+          "text": "W"
+        },
+        {
+          "id": "opt3",
+          "text": "S"
+        },
+        {
+          "id": "opt4",
+          "text": "T"
+        }
+      ],
+      "correctOptionId": "opt3",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a S.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l06-02",
+      "lessonKey": "m1-l06",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-t",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "X"
+        },
+        {
+          "id": "opt2",
+          "text": "T"
+        },
+        {
+          "id": "opt3",
+          "text": "V"
+        },
+        {
+          "id": "opt4",
+          "text": "W"
+        }
+      ],
+      "correctOptionId": "opt2",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a T.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l06-03",
+      "lessonKey": "m1-l06",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-v",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "V"
+        },
+        {
+          "id": "opt2",
+          "text": "W"
+        },
+        {
+          "id": "opt3",
+          "text": "X"
+        },
+        {
+          "id": "opt4",
+          "text": "S"
+        }
+      ],
+      "correctOptionId": "opt1",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a V.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l06-04",
+      "lessonKey": "m1-l06",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-w",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "X"
+        },
+        {
+          "id": "opt2",
+          "text": "S"
+        },
+        {
+          "id": "opt3",
+          "text": "T"
+        },
+        {
+          "id": "opt4",
+          "text": "W"
+        }
+      ],
+      "correctOptionId": "opt4",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a W.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l06-05",
+      "lessonKey": "m1-l06",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-x",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "T"
+        },
+        {
+          "id": "opt2",
+          "text": "V"
+        },
+        {
+          "id": "opt3",
+          "text": "X"
+        },
+        {
+          "id": "opt4",
+          "text": "S"
+        }
+      ],
+      "correctOptionId": "opt3",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a X.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l07-01",
+      "lessonKey": "m1-l07",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-y",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "E"
+        },
+        {
+          "id": "opt2",
+          "text": "Y"
+        },
+        {
+          "id": "opt3",
+          "text": "Z"
+        },
+        {
+          "id": "opt4",
+          "text": "A"
+        }
+      ],
+      "correctOptionId": "opt2",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a Y.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l07-02",
+      "lessonKey": "m1-l07",
+      "type": "MULTIPLE_CHOICE_IMAGE",
+      "prompt": "Observa la ilustración sin el rótulo de la letra. ¿Qué letra representa?",
+      "mediaRef": "lsv-manual-z",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "Z"
+        },
+        {
+          "id": "opt2",
+          "text": "Y"
+        },
+        {
+          "id": "opt3",
+          "text": "A"
+        },
+        {
+          "id": "opt4",
+          "text": "E"
+        }
+      ],
+      "correctOptionId": "opt1",
+      "explanationCorrect": "Correcto: la referencia ilustrada corresponde a Z.",
+      "explanationIncorrect": "Revisa la tarjeta de referencia y vuelve a comparar las opciones.",
+      "requiresLicensedAsset": true,
+      "validationStatus": "PENDING_LSV_REVIEW",
+      "state": "DRAFT",
+      "accessibilityFallback": "Proveer una alternativa de evaluación no visual validada; no revelar la respuesta en texto alternativo."
+    },
+    {
+      "id": "q-m1-l01-01",
+      "lessonKey": "m1-l01",
+      "type": "MULTIPLE_CHOICE_TEXT",
+      "prompt": "¿El alfabeto manual reemplaza toda la Lengua de Señas Venezolana?",
+      "mediaRef": null,
+      "options": [
+        {
+          "id": "opt1",
+          "text": "Sí, es toda la LSV"
+        },
+        {
+          "id": "opt2",
+          "text": "No, es solo una herramienta dentro de la LSV"
+        },
+        {
+          "id": "opt3",
+          "text": "Sí, porque cada palabra es una letra"
+        },
+        {
+          "id": "opt4",
+          "text": "Sí, porque no hay gramática"
+        }
+      ],
+      "correctOptionId": "opt2",
+      "explanationCorrect": "El alfabeto manual es una herramienta; la LSV posee vocabulario y gramática propios.",
+      "explanationIncorrect": "El alfabeto manual es una herramienta; la LSV posee vocabulario y gramática propios.",
+      "state": "DRAFT",
+      "validationStatus": "PENDING_LSV_REVIEW"
+    },
+    {
+      "id": "q-m1-l01-02",
+      "lessonKey": "m1-l01",
+      "type": "MULTIPLE_CHOICE_TEXT",
+      "prompt": "¿Para qué puede servir el alfabeto manual?",
+      "mediaRef": null,
+      "options": [
+        {
+          "id": "opt1",
+          "text": "Para deletrear determinados nombres y términos"
+        },
+        {
+          "id": "opt2",
+          "text": "Para sustituir todas las expresiones faciales"
+        },
+        {
+          "id": "opt3",
+          "text": "Para traducir automáticamente cualquier frase"
+        },
+        {
+          "id": "opt4",
+          "text": "Para evitar aprender otras señas"
+        }
+      ],
+      "correctOptionId": "opt1",
+      "explanationCorrect": "El deletreo manual representa letras; no sustituye el resto de la lengua.",
+      "explanationIncorrect": "El deletreo manual representa letras; no sustituye el resto de la lengua.",
+      "state": "DRAFT",
+      "validationStatus": "PENDING_LSV_REVIEW"
+    },
+    {
+      "id": "q-m1-l01-03",
+      "lessonKey": "m1-l01",
+      "type": "MULTIPLE_CHOICE_TEXT",
+      "prompt": "Si una ilustración incluye una flecha de movimiento, ¿qué recurso necesitamos para estudiar la ejecución completa?",
+      "mediaRef": null,
+      "options": [
+        {
+          "id": "opt1",
+          "text": "Solo la letra escrita"
+        },
+        {
+          "id": "opt2",
+          "text": "Una demostración audiovisual verificada"
+        },
+        {
+          "id": "opt3",
+          "text": "Una imagen decorativa"
+        },
+        {
+          "id": "opt4",
+          "text": "La traducción al inglés"
+        }
+      ],
+      "correctOptionId": "opt2",
+      "explanationCorrect": "El video permite revisar la secuencia, siempre que esté validada para LSV.",
+      "explanationIncorrect": "El video permite revisar la secuencia, siempre que esté validada para LSV.",
+      "state": "DRAFT",
+      "validationStatus": "PENDING_LSV_REVIEW"
+    },
+    {
+      "id": "q-m1-l07-r01",
+      "lessonKey": "m1-l07",
+      "type": "MULTIPLE_CHOICE_TEXT",
+      "prompt": "¿Qué letra del manual aparece entre N y O?",
+      "mediaRef": null,
+      "options": [
+        {
+          "id": "opt1",
+          "text": "M"
+        },
+        {
+          "id": "opt2",
+          "text": "Ñ"
+        },
+        {
+          "id": "opt3",
+          "text": "P"
+        },
+        {
+          "id": "opt4",
+          "text": "L"
+        }
+      ],
+      "correctOptionId": "opt2",
+      "explanationCorrect": "El manual presenta N, Ñ y O en esa secuencia alfabética.",
+      "explanationIncorrect": "El manual presenta N, Ñ y O en esa secuencia alfabética.",
+      "state": "DRAFT",
+      "validationStatus": "PENDING_LSV_REVIEW"
+    },
+    {
+      "id": "q-m1-l07-r02",
+      "lessonKey": "m1-l07",
+      "type": "MULTIPLE_CHOICE_TEXT",
+      "prompt": "¿Cuántas letras ilustradas se incluyen en las páginas del abecedario del manual?",
+      "mediaRef": null,
+      "options": [
+        {
+          "id": "opt1",
+          "text": "25"
+        },
+        {
+          "id": "opt2",
+          "text": "26"
+        },
+        {
+          "id": "opt3",
+          "text": "27"
+        },
+        {
+          "id": "opt4",
+          "text": "28"
+        }
+      ],
+      "correctOptionId": "opt3",
+      "explanationCorrect": "La serie ilustrada incluye 27 letras, incluida la Ñ.",
+      "explanationIncorrect": "La serie ilustrada incluye 27 letras, incluida la Ñ.",
+      "state": "DRAFT",
+      "validationStatus": "PENDING_LSV_REVIEW"
+    },
+    {
+      "id": "q-m1-l07-r03",
+      "lessonKey": "m1-l07",
+      "type": "MULTIPLE_CHOICE_TEXT",
+      "prompt": "¿Qué letras muestran flechas de movimiento en las láminas de este manual?",
+      "mediaRef": null,
+      "options": [
+        {
+          "id": "opt1",
+          "text": "A, E y I"
+        },
+        {
+          "id": "opt2",
+          "text": "B, C y D"
+        },
+        {
+          "id": "opt3",
+          "text": "J, Ñ y Z"
+        },
+        {
+          "id": "opt4",
+          "text": "L, M y N"
+        }
+      ],
+      "correctOptionId": "opt3",
+      "explanationCorrect": "Las referencias de J, Ñ y Z muestran flechas; consulta videos verificados para estudiar su ejecución.",
+      "explanationIncorrect": "Las referencias de J, Ñ y Z muestran flechas; consulta videos verificados para estudiar su ejecución.",
+      "state": "DRAFT",
+      "validationStatus": "PENDING_LSV_REVIEW"
+    },
+    {
+      "id": "q-m1-l07-r04",
+      "lessonKey": "m1-l07",
+      "type": "MULTIPLE_CHOICE_TEXT",
+      "prompt": "Para practicar el deletreo manual de un nombre, ¿qué haces primero?",
+      "mediaRef": null,
+      "options": [
+        {
+          "id": "opt1",
+          "text": "Escribo las letras que lo componen"
+        },
+        {
+          "id": "opt2",
+          "text": "Activo un traductor automático"
+        },
+        {
+          "id": "opt3",
+          "text": "Asumo que una imagen basta para todo movimiento"
+        },
+        {
+          "id": "opt4",
+          "text": "Omite las letras que no conozca"
+        }
+      ],
+      "correctOptionId": "opt1",
+      "explanationCorrect": "Primero identifica las letras escritas y después busca sus demostraciones validadas.",
+      "explanationIncorrect": "Primero identifica las letras escritas y después busca sus demostraciones validadas.",
+      "state": "DRAFT",
+      "validationStatus": "PENDING_LSV_REVIEW"
+    }
+  ],
+  "editorialChecklist": [
+    "Autorizar imágenes o crear recursos propios validados",
+    "Conseguir demostraciones en video y permiso para incrustar",
+    "Revisar cada seña y el contenido con persona competente en LSV",
+    "Validar términos culturales y diseño accesible",
+    "No publicar preguntas basadas en imágenes hasta disponer del recurso sin rótulo",
+    "Verificar idempotencia de semilla local y pruebas de API/frontend"
+  ],
+  "notProvided": [
+    "Archivos de imagen licenciados para publicación",
+    "Videos verificados de cada letra",
+    "Datos de entrenamiento de cámara",
+    "Descripción anatómica exacta de cada configuración o movimiento",
+    "Validación lingüística independiente"
+  ]
+}

@@ -4,18 +4,18 @@ import { Radio } from '../../../components/ui/Radio.jsx';
 import { LessonMedia } from './LessonMedia.jsx';
 
 /**
- * Presenta una pregunta de muestra; el consumidor elige la retroalimentación, sin corrección real.
- * @param {{question: object, selection: string, onSelect: Function, onCheck: Function}} props Estado visual.
+ * Presenta opciones sin conocer la clave; el consumidor realiza la comprobación o la demo explícita.
+ * @param {{question: object, selection: string, onSelect: Function, onCheck: Function, busy?: boolean}} props Estado visual.
  * @returns {import('react').ReactElement} Opciones nativas operables con Tab, Espacio y flechas.
  */
-export function LessonQuestion({ question, selection, onSelect, onCheck }) {
+export function LessonQuestion({ question, selection, onSelect, onCheck, busy = false }) {
   const id = useId();
   return (
     <form
       className="education-card"
       onSubmit={(event) => {
         event.preventDefault();
-        if (selection) onCheck();
+        if (selection && !busy) onCheck();
       }}
     >
       <h2 id={`${id}-question`} className="education-question-title">
@@ -27,6 +27,7 @@ export function LessonQuestion({ question, selection, onSelect, onCheck }) {
       <div className={question.visual ? 'education-columns' : 'w-full'}>
         {question.visual && <LessonMedia visual />}
         <fieldset
+          disabled={busy}
           className="education-options"
           aria-labelledby={`${id}-question`}
           aria-describedby={`${id}-help`}
@@ -37,11 +38,11 @@ export function LessonQuestion({ question, selection, onSelect, onCheck }) {
               key={index}
               className="education-option"
               name={`${id}-answer`}
-              value={String(index)}
-              checked={selection === String(index)}
+              value={typeof option === 'string' ? String(index) : option.id}
+              checked={selection === (typeof option === 'string' ? String(index) : option.id)}
               onChange={(event) => onSelect(event.target.value)}
             >
-              {option}
+              {typeof option === 'string' ? option : option.text}
             </Radio>
           ))}
         </fieldset>
@@ -50,6 +51,8 @@ export function LessonQuestion({ question, selection, onSelect, onCheck }) {
         className="education-action education-action-check"
         type="submit"
         disabled={!selection}
+        loading={busy}
+        loadingLabel="Comprobando…"
       >
         Comprobar respuesta
       </Button>

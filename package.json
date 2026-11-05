@@ -9,6 +9,8 @@
     "pnpm": "10.18.2"
   },
   "scripts": {
+    "alphabet:dev": "pnpm --filter @vocessilentes/backend alphabet:dev",
+    "alphabet:verify": "pnpm --filter @vocessilentes/backend alphabet:verify",
     "learning:demo": "pnpm --filter @vocessilentes/backend learning:demo",
     "academic:prepare": "pnpm --filter @vocessilentes/backend academic:prepare",
     "academic:demo": "pnpm --filter @vocessilentes/backend academic:demo",

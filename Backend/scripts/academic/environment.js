@@ -15,10 +15,14 @@ import { parseEnv } from '../../src/config/env.js';
 
 /**
  * Arranca API y Vite contra una base efímera, ignorando configuración privada y demo visual.
- * @param {{seed?: boolean, port?: number}} [options] Datos académicos opcionales y puerto frontend local.
+ * @param {{seed?: boolean, port?: number, previewModuleId?: string}} [options] Datos/puerto y un borrador local explícito.
  * @returns {Promise<object>} Servicios, origen, procesos propios y cierre; sin escrituras externas.
  */
-export async function createAcademicEnvironment({ seed = false, port = 5280 } = {}) {
+export async function createAcademicEnvironment({
+  seed = false,
+  port = 5280,
+  previewModuleId,
+} = {}) {
   const state = await createAcademicDatabase({ seed });
   const origin = `http://localhost:${port}`;
   const config = parseEnv({
@@ -35,7 +39,7 @@ export async function createAcademicEnvironment({ seed = false, port = 5280 } = 
       authService,
       usersService: await createUsersService(state.database),
       reportsService: createReportsService(state.database, storage),
-      learningService: createLearningService(state.database),
+      learningService: createLearningService(state.database, { previewModuleId }),
       accountService: await createAccountService(state.database, {
         ...storage,
         upload: (path, bytes) => storage.upload(path, { bytes, mimeType: 'image/webp' }),
