@@ -29,7 +29,7 @@ test('protege acceso directo y vuelve a Mis módulos tras login con sesión real
   expect(await screen.findByRole('article', { name: 'Saludos y presentaciones' })).toBeVisible();
 });
 
-test('filtra por nombre/estado y abre la práctica demostrativa desde el catálogo', async () => {
+test('filtra por nombre/estado y abre la actividad de práctica real desde el catálogo', async () => {
   vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse({ data: { user } })));
   renderAuthApp('/student');
   expect(await screen.findByRole('heading', { name: 'Hola, Persona.' })).toBeVisible();
@@ -48,6 +48,10 @@ test('filtra por nombre/estado y abre la práctica demostrativa desde el catálo
     within(screen.getByRole('article')).getByRole('button', { name: 'Seguir aprendiendo' }),
   );
   expect(await screen.findByRole('heading', { name: 'Practicar' })).toBeVisible();
-  expect(screen.getByText(/Demostración de práctica/)).toBeVisible();
-  expect(screen.getByRole('heading', { name: 'Cómo presentarme' })).toBeVisible();
+  expect(screen.queryByText(/Demostración de práctica/)).toBeNull();
+  await userEvent.click(screen.getByRole('link', { name: 'Practicar vocales con cámara' }));
+  expect(
+    await screen.findByRole('heading', { name: 'Aprende y practica las vocales' }),
+  ).toBeVisible();
+  expect(screen.getByRole('button', { name: 'Cargar modelo de vocales' })).toBeEnabled();
 });

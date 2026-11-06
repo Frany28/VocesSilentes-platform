@@ -5,10 +5,17 @@ import { LSV_LABELS } from '../../../../../shared/lsv/labels.js';
 
 /**
  * Presenta metadatos mínimos de muestras consentidas, sin solicitar nombres ni aprobar etiquetas automáticamente.
- * @param {{metadata: object, disabled: boolean, onChange: Function, labels?: string[]}} props Valores y control.
+ * @param {{metadata: object, disabled: boolean, onChange: Function, labels?: string[],
+ * experimental?: boolean}} props Valores y control.
  * @returns {import('react').ReactElement} Código, partición, etiqueta y consentimiento explícito.
  */
-export function TrainingSampleFields({ metadata, disabled, onChange, labels = LSV_LABELS }) {
+export function TrainingSampleFields({
+  metadata,
+  disabled,
+  onChange,
+  labels = LSV_LABELS,
+  experimental = false,
+}) {
   return (
     <>
       <Input
@@ -18,16 +25,18 @@ export function TrainingSampleFields({ metadata, disabled, onChange, labels = LS
         help="Usa el mismo código para la misma persona en todas sus sesiones. No escribas nombres ni correos."
         onChange={(event) => onChange('participantId', event.target.value.toLowerCase())}
       />
-      <Select
-        label="Grupo de datos"
-        value={metadata.partition}
-        disabled={disabled}
-        onChange={(event) => onChange('partition', event.target.value)}
-      >
-        <option value="train">Entrenamiento</option>
-        <option value="validation">Calibración</option>
-        <option value="test">Prueba independiente</option>
-      </Select>
+      {!experimental && (
+        <Select
+          label="Grupo de datos"
+          value={metadata.partition}
+          disabled={disabled}
+          onChange={(event) => onChange('partition', event.target.value)}
+        >
+          <option value="train">Entrenamiento</option>
+          <option value="validation">Calibración</option>
+          <option value="test">Prueba independiente</option>
+        </Select>
+      )}
       <Select
         label="Etiqueta de la muestra"
         value={metadata.label}
@@ -50,7 +59,10 @@ export function TrainingSampleFields({ metadata, disabled, onChange, labels = LS
         estos puntos de manos y entrenar el modelo experimental.
       </Checkbox>
       <p className="text-muted">
-        Cada persona debe pertenecer a un solo grupo. Las muestras no se envían automáticamente.
+        {experimental
+          ? 'Sin particiones ni evaluación independiente en este experimento.'
+          : 'Cada persona debe pertenecer a un solo grupo.'}{' '}
+        Las muestras no se envían automáticamente.
       </p>
     </>
   );

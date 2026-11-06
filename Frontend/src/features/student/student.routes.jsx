@@ -6,7 +6,11 @@ import { StudentProgress } from './pages/StudentProgress.jsx';
 import { StudentProfile } from './pages/StudentProfile.jsx';
 import { ReportForm } from '../reports/ReportForm.jsx';
 import { StudentLesson } from './lesson/StudentLesson.jsx';
-import { CameraPracticeRoute, ModelLabRoute } from './recognition/RecognitionRoutes.jsx';
+import {
+  CameraPracticeRoute,
+  ModelLabRoute,
+  VowelPracticeRoute,
+} from './recognition/RecognitionRoutes.jsx';
 import { lazy, Suspense } from 'react';
 import { DataFeedback } from './components/DataFeedback.jsx';
 
@@ -28,6 +32,7 @@ export function studentRoutes() {
     children: [
       { path: '/student', element: <StudentHome /> },
       { path: '/student/modules', element: <StudentModules /> },
+      { path: '/student/modules/vowels-camera', element: <VowelPracticeRoute /> },
       { path: '/student/modules/:moduleId/lessons/:lessonId', element: <StudentLesson /> },
       ...(import.meta.env.DEV
         ? [

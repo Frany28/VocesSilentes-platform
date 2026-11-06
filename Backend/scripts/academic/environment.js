@@ -1,7 +1,6 @@
 import { createServer } from 'node:http';
 import { once } from 'node:events';
-import { spawn } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import { startAcademicFrontend } from './frontend.js';
 import { createAcademicDatabase } from './database.js';
 import { createAcademicStorageFixture } from './storage-fixture.js';
 import { createAuthService } from '../../src/modules/auth/auth.service.js';
@@ -15,13 +14,15 @@ import { parseEnv } from '../../src/config/env.js';
 
 /**
  * Arranca API y Vite contra una base efímera, ignorando configuración privada y demo visual.
- * @param {{seed?: boolean, port?: number, previewModuleId?: string}} [options] Datos/puerto y un borrador local explícito.
+ * @param {{seed?: boolean, port?: number, previewModuleId?: string,
+ * productionFrontend?: boolean}} [options] Datos, puerto, borrador explícito y build de producción de prueba.
  * @returns {Promise<object>} Servicios, origen, procesos propios y cierre; sin escrituras externas.
  */
 export async function createAcademicEnvironment({
   seed = false,
   port = 5280,
   previewModuleId,
+  productionFrontend = false,
 } = {}) {
   const state = await createAcademicDatabase({ seed });
   const origin = `http://localhost:${port}`;
@@ -49,28 +50,18 @@ export async function createAcademicEnvironment({
   );
   app.listen(0, 'localhost');
   await once(app, 'listening');
-  const frontendRoot = new URL('../../../Frontend/', import.meta.url);
-  const frontend = spawn(
-    process.execPath,
-    [
-      fileURLToPath(new URL('node_modules/vite/bin/vite.js', frontendRoot)),
-      '--host',
-      'localhost',
-      '--port',
-      String(port),
-      '--strictPort',
-    ],
-    {
-      cwd: fileURLToPath(frontendRoot),
-      windowsHide: true,
-      stdio: ['ignore', 'ignore', 'pipe'],
-      env: {
-        ...process.env,
-        VITE_API_URL: `http://localhost:${app.address().port}/api`,
-        VITE_STUDENT_DEMO: 'false',
-      },
-    },
-  );
+  let frontend;
+  try {
+    frontend = startAcademicFrontend({
+      port,
+      apiUrl: `http://localhost:${app.address().port}/api`,
+      production: productionFrontend,
+    });
+  } catch (error) {
+    await new Promise((done) => app.close(done));
+    await state.close();
+    throw error;
+  }
   let frontendError;
   frontend.on('error', (error) => {
     frontendError = error;

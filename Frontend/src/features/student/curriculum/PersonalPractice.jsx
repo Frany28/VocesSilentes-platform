@@ -24,8 +24,8 @@ export function PersonalPractice({ step }) {
       <h2>{step.title}</h2>
       <p className="journey-reading">{step.body}</p>
       <p className="text-muted">
-        La cámara detecta manos. La evaluación de letras necesita nuestro modelo entrenado y
-        validado.
+        La práctica con cámara permite cargar el modelo de vocales. Sus candidatos no califican tu
+        ejecución y pueden ser incorrectos; la revisión experta sigue pendiente.
       </p>
       <Button onClick={() => setCamera(true)}>Practicar con cámara</Button>
     </article>

@@ -11,7 +11,7 @@ export function StudentCameraPractice() {
     <div className="flex flex-col gap-6">
       <StudentPageHeader
         title="Practicar con cámara"
-        description="Observa tus manos y prueba nuestro modelo LSV cuando esté entrenado."
+        description="Carga el modelo de vocales y compara tu intento real con sus ejemplos."
       />
       <div className="education-card">
         <CameraExercise />

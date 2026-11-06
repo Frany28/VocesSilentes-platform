@@ -7,6 +7,8 @@ Backend/generated/
 .pnpm-store/
 .local/
 datos-entrenamiento/
+# Artefacto JSON generado reproduciblemente por lsv:release:demo.
+Frontend/public/models/lsv-vowels-demo-v1.json
 .vercel/
 *.prisma
 .env

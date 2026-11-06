@@ -11,6 +11,7 @@ import { ModuleCard } from '../components/ModuleCard.jsx';
 import { StudentNote } from '../components/StudentNote.jsx';
 import { DataFeedback } from '../components/DataFeedback.jsx';
 import { StudentLoading } from '../components/StudentLoading.jsx';
+import { VowelPracticeEntry } from '../curriculum/VowelPracticeEntry.jsx';
 
 /**
  * Catálogo filtrable; diferencia falta de integración, catálogo vacío y consulta sin resultados.
@@ -32,6 +33,7 @@ export function StudentModules() {
         demo={demo}
         preview={modules.some((module) => module.preview)}
       />
+      <VowelPracticeEntry />
       {status === 'loading' ? (
         <StudentLoading catalog />
       ) : status === 'error' ? (

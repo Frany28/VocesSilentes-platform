@@ -9,6 +9,23 @@ const CameraPractice = lazy(() =>
     default: module.StudentCameraPractice,
   })),
 );
+const VowelPractice = lazy(() =>
+  import('../pages/StudentVowelPractice.jsx').then((module) => ({
+    default: module.StudentVowelPractice,
+  })),
+);
+
+/**
+ * Abre la actividad de vocales con referencia y modelo educativo sin cargar la cámara al navegar.
+ * @returns {import('react').ReactElement} Actividad protegida por el layout Student.
+ */
+export function VowelPracticeRoute() {
+  return (
+    <Suspense fallback={<DataFeedback kind="loading" />}>
+      <VowelPractice />
+    </Suspense>
+  );
+}
 
 /**
  * Carga la práctica de cámara bajo demanda, dentro del layout y guard USER existentes.

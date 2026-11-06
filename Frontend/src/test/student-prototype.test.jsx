@@ -21,7 +21,7 @@ test('los cinco destinos móviles navegan; perfil usa sesión real y progreso el
   expect(screen.getByRole('button', { name: 'Guardar cambios' })).toBeDisabled();
 });
 
-test('práctica representa ocho estados elegidos manualmente sin cámara, red educativa ni progreso guardado', async () => {
+test('práctica abre vocales reales sin estados simulados ni permisos automáticos de cámara', async () => {
   const fetchMock = vi.fn().mockResolvedValue(jsonResponse({ data: { user } }));
   const media = vi.fn();
   vi.stubGlobal('fetch', fetchMock);
@@ -31,15 +31,15 @@ test('práctica representa ocho estados elegidos manualmente sin cámara, red ed
   });
   renderAuthApp('/student/practice');
   await screen.findByRole('heading', { name: 'Practicar' });
-  const selector = screen.getByRole('combobox', { name: 'Estado de práctica (demostración)' });
-  expect(within(selector).getAllByRole('option')).toHaveLength(8);
-  await userEvent.click(screen.getByRole('button', { name: 'Activar cámara (demo)' }));
-  expect(screen.getByRole('button', { name: 'Esperando permiso…' })).toBeDisabled();
-  await userEvent.selectOptions(selector, 'ready');
-  await userEvent.click(screen.getByRole('button', { name: 'Ver estado de análisis (demo)' }));
-  expect(screen.getByRole('button', { name: 'Analizando…' })).toBeDisabled();
-  await userEvent.selectOptions(selector, 'success');
-  expect(screen.getByText(/No es una evaluación de tu seña/)).toBeVisible();
+  expect(screen.queryByRole('combobox', { name: 'Estado de práctica (demostración)' })).toBeNull();
+  await userEvent.click(screen.getByRole('link', { name: 'Practicar vocales con cámara' }));
+  await screen.findByRole('heading', { name: 'Aprende y practica las vocales' });
+  const selector = screen.getByRole('combobox', { name: 'Vocal de referencia' });
+  expect(within(selector).getAllByRole('option')).toHaveLength(5);
+  await userEvent.selectOptions(selector, 'E');
+  expect(await screen.findByRole('img', { name: /referencia de la letra E/ })).toBeVisible();
+  expect(screen.getByRole('button', { name: 'Cargar modelo de vocales' })).toBeEnabled();
+  expect(screen.getByRole('button', { name: 'Analizar intento' })).toBeDisabled();
   expect(media).not.toHaveBeenCalled();
   expect(fetchMock.mock.calls.every(([url]) => url.endsWith('/me'))).toBe(true);
   await userEvent.click(screen.getByRole('link', { name: 'Mi progreso' }));

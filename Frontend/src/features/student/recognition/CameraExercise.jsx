@@ -6,6 +6,7 @@ import { CameraView } from './CameraView.jsx';
 import { ModelInference } from './ModelInference.jsx';
 import { ManualReference } from './ManualReference.jsx';
 import './recognition.css';
+import { isLocalExperiment } from './local-experiment.js';
 
 /**
  * Integra cámara, referencia y clasificador entrenable en la práctica sin simular una corrección de LSV.
@@ -29,12 +30,14 @@ export function CameraExercise({ letter }) {
         <CameraView camera={camera} target={letter} />
       </div>
       <ModelInference operation={operation} capture={capture} camera={camera} />
-      <Link
-        className="education-back inline-flex min-h-11 items-center"
-        to="/student/practice/model-lab"
-      >
-        Preparar muestras para nuestro modelo LSV
-      </Link>
+      {isLocalExperiment() && (
+        <Link
+          className="education-back inline-flex min-h-11 items-center"
+          to="/student/practice/model-lab"
+        >
+          Preparar muestras para nuestro modelo LSV
+        </Link>
+      )}
     </section>
   );
 }

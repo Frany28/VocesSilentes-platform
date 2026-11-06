@@ -24,6 +24,25 @@ export function validateModel(model) {
     model.prototypes.length > 168
   )
     throw new Error('Modelo LSV incompatible o sin categoría de abstención');
+  if (
+    model.trainingMode !== undefined &&
+    (model.trainingMode !== 'LOCAL_PROVISIONAL' ||
+      !['LOCAL_DEVELOPMENT_ONLY', 'EDUCATIONAL_DEMONSTRATION'].includes(model.usage) ||
+      model.linguisticValidation !== 'PENDING_LSV_REVIEW' ||
+      model.partitions !== null ||
+      model.metrics !== null ||
+      model.abstention?.method !== 'UNCALIBRATED_HEURISTIC' ||
+      model.abstention.minimumRelativeMargin !== 0.15)
+  )
+    throw new Error('Metadatos del modelo provisional incompatibles');
+  if (
+    model.usage === 'EDUCATIONAL_DEMONSTRATION' &&
+    (model.releaseId !== 'vowels-demo-v1' ||
+      model.documentation?.academicGrading !== false ||
+      model.documentation.independentEvaluation !== false ||
+      model.documentation.expertLsvReview !== 'PENDING')
+  )
+    throw new Error('La demostración debe conservar sus límites documentados');
   for (const prototype of model.prototypes) {
     if (
       !model.labels.includes(prototype.label) ||
@@ -71,7 +90,12 @@ export function predictSequence(model, sequence, hand) {
     return { label: null, distance: best.distance, reason: 'OUT_OF_DISTRIBUTION' };
   if (best.label === 'NONE') return { label: null, distance: best.distance, reason: 'BACKGROUND' };
   const competing = candidates.find((candidate) => candidate.label !== best.label);
-  if (!competing || competing.distance - best.distance <= 0.000001)
+  const margin =
+    model.trainingMode === 'LOCAL_PROVISIONAL' ? model.abstention.minimumRelativeMargin : 0;
+  if (
+    !competing ||
+    competing.distance - best.distance <= Math.max(0.000001, competing.distance * margin)
+  )
     return { label: null, distance: best.distance, reason: 'AMBIGUOUS' };
   return { label: best.label, distance: best.distance, reason: 'CANDIDATE' };
 }

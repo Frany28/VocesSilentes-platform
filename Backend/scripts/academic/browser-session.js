@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import { access, mkdir, readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
 /**
@@ -24,10 +24,10 @@ export async function waitForAcademic(condition) {
 /**
  * Abre Chrome headless aislado; CHROME_PATH admite una instalación local distinta.
  * @param {string} output Directorio de artefactos local, ajeno a perfiles personales.
- * @param {{fakeCamera?: boolean}} [options] Dispositivo sintético exclusivo de revisión; nunca cámara física.
+ * @param {{fakeCamera?: boolean, fakeVideoPath?: string}} [options] Dispositivo de prueba; nunca cámara física.
  * @returns {Promise<object>} CDP y cierre; no conecta al Chrome del usuario.
  */
-export async function createAcademicBrowser(output, { fakeCamera = false } = {}) {
+export async function createAcademicBrowser(output, { fakeCamera = false, fakeVideoPath } = {}) {
   const candidates = [
     process.env.CHROME_PATH,
     'C:/Program Files/Google/Chrome/Application/chrome.exe',
@@ -48,7 +48,6 @@ export async function createAcademicBrowser(output, { fakeCamera = false } = {})
   if (!executable)
     throw new Error('Instala Chrome/Chromium o configura CHROME_PATH para revisar la interfaz');
   const profile = resolve(output, `browser-${Date.now()}`);
-  await mkdir(profile, { recursive: true });
   const browserProcess = spawn(
     executable,
     [
@@ -58,6 +57,9 @@ export async function createAcademicBrowser(output, { fakeCamera = false } = {})
       '--no-default-browser-check',
       ...(fakeCamera
         ? ['--use-fake-device-for-media-stream', '--use-fake-ui-for-media-stream']
+        : []),
+      ...(fakeCamera && fakeVideoPath
+        ? [`--use-file-for-fake-video-capture=${fakeVideoPath}`]
         : []),
       `--user-data-dir=${profile}`,
       'about:blank',

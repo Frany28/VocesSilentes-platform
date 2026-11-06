@@ -1,9 +1,17 @@
 import { prepareTrainingData } from '../../../../../shared/lsv/training-data.js';
 import { trainLsvModel } from '../../../../../shared/lsv/train.js';
+import { trainExperimentalModel } from '../../../../../shared/lsv/experimental-train.js';
+import { isLocalExperiment } from './local-experiment.js';
 
 // El worker procesa solo el lote consentido recibido por la página; no tiene red ni persistencia.
 self.onmessage = async ({ data }) => {
   try {
+    if (data.mode === 'LOCAL_PROVISIONAL') {
+      if (!isLocalExperiment())
+        throw new Error('El flujo provisional requiere desarrollo en localhost');
+      self.postMessage(trainExperimentalModel(data.samples));
+      return;
+    }
     const dataset = prepareTrainingData(data.samples);
     const digest = await crypto.subtle.digest(
       'SHA-256',

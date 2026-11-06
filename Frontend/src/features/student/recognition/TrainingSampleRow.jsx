@@ -12,20 +12,33 @@ import { SamplePreview } from './SamplePreview.jsx';
 export function TrainingSampleRow({ sample, reviewer, collection, onPreview, busy }) {
   const [observed, setObserved] = useState(false);
   const approved = sample.reviewStatus === 'APPROVED_LSV';
+  const experimental = collection.experimental;
+  const confirmed = experimental ? Boolean(sample.labelConfirmation) : approved;
   return (
     <li className="training-sample-row flex min-w-0 flex-col gap-3">
       <p>
-        {sample.label} · {sample.participantId} · {sample.partition} · {sample.frames.length}{' '}
-        observaciones
+        {sample.label} · {sample.participantId ?? sample.observedSignant ?? 'Persona sin confirmar'}{' '}
+        ·{sample.partition ?? 'Sin partición'} · {sample.frames.length} observaciones
       </p>
+      {experimental && (
+        <p>
+          {confirmed ? 'Etiqueta provisional confirmada' : 'Etiqueta por confirmar'}.{' '}
+          Consentimiento: {sample.consent ? 'declarado' : 'documentación pendiente'}.
+        </p>
+      )}
       <p className="text-muted">
         {approved ? `Revisión declarada por ${sample.reviewerId}` : 'Pendiente de revisión LSV'}
       </p>
-      {sample.source && (
+      {sample.source?.type === 'LOCAL_VIDEO' && (
         <details className="model-command">
           <summary>Procedencia de esta ejecución</summary>
           <p>{sample.source.origin}</p>
-          <p>Autorización declarada: {sample.source.authorization}</p>
+          <p>
+            Autorización:{' '}
+            {sample.source.authorization ??
+              sample.source.authorizationStatus ??
+              'Captura consentida'}
+          </p>
           <p>
             Ejecución: {sample.source.executionId}. Intervalo: {sample.source.startMs / 1000}–
             {sample.source.endMs / 1000} s.
@@ -36,14 +49,15 @@ export function TrainingSampleRow({ sample, reviewer, collection, onPreview, bus
         <summary>Inspeccionar puntos extraídos</summary>
         <SamplePreview sample={sample} />
       </details>
-      {!approved && (
+      {!confirmed && (
         <Checkbox checked={observed} onChange={(event) => setObserved(event.target.checked)}>
-          Una persona competente en LSV revisó esta ejecución original en vivo o en el video, y
-          confirmó su etiqueta. Inspeccionar solo los puntos no basta.
+          {experimental
+            ? `Observé la ejecución original y confirmo su etiqueta provisional ${sample.label}.`
+            : 'Una persona competente en LSV revisó esta ejecución original en vivo o en el video, y confirmó su etiqueta. Inspeccionar solo los puntos no basta.'}
         </Checkbox>
       )}
       <div className="camera-actions">
-        {sample.source && onPreview && (
+        {sample.source?.type === 'LOCAL_VIDEO' && onPreview && (
           <Button
             density="compact"
             variant="secondary"
@@ -58,15 +72,16 @@ export function TrainingSampleRow({ sample, reviewer, collection, onPreview, bus
           density="compact"
           variant="secondary"
           icon={null}
-          disabled={approved || !observed || !/^[a-z0-9_-]{1,64}$/.test(reviewer)}
+          disabled={busy || confirmed || !observed || !/^[a-z0-9_-]{1,64}$/.test(reviewer)}
           onClick={() => collection.review(sample.id, reviewer)}
         >
-          Confirmar revisión LSV
+          {experimental ? 'Confirmar etiqueta provisional' : 'Confirmar revisión LSV'}
         </Button>
         <Button
           density="compact"
           variant="secondary"
           icon={null}
+          disabled={busy}
           onClick={() => collection.remove(sample.id)}
         >
           Descartar muestra

@@ -27,7 +27,7 @@ export function createSampleRegistry() {
       throw new Error('Una persona aparece en más de una partición; conserva su grupo original.');
     if (ids.has(sample.id) || fingerprints.has(fingerprint))
       throw new Error('Hay muestras repetidas o copiadas.');
-    const right = sample.source;
+    const right = sample.source?.type === 'LOCAL_VIDEO' ? sample.source : null;
     const key = right ? `${person}:${right.executionId}` : null;
     if (key && executions.has(key))
       throw new Error(

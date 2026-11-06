@@ -7,7 +7,16 @@ import { Link } from 'react-router';
 export function ModelLabInstructions() {
   return (
     <section className="education-card flex flex-col gap-3">
-      <h2 className="[font:var(--type-h3)]">Entrenar con las muestras revisadas</h2>
+      <h2 className="[font:var(--type-h3)]">Guardar y volver a entrenar</h2>
+      <p>En desarrollo local, exporta las muestras provisionales confirmadas y usa:</p>
+      <code className="model-command">
+        pnpm lsv:train:experimental .local/muestras.json --output .local/lsv-experimental
+      </code>
+      <p>
+        Genera lsv-experimental-model.json y experimental-summary.json, sin métricas ni particiones.
+        También puedes entrenar, descargar y activar el modelo directamente aquí.
+      </p>
+      <h3>Flujo con revisión y evaluación independiente</h3>
       <p>
         Guarda los archivos exportados en una carpeta local y ejecuta desde la raíz del proyecto:
       </p>

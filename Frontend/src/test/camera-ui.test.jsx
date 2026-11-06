@@ -28,7 +28,7 @@ test('el visor no solicita cámara al entrar; activa solo por botón y nunca mue
   expect(
     screen.getByRole('img', { name: /Ilustración de referencia de la letra A/ }),
   ).toBeVisible();
-  expect(screen.getByText(/Aún no hay un modelo LSV entrenado/)).toBeVisible();
+  expect(screen.getByText(/Carga el modelo de vocales para analizar/)).toBeVisible();
   await userEvent.click(screen.getByRole('button', { name: 'Activar cámara' }));
   await screen.findByRole('button', { name: 'Detener cámara' });
   expect(fixture.getUserMedia).toHaveBeenCalledTimes(1);

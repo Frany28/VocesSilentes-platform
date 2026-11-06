@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { loadEnv } from 'vite';
 import { z } from 'zod';
+import { localLsvPlugin } from './local-lsv-plugin.js';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'FRONTEND_');
@@ -14,7 +15,7 @@ export default defineConfig(({ mode }) => {
     .safeParse(env.FRONTEND_PORT ?? 5173);
   if (!port.success) throw new Error('Configuración de desarrollo inválida: FRONTEND_PORT');
   return {
-    plugins: [react(), tailwindcss()],
+    plugins: [react(), tailwindcss(), localLsvPlugin()],
     server: { host: 'localhost', port: port.data, strictPort: true },
     preview: { host: 'localhost', port: 4173, strictPort: true },
     test: {

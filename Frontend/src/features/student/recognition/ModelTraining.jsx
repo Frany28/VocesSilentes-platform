@@ -4,10 +4,10 @@ import { useModelTraining } from './use-model-training.js';
 
 /**
  * Permite crear el modelo propio en el navegador, con evaluación separada y resultados etiquetados como experimentales.
- * @param {{samples: object[]}} props Muestras recopiladas y revisadas por personas.
+ * @param {{samples: object[], experimental?: boolean}} props Muestras y flujo explícito.
  * @returns {import('react').ReactElement} Entrenamiento real, artefactos y métricas; no crea muestras ni pesos simulados.
  */
-export function ModelTraining({ samples }) {
+export function ModelTraining({ samples, experimental = false }) {
   const operation = useModelTraining();
   return (
     <section
@@ -16,15 +16,16 @@ export function ModelTraining({ samples }) {
     >
       <h2 className="[font:var(--type-h3)]">Entrenar nuestro modelo</h2>
       <p>
-        Necesitamos muestras revisadas de las mismas etiquetas en los tres grupos, con personas
-        distintas. Incluye NONE para las posturas que no pertenecen a las letras del experimento.
+        {experimental
+          ? 'Prototipos de etiquetas confirmadas manualmente, incluida NONE. Sin revisión experta, particiones ni métricas.'
+          : 'Se requieren etiquetas revisadas, incluida NONE, en los tres grupos con personas distintas.'}
       </p>
       <div className="camera-actions">
         <Button
           disabled={!samples.length}
           loading={operation.pending}
           loadingLabel="Entrenando en tu dispositivo…"
-          onClick={() => operation.train(samples)}
+          onClick={() => operation.train(samples, experimental)}
         >
           Entrenar modelo experimental
         </Button>
@@ -41,13 +42,20 @@ export function ModelTraining({ samples }) {
       )}
       {operation.result && (
         <>
-          <Alert tone="info" title="Modelo experimental creado">
-            Prueba independiente: {operation.result.report.correct} de{' '}
-            {operation.result.report.total} muestras clasificadas correctamente;{' '}
-            {operation.result.report.abstained} abstenciones. Estos resultados describen este lote
-            de prueba, no garantizan precisión con otros estudiantes ni autorizan calificación
-            académica.
-          </Alert>
+          {experimental ? (
+            <Alert tone="info" title="Modelo EXPERIMENTAL local creado">
+              {operation.result.report.samples} ejecuciones reales. Sin evaluación independiente.
+              Umbrales de abstención heurísticos, sin calibrar. No modifica el progreso académico.
+            </Alert>
+          ) : (
+            <Alert tone="info" title="Modelo experimental creado">
+              Prueba independiente: {operation.result.report.correct} de{' '}
+              {operation.result.report.total} muestras clasificadas correctamente;{' '}
+              {operation.result.report.abstained} abstenciones. Estos resultados describen este lote
+              de prueba, no garantizan precisión con otros estudiantes ni autorizan calificación
+              académica.
+            </Alert>
+          )}
           <p>Etiquetas aprendidas: {operation.result.model.labels.join(', ')}.</p>
           <div className="camera-actions">
             <Button onClick={operation.apply} disabled={operation.applied}>
@@ -59,7 +67,7 @@ export function ModelTraining({ samples }) {
               Descargar modelo
             </Button>
             <Button variant="secondary" icon={null} onClick={operation.downloadReport}>
-              Descargar evaluación
+              {experimental ? 'Descargar resumen experimental' : 'Descargar evaluación'}
             </Button>
           </div>
         </>

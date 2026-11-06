@@ -3,6 +3,7 @@ import { Input } from '../../../components/ui/Input.jsx';
 import { Button } from '../../../components/ui/Button.jsx';
 import { Alert } from '../../../components/ui/Alert.jsx';
 import { TrainingSampleRow } from './TrainingSampleRow.jsx';
+import { TrainingSampleImport } from './TrainingSampleImport.jsx';
 
 /**
  * Conserva revisión declarada por ejecución y exportación de lotes, sin aprobar datos automáticamente.
@@ -18,15 +19,22 @@ export function TrainingSamples({ collection, onPreview, busy }) {
     >
       <h2 className="[font:var(--type-h3)]">Muestras en memoria: {collection.samples.length}</h2>
       <p className="text-muted">
-        Cada fila representa una ejecución. Confirma una revisión solo si una persona competente
-        observó la ejecución original en vivo o en el video. Exporta antes de cerrar.
+        {collection.experimental
+          ? 'Confirma provisionalmente la etiqueta tras observar la ejecución. No es revisión experta LSV.'
+          : 'Confirma revisión LSV solo si una persona competente observó la ejecución original.'}{' '}
+        Exporta antes de cerrar.
       </p>
       <Input
-        label="Código de quien revisa LSV"
+        label={
+          collection.experimental
+            ? 'Código de quien confirma la etiqueta'
+            : 'Código de quien revisa LSV'
+        }
         value={reviewer}
         onChange={(event) => setReviewer(event.target.value.toLowerCase())}
         help="Código sin nombres personales."
       />
+      <TrainingSampleImport collection={collection} busy={busy} />
       <ul className="flex w-full list-none flex-col gap-3 p-0">
         {collection.samples.map((sample) => (
           <TrainingSampleRow
@@ -48,8 +56,9 @@ export function TrainingSamples({ collection, onPreview, busy }) {
         </Alert>
       )}
       <p className="text-muted">
-        El entrenador rechaza muestras sin consentimiento o revisión, ejecuciones duplicadas o
-        solapadas y personas mezcladas entre grupos.
+        {collection.experimental
+          ? 'Flujo local provisional: conserva permisos y consentimiento pendientes del metraje original; exige confirmación.'
+          : 'El entrenador exige consentimiento, revisión y personas independientes, sin ejecuciones duplicadas.'}
       </p>
     </section>
   );

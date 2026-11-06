@@ -21,6 +21,7 @@ export function TrainingCapture({ camera, capture, collection, letter, onLetter 
     >
       <h2 className="[font:var(--type-h3)]">Recopilar una muestra</h2>
       <TrainingSampleFields
+        experimental={collection.experimental}
         metadata={{ participantId, partition, label: letter, consent }}
         disabled={capture.pending}
         onChange={(field, value) => {
@@ -59,6 +60,14 @@ export function TrainingCapture({ camera, capture, collection, letter, onLetter 
           }}
         >
           Guardar muestra en memoria
+        </Button>
+        <Button
+          variant="secondary"
+          icon={null}
+          disabled={!capture.frames || capture.pending}
+          onClick={clear}
+        >
+          Descartar captura
         </Button>
       </div>
       {capture.frames && (

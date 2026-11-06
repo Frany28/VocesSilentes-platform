@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { validateModel } from '../../../../../shared/lsv/classifier.js';
 import { RecognitionModelContext } from './model-context.js';
+import { assertModelUsage } from './model-usage.js';
 
 /**
  * Conserva el modelo experimental solo en memoria durante la sesión Student, sin duplicar progreso académico.
@@ -20,6 +21,7 @@ export function RecognitionModelProvider({ children }) {
     const ticket = ++generation.current;
     if (file.size > 8 * 1024 * 1024) throw new Error('MODEL_TOO_LARGE');
     const parsed = validateModel(JSON.parse(await file.text()));
+    assertModelUsage(parsed);
     if (generation.current === ticket) setModel(parsed);
   };
   return (

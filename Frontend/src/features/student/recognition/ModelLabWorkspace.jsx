@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button } from '../../../components/ui/Button.jsx';
+import { TrainingSourceSelector } from './TrainingSourceSelector.jsx';
 import { ConfirmationDialog } from '../../../components/ui/ConfirmationDialog.jsx';
 import { useDraftLeave } from '../../../hooks/use-draft-leave.js';
 import { useHandCamera } from './use-hand-camera.js';
@@ -12,6 +12,9 @@ import { VideoTrainingPanel } from './VideoTrainingPanel.jsx';
 import { TrainingSamples } from './TrainingSamples.jsx';
 import { TrainingCoverage } from './TrainingCoverage.jsx';
 import { ModelTraining } from './ModelTraining.jsx';
+import { Select } from '../../../components/ui/Select.jsx';
+import { isLocalExperiment } from './local-experiment.js';
+import { LocalExperimentAssets } from './LocalExperimentAssets.jsx';
 
 /**
  * Coordina importación y cámara con un lote local común y guardas de pérdida, sin progreso académico.
@@ -19,9 +22,10 @@ import { ModelTraining } from './ModelTraining.jsx';
  */
 export function ModelLabWorkspace() {
   const [mode, setMode] = useState('camera');
+  const [experimental, setExperimental] = useState(isLocalExperiment);
   const camera = useHandCamera();
   const capture = useSequenceCapture(camera);
-  const collection = useTrainingSamples();
+  const collection = useTrainingSamples(experimental);
   const files = useLocalVideos();
   const operation = useVideoProcessing();
   const busy = capture.pending || operation.pending || files.pending;
@@ -29,29 +33,31 @@ export function ModelLabWorkspace() {
   const leave = useDraftLeave(dirty, busy, '/student');
   return (
     <>
-      <div className="camera-actions" role="group" aria-label="Origen de muestras">
-        <Button
-          variant="secondary"
-          icon={null}
-          aria-pressed={mode === 'camera'}
-          disabled={busy}
-          onClick={() => setMode('camera')}
-        >
-          Usar cámara
-        </Button>
-        <Button
-          variant="secondary"
-          icon={null}
-          aria-pressed={mode === 'video'}
-          disabled={busy}
-          onClick={() => {
+      {isLocalExperiment() && (
+        <Select
+          label="Flujo de entrenamiento"
+          value={experimental ? 'local' : 'reviewed'}
+          disabled={busy || collection.samples.length > 0}
+          onChange={(event) => {
             camera.stop();
-            setMode('video');
+            capture.clear();
+            setExperimental(event.target.value === 'local');
           }}
         >
-          Importar video local
-        </Button>
-      </div>
+          <option value="local">ENTRENAMIENTO EXPERIMENTAL LOCAL</option>
+          <option value="reviewed">Entrenamiento con revisión y evaluación independiente</option>
+        </Select>
+      )}
+      {experimental && <LocalExperimentAssets collection={collection} busy={busy} />}
+      <TrainingSourceSelector
+        mode={mode}
+        busy={busy}
+        onChange={(value) => {
+          camera.stop();
+          capture.clear();
+          setMode(value);
+        }}
+      />
       {mode === 'camera' ? (
         <LiveTrainingPanel camera={camera} capture={capture} collection={collection} />
       ) : (
@@ -63,14 +69,19 @@ export function ModelLabWorkspace() {
         onPreview={(sample) => {
           if (busy) return;
           camera.stop();
+          capture.clear();
+          setMode('video');
           if (files.preview(sample)) {
             operation.clear();
-            setMode('video');
           }
         }}
       />
-      <TrainingCoverage samples={collection.samples} />
-      <ModelTraining samples={collection.samples} />
+      {!experimental && <TrainingCoverage samples={collection.samples} />}
+      <ModelTraining
+        key={String(experimental)}
+        samples={collection.samples}
+        experimental={experimental}
+      />
       {leave.confirm && (
         <ConfirmationDialog
           title="¿Salir sin exportar las muestras?"

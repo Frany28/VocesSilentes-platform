@@ -27,7 +27,7 @@ export function useModelTraining() {
     active.current = null;
     setPending(false);
   };
-  const train = (samples) => {
+  const train = (samples, experimental = false) => {
     if (active.current) return;
     setResult(null);
     setApplied(false);
@@ -56,7 +56,7 @@ export function useModelTraining() {
         cancel();
         setError('No se pudo completar el entrenamiento local. Revisa los datos y reintenta.');
       };
-      worker.postMessage({ samples });
+      worker.postMessage({ samples, ...(experimental ? { mode: 'LOCAL_PROVISIONAL' } : {}) });
     } catch {
       cancel();
       setError(
@@ -67,7 +67,9 @@ export function useModelTraining() {
   const apply = async () => {
     try {
       await importModel(
-        new File([JSON.stringify(result.model)], 'lsv-model.json', { type: 'application/json' }),
+        new File([JSON.stringify(result.model)], 'lsv-experimental-model.json', {
+          type: 'application/json',
+        }),
       );
       setApplied(true);
     } catch {
@@ -82,7 +84,15 @@ export function useModelTraining() {
     train,
     cancel,
     apply,
-    downloadModel: () => downloadJson(result.model, 'lsv-model.json'),
-    downloadReport: () => downloadJson(result.report, 'evaluation.json'),
+    downloadModel: () =>
+      downloadJson(
+        result.model,
+        result.model.trainingMode ? 'lsv-experimental-model.json' : 'lsv-model.json',
+      ),
+    downloadReport: () =>
+      downloadJson(
+        result.report,
+        result.model.trainingMode ? 'experimental-summary.json' : 'evaluation.json',
+      ),
   };
 }

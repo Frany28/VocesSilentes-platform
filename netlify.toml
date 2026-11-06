@@ -8,3 +8,9 @@
   PNPM_VERSION = "10.18.2"
   VITE_API_URL = "https://voces-silentes-platform.vercel.app/api"
   VITE_STUDENT_DEMO = "true"
+
+[[headers]]
+  for = "/models/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Content-Type-Options = "nosniff"

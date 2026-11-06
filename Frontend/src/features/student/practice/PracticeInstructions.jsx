@@ -26,7 +26,7 @@ export function PracticeInstructions({ onClose }) {
       <h2 id={title} className="sr-only">
         Instrucciones de práctica
       </h2>
-      <PracticeGuide />
+      <PracticeGuide demo={false} />
       <Button data-practice-close className="w-full" icon={null} onClick={onClose}>
         Volver a practicar
       </Button>

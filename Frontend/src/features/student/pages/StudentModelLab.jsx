@@ -17,8 +17,9 @@ export function StudentModelLab() {
         description="Prepara muestras reales de cámara o videos locales autorizados para entrenar el modelo."
       />
       <p>
-        El modelo necesita ejecuciones etiquetadas y personas distintas para entrenamiento,
-        calibración y prueba. Aquí no se generan aciertos ni se completa progreso académico.
+        Captura y clasifica secuencias reales. El flujo provisional local conserva la revisión LSV
+        pendiente; el flujo con evaluación exige personas independientes. No modifica progreso
+        académico.
       </p>
       <ModelLabWorkspace />
       <ModelLabInstructions />

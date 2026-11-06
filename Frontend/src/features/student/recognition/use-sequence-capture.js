@@ -20,6 +20,7 @@ export function useSequenceCapture(camera) {
     setError('');
     setPending(true);
     const samples = [];
+    let interrupted = false;
     const start = performance.now();
     let timer;
     const unsubscribe = camera.subscribe((result, timing) => {
@@ -31,6 +32,7 @@ export function useSequenceCapture(camera) {
         return;
       }
       const hand = result.handedness?.[0]?.[0]?.categoryName;
+      if (result.landmarks.length !== 1 || !['Left', 'Right'].includes(hand)) interrupted = true;
       if (result.landmarks.length === 1 && ['Left', 'Right'].includes(hand))
         samples.push({
           t: timing.time - start,
@@ -50,7 +52,12 @@ export function useSequenceCapture(camera) {
       active.current = null;
       setPending(false);
       try {
-        setFrames(validateFrames(samples));
+        const valid = validateFrames(samples);
+        if (interrupted)
+          throw new Error(
+            'Captura interrumpida: mantén exactamente una mano visible durante todo el intento.',
+          );
+        setFrames(valid);
       } catch (failure) {
         setError(failure.message);
       }
