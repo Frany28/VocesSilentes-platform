@@ -3,6 +3,7 @@ import { Brand } from '../../../components/ui/Brand.jsx';
 import { ThemeAction } from '../../../components/ui/ThemeAction.jsx';
 import { Progress } from '../../../components/ui/Progress.jsx';
 import { Icon } from '../../../components/ui/Icon.jsx';
+import { StudentProfileLink } from '../layout/StudentProfileLink.jsx';
 
 /**
  * Mantiene identidad y progreso del recorrido en una cabecera sin navegación ajena a la actividad.
@@ -12,7 +13,7 @@ import { Icon } from '../../../components/ui/Icon.jsx';
 export function JourneyHeader({ lesson, module, journey }) {
   return (
     <header className="journey-header flex flex-col gap-4">
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <div className="hidden min-[600px]:block">
           <Brand />
         </div>
@@ -26,7 +27,10 @@ export function JourneyHeader({ lesson, module, journey }) {
           <Icon name="education-back" />
           Salir de la lección
         </Link>
-        <ThemeAction />
+        <div className="student-topbar-actions">
+          <ThemeAction />
+          <StudentProfileLink />
+        </div>
       </div>
       <div className="flex flex-col gap-2">
         <p className="text-muted [font:var(--type-label)]">

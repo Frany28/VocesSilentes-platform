@@ -1,6 +1,7 @@
 import { Brand } from '../../../components/ui/Brand.jsx';
 import { ThemeAction } from '../../../components/ui/ThemeAction.jsx';
 import { IconAction } from '../../../components/ui/IconAction.jsx';
+import { StudentProfileLink } from './StudentProfileLink.jsx';
 
 /**
  * Cabecera común de aprendizaje y cuenta, con regreso de icono y tema de destino.
@@ -23,7 +24,10 @@ export function StudentTopbar({ page, account }) {
           </p>
         </>
       )}
-      <ThemeAction />
+      <div className="student-topbar-actions">
+        <ThemeAction />
+        <StudentProfileLink />
+      </div>
     </header>
   );
 }

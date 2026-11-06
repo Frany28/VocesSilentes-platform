@@ -2,19 +2,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
   min-height: 44px;
+  flex-wrap: wrap;
 }
-.student-shell[data-account] {
-  padding: 0;
-  gap: 0;
-}
-.student-shell[data-account] .student-sidebar {
-  top: 0;
-  height: 100svh;
-}
-.student-shell[data-account] .student-content {
-  padding: 32px;
+.student-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
+  margin-left: auto;
 }
 .student-shell[data-account] .student-container {
   max-width: 904px;
@@ -22,15 +19,5 @@
 @media (600px <= width < 1200px) {
   .student-shell[data-page='reports'] .student-container {
     max-width: 560px;
-  }
-}
-@media (width < 600px) {
-  .student-shell[data-account] .student-content {
-    padding: 20px;
-  }
-}
-@media (width < 360px) {
-  .student-shell[data-account] .student-content {
-    padding: 16px;
   }
 }

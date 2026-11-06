@@ -7,9 +7,9 @@
   width: 240px;
   padding: 20px 16px;
   position: sticky;
-  top: 24px;
+  top: 0;
   align-self: flex-start;
-  height: calc(100svh - 48px);
+  height: 100svh;
   overflow-y: auto;
   background: var(--surface);
   border: 1px solid var(--border-subtle);
@@ -71,7 +71,7 @@
 @media (600px <= width < 1200px) {
   .student-sidebar {
     width: 80px;
-    padding: 20px 16px;
+    padding: 16px;
   }
   .student-sidebar-label,
   .student-sidebar .student-nav-item > span:last-child {

@@ -1,7 +1,7 @@
 .student-shell {
   --layout-gap: clamp(16px, 2vw, 24px);
-  padding: 24px;
-  gap: 24px;
+  padding: 0;
+  gap: 0;
 }
 .student-container {
   container-type: inline-size;
@@ -9,7 +9,7 @@
   gap: var(--layout-gap);
 }
 .student-content {
-  padding: 0;
+  padding: 32px;
 }
 .student-shell h1 {
   font-size: 36px;
@@ -66,9 +66,8 @@
   }
 }
 @media (width < 600px) {
-  .student-shell {
-    padding: 24px;
-    gap: 0;
+  .student-content {
+    padding: 20px;
   }
   .student-shell h1 {
     font-size: 30px;
@@ -76,7 +75,7 @@
   }
 }
 @media (width < 360px) {
-  .student-shell {
+  .student-content {
     padding: 16px;
   }
 }
