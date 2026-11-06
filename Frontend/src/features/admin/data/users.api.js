@@ -19,7 +19,8 @@ async function write(path, method, input, signal) {
  */
 export function createUsersApi() {
   return {
-    summary: async (signal) => (await requestJson('admin/summary', { signal })).data,
+    summary: async (signal, filters = {}) =>
+      (await requestJson('admin/summary', { signal, query: new URLSearchParams(filters) })).data,
     state: (id, isActive, signal) =>
       write(`admin/users/${encodeURIComponent(id)}/state`, 'PATCH', { isActive }, signal),
     list: async ({ q = '', role = '', page = 1, pageSize = 3 }, signal) => {

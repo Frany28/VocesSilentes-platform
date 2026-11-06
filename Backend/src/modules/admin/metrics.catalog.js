@@ -10,7 +10,9 @@ import { choiceAvailability } from '../learning/choice.public.js';
 export async function readCatalogMetrics(tx) {
   const modulesPublished = await tx.module.count({ where: { publicationStatus: 'PUBLISHED' } });
   const lessonsPublished = await tx.lesson.count({ where: accessibleLessons() });
-  const manual = await tx.exercise.count({ where: { type: 'SIGN_PRACTICE', lesson: accessibleLessons() } });
+  const manual = await tx.exercise.count({
+    where: { type: 'SIGN_PRACTICE', lesson: accessibleLessons() },
+  });
   // La base compartida anterior a alphabet_curriculum no tiene definition: la fila JSON devuelve null.
   // No se consultan enums nuevos como valores de un enum PostgreSQL todavía no migrado.
   const questions = await tx.$queryRaw`
@@ -22,8 +24,11 @@ export async function readCatalogMetrics(tx) {
   `;
   const ready = questions.filter(({ definition }) => {
     const parsed = choiceDefinitionSchema.safeParse(definition);
-    return parsed.success && parsed.data.type === 'MULTIPLE_CHOICE_TEXT' &&
-      choiceAvailability(parsed.data, false) === 'READY';
+    return (
+      parsed.success &&
+      parsed.data.type === 'MULTIPLE_CHOICE_TEXT' &&
+      choiceAvailability(parsed.data, false) === 'READY'
+    );
   }).length;
   return { modulesPublished, lessonsPublished, exercisesAvailable: manual + ready };
 }

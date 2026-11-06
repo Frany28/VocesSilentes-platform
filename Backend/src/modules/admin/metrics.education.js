@@ -39,21 +39,32 @@ export async function readEducationMetrics(tx, range) {
     SELECT kind, to_char(at AT TIME ZONE ${range.timeZone}, 'YYYY-MM-DD'), '', count(*)::int, 0
       FROM events GROUP BY 1, 2
     UNION ALL
-    SELECT 'MODULE', module::text, title, count(*)::int, 0 FROM events
-      WHERE kind = 'lessons' GROUP BY module, title
+    SELECT 'MODULE', m.id::text, m.title, count(e.at)::int, 0 FROM vocessilentes."Module" m
+      LEFT JOIN events e ON e.module = m.id AND e.kind = 'lessons'
+      WHERE m."publicationStatus" = 'PUBLISHED' GROUP BY m.id, m.title
   `;
   const total = rows.find((item) => item.kind === 'TOTAL');
   const counts = new Map(rows.map((item) => [`${item.kind}:${item.key}`, item.value]));
-  const daily = range.days.map((day) => ({ day, started: counts.get(`started:${day}`) ?? 0,
-    lessons: counts.get(`lessons:${day}`) ?? 0, exercises: counts.get(`exercises:${day}`) ?? 0 }));
+  const daily = range.days.map((day) => ({
+    day,
+    started: counts.get(`started:${day}`) ?? 0,
+    lessons: counts.get(`lessons:${day}`) ?? 0,
+    exercises: counts.get(`exercises:${day}`) ?? 0,
+  }));
   return {
-    lessonsStarted: total.value, cohortCompleted: total.cohort,
+    lessonsStarted: total.value,
+    cohortCompleted: total.cohort,
     lessonsCompleted: daily.reduce((sum, item) => sum + item.lessons, 0),
     exercisesCompleted: daily.reduce((sum, item) => sum + item.exercises, 0),
-    completionPercentage: total.value ? Math.round(total.cohort / total.value * 10000) / 100 : null,
-    completionUnavailableReason: total.value ? null : 'No hay lecciones iniciadas en el período para calcular el porcentaje.',
+    completionPercentage: total.value
+      ? Math.round((total.cohort / total.value) * 10000) / 100
+      : null,
+    completionUnavailableReason: total.value
+      ? null
+      : 'No hay lecciones iniciadas en el período para calcular el porcentaje.',
     daily,
-    byModule: rows.filter((item) => item.kind === 'MODULE')
+    byModule: rows
+      .filter((item) => item.kind === 'MODULE')
       .map((item) => ({ id: item.key, title: item.title, completed: item.value }))
       .sort((a, b) => b.completed - a.completed || a.title.localeCompare(b.title)),
   };

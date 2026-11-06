@@ -29,10 +29,15 @@ export async function readActivityMetrics(tx, range) {
       count(DISTINCT actor)::int FROM observed WHERE at >= ${range.from} GROUP BY 1
   `;
   const windows = rows.find((item) => item.day === 'WINDOWS');
-  const daily = new Map(rows.filter((item) => item.day !== 'WINDOWS').map((item) => [item.day, item.users]));
+  const daily = new Map(
+    rows.filter((item) => item.day !== 'WINDOWS').map((item) => [item.day, item.users]),
+  );
   return {
-    active7: windows.active7, active30: windows.active30, uniqueUsers: windows.users,
-    definition: 'Personas con inicio de sesión o acción registrada en bitácora. Incluye USER y ADMIN; excluye eliminadas.',
+    active7: windows.active7,
+    active30: windows.active30,
+    uniqueUsers: windows.users,
+    definition:
+      'Personas con inicio de sesión o acción registrada en bitácora. Incluye USER y ADMIN; excluye eliminadas.',
     daily: range.days.map((day) => ({ day, users: daily.get(day) ?? 0 })),
   };
 }

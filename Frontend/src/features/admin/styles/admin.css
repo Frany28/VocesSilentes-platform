@@ -10,6 +10,8 @@
 @import './admin-detail.css' layer(components);
 @import './admin-responsive.css' layer(components);
 @import './admin-evidence.css' layer(components);
+@import './admin-metrics.css' layer(components);
+@import './admin-metrics-charts.css' layer(components);
 
 @layer components {
   body:has(.admin-shell) {

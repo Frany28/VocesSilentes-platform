@@ -1,0 +1,68 @@
+.admin-metrics-plot {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.admin-metrics-grid {
+  stroke: var(--border-subtle);
+  stroke-dasharray: 3 4;
+}
+.admin-metrics-axis {
+  fill: var(--text-secondary);
+  font: var(--type-label);
+}
+.admin-metrics-series {
+  stroke: var(--series-color);
+  fill: var(--series-color);
+}
+.admin-metrics-chart .series-0 {
+  --series-color: var(--action-primary);
+}
+.admin-metrics-chart .series-1 {
+  --series-color: var(--status-success);
+}
+.admin-metrics-chart .series-2 {
+  --series-color: var(--status-warning);
+}
+.admin-metrics-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  color: var(--text-secondary);
+  font: var(--type-label);
+}
+.admin-metrics-legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.admin-metrics-legend span {
+  width: 12px;
+  height: 4px;
+  background: var(--series-color);
+}
+.admin-metrics-table > div {
+  max-height: 320px;
+  overflow: auto;
+  margin-top: 16px;
+}
+.admin-metrics-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font: var(--type-label);
+}
+.admin-metrics-table :is(th, td) {
+  padding: 8px;
+  border-bottom: 1px solid var(--border-subtle);
+  text-align: right;
+}
+.admin-metrics-table th:first-child {
+  text-align: left;
+}
+.admin-metrics-table caption {
+  text-align: left;
+  padding-bottom: 12px;
+}

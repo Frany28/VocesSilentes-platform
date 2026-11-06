@@ -7,11 +7,12 @@ import { useAdmin } from './admin-context.js';
  */
 export function useAdminSummary() {
   const { api } = useAdmin();
+  const [filters, setFilters] = useState({});
   const [revision, setRevision] = useState(0);
   const [result, setResult] = useState({ status: 'loading' });
   useEffect(() => {
     const request = new AbortController();
-    api.summary(request.signal).then(
+    api.summary(request.signal, filters).then(
       (data) => {
         if (!request.signal.aborted) setResult({ status: 'ready', data });
       },
@@ -20,9 +21,21 @@ export function useAdminSummary() {
       },
     );
     return () => request.abort();
-  }, [api, revision]);
+  }, [api, revision, filters]);
+  useEffect(() => {
+    const refresh = () => {
+      if (document.visibilityState !== 'hidden') setRevision((value) => value + 1);
+    };
+    window.addEventListener('focus', refresh);
+    const timer = window.setInterval(refresh, 60000);
+    return () => { window.removeEventListener('focus', refresh); window.clearInterval(timer); };
+  }, []);
   return {
     ...result,
+    apply: (selection) => {
+      setResult({ status: 'loading' });
+      setFilters(selection.period === '30' ? {} : selection);
+    },
     retry: () => {
       setResult({ status: 'loading' });
       setRevision((value) => value + 1);
