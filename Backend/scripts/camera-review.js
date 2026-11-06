@@ -8,8 +8,16 @@ import { seedAlphabet } from './learning/seed-alphabet.js';
 import { alphabetModuleId } from './learning/alphabet-source.js';
 import { reviewCameraViews } from './lsv/review-camera-views.js';
 import { reviewCameraJourney } from './lsv/review-camera-journey.js';
+import { reviewVideoImport } from './lsv/review-video-import.js';
+import { join } from 'node:path';
 
-const output = fileURLToPath(new URL('../../.local/camera-review/', import.meta.url));
+const videoOnly = process.argv.includes('--video');
+const output = fileURLToPath(
+  new URL(
+    videoOnly ? '../../.local/video-import-review/' : '../../.local/camera-review/',
+    import.meta.url,
+  ),
+);
 await mkdir(output, { recursive: true });
 const environment = await createAcademicEnvironment({
   port: 5286,
@@ -50,8 +58,11 @@ try {
   const page = createAcademicDriver(browser, environment.origin, output);
   await page.login(email, password);
   const context = { page, browser, results, output };
-  await reviewCameraViews(context);
-  await reviewCameraJourney(context);
+  if (videoOnly) await reviewVideoImport(context);
+  else {
+    await reviewCameraViews(context);
+    await reviewCameraJourney(context);
+  }
   assert.deepEqual(browser.errors, []);
   assert.equal(await environment.database.exerciseProgress.count(), 0);
   assert.equal(await environment.database.lessonProgress.count(), 0);
@@ -61,15 +72,13 @@ try {
       completed: true,
       views: results.views.length,
       ...results.journey,
+      ...results.videoImport,
       physicalCamera: false,
       gradedSignExercises: 0,
     }),
   );
 } finally {
-  await writeFile(
-    new URL('../../.local/camera-review/results.json', import.meta.url),
-    JSON.stringify(results, null, 2),
-  );
+  await writeFile(join(output, 'results.json'), JSON.stringify(results, null, 2));
   await browser?.close();
   await environment.close();
 }

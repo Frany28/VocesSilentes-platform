@@ -5,10 +5,10 @@ import { LSV_LABELS } from '../../../../../shared/lsv/labels.js';
 
 /**
  * Presenta metadatos mínimos de muestras consentidas, sin solicitar nombres ni aprobar etiquetas automáticamente.
- * @param {{metadata: object, disabled: boolean, onChange: Function}} props Valores y actualización controlada.
+ * @param {{metadata: object, disabled: boolean, onChange: Function, labels?: string[]}} props Valores y control.
  * @returns {import('react').ReactElement} Código, partición, etiqueta y consentimiento explícito.
  */
-export function TrainingSampleFields({ metadata, disabled, onChange }) {
+export function TrainingSampleFields({ metadata, disabled, onChange, labels = LSV_LABELS }) {
   return (
     <>
       <Input
@@ -34,7 +34,7 @@ export function TrainingSampleFields({ metadata, disabled, onChange }) {
         disabled={disabled}
         onChange={(event) => onChange('label', event.target.value)}
       >
-        {LSV_LABELS.map((label) => (
+        {labels.map((label) => (
           <option key={label} value={label}>
             {label === 'NONE' ? 'NONE · postura que no es una letra del experimento' : label}
           </option>

@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { validateRecording } from '../../../../../shared/lsv/recording.js';
+import { assertIndependentSample } from '../../../../../shared/lsv/sample-conflicts.js';
 import { downloadJson } from './download-json.js';
 
 /**
@@ -8,12 +9,13 @@ import { downloadJson } from './download-json.js';
  */
 export function useTrainingSamples() {
   const [samples, setSamples] = useState([]);
+  const current = useRef([]);
   const [error, setError] = useState('');
   const [exported, setExported] = useState(false);
   const add = (metadata, frames, sessionId) => {
     setError('');
     try {
-      if (samples.length >= 100)
+      if (current.current.length >= 100)
         throw new Error('Exporta este lote antes de recopilar más de 100 muestras.');
       const sample = validateRecording({
         ...metadata,
@@ -22,8 +24,11 @@ export function useTrainingSamples() {
         sessionId,
         frames,
         reviewStatus: 'PENDING_LSV_REVIEW',
+        reviewerId: null,
       });
-      setSamples((previous) => [...previous, sample]);
+      assertIndependentSample(sample, current.current);
+      current.current = [...current.current, sample];
+      setSamples(current.current);
       setExported(false);
       return true;
     } catch (failure) {
@@ -34,20 +39,22 @@ export function useTrainingSamples() {
   const review = (id, reviewerId) => {
     setError('');
     try {
-      const original = samples.find((sample) => sample.id === id);
+      const original = current.current.find((sample) => sample.id === id);
       const revised = validateRecording({ ...original, reviewerId, reviewStatus: 'APPROVED_LSV' });
-      setSamples((previous) => previous.map((sample) => (sample.id === id ? revised : sample)));
+      current.current = current.current.map((sample) => (sample.id === id ? revised : sample));
+      setSamples(current.current);
       setExported(false);
     } catch (failure) {
       setError(failure.message);
     }
   };
   const remove = (id) => {
-    setSamples((previous) => previous.filter((sample) => sample.id !== id));
+    current.current = current.current.filter((sample) => sample.id !== id);
+    setSamples(current.current);
     setExported(false);
   };
   const download = () => {
-    downloadJson({ version: 1, samples }, `lsv-samples-${Date.now()}.json`);
+    downloadJson({ version: 1, samples: current.current }, `lsv-samples-${Date.now()}.json`);
     setExported(true);
   };
   return { samples, error, add, review, remove, download, dirty: samples.length > 0 && !exported };

@@ -7,7 +7,7 @@ import modelUrl from '../../../assets/vision/hand-landmarker-float16-v1.task?url
 const modelHash = 'fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1';
 
 /**
- * Carga MediaPipe y recursos locales solo al activar cámara; comprueba la identidad del modelo oficial.
+ * Carga MediaPipe al activar cámara o procesar un video autorizado; comprueba la identidad del modelo oficial.
  * @param {AbortSignal} signal Cancelación durante descarga y creación.
  * @returns {Promise<object>} Detector y dibujo de landmarks reales, sin clasificar letras ni enviar frames.
  * @throws {Error} Descarga, integridad o inicialización no disponibles.

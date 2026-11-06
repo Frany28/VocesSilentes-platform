@@ -9,6 +9,7 @@ Backend/generated/
 .npm-cache/
 .pnpm-store/
 .local/
+/datos-entrenamiento/
 entrega-modulo-ii/*.zip
 modulo-ii-*/*.zip
 .vercel/

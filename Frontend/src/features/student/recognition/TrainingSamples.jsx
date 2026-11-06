@@ -1,21 +1,25 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Input } from '../../../components/ui/Input.jsx';
 import { Button } from '../../../components/ui/Button.jsx';
 import { Alert } from '../../../components/ui/Alert.jsx';
+import { TrainingSampleRow } from './TrainingSampleRow.jsx';
 
 /**
- * Identifica la revisión humana como declarada y exporta el lote, sin aprobar datos ni métricas automáticamente.
- * @param {{collection: object}} props Colección consentida únicamente en memoria.
- * @returns {import('react').ReactElement} Revisión por muestra y descarga para entrenamiento reproducible.
+ * Conserva revisión declarada por ejecución y exportación de lotes, sin aprobar datos automáticamente.
+ * @param {{collection: object, onPreview?: Function, busy?: boolean}} props Lote y acceso al archivo original.
+ * @returns {import('react').ReactElement} Inspección, revisión, descarte y descarga local.
  */
-export function TrainingSamples({ collection }) {
+export function TrainingSamples({ collection, onPreview, busy }) {
   const [reviewer, setReviewer] = useState('');
   return (
-    <section className="education-card flex flex-col gap-4" aria-label="Muestras recopiladas">
+    <section
+      className="education-card flex min-w-0 flex-col gap-4"
+      aria-label="Muestras recopiladas"
+    >
       <h2 className="[font:var(--type-h3)]">Muestras en memoria: {collection.samples.length}</h2>
       <p className="text-muted">
-        Confirma una revisión solo si una persona competente en LSV observó la ejecución en vivo.
-        Los puntos por sí solos no acreditan la etiqueta. Exporta antes de cerrar esta página.
+        Cada fila representa una ejecución. Confirma una revisión solo si una persona competente
+        observó la ejecución original en vivo o en el video. Exporta antes de cerrar.
       </p>
       <Input
         label="Código de quien revisa LSV"
@@ -25,41 +29,17 @@ export function TrainingSamples({ collection }) {
       />
       <ul className="flex w-full list-none flex-col gap-3 p-0">
         {collection.samples.map((sample) => (
-          <li key={sample.id} className="training-sample-row">
-            <p>
-              {sample.label} · {sample.participantId} · {sample.partition} · {sample.frames.length}{' '}
-              frames
-            </p>
-            <p className="text-muted">
-              {sample.reviewStatus === 'APPROVED_LSV'
-                ? `Revisión declarada por ${sample.reviewerId}`
-                : 'Pendiente de revisión LSV'}
-            </p>
-            <div className="camera-actions">
-              <Button
-                density="compact"
-                variant="secondary"
-                icon={null}
-                disabled={
-                  sample.reviewStatus === 'APPROVED_LSV' || !/^[a-z0-9_-]{1,64}$/.test(reviewer)
-                }
-                onClick={() => collection.review(sample.id, reviewer)}
-              >
-                Confirmar revisión LSV
-              </Button>
-              <Button
-                density="compact"
-                variant="secondary"
-                icon={null}
-                onClick={() => collection.remove(sample.id)}
-              >
-                Descartar muestra
-              </Button>
-            </div>
-          </li>
+          <TrainingSampleRow
+            key={sample.id}
+            sample={sample}
+            reviewer={reviewer}
+            collection={collection}
+            onPreview={onPreview}
+            busy={busy}
+          />
         ))}
       </ul>
-      <Button disabled={!collection.samples.length} onClick={collection.download}>
+      <Button disabled={!collection.samples.length || busy} onClick={collection.download}>
         Exportar muestras (.json)
       </Button>
       {collection.error && (
@@ -68,8 +48,8 @@ export function TrainingSamples({ collection }) {
         </Alert>
       )}
       <p className="text-muted">
-        El entrenador rechazará muestras sin consentimiento o revisión, y personas mezcladas entre
-        grupos.
+        El entrenador rechaza muestras sin consentimiento o revisión, ejecuciones duplicadas o
+        solapadas y personas mezcladas entre grupos.
       </p>
     </section>
   );

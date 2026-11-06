@@ -1,4 +1,5 @@
 import { LSV_LABELS } from './labels.js';
+import { validateVideoSource } from './video-source.js';
 
 const code = /^[a-zA-Z0-9_-]{1,64}$/;
 const validCode = (value) => typeof value === 'string' && code.test(value);
@@ -36,6 +37,7 @@ export function validateRecording(value) {
     reviewStatus: value.reviewStatus,
     reviewerId: value.reviewerId ?? null,
     frames,
+    ...(value.source !== undefined ? { source: validateVideoSource(value.source, frames) } : {}),
   };
 }
 

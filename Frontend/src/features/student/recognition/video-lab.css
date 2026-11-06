@@ -1,0 +1,79 @@
+@layer theme, base, components, utilities;
+
+@layer components {
+  .video-editor-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  .local-video-viewport {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    background: var(--surface-neutral);
+  }
+  .local-video-viewport video {
+    display: block;
+    width: 100%;
+    max-height: 440px;
+    object-fit: contain;
+  }
+  .local-video-viewport canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+  }
+  .local-video-viewport[data-processing] video {
+    pointer-events: none;
+  }
+  .sample-preview svg {
+    width: 100%;
+    max-height: 220px;
+    border-radius: var(--radius-lg);
+    background: var(--surface-neutral);
+    fill: var(--action-primary);
+  }
+  .sample-preview input[type='range'] {
+    width: 100%;
+    min-height: 44px;
+    accent-color: var(--action-primary);
+  }
+  .sample-preview input:focus-visible,
+  .local-video-viewport video:focus-visible,
+  .training-sample-row summary:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+  }
+  .training-sample-row summary {
+    cursor: pointer;
+    min-height: 44px;
+    padding: 10px 0;
+  }
+  .training-coverage-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .training-coverage-grid article {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  @media (width >= 768px) {
+    .training-coverage-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (width >= 1200px) {
+    .video-editor-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+    }
+    .training-coverage-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+}

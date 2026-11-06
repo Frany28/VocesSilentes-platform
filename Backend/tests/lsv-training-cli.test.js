@@ -7,15 +7,24 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { readTrainingDataset } from '../scripts/lsv/dataset.js';
 import { syntheticDataset } from './fixtures/lsv-synthetic.js';
+import { syntheticVideoRecording } from './fixtures/lsv-video-synthetic.js';
 
 test('CLI: entrena únicamente archivos explícitos y produce modelo/evaluación locales, sin API ni base de datos', async () => {
   const directory = await mkdtemp(join(tmpdir(), 'vs-lsv-training-test-'));
   try {
     const input = join(directory, 'software-fixture.json');
-    await writeFile(input, JSON.stringify({ version: 1, samples: syntheticDataset() }));
+    const samples = syntheticDataset().map((sample, index) =>
+      syntheticVideoRecording(
+        sample.label,
+        sample.partition,
+        [0, 0, 0.002, 0.002, 0.001, 0.001][index],
+      ),
+    );
+    await writeFile(input, JSON.stringify({ version: 1, samples }));
     const data = await readTrainingDataset([input]);
     assert.equal(data.records.length, 6);
     assert.equal(data.sources.length, 1);
+    assert.deepEqual(data.records[0].source, samples[0].source);
     const outcome = spawnSync(
       process.execPath,
       [
