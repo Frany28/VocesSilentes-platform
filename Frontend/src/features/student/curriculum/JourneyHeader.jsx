@@ -48,6 +48,11 @@ export function JourneyHeader({ lesson, module, journey }) {
             Vista previa local · Borrador pendiente de revisión lingüística.
           </p>
         )}
+        {!module.preview && lesson.content?.reviewStatus === 'PENDING_LSV_REVIEW' && (
+          <p className="text-muted [font:var(--type-label)]">
+            Lectura educativa · Revisión LSV pendiente. Las evaluaciones aún no están disponibles.
+          </p>
+        )}
         {!journey.remembered && (
           <p role="status" className="text-muted">
             El navegador no permite recordar tu punto al recargar. Puedes continuar estudiando.

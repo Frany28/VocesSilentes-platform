@@ -4,6 +4,7 @@ import request from 'supertest';
 import { authFixture, registered, csrfToken } from './fixture.js';
 import { installCurriculum } from '../../scripts/learning/install-curriculum.js';
 import { alphabetModuleId } from '../../scripts/learning/alphabet-source.js';
+import { publishAlphabetReading } from '../../scripts/learning/publish-alphabet-reading.js';
 
 const fixture = authFixture();
 
@@ -11,23 +12,13 @@ test('siete lecciones reales: inicio cero, 3/7=43%, aislamiento y persistencia t
   const actor = await registered(fixture);
   const other = await registered(fixture);
   await installCurriculum(fixture.database);
-  // Aprobación/publicación sintética exclusivamente en PostgreSQL WASM de este test.
   const lessons = await fixture.database.lesson.findMany({
     where: { moduleId: alphabetModuleId },
     orderBy: { order: 'asc' },
   });
-  await fixture.database.module.update({
-    where: { id: alphabetModuleId },
-    data: { publicationStatus: 'PUBLISHED' },
-  });
-  for (const lesson of lessons)
-    await fixture.database.lesson.update({
-      where: { id: lesson.id },
-      data: {
-        publicationStatus: 'PUBLISHED',
-        content: { ...lesson.content, reviewStatus: 'APPROVED_LSV' },
-      },
-    });
+  const publication = await publishAlphabetReading(fixture.database);
+  assert.equal(publication.changedLessons, 7);
+  assert.equal((await publishAlphabetReading(fixture.database)).changedLessons, 0);
   const read = async (agent) => (await agent.get('/api/learning').expect(200)).body.data.modules[0];
   assert.ok((await read(actor.agent)).lessons.every((item) => item.status === 'NOT_STARTED'));
   for (const lesson of lessons.slice(0, 3))
@@ -40,6 +31,7 @@ test('siete lecciones reales: inicio cero, 3/7=43%, aislamiento y persistencia t
   assert.equal(module.title, 'Abecedario LSV');
   assert.equal(module.order, 1);
   assert.equal(module.lessons.length, 7);
+  assert.ok(module.lessons.every((item) => item.content.reviewStatus === 'PENDING_LSV_REVIEW'));
   assert.equal(
     Math.round((100 * module.lessons.filter((item) => item.status === 'COMPLETED').length) / 7),
     43,

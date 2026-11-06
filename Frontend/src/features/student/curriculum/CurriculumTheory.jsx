@@ -46,8 +46,8 @@ export function CurriculumTheory({ step, pending }) {
         <>
           <LessonMedia />
           <p>
-            Las ilustraciones del manual ya están disponibles para estudiar. Los vídeos y la
-            validación LSV siguen pendientes.
+            Las imágenes y los vídeos siguen pendientes de autorización y revisión LSV. Puedes
+            estudiar la teoría mientras se preparan esos recursos.
           </p>
           <p className="text-muted">
             Puedes continuar con la lectura y las letras escritas.
