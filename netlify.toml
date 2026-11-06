@@ -7,7 +7,7 @@
   NODE_VERSION = "22.23.4"
   PNPM_VERSION = "10.18.2"
   VITE_API_URL = "https://voces-silentes-platform.vercel.app/api"
-  VITE_STUDENT_DEMO = "true"
+  VITE_STUDENT_DEMO = "false"
 
 [[headers]]
   for = "/models/*"

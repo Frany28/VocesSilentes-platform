@@ -56,7 +56,10 @@ test('semilla idempotente conserva datos previos: 7 lecciones, 27 tarjetas y 34 
   ])
     assert.ok(!response.includes(`"${key}"`), key);
   const normal = createLearningService(fixture.database);
-  assert.deepEqual((await normal.snapshot(student.user.id)).modules, []);
+  const pending = (await normal.snapshot(student.user.id)).modules;
+  assert.equal(pending.length, 1);
+  assert.equal(pending[0].access, 'upcoming');
+  assert.deepEqual(pending[0].lessons, []);
   await assert.rejects(normal.answer(student.user.id, questions[0].id, 'opt1'), { status: 404 });
 });
 

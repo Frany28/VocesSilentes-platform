@@ -11,20 +11,25 @@ export function StudentHero({ module, next, catalog = false, onOpen }) {
   const { state } = moduleProgress(module);
   const first = state === 'available';
   const complete = state === 'completed';
-  const title = catalog
-    ? 'Tus manos.\nNuevos caminos.'
+  const upcoming = state === 'upcoming';
+  const title = upcoming
+    ? 'Tu plan de aprendizaje'
+    : catalog
+      ? 'Tus manos.\nNuevos caminos.'
+      : complete
+        ? 'Más señas.\nMás conexiones.'
+        : first
+          ? 'Tu primera seña.\nTu primer puente.'
+          : 'Cada seña abre\nuna conversación.';
+  const description = upcoming
+    ? `${module.title}: todavía no hay lecciones publicadas.`
     : complete
-      ? 'Más señas.\nMás conexiones.'
+      ? `Completaste ${module.title}.\n${next ? `${next.title} ya está disponible.` : 'Puedes volver a repasar.'}`
       : first
-        ? 'Tu primera seña.\nTu primer puente.'
-        : 'Cada seña abre\nuna conversación.';
-  const description = complete
-    ? `Completaste ${module.title}.\n${next ? `${next.title} ya está disponible.` : 'Puedes volver a repasar.'}`
-    : first
-      ? `Empieza con ${module.title}.\nLee y aprende a tu ritmo.`
-      : catalog
-        ? `Continúa con ${module.title}.\nUna seña a la vez, a tu ritmo.`
-        : `Retoma ${module.title}.\nTu siguiente paso: aprender a presentarte.`;
+        ? `Empieza con ${module.title}.\nLee y aprende a tu ritmo.`
+        : catalog
+          ? `Continúa con ${module.title}.\nUna seña a la vez, a tu ritmo.`
+          : `Retoma ${module.title}.\nTu siguiente paso: ${module.nextLesson?.title ?? 'repasar la lectura'}.`;
   return (
     <section
       className="student-hero relative flex flex-col gap-3 rounded-3xl p-6
@@ -36,10 +41,16 @@ export function StudentHero({ module, next, catalog = false, onOpen }) {
         <h2 className="font-bold whitespace-pre-line">{title}</h2>
         <p className="text-muted whitespace-pre-line">{description}</p>
         <Button
-          disabled={state === 'locked'}
+          disabled={state === 'locked' || upcoming}
           onClick={() => onOpen((complete ? next : null) || module)}
         >
-          {complete ? 'Explorar módulo' : first ? 'Comenzar lección' : 'Continuar lección'}
+          {upcoming
+            ? 'Próximamente'
+            : complete
+              ? 'Explorar módulo'
+              : first
+                ? 'Comenzar lección'
+                : 'Continuar lección'}
         </Button>
       </div>
       <div className="student-hero-art hidden min-[600px]:block" aria-hidden="true">

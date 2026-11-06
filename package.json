@@ -9,6 +9,7 @@
     "pnpm": "10.18.2"
   },
   "scripts": {
+    "curriculum:plan": "pnpm --filter @vocessilentes/backend curriculum:plan",
     "admin:metrics:verify": "node Backend/scripts/admin-metrics-review.js",
     "lsv:prepare": "node Backend/scripts/prepare-lsv-videos.js",
     "video:verify": "pnpm --filter @vocessilentes/backend video:verify",

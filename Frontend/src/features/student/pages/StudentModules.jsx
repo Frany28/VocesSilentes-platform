@@ -11,7 +11,6 @@ import { ModuleCard } from '../components/ModuleCard.jsx';
 import { StudentNote } from '../components/StudentNote.jsx';
 import { DataFeedback } from '../components/DataFeedback.jsx';
 import { StudentLoading } from '../components/StudentLoading.jsx';
-import { VowelPracticeEntry } from '../curriculum/VowelPracticeEntry.jsx';
 
 /**
  * Catálogo filtrable; diferencia falta de integración, catálogo vacío y consulta sin resultados.
@@ -25,6 +24,7 @@ export function StudentModules() {
   const modules = snapshot?.modules || [];
   const results = filterModules(modules, query, filter);
   const demo = snapshot?.source === 'demo';
+  const current = modules.find((module) => moduleProgress(module).total > 0);
   return (
     <div className="flex flex-col gap-6">
       <StudentPageHeader
@@ -33,7 +33,6 @@ export function StudentModules() {
         demo={demo}
         preview={modules.some((module) => module.preview)}
       />
-      <VowelPracticeEntry />
       {status === 'loading' ? (
         <StudentLoading catalog />
       ) : status === 'error' ? (
@@ -44,12 +43,16 @@ export function StudentModules() {
         <DataFeedback kind="empty" catalog />
       ) : (
         <>
-          <div className="student-overview-grid grid items-start">
-            <StudentHero module={modules[0]} catalog onOpen={onOpen} />
-            <div className="student-summary-slot">
-              <ProgressSummary module={modules[0]} />
+          {current ? (
+            <div className="student-overview-grid grid items-start">
+              <StudentHero module={current} catalog onOpen={onOpen} />
+              <div className="student-summary-slot">
+                <ProgressSummary module={current} />
+              </div>
             </div>
-          </div>
+          ) : (
+            <DataFeedback kind="unpublished" catalog />
+          )}
           <ModuleFilters
             modules={modules}
             query={query}
@@ -61,7 +64,7 @@ export function StudentModules() {
             <section className="flex flex-col gap-6" aria-labelledby="student-level">
               <div className="flex flex-col gap-2">
                 <h2 id="student-level" className="[font:var(--type-h3)]">
-                  01 / Primeras conversaciones
+                  Tu plan de aprendizaje
                 </h2>
                 <p className="text-muted" role="status" aria-live="polite">
                   {results.length} módulos ·{' '}

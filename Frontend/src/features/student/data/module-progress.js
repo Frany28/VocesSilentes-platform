@@ -12,14 +12,27 @@ export function moduleProgress(module) {
   const percent = total ? Math.round((100 * completed) / total) : 0;
   const started = lessons.some((lesson) => lesson.status !== 'NOT_STARTED');
   const state =
-    module.access === 'locked'
-      ? 'locked'
-      : total > 0 && completed === total
-        ? 'completed'
-        : started
-          ? 'progress'
-          : 'available';
+    module.access === 'upcoming' || total === 0
+      ? 'upcoming'
+      : module.access === 'locked'
+        ? 'locked'
+        : total > 0 && completed === total
+          ? 'completed'
+          : started
+            ? 'progress'
+            : 'available';
   return { total, completed, percent, state };
+}
+
+/**
+ * Etiqueta curricular derivada del orden persistido; no inventa un nivel si falta ese dato.
+ * @param {object} module Metadatos del catálogo.
+ * @returns {string} Número de módulo o etiqueta general.
+ */
+export function moduleLabel(module) {
+  return Number.isInteger(module.order)
+    ? `MÓDULO ${String(module.order).padStart(2, '0')} · LSV`
+    : 'MÓDULO LSV';
 }
 
 /**

@@ -11,7 +11,9 @@ export function ModuleFilters({ modules, query, filter, onQuery, onFilter }) {
   const filters = [
     ['all', 'Todos'],
     ['progress', 'En progreso'],
-    ['locked', 'Bloqueados'],
+    modules.some((module) => module.access === 'locked')
+      ? ['locked', 'Bloqueados']
+      : ['upcoming', 'Próximamente'],
   ];
   return (
     <div className="flex flex-col gap-6">

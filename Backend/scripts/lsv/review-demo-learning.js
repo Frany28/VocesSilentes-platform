@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 
 /**
- * Recorre el módulo con bundle de producción y metraje real; la referencia E nunca impone la predicción A.
+ * Recorre la práctica opcional con bundle productivo y metraje real; la selección E no impone la predicción A.
  * @param {{page: object, browser: object}} context Usuario y API efímeros, cámara de prueba con video real.
  * @returns {Promise<object>} Recorrido de inferencia sin entrenamiento público ni progreso académico.
  */
@@ -16,30 +16,23 @@ export async function reviewDemoLearning({ page, browser }) {
     mobile: false,
   });
   await page.navigate('/student/modules');
-  await page.wait('document.body.textContent.includes("Comenzar módulo de vocales")');
-  await page.click('Comenzar módulo de vocales');
-  await page.wait('document.body.textContent.includes("Aprende las vocales, una por una")');
+  await page.wait('document.body.textContent.includes("Todavía no hay módulos")');
+  assert.equal(await page.evaluate('document.querySelectorAll(".student-module-card").length'), 0);
+  await page.navigate('/student/practice');
+  await page.wait('document.body.textContent.includes("Practicar vocales con cámara")');
+  await page.click('Practicar vocales con cámara');
+  await page.wait('document.body.textContent.includes("Aprende y practica las vocales")');
   assert.equal(await page.evaluate('window.__demoReview.calls'), 0);
   await settled();
-  await page.capture('learning-vowels-introduction');
-  await page.click('Continuar');
-  await page.wait('document.body.textContent.includes("Conoce la vocal A")');
-  await page.wait('document.querySelector(".manual-reference img")?.naturalWidth>0');
-  await settled();
-  await page.capture('learning-vowels-explanation-A');
-  await page.click('Practicar A con cámara');
-  await page.wait('document.querySelector(".camera-viewport")');
-  await page.click('Continuar');
-  await page.wait('document.body.textContent.includes("Conoce la vocal E")');
-  await page.click('Practicar E con cámara');
+  await page.fill({ 'Vocal de referencia': 'E' });
   await page.wait('document.querySelector(".camera-viewport")');
   assert.equal(await page.evaluate('window.__demoReview.calls'), 0);
   assert.equal(await page.evaluate('window.__demoReview.modelRequests'), 0);
   await page.click('Cargar modelo de vocales');
   await page.wait('document.body.textContent.includes("Modelo experimental cargado")');
-  await page.wait('document.querySelector(".manual-reference img")?.naturalWidth>0');
+  assert.equal(await page.evaluate('document.querySelectorAll(".manual-reference img").length'), 0);
   assert.ok(
-    await page.evaluate('document.querySelector(".manual-reference img").alt.includes("letra E")'),
+    await page.evaluate('document.body.textContent.includes("Referencia visual pendiente")'),
   );
   await page.click('Activar cámara');
   await page.wait('document.body.textContent.includes("Detener cámara")');
@@ -76,22 +69,16 @@ export async function reviewDemoLearning({ page, browser }) {
   }
   assert.equal(await page.evaluate('window.__demoReview.learningWrites'), 0);
   assert.equal(await page.evaluate('window.__demoReview.modelRequests'), 1);
-  await page.click('Continuar');
-  for (const letter of ['I', 'O', 'U']) {
-    await page.wait(`document.body.textContent.includes('Conoce la vocal ${letter}')`);
-    await page.click(`Practicar ${letter} con cámara`);
-    await page.wait('document.querySelector(".camera-viewport")');
-    await page.click(letter === 'U' ? 'Ver mi repaso' : 'Continuar');
-  }
-  await page.wait('document.body.textContent.includes("Las cinco vocales, de un vistazo")');
-  await settled();
-  await page.click('Repasar la vocal A');
-  await page.capture('learning-vowels-summary');
+  await page.navigate('/student/modules/vowels');
+  await page.wait(
+    'document.body.textContent.includes("La lección de vocales está en preparación")',
+  );
+  await page.capture('learning-vowels-pending-publication');
   assert.equal(await page.evaluate('window.__demoReview.learningWrites'), 0);
   return {
-    guidedLesson: true,
-    explainedLetters: ['A', 'E', 'I', 'O', 'U'],
-    summaryReached: true,
+    guidedLesson: false,
+    pendingPublication: true,
+    unauthorizedImagesServed: 0,
     productionBundle: true,
     reference: 'E',
     replayedTrainingLabel: 'A',

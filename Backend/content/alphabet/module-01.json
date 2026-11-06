@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0.0",
   "moduleKey": "modulo-01-alfabeto-manual-lsv",
-  "moduleTitle": "Mi primer contacto con la LSV: alfabeto manual",
-  "moduleDescription": "Conoce el alfabeto manual documentado en un manual básico de LSV. Alterna lectura, demostraciones audiovisuales autorizadas, ejercicios de identificación y práctica personal.",
+  "moduleTitle": "Abecedario LSV",
+  "moduleDescription": "Introducción al alfabeto manual de la Lengua de Señas Venezolana en siete lecciones. Teoría, 27 letras y actividades en preparación; recursos y ejercicios sujetos a autorización y revisión LSV.",
   "audience": "principiantes",
   "estimatedFormat": "7 lecciones de 10 a 20 minutos sugeridos, ajustables al ritmo del estudiante",
   "publicationStatus": "DRAFT",

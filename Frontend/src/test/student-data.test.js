@@ -20,7 +20,7 @@ test('progreso usa únicamente lecciones publicadas y cero lecciones nunca está
   });
   expect(moduleProgress({ access: 'available', lessons: [] })).toMatchObject({
     percent: 0,
-    state: 'available',
+    state: 'upcoming',
   });
   expect(moduleProgress({ ...module, access: 'locked' }).state).toBe('locked');
 });

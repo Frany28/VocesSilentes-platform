@@ -1,11 +1,17 @@
+import { curriculumPlan } from './curriculum-plan.js';
+
 /**
- * Limita el catálogo a publicaciones y, solo por inyección local explícita, un módulo borrador concreto.
+ * Lee publicaciones y metadatos de borradores del plan; las lecciones siguen protegidas por separado.
  * @param {string | undefined} previewModuleId UUID permitido únicamente por el entorno local aislado.
  * @returns {object} Filtro Prisma; nunca se deriva de query, body o rol del navegador.
  */
 export function accessibleModules(previewModuleId) {
   return {
-    OR: [{ publicationStatus: 'PUBLISHED' }, ...(previewModuleId ? [{ id: previewModuleId }] : [])],
+    OR: [
+      { publicationStatus: 'PUBLISHED' },
+      { publicationStatus: 'DRAFT', contentKey: { in: curriculumPlan.map((item) => item.key) } },
+      ...(previewModuleId ? [{ id: previewModuleId }] : []),
+    ],
   };
 }
 

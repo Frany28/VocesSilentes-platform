@@ -16,7 +16,7 @@ import { readLearning } from './learning.api.js';
  */
 export async function readStudentSnapshot(signal, scenario = 'progress') {
   signal.throwIfAborted();
-  if (publicConfig.studentDemo) {
+  if (import.meta.env.DEV && publicConfig.studentDemo) {
     const { readDemoSnapshot } = await import('./student-demo.js');
     return readDemoSnapshot(signal, scenario);
   }

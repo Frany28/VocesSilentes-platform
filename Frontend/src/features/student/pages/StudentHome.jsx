@@ -1,6 +1,6 @@
 import { useOutletContext } from 'react-router';
 import { useStudent } from '../data/use-student.js';
-import { moduleProgress } from '../data/module-progress.js';
+import { moduleLabel, moduleProgress } from '../data/module-progress.js';
 import { StudentPageHeader } from '../components/StudentPageHeader.jsx';
 import { StudentHero } from '../components/StudentHero.jsx';
 import { ModuleCard } from '../components/ModuleCard.jsx';
@@ -18,7 +18,7 @@ export function StudentHome() {
   const { status, snapshot, retry } = useStudent();
   const { onOpen } = useOutletContext();
   const modules = snapshot?.modules || [];
-  const current = modules[0];
+  const current = modules.find((module) => moduleProgress(module).total > 0) ?? modules[0];
   const next = modules.find(
     (module) => module !== current && moduleProgress(module).state === 'available',
   );
@@ -49,7 +49,7 @@ export function StudentHome() {
               <div className="flex flex-col gap-2">
                 <h2 className="[font:var(--type-h3)]">Tu ruta en LSV</h2>
                 <p className="text-muted [font:var(--type-label)]">
-                  NIVEL 01 · PRIMERAS CONVERSACIONES
+                  {moduleLabel(current)} · {current.title}
                 </p>
               </div>
               <div className="grid items-start gap-4 min-[600px]:grid-cols-2">

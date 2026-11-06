@@ -16,6 +16,8 @@ export function createLearningRepository(database, previewModuleId) {
           id: true,
           title: true,
           description: true,
+          order: true,
+          contentKey: true,
           publicationStatus: true,
           lessons: {
             where: accessibleLessons(previewModuleId),
@@ -24,6 +26,7 @@ export function createLearningRepository(database, previewModuleId) {
               id: true,
               title: true,
               description: true,
+              order: true,
               publicationStatus: true,
               content: true,
               progress: { where: { userId }, select: { status: true } },

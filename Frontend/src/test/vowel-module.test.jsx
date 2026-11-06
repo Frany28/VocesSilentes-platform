@@ -16,10 +16,9 @@ function setup() {
   return { fetchMock, media };
 }
 
-test('Mis módulos ofrece un recorrido de explicación antes de cada práctica, sin activar cámara al navegar', async () => {
+test('vista previa explícita conserva explicación y práctica sin activar cámara al navegar', async () => {
   const { media, fetchMock } = setup();
-  renderAuthApp('/student/modules');
-  await userEvent.click(await screen.findByRole('link', { name: 'Comenzar módulo de vocales' }));
+  renderAuthApp('/student/modules/vowels');
   await screen.findByRole('heading', { name: 'Aprende las vocales, una por una' });
   expect(screen.queryByRole('button', { name: 'Activar cámara' })).toBeNull();
   await userEvent.click(screen.getByRole('button', { name: 'Continuar' }));

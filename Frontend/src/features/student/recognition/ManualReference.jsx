@@ -7,7 +7,10 @@ import { manualReference } from './manual-reference.js';
  */
 export function ManualReference({ letter, compact = false }) {
   const image = manualReference(letter);
-  if (!image) return null;
+  if (!image)
+    return (
+      <p className="text-muted">Referencia visual pendiente de autorización y revisión LSV.</p>
+    );
   return (
     <figure className="manual-reference" data-compact={compact || undefined}>
       <img

@@ -5,6 +5,7 @@ const labels = {
   progress: 'En progreso',
   completed: 'Completado',
   locked: 'Bloqueado',
+  upcoming: 'Próximamente',
 };
 
 /**

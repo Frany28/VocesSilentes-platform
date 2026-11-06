@@ -27,7 +27,7 @@ export function parsePublicConfig(env) {
   if (!demo.success) throw new Error('Configuración pública inválida: VITE_STUDENT_DEMO');
   return Object.freeze({
     apiUrl: result.data.replace(/\/+$/, ''),
-    studentDemo: demo.data === 'true',
+    studentDemo: env.DEV === true && env.PROD !== true && demo.data === 'true',
   });
 }
 

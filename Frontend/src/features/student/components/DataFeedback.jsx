@@ -16,18 +16,22 @@ export function DataFeedback({ kind, catalog = false, onRetry }) {
       ? `No pudimos cargar ${catalog ? 'tus módulos' : 'los datos'}`
       : unavailable
         ? 'Tu área de aprendizaje estará disponible pronto'
-        : kind === 'empty'
-          ? 'Todavía no hay módulos'
-          : 'No encontramos ese módulo';
+        : kind === 'unpublished'
+          ? 'Todavía no hay lecciones publicadas'
+          : kind === 'empty'
+            ? 'Todavía no hay módulos'
+            : 'No encontramos ese módulo';
   const description = loading
     ? 'Estamos recuperando tu ruta de aprendizaje.'
     : error
       ? 'Comprueba tu conexión y vuelve a intentarlo.'
       : unavailable
         ? 'Los módulos todavía no están disponibles. Tu sesión sigue activa.'
-        : kind === 'empty'
-          ? 'El catálogo no tiene módulos publicados por ahora.'
-          : 'Prueba con otro nombre o vuelve a ver todos los módulos.';
+        : kind === 'unpublished'
+          ? 'El plan curricular está en preparación. Las lecciones aparecerán cuando se publiquen.'
+          : kind === 'empty'
+            ? 'El catálogo no tiene módulos publicados por ahora.'
+            : 'Prueba con otro nombre o vuelve a ver todos los módulos.';
   return (
     <section
       className="flex flex-col items-center gap-4 rounded-3xl bg-surface px-6 py-12 text-center"
