@@ -19,10 +19,11 @@ export function StudentShell() {
   const actions = useStudentActions();
   const { status, snapshot } = useStudent();
   const route = useMatch('/student/modules/:moduleId/lessons/:lessonId');
+  const vowelModule = useMatch('/student/modules/vowels');
   const lesson = snapshot?.modules
     .find((item) => item.id === route?.params.moduleId)
     ?.lessons.find((item) => item.id === route?.params.lessonId);
-  const focused = route && (status !== 'ready' || lesson?.content);
+  const focused = Boolean(vowelModule) || (route && (status !== 'ready' || lesson?.content));
   const { pathname } = useLocation();
   const page = pathname.split('/')[2] || 'home';
   const account = ['profile', 'reports'].includes(page);

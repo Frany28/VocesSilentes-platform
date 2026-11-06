@@ -17,6 +17,12 @@ export function StudentVowelPractice() {
         title="Aprende y practica las vocales"
         description="Observa la referencia, carga el modelo de vocales y realiza tu intento frente a la cámara."
       />
+      <Link
+        className="education-back inline-flex min-h-11 items-center"
+        to="/student/modules/vowels"
+      >
+        Abrir módulo de aprendizaje: explicación y práctica paso a paso
+      </Link>
       <section className="education-card flex flex-col gap-3">
         <Select
           label="Vocal de referencia"

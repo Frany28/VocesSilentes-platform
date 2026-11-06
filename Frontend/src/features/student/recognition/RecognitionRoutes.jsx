@@ -14,6 +14,23 @@ const VowelPractice = lazy(() =>
     default: module.StudentVowelPractice,
   })),
 );
+const VowelModule = lazy(() =>
+  import('../pages/StudentVowelModule.jsx').then((module) => ({
+    default: module.StudentVowelModule,
+  })),
+);
+
+/**
+ * Carga el recorrido educativo de vocales sin activar la cámara ni pedir el modelo de inferencia.
+ * @returns {import('react').ReactElement} Módulo protegido con introducción, explicaciones y práctica.
+ */
+export function VowelModuleRoute() {
+  return (
+    <Suspense fallback={<DataFeedback kind="loading" />}>
+      <VowelModule />
+    </Suspense>
+  );
+}
 
 /**
  * Abre la actividad de vocales con referencia y modelo educativo sin cargar la cámara al navegar.

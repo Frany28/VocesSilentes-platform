@@ -7,11 +7,11 @@ import { journeySignature, readCheckpoint, writeCheckpoint } from './journey-che
  * Coordina navegación recordada y completados reales, sin escribir progreso académico al avanzar por teoría.
  * @param {object} lesson Lección autorizada y resultados de API.
  * @param {string} moduleId Identificador del módulo.
+ * @param {object[]} [steps] Pasos públicos versionados de una guía; por defecto se generan del contenido de API.
  * @returns {object} Paso, barra, navegación y resultados confirmados solo por el servidor.
  */
-export function useLessonJourney(lesson, moduleId) {
+export function useLessonJourney(lesson, moduleId, steps = lessonSteps(lesson)) {
   const { user } = useAuth();
-  const steps = lessonSteps(lesson);
   const signature = journeySignature(steps);
   const key = `vs:lesson-journey:${user.id}:${moduleId}:${lesson.id}`;
   const [checkpoint, setCheckpoint] = useState(() => readCheckpoint(key, signature, steps));

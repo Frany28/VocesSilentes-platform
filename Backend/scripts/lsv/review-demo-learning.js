@@ -6,15 +6,37 @@ import assert from 'node:assert/strict';
  * @returns {Promise<object>} Recorrido de inferencia sin entrenamiento público ni progreso académico.
  */
 export async function reviewDemoLearning({ page, browser }) {
+  const settled = () =>
+    page.evaluate(`Promise.all(document.getAnimations()
+    .filter(a=>a.effect?.getComputedTiming().iterations!==Infinity).map(a=>a.finished.catch(()=>{})))`);
+  await browser.send('Emulation.setDeviceMetricsOverride', {
+    width: 1440,
+    height: 968,
+    deviceScaleFactor: 1,
+    mobile: false,
+  });
   await page.navigate('/student/modules');
-  await page.wait('document.body.textContent.includes("Practicar vocales con cámara")');
-  await page.click('Practicar vocales con cámara');
+  await page.wait('document.body.textContent.includes("Comenzar módulo de vocales")');
+  await page.click('Comenzar módulo de vocales');
+  await page.wait('document.body.textContent.includes("Aprende las vocales, una por una")');
+  assert.equal(await page.evaluate('window.__demoReview.calls'), 0);
+  await settled();
+  await page.capture('learning-vowels-introduction');
+  await page.click('Continuar');
+  await page.wait('document.body.textContent.includes("Conoce la vocal A")');
+  await page.wait('document.querySelector(".manual-reference img")?.naturalWidth>0');
+  await settled();
+  await page.capture('learning-vowels-explanation-A');
+  await page.click('Practicar A con cámara');
+  await page.wait('document.querySelector(".camera-viewport")');
+  await page.click('Continuar');
+  await page.wait('document.body.textContent.includes("Conoce la vocal E")');
+  await page.click('Practicar E con cámara');
   await page.wait('document.querySelector(".camera-viewport")');
   assert.equal(await page.evaluate('window.__demoReview.calls'), 0);
   assert.equal(await page.evaluate('window.__demoReview.modelRequests'), 0);
   await page.click('Cargar modelo de vocales');
   await page.wait('document.body.textContent.includes("Modelo experimental cargado")');
-  await page.fill({ 'Vocal de referencia': 'E' });
   await page.wait('document.querySelector(".manual-reference img")?.naturalWidth>0');
   assert.ok(
     await page.evaluate('document.querySelector(".manual-reference img").alt.includes("letra E")'),
@@ -48,19 +70,34 @@ export async function reviewDemoLearning({ page, browser }) {
       mobile: false,
     });
     assert.ok(await page.evaluate('document.documentElement.scrollWidth<=innerWidth'));
+    await settled();
     await page.capture(`learning-vowels-production-${width}`);
     views.push(width);
   }
   assert.equal(await page.evaluate('window.__demoReview.learningWrites'), 0);
   assert.equal(await page.evaluate('window.__demoReview.modelRequests'), 1);
+  await page.click('Continuar');
+  for (const letter of ['I', 'O', 'U']) {
+    await page.wait(`document.body.textContent.includes('Conoce la vocal ${letter}')`);
+    await page.click(`Practicar ${letter} con cámara`);
+    await page.wait('document.querySelector(".camera-viewport")');
+    await page.click(letter === 'U' ? 'Ver mi repaso' : 'Continuar');
+  }
+  await page.wait('document.body.textContent.includes("Las cinco vocales, de un vistazo")');
+  await settled();
+  await page.click('Repasar la vocal A');
+  await page.capture('learning-vowels-summary');
+  assert.equal(await page.evaluate('window.__demoReview.learningWrites'), 0);
   return {
+    guidedLesson: true,
+    explainedLetters: ['A', 'E', 'I', 'O', 'U'],
+    summaryReached: true,
     productionBundle: true,
     reference: 'E',
     replayedTrainingLabel: 'A',
     hypothesis,
     targetLabelDidNotDeterminePrediction: true,
     modelDownloaded: true,
-    trainedLocally: false,
     physicalCamera: false,
     independentEvaluation: false,
     academicWrites: 0,

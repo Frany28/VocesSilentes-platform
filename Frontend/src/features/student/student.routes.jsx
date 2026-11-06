@@ -10,6 +10,7 @@ import {
   CameraPracticeRoute,
   ModelLabRoute,
   VowelPracticeRoute,
+  VowelModuleRoute,
 } from './recognition/RecognitionRoutes.jsx';
 import { lazy, Suspense } from 'react';
 import { DataFeedback } from './components/DataFeedback.jsx';
@@ -32,6 +33,7 @@ export function studentRoutes() {
     children: [
       { path: '/student', element: <StudentHome /> },
       { path: '/student/modules', element: <StudentModules /> },
+      { path: '/student/modules/vowels', element: <VowelModuleRoute /> },
       { path: '/student/modules/vowels-camera', element: <VowelPracticeRoute /> },
       { path: '/student/modules/:moduleId/lessons/:lessonId', element: <StudentLesson /> },
       ...(import.meta.env.DEV

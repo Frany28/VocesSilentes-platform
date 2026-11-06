@@ -10,11 +10,18 @@ export function VowelPracticeEntry() {
       className="education-card flex flex-col gap-3"
       aria-label="Actividad de aprendizaje de vocales"
     >
-      <h2 className="[font:var(--type-h3)]">Vocales · aprende y practica con cámara</h2>
+      <p className="text-muted [font:var(--type-label)]">MÓDULO DE APRENDIZAJE</p>
+      <h2 className="[font:var(--type-h3)]">Las cinco vocales: A, E, I, O y U</h2>
       <p>
-        Consulta las referencias de A, E, I, O y U y prueba el reconocimiento con nuestro modelo de
-        ejemplos reales.
+        Aprende cada vocal con su explicación e ilustración, practícala con la cámara y termina con
+        un repaso. Puedes avanzar a tu ritmo y retomar donde te quedaste.
       </p>
+      <Link
+        className="education-back inline-flex min-h-11 items-center"
+        to="/student/modules/vowels"
+      >
+        Comenzar módulo de vocales
+      </Link>
       <Link
         className="education-back inline-flex min-h-11 items-center"
         to="/student/modules/vowels-camera"
