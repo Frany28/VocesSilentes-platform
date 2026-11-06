@@ -29,6 +29,7 @@ export function applyCandidateReview(quarantine, manifest) {
       label: annotation.label,
       labelEvidence: annotation.labelEvidence,
       participantId: annotation.participantId ?? track?.confirmedParticipantId ?? null,
+      executionIndependenceConfirmed: annotation.executionIndependenceConfirmed === true,
       reviewStatus:
         annotation.reviewStatus === 'APPROVED_LSV' ? 'APPROVED_LSV' : 'PENDING_LSV_REVIEW',
       reviewerId: annotation.reviewerId ?? null,

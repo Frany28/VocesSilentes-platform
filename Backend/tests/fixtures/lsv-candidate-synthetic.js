@@ -19,6 +19,7 @@ export function syntheticCandidateSet() {
     startMs: 0,
     endMs: 2000,
     executionId: 'fixture_take',
+    executionIndependenceConfirmed: true,
     observedSignant: 'fixture_track',
     technicalStatus: 'VALID_GEOMETRY',
     labelEvidence: 'SOFTWARE_FIXTURE_NOT_LSV',

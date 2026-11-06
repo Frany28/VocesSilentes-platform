@@ -3,6 +3,8 @@ import { join } from 'node:path';
 import { candidateEligibility } from './candidate-policy.js';
 import { createSampleRegistry } from '../../../shared/lsv/sample-conflicts.js';
 import { trainingCoverage, PILOT_LABELS } from '../../../shared/lsv/coverage.js';
+import { candidateDiagnosis } from './candidate-diagnosis.js';
+import { candidateSummary } from './candidate-summary.js';
 
 /**
  * Escribe cuarentena, exportaciones y reporte real sin promover permisos ni identidades pendientes.
@@ -75,6 +77,7 @@ export async function writeCandidateReport(directory, records, sources, manifest
       'Evidencia y alcance del permiso AUT-LSV-EDU-001',
       'Correspondencia humana de señantes, consentimiento y particiones independientes',
       'Revisión lingüística por muestra y negativos del piloto',
+      'Confirmación humana de ejecuciones independientes, sin recortes de una misma ejecución',
       'Completar etiquetas y ventanas rechazadas',
     ],
   };
@@ -89,21 +92,10 @@ export async function writeCandidateReport(directory, records, sources, manifest
     'prepared-samples.json': { version: 1, samples },
     'training-ready.json': { version: 1, samples: ready },
     'report.json': report,
+    'training-diagnosis.json': candidateDiagnosis(records, ready, manifest),
   };
   for (const [name, content] of Object.entries(artifacts))
     await writeFile(join(directory, name), JSON.stringify(content, null, 2));
-  const text = [
-    `Candidatos: ${report.totalCandidates}`,
-    `Geometría válida: ${report.validGeometry}`,
-    `Rechazados técnicamente: ${report.rejectedGeometry}`,
-    `Listos para entrenar: ${report.trainingReady}`,
-    'Geometría válida no significa seña correcta ni permiso confirmado.',
-    ...report.required,
-    ...details.map(
-      (item) =>
-        `${item.id}: ${item.technicalStatus}; ${item.technicalReason ?? ''}; ${item.blocked.join(', ')}`,
-    ),
-  ];
-  await writeFile(join(directory, 'report.txt'), text.join('\n'));
+  await writeFile(join(directory, 'report.txt'), candidateSummary(report, details));
   return report;
 }

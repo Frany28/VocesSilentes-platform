@@ -44,6 +44,7 @@ export function validatePreparationManifest(value) {
     )
       throw new Error('Falta un archivo, huella o duración de origen verificable.');
   }
+  const executions = new Set();
   for (const candidate of value.candidates) {
     const source = value.sources.find((item) => item.id === candidate.videoId);
     if (
@@ -59,6 +60,20 @@ export function validatePreparationManifest(value) {
     )
       throw new Error('Candidato sin referencia de fuente/señante, etiqueta o límites válidos.');
     validateVideoInterval(candidate.startMs / 1000, candidate.endMs / 1000, source.duration);
+    const execution = `${source.sha256}:${candidate.executionId.toLowerCase()}`;
+    if (executions.has(execution))
+      throw new Error('La misma ejecución no puede contarse como dos muestras.');
+    executions.add(execution);
+    if (
+      value.candidates.some(
+        (other) =>
+          other !== candidate &&
+          value.sources.find((item) => item.id === other.videoId)?.sha256 === source.sha256 &&
+          other.startMs < candidate.endMs &&
+          candidate.startMs < other.endMs,
+      )
+    )
+      throw new Error('Intervalos solapados del mismo archivo; revisar ejecuciones.');
   }
   return value;
 }

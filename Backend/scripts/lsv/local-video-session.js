@@ -21,6 +21,7 @@ export async function createLocalVideoSession(output) {
       host: '127.0.0.1',
       port: 5292,
       strictPort: true,
+      hmr: false,
       fs: {
         allow: [
           fileURLToPath(frontend),

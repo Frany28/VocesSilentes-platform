@@ -39,6 +39,8 @@ export function candidateEligibility(candidate, source, manifest) {
     blocked.push('DATA_PARTITION_PENDING');
   if (!PILOT_LABELS.includes(candidate.label) || !candidate.labelEvidence)
     blocked.push('LABEL_EVIDENCE_PENDING');
+  if (candidate.executionIndependenceConfirmed !== true)
+    blocked.push('EXECUTION_INDEPENDENCE_REVIEW_PENDING');
   if (candidate.technicalStatus !== 'VALID_GEOMETRY') blocked.push('TECHNICAL_SAMPLE_NOT_VALID');
   const reviewed = candidate.reviewStatus === 'APPROVED_LSV' && Boolean(candidate.reviewerId);
   if (!reviewed) blocked.push('LSV_REVIEW_PENDING');

@@ -12,8 +12,8 @@ import {
  */
 export function createUsersController(service) {
   return {
-    async summary(_req, res) {
-      res.json({ data: await service.summary() });
+    async summary(req, res) {
+      res.json({ data: await service.summary(req.query) });
     },
     async state(req, res) {
       const { isActive } = userStateSchema.parse(req.body);

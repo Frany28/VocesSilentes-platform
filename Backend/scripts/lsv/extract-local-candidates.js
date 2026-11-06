@@ -1,4 +1,5 @@
 import { validateVideoInterval } from '../../../shared/lsv/video-source.js';
+import { extractDecodedCandidate } from './extract-decoded-candidate.js';
 
 /**
  * Procesa intervalos anotados de archivos seleccionados por CDP, reutilizando el mismo detector y validación del laboratorio.
@@ -6,14 +7,17 @@ import { validateVideoInterval } from '../../../shared/lsv/video-source.js';
  * @param {object[]} sources Archivos inspeccionados con rutas privadas.
  * @param {object[]} candidates Anotaciones explícitas; las etiquetas desconocidas permanecen null.
  * @param {Function} progress Notifica resultados sin bytes ni coordenadas.
+ * @param {{offline?: boolean}} [options] FFmpeg secuencial conserva PTS sin depender de reproducción.
  * @returns {Promise<object[]>} Cuarentena técnica con puntos reales o razón de rechazo; sin aprobación automática.
  */
-export async function extractLocalCandidates(page, sources, candidates, progress) {
+export async function extractLocalCandidates(page, sources, candidates, progress, options = {}) {
   const output = [];
   const fingerprints = new Set();
   for (const source of sources) {
-    await page.file('#source', source.file);
-    await page.wait('document.querySelector("video").readyState>=2');
+    if (!options.offline) {
+      await page.file('#source', source.file);
+      await page.wait('document.querySelector("video").readyState>=2');
+    }
     for (const candidate of candidates.filter((item) => item.videoId === source.id)) {
       const record = {
         ...candidate,
@@ -22,6 +26,9 @@ export async function extractLocalCandidates(page, sources, candidates, progress
         reviewStatus: 'PENDING_LSV_REVIEW',
         reviewerId: null,
         participantId: candidate.participantId ?? null,
+        extractionMethod: options.offline
+          ? 'FFMPEG_PNG_PTS_MEDIAPIPE'
+          : 'BROWSER_VIDEO_FRAME_CALLBACK',
       };
       try {
         validateVideoInterval(candidate.startMs / 1000, candidate.endMs / 1000, source.duration);
@@ -33,12 +40,16 @@ export async function extractLocalCandidates(page, sources, candidates, progress
         );
         if (overlap)
           throw new Error('Intervalo repetido o solapado; no se considera otra ejecución.');
-        const result = await page.evaluate(`(async()=>{
+        const result = options.offline
+          ? await extractDecodedCandidate(page, source, candidate)
+          : await page.evaluate(`(async()=>{
           const {extractVideoSequence}=await import('/src/features/student/recognition/extract-video-sequence.js');
           try {return await extractVideoSequence({video:document.querySelector('video'),
             canvas:document.querySelector('canvas'),start:${candidate.startMs / 1000},end:${candidate.endMs / 1000},
             signal:new AbortController().signal,onProgress:()=>{}});}
           catch(error){return {error:error.message};}})()`);
+        record.decodedFrames = result.decodedFrames ?? 0;
+        if (result.diagnostics) record.diagnostics = result.diagnostics;
         if (result.error) throw new Error(result.error);
         const fingerprint = JSON.stringify(result.frames.map((frame) => frame.points));
         if (fingerprints.has(fingerprint)) throw new Error('Geometría duplicada de otra muestra.');

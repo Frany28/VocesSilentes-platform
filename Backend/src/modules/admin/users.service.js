@@ -18,7 +18,8 @@ import {
 } from './users.policy.js';
 import { deleteAdminUser } from './users.deletion.js';
 import { changeUserState } from './users.state.js';
-import { readAdminSummary, readUserActivity } from './users.summary.js';
+import { readUserActivity } from './users.summary.js';
+import { readAdminMetrics } from './metrics.service.js';
 
 /**
  * Administra cuentas con las reglas de auth, bloqueo y auditoría persistente, sin emitir sesiones.
@@ -34,7 +35,7 @@ export async function createUsersService(database) {
     audit: (input) => reads.audit(paginationSchema.parse(input)),
     delete: (actorId, id) => deleteAdminUser(repository, actorId, id),
     state: (actorId, id, isActive) => changeUserState(repository, actorId, id, isActive),
-    summary: () => readAdminSummary(database),
+    summary: (input) => readAdminMetrics(database, input),
     async get(id) {
       const user = await repository.find(userIdSchema.parse(id));
       if (!user) throw new HttpError(404, 'USER_NOT_FOUND', 'Usuario no encontrado');

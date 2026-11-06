@@ -42,8 +42,12 @@ try {
     records = applyCandidateReview(quarantine, manifest);
   } else {
     session = await createLocalVideoSession(output);
-    records = await extractLocalCandidates(session.page, sources, manifest.candidates, (event) =>
-      console.log(JSON.stringify(event)),
+    records = await extractLocalCandidates(
+      session.page,
+      sources,
+      manifest.candidates,
+      (event) => console.log(JSON.stringify(event)),
+      { offline: process.argv.includes('--offline') },
     );
   }
   const report = await writeCandidateReport(output, records, sources, manifest);
