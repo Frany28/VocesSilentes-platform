@@ -2,13 +2,16 @@
   display: grid;
   gap: 16px;
 }
+.admin-metric-group .admin-metrics {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+}
 .admin-metrics-filter {
   display: flex;
   flex-wrap: wrap;
   align-items: end;
   gap: 16px;
 }
-.admin-metrics-filter :is(.vs-input-field, .vs-select) {
+.admin-metrics-filter :is(.vs-field, .vs-select) {
   flex: 1 1 180px;
   min-width: 0;
 }

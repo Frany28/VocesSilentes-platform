@@ -28,7 +28,10 @@ export function useAdminSummary() {
     };
     window.addEventListener('focus', refresh);
     const timer = window.setInterval(refresh, 60000);
-    return () => { window.removeEventListener('focus', refresh); window.clearInterval(timer); };
+    return () => {
+      window.removeEventListener('focus', refresh);
+      window.clearInterval(timer);
+    };
   }, []);
   return {
     ...result,

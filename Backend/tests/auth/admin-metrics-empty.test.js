@@ -50,8 +50,7 @@ test('cambios reales: completar una lectura por HTTP actualiza la métrica sin g
     .send({ status: 'COMPLETED' })
     .expect(200);
   const after = await readAdminMetrics(fixture.database);
-  assert.equal(after.education.lessonsCompleted, 1, JSON.stringify({ period: after.period,
-    education: after.education, records: await fixture.database.lessonProgress.findMany() }));
+  assert.equal(after.education.lessonsCompleted, 1);
   assert.equal(after.education.lessonsStarted, 1);
   assert.equal(after.education.completionPercentage, 100);
   assert.equal(after.education.byModule[0].completed, 1);

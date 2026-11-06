@@ -22,7 +22,7 @@ test('resumen: consulta recuentos globales e ignora filtros del listado en URL',
   expect(params.get('q')).toBeNull();
   expect(params.get('role')).toBeNull();
   expect(params.get('page')).toBeNull();
-  expect(screen.getByText('5 activas · 3 desactivadas')).toBeVisible();
+  expect(screen.getByText('5 habilitadas · 3 deshabilitadas')).toBeVisible();
   expect(screen.getByText('4')).toBeVisible();
   expect(screen.getByText('2')).toBeVisible();
 });

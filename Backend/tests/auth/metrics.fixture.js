@@ -13,7 +13,10 @@ export async function seedMetrics(fixture) {
   const admin = await registered(fixture);
   const student = await registered(fixture);
   await db.user.updateMany({ data: { createdAt: new Date('2026-09-01T12:00:00Z') } });
-  const { passwordHash } = await db.user.findUnique({ where: { id: student.user.id }, select: { passwordHash: true } });
+  const { passwordHash } = await db.user.findUnique({
+    where: { id: student.user.id },
+    select: { passwordHash: true },
+  });
   await db.user.update({ where: { id: admin.user.id }, data: { role: 'ADMIN' } });
   const others = [];
   for (const [index, flags] of [

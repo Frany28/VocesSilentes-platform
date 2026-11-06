@@ -9,6 +9,7 @@
     "pnpm": "10.18.2"
   },
   "scripts": {
+    "admin:metrics:verify": "node Backend/scripts/admin-metrics-review.js",
     "lsv:prepare": "node Backend/scripts/prepare-lsv-videos.js",
     "video:verify": "pnpm --filter @vocessilentes/backend video:verify",
     "camera:verify": "pnpm --filter @vocessilentes/backend camera:verify",

@@ -16,6 +16,9 @@ export function metricValue(value, unit = '') {
  * @returns {string} Día y mes cortos para ejes y tablas.
  */
 export function metricDay(day) {
-  return new Intl.DateTimeFormat('es-VE', { day: '2-digit', month: 'short', timeZone: 'UTC' })
-    .format(new Date(`${day}T12:00:00Z`));
+  return new Intl.DateTimeFormat('es-VE', {
+    day: '2-digit',
+    month: 'short',
+    timeZone: 'UTC',
+  }).format(new Date(`${day}T12:00:00Z`));
 }

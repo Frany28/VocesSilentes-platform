@@ -21,6 +21,8 @@ export async function readCatalogMetrics(tx) {
     JOIN vocessilentes."Module" m ON m.id = l."moduleId"
     WHERE l."publicationStatus" = 'PUBLISHED' AND m."publicationStatus" = 'PUBLISHED'
       AND e.type::text = 'MULTIPLE_CHOICE_TEXT'
+      AND (to_jsonb(e)->'definition')->>'state' = 'PUBLISHED'
+      AND (to_jsonb(e)->'definition')->>'validationStatus' = 'APPROVED_LSV'
   `;
   const ready = questions.filter(({ definition }) => {
     const parsed = choiceDefinitionSchema.safeParse(definition);

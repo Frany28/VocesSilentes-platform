@@ -13,6 +13,8 @@ export async function readEducationMetrics(tx, range) {
       JOIN vocessilentes."Module" m ON m.id = l."moduleId"
       WHERE u."isDeleted" = false AND u.role = 'USER'
         AND l."publicationStatus" = 'PUBLISHED' AND m."publicationStatus" = 'PUBLISHED'
+        AND ((p."startedAt" >= ${range.from} AND p."startedAt" < ${range.to})
+          OR (p."completedAt" >= ${range.from} AND p."completedAt" < ${range.to}))
     ), events AS (
       SELECT 'started' AS kind, "startedAt" AS at, module, title FROM lessons
         WHERE "startedAt" >= ${range.from} AND "startedAt" < ${range.to} AND status <> 'NOT_STARTED'

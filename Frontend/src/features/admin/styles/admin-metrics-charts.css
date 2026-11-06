@@ -10,6 +10,7 @@
 .admin-metrics-axis {
   fill: var(--text-secondary);
   font: var(--type-label);
+  font-size: 16px;
 }
 .admin-metrics-series {
   stroke: var(--series-color);
@@ -65,4 +66,9 @@
 .admin-metrics-table caption {
   text-align: left;
   padding-bottom: 12px;
+}
+@media (width < 600px) {
+  .admin-metrics-axis {
+    font-size: 24px;
+  }
 }

@@ -10,6 +10,7 @@ import { readEducationMetrics } from './metrics.education.js';
  * @param {object} [input] Período 7/30/90 o fechas custom inclusivas, máximo 366 días.
  * @param {Date} [now] Un único reloj por consulta; no se expone como parámetro HTTP.
  * @returns {Promise<object>} Agregados actuales y del período, sin identidades en los gráficos.
+ * @throws {Error} Filtros inválidos, base no disponible o consulta fallida; nunca sustituye fallos por ceros.
  */
 export function readAdminMetrics(database, input = {}, now = new Date()) {
   const period = metricsPeriod(input, now);
