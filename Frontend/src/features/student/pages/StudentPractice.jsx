@@ -3,9 +3,8 @@ import { publicConfig } from '../../../lib/config.js';
 import { Button } from '../../../components/ui/Button.jsx';
 import { StudentPageHeader } from '../components/StudentPageHeader.jsx';
 import { LearningPractice } from '../practice/LearningPractice.jsx';
-import { PracticeGuide } from '../practice/PracticeGuide.jsx';
 import { PracticeInstructions } from '../practice/PracticeInstructions.jsx';
-import { VowelPracticeEntry } from '../curriculum/VowelPracticeEntry.jsx';
+import { SignPracticeWorkspace } from '../practice/SignPracticeWorkspace.jsx';
 
 /**
  * Prioriza la actividad real de vocales; conserva los registros manuales como acciones separadas.
@@ -17,13 +16,20 @@ export function StudentPractice() {
     <div className="flex flex-col gap-6">
       <StudentPageHeader
         title="Practicar"
-        description="Conecta lo que aprendes con lo que tus manos expresan."
+        description="Elige una vocal, observa su referencia y practica con la cámara."
       />
-      <VowelPracticeEntry />
+      <SignPracticeWorkspace />
       <Button variant="secondary" icon={null} onClick={() => setInstructions(true)}>
         Ver instrucciones
       </Button>
-      {!publicConfig.studentDemo ? <LearningPractice /> : <PracticeGuide demo={false} />}
+      {!publicConfig.studentDemo && (
+        <details className="education-card">
+          <summary className="min-h-11 cursor-pointer [font:var(--type-subtitle)]">
+            Registro de lecturas
+          </summary>
+          <LearningPractice />
+        </details>
+      )}
       {instructions && <PracticeInstructions onClose={() => setInstructions(false)} />}
     </div>
   );

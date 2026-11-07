@@ -47,10 +47,6 @@ export function ProfileIdentity({ user }) {
           Tu foto es opcional. Tus iniciales también te representan.
         </p>
       </section>
-      <p className="account-profile-privacy">
-        <Icon name="modern-privacy-check" size={20} />
-        Tu correo y tu contraseña no aparecen en esta vista previa.
-      </p>
       {photo && <PhotoDialog onClose={() => setPhoto(false)} />}
       {remove && <RemovePhotoDialog user={user} onClose={() => setRemove(false)} />}
     </aside>

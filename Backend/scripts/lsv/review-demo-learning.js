@@ -19,14 +19,12 @@ export async function reviewDemoLearning({ page, browser }) {
   await page.wait('document.body.textContent.includes("Todavía no hay módulos")');
   assert.equal(await page.evaluate('document.querySelectorAll(".student-module-card").length'), 0);
   await page.navigate('/student/practice');
-  await page.wait('document.body.textContent.includes("Practicar vocales con cámara")');
-  await page.click('Practicar vocales con cámara');
-  await page.wait('document.body.textContent.includes("Aprende y practica las vocales")');
+  await page.wait('document.querySelector(".sign-practice")');
   assert.equal(await page.evaluate('window.__demoReview.calls'), 0);
   await settled();
   // El modelo de demostración se descarga una sola vez al abrir la práctica, sin pedir cámara.
   await page.wait('document.body.textContent.includes("Reconocimiento experimental listo")');
-  await page.fill({ 'Vocal de referencia': 'E' });
+  await page.click('Vocal E');
   await page.wait('document.querySelector(".camera-viewport")');
   assert.equal(await page.evaluate('window.__demoReview.calls'), 0);
   assert.equal(await page.evaluate('window.__demoReview.modelRequests'), 1);

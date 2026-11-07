@@ -1,4 +1,4 @@
-/* Guía bajo el reproductor: capítulos, transcripción y fuentes. */
+/* Guía del reproductor: capítulos y transcripción. */
 .mc-guide {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);

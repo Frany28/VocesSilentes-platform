@@ -34,6 +34,7 @@ export async function reviewAcademicLearning(context, student) {
   });
   await page.login(student.email, password);
   await page.navigate('/student/practice');
+  await page.click('Registro de lecturas');
   await page.wait('document.querySelector(".practice-camera button")');
   await page.click('Registrar inicio de lectura');
   await page.wait(
@@ -55,6 +56,7 @@ export async function reviewAcademicLearning(context, student) {
   await page.wait(
     'document.querySelector(".practice-camera")?.textContent.includes("Actividad declarada: Completado")',
   );
+  await page.click('Registro de lecturas');
   const lesson = module.lessons[0];
   const read = await database.lessonProgress.findUnique({
     where: {

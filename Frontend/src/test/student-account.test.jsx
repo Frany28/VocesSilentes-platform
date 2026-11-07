@@ -9,6 +9,9 @@ test('cuenta USER permite editar perfil, foto y seguridad; cancelar no envía ca
   const revoke = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
   renderAuthApp('/student/profile');
   await screen.findByLabelText('Nombre');
+  expect(
+    screen.queryByText('Tu correo y tu contraseña no aparecen en esta vista previa.'),
+  ).toBeNull();
   expect(screen.getByText('Rol · Estudiante')).toBeVisible();
   expect(screen.getByLabelText('Nombre')).not.toHaveAttribute('readonly');
   expect(screen.getByRole('button', { name: 'Guardar cambios' })).toBeDisabled();

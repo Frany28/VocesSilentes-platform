@@ -32,11 +32,9 @@ test('práctica abre vocales reales sin estados simulados ni permisos automátic
   renderAuthApp('/student/practice');
   await screen.findByRole('heading', { name: 'Practicar' });
   expect(screen.queryByRole('combobox', { name: 'Estado de práctica (demostración)' })).toBeNull();
-  await userEvent.click(screen.getByRole('link', { name: 'Practicar vocales con cámara' }));
-  await screen.findByRole('heading', { name: 'Aprende y practica las vocales' });
-  const selector = screen.getByRole('combobox', { name: 'Vocal de referencia' });
-  expect(within(selector).getAllByRole('option')).toHaveLength(5);
-  await userEvent.selectOptions(selector, 'E');
+  const selector = screen.getByRole('group', { name: 'Elegir vocal para practicar' });
+  expect(within(selector).getAllByRole('button')).toHaveLength(5);
+  await userEvent.click(within(selector).getByRole('button', { name: 'Practicar vocal E' }));
   expect(await screen.findByRole('img', { name: /referencia de la letra E/ })).toBeVisible();
   // La fixture no sirve un modelo válido: la carga automática falla y queda el botón de reintento.
   expect(await screen.findByRole('button', { name: 'Reintentar' })).toBeEnabled();
@@ -64,6 +62,6 @@ test('guía abre y cierra instrucciones accesibles; volver a módulos conserva n
   fireEvent(dialog, new Event('cancel', { bubbles: true, cancelable: true }));
   expect(screen.queryByRole('dialog')).toBeNull();
   expect(trigger).toHaveFocus();
-  await userEvent.click(screen.getByRole('button', { name: 'Volver a mis módulos' }));
+  await userEvent.click(screen.getByRole('link', { name: 'Mis módulos', exact: true }));
   expect(await screen.findByRole('heading', { name: 'Mis módulos' })).toBeVisible();
 });

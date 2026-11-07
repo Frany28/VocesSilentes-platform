@@ -1,8 +1,7 @@
 import { formatTime } from './microclass-timeline.js';
-import { illustrationCredit } from '../resources/letter-resources.js';
 
 /**
- * Capítulos, transcripción completa y notas de origen: toda la narración también está por escrito.
+ * Capítulos y transcripción completa: toda la narración también está por escrito.
  * @param {{timeline: object, current: number, onSelect: Function}} props Línea de tiempo, escena actual y salto.
  * @returns {import('react').ReactElement} Navegación por capítulos y textos desplegables.
  */
@@ -38,22 +37,6 @@ export function MicroclassGuide({ timeline, current, onSelect }) {
               ))}
             </section>
           ))}
-        </details>
-        <details className="mc-details">
-          <summary>Fuentes y límites</summary>
-          <p>
-            {illustrationCredit}, páginas 5 y 6. Las explicaciones describen esas ilustraciones; la
-            clase no añade movimientos ni dibuja manos nuevas.
-          </p>
-          <p>
-            La fuente no describe la orientación de la palma ni la posición de la mano respecto al
-            cuerpo. Observa esos detalles en cada ilustración. El contenido sigue pendiente de
-            revisión por personas competentes en LSV.
-          </p>
-          <p>
-            La narración usa la voz en español de tu navegador. Si no hay voz disponible, la clase
-            funciona con subtítulos. La pregunta no se guarda ni certifica tu ejecución de la seña.
-          </p>
         </details>
       </div>
     </div>

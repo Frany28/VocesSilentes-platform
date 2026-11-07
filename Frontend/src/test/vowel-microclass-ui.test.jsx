@@ -11,6 +11,7 @@ beforeEach(() => {
 
 test('cada vocal muestra la ilustración original con su crédito', async () => {
   render(<VowelMicroclass />);
+  expect(screen.queryByText('Fuentes y límites')).toBeNull();
   await userEvent.click(screen.getByRole('button', { name: /^Vocal U, / }));
   expect(screen.getByRole('img', { name: /mano realizando la vocal U/ })).toBeVisible();
   expect(screen.getByText(/Manual básico de LSV \(2022\), p\. 6/)).toBeVisible();

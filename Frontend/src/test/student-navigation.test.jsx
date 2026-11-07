@@ -49,10 +49,7 @@ test('filtra por nombre/estado y abre la actividad de práctica real desde el ca
   );
   expect(await screen.findByRole('heading', { name: 'Practicar' })).toBeVisible();
   expect(screen.queryByText(/Demostración de práctica/)).toBeNull();
-  await userEvent.click(screen.getByRole('link', { name: 'Practicar vocales con cámara' }));
-  expect(
-    await screen.findByRole('heading', { name: 'Aprende y practica las vocales' }),
-  ).toBeVisible();
-  expect(screen.getByRole('button', { name: 'Activar cámara' })).toBeEnabled();
+  expect(await screen.findByRole('heading', { name: 'Elige una seña y practica' })).toBeVisible();
+  expect(await screen.findByRole('button', { name: 'Activar cámara' })).toBeEnabled();
   expect(screen.queryByText('Cargar un modelo entrenado')).toBeNull();
 });
