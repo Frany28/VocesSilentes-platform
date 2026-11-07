@@ -21,12 +21,14 @@ export function CurriculumTheory({ step, pending }) {
           <p className="journey-eyebrow text-muted">Aprende con imágenes y subtítulos</p>
           <h2 id="journey-title">{step.title}</h2>
           <p className="text-muted">
-            Observa cada vocal, sigue los subtítulos y utiliza los controles para repasar a tu ritmo.
+            Observa cada vocal, sigue los subtítulos y utiliza los controles para repasar a tu
+            ritmo.
           </p>
         </div>
         <LazyVowelMicroclass />
         <p className="journey-after-video text-muted">
-          Puedes repetir cualquier escena. Cuando estés listo, continúa con las siguientes actividades.
+          Puedes repetir cualquier escena. Cuando estés listo, continúa con las siguientes
+          actividades.
         </p>
       </article>
     );
