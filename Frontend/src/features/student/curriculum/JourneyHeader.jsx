@@ -6,55 +6,55 @@ import { Icon } from '../../../components/ui/Icon.jsx';
 import { StudentProfileLink } from '../layout/StudentProfileLink.jsx';
 
 /**
- * Mantiene identidad y progreso del recorrido en una cabecera sin navegación ajena a la actividad.
- * @param {{lesson: object, module: object, journey: object}} props Contexto autorizado y pasos reconocidos.
- * @returns {import('react').ReactElement} Marca, salida, tema y progreso local distinguible del académico.
+ * Cabecera compacta: identidad, salida y acciones juntas; título y progreso sobre el contenido.
+ * Conserva la distinción entre avance de lectura y aprobación lingüística.
+ * @param {{lesson: object, module: object, journey: object}} props Lección y recorrido autorizado.
+ * @returns {import('react').ReactElement} Navegación y progreso accesibles.
  */
 export function JourneyHeader({ lesson, module, journey }) {
+  const position = module.lessons.findIndex((item) => item.id === lesson.id) + 1;
   return (
-    <header className="journey-header flex flex-col gap-4">
-      <div className="flex flex-wrap items-center gap-3">
+    <header className="journey-header">
+      <div className="journey-topbar">
         <div className="hidden min-[600px]:block">
           <Brand />
         </div>
         <div className="min-[600px]:hidden">
           <Brand compact />
         </div>
-        <Link
-          to="/student/modules"
-          className="education-back ml-auto inline-flex min-h-11 items-center gap-2"
-        >
-          <Icon name="education-back" />
-          Salir de la lección
-        </Link>
-        <div className="student-topbar-actions">
+        <div className="journey-topbar-actions">
+          <Link to="/student/modules" className="journey-exit">
+            <Icon name="education-back" />
+            Salir de la lección
+          </Link>
           <ThemeAction />
           <StudentProfileLink />
         </div>
       </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-muted [font:var(--type-label)]">
-          Lección {module.lessons.findIndex((item) => item.id === lesson.id) + 1} de{' '}
-          {module.lessons.length}
-        </p>
-        <h1 className="[font:var(--type-subtitle)]">{lesson.title}</h1>
+      <div className="journey-context">
+        <div className="journey-heading">
+          <p className="journey-kicker">
+            Lección {position} de {module.lessons.length}
+          </p>
+          <h1>{lesson.title}</h1>
+        </div>
         <Progress
           label="Tu recorrido"
           value={journey.percent}
           valueText={`${journey.completed} de ${journey.steps.length} pasos · ${journey.percent}%`}
         />
         {module.preview && (
-          <p className="text-muted [font:var(--type-label)]">
+          <p className="journey-status">
             Vista previa local · Borrador pendiente de revisión lingüística.
           </p>
         )}
         {!module.preview && lesson.content?.reviewStatus === 'PENDING_LSV_REVIEW' && (
-          <p className="text-muted [font:var(--type-label)]">
+          <p className="journey-status">
             Lectura educativa · Revisión LSV pendiente. Las evaluaciones aún no están disponibles.
           </p>
         )}
         {!journey.remembered && (
-          <p role="status" className="text-muted">
+          <p role="status" className="journey-status">
             El navegador no permite recordar tu punto al recargar. Puedes continuar estudiando.
           </p>
         )}
