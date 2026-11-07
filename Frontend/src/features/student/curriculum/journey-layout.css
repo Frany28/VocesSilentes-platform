@@ -51,7 +51,8 @@
   .journey-stage > * {
     max-width: 960px;
   }
-  .journey-stage:has(.camera-exercise) > * {
+  .journey-stage:has(.camera-exercise) > *,
+  .journey-stage:has(.mc-root) > * {
     max-width: none;
   }
   .journey-reading {

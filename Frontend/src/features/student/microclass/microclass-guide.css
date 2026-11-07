@@ -68,13 +68,34 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
-.mc-audio {
-  margin: 4px 0 0;
-  padding-left: 10px;
-  border-left: 3px solid var(--status-success);
-  color: var(--text-secondary);
-  font: var(--type-secondary);
+/* Reproductor y guía: apilados en móvil/tablet; en escritorio la guía va al lado del video. */
+.mc-layout {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
 }
-.mc-audio[data-state='off'] {
-  border-left-color: var(--status-warning);
+@media (width >= 1200px) {
+  .mc-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+    align-items: start;
+  }
+  .mc-layout .mc-guide {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.mc-volume {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mc-volume input[type='range'] {
+  width: 96px;
+  min-height: 44px;
+  accent-color: var(--action-primary);
+}
+.mc-volume-stroke {
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 2;
+  stroke-linecap: round;
 }

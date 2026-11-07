@@ -1,4 +1,5 @@
 import { formatTime } from './microclass-timeline.js';
+import { MicroclassVolume } from './MicroclassVolume.jsx';
 
 const icons = {
   play: 'M7 4v16l13-8z',
@@ -70,14 +71,7 @@ export function MicroclassControls({ player, bigCaptions, onBigCaptions }) {
       <span className="mc-time">
         {formatTime(position)} / {formatTime(timeline.total)}
       </span>
-      <button
-        className="mc-control"
-        type="button"
-        aria-pressed={state.voice}
-        onClick={actions.toggleVoice}
-      >
-        Narración
-      </button>
+      <MicroclassVolume muted={!state.voice} onToggle={actions.toggleVoice} />
       <button
         className="mc-control"
         type="button"

@@ -1,0 +1,111 @@
+{
+  "voice": "piper:es_MX-claude-high",
+  "license": "Apache-2.0",
+  "clips": {
+    "14796204": {
+      "seconds": 5.63
+    },
+    "56309524": {
+      "seconds": 6.09
+    },
+    "cc255945": {
+      "seconds": 6.42
+    },
+    "87e70091": {
+      "seconds": 6.12
+    },
+    "4f6ae8fe": {
+      "seconds": 6.92
+    },
+    "74e527a3": {
+      "seconds": 6.66
+    },
+    "e85979db": {
+      "seconds": 2.37
+    },
+    "a99472d6": {
+      "seconds": 5.87
+    },
+    "fa2a5aa2": {
+      "seconds": 5.12
+    },
+    "484f839f": {
+      "seconds": 2.16
+    },
+    "3fffc3b1": {
+      "seconds": 8.08
+    },
+    "15fc1ef6": {
+      "seconds": 5.82
+    },
+    "6b152404": {
+      "seconds": 4.27
+    },
+    "e845f223": {
+      "seconds": 2.21
+    },
+    "4c2c35ea": {
+      "seconds": 6.76
+    },
+    "7f82762f": {
+      "seconds": 5.55
+    },
+    "d4c6d68f": {
+      "seconds": 4.84
+    },
+    "6840ab75": {
+      "seconds": 2.31
+    },
+    "1dadc928": {
+      "seconds": 6.54
+    },
+    "c6bf021a": {
+      "seconds": 5.62
+    },
+    "941dff08": {
+      "seconds": 6.05
+    },
+    "e8778eef": {
+      "seconds": 2.29
+    },
+    "aa1517ec": {
+      "seconds": 8.56
+    },
+    "6dfb5992": {
+      "seconds": 4.84
+    },
+    "1bf62b09": {
+      "seconds": 4.17
+    },
+    "2c53ceb5": {
+      "seconds": 4.46
+    },
+    "a4128665": {
+      "seconds": 4.52
+    },
+    "06952b02": {
+      "seconds": 6.6
+    },
+    "eba4016f": {
+      "seconds": 6.47
+    },
+    "137c743e": {
+      "seconds": 6.4
+    },
+    "c1ed9abf": {
+      "seconds": 6.31
+    },
+    "205b1a9c": {
+      "seconds": 7.28
+    },
+    "05131214": {
+      "seconds": 7.27
+    },
+    "674a9f8a": {
+      "seconds": 7.25
+    },
+    "7aac4d60": {
+      "seconds": 7.35
+    }
+  }
+}

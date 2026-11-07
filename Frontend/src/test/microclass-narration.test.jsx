@@ -1,66 +1,66 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { cwd } from 'node:process';
 import { expect, test, vi } from 'vitest';
-import {
-  narrationStatus,
-  speak,
-  stopSpeech,
-} from '../features/student/microclass/speech-narration.js';
+import manifest from '../features/student/microclass/microclass-audio.json';
+import { audioKey } from '../features/student/microclass/audio-key.js';
+import { hasAudio } from '../features/student/microclass/audio-narration.js';
+import { microclassScenes, quizHint } from '../features/student/microclass/microclass-script.js';
 import { VowelMicroclass } from '../features/student/microclass/VowelMicroclass.jsx';
 
-function engine(voices) {
-  const value = {
-    getVoices: () => voices,
-    speak: vi.fn(),
-    cancel: vi.fn(),
-    resume: vi.fn(),
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-  };
-  vi.stubGlobal('speechSynthesis', value);
-  vi.stubGlobal(
-    'SpeechSynthesisUtterance',
-    class {
-      constructor(text) {
-        this.text = text;
-      }
-    },
-  );
-  return value;
+// jsdom no reproduce audio: se registra qué archivo se intenta reproducir.
+function stubAudio() {
+  const sources = [];
+  const play = vi.spyOn(HTMLMediaElement.prototype, 'play').mockImplementation(function play() {
+    sources.push(this.src);
+    return Promise.resolve();
+  });
+  const pause = vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
+  return { sources, play, pause };
 }
 
-test('con las voces aún sin cargar (Chrome) narra igualmente en español', () => {
-  const synth = engine([]);
-  expect(narrationStatus()).toBe('loading');
-  expect(speak('Esta es la vocal A.', () => {})).toBe(true);
-  const utterance = synth.speak.mock.calls[0][0];
-  expect(utterance.lang).toBe('es-ES');
-  expect(utterance.voice).toBeUndefined();
-  stopSpeech();
+test('cada subtítulo, revelación y pista tiene su audio generado en public/media/microclass', () => {
+  const texts = microclassScenes.flatMap((scene) =>
+    scene.cues.flatMap((cue) => [cue.text, cue.revealText].filter(Boolean)),
+  );
+  texts.push(...['A', 'I', 'O', 'U'].map(quizHint));
+  for (const text of texts) expect(hasAudio(text), text).toBe(true);
+  // Vitest se ejecuta desde Frontend/.
+  for (const key of Object.keys(manifest.clips))
+    expect(existsSync(join(cwd(), 'public/media/microclass', `${key}.mp3`)), key).toBe(true);
+  expect(manifest.license).toBe('Apache-2.0');
 });
 
-test('usa la voz en español disponible, prefiriendo variantes latinoamericanas', () => {
-  const mexican = { lang: 'es-MX', name: 'México' };
-  const synth = engine([
-    { lang: 'en-US', name: 'Inglés' },
-    { lang: 'es-ES', name: 'España' },
-    mexican,
-  ]);
-  expect(narrationStatus()).toBe('ready');
-  speak('Esta es la vocal E.', () => {});
-  expect(synth.speak.mock.calls[0][0].voice).toBe(mexican);
-});
-
-test('sin voz en español no narra en otro idioma y avisa que sigue con subtítulos', () => {
-  const synth = engine([{ lang: 'en-US', name: 'Inglés' }]);
-  expect(narrationStatus()).toBe('none');
-  expect(speak('Esta es la vocal I.', () => {})).toBe(false);
-  expect(synth.speak).not.toHaveBeenCalled();
+test('no suena nada antes de comenzar; luego reproduce el audio de la frase y lo detiene al pausar', async () => {
+  const audio = stubAudio();
   render(<VowelMicroclass />);
-  expect(screen.getByText(/no tiene una voz en español instalada/)).toBeVisible();
+  expect(audio.play).not.toHaveBeenCalled();
+  expect(screen.queryByText(/Con audio/)).toBeNull();
+  await userEvent.click(screen.getByRole('button', { name: 'Comenzar la microclase' }));
+  const first = microclassScenes[0].cues[0].text;
+  expect(audio.sources.at(-1).endsWith(`/media/microclass/${audioKey(first)}.mp3`)).toBe(true);
+  await userEvent.click(screen.getByRole('button', { name: 'Frase siguiente' }));
+  const second = microclassScenes[0].cues[1].text;
+  expect(audio.sources.at(-1).endsWith(`/media/microclass/${audioKey(second)}.mp3`)).toBe(true);
+  audio.pause.mockClear();
+  await userEvent.click(screen.getByRole('button', { name: 'Pausar microclase' }));
+  expect(audio.pause).toHaveBeenCalled();
 });
 
-test('con voz disponible anuncia que la microclase tiene audio', () => {
-  engine([{ lang: 'es-VE', name: 'Venezuela' }]);
-  render(<VowelMicroclass />);
-  expect(screen.getByText(/Con audio: narración en español/)).toBeVisible();
+test('silenciar detiene el audio y desactiva el volumen; salir de la clase lo detiene', async () => {
+  const audio = stubAudio();
+  const view = render(<VowelMicroclass />);
+  await userEvent.click(screen.getByRole('button', { name: 'Comenzar la microclase' }));
+  expect(screen.getByRole('slider', { name: 'Volumen de la narración' })).toBeEnabled();
+  audio.pause.mockClear();
+  await userEvent.click(screen.getByRole('button', { name: 'Silenciar' }));
+  expect(audio.pause).toHaveBeenCalled();
+  expect(screen.getByRole('button', { name: 'Activar sonido' })).toBeVisible();
+  expect(screen.getByRole('slider', { name: 'Volumen de la narración' })).toBeDisabled();
+  await userEvent.click(screen.getByRole('button', { name: 'Activar sonido' }));
+  audio.pause.mockClear();
+  view.unmount();
+  expect(audio.pause).toHaveBeenCalled();
 });

@@ -2,7 +2,10 @@ import { useEffect, useMemo, useReducer } from 'react';
 import { microclassScenes } from './microclass-script.js';
 import { buildTimeline } from './microclass-timeline.js';
 import { captionFor, initialPlayer, playerReducer } from './microclass-reducer.js';
-import { narrationAvailable, speak, stopSpeech } from './speech-narration.js';
+import { speak, stopSpeech } from './audio-narration.js';
+
+// La narración es audio grabado; solo falta si el navegador no tiene elemento de audio.
+const canSpeak = () => typeof Audio !== 'undefined';
 
 const TICK_MS = 250;
 
@@ -40,12 +43,11 @@ export function useMicroclassPlayer() {
 
   const actions = useMemo(
     () => ({
-      play: () => dispatch({ type: 'play', cues, canSpeak: narrationAvailable() }),
+      play: () => dispatch({ type: 'play', cues, canSpeak: canSpeak() }),
       pause: () => dispatch({ type: 'pause', cues }),
-      go: (target) => dispatch({ type: 'go', cues, target, canSpeak: narrationAvailable() }),
+      go: (target) => dispatch({ type: 'go', cues, target, canSpeak: canSpeak() }),
       toggleVoice: () => dispatch({ type: 'voice', cues }),
-      answer: (letter) =>
-        dispatch({ type: 'answer', cues, letter, canSpeak: narrationAvailable() }),
+      answer: (letter) => dispatch({ type: 'answer', cues, letter, canSpeak: canSpeak() }),
       reveal: () => dispatch({ type: 'reveal', cues }),
     }),
     [cues],

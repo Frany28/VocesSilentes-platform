@@ -79,9 +79,12 @@
   background: var(--action-primary);
   color: var(--action-text);
 }
+/* Desactivado se indica con color atenuado y aria-pressed; el tachado parecía un botón inhabilitado. */
 .mc-control[aria-pressed='false'] {
   color: var(--text-secondary);
-  text-decoration: line-through;
+}
+.mc-control[aria-pressed='true']:not([data-primary]) {
+  border-color: var(--action-primary);
 }
 .mc-control svg,
 .mc-bigplay svg {

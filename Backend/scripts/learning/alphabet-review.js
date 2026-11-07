@@ -9,6 +9,7 @@ import { seedAlphabet } from './seed-alphabet.js';
 import { alphabetModuleId, alphabetId, readAlphabetSource } from './alphabet-source.js';
 import { reviewAlphabetLayout } from './review-alphabet-layout.js';
 import { reviewAlphabetAnswers } from './review-alphabet-answers.js';
+import { reviewMicroclassAudio } from './review-microclass-audio.js';
 
 const output = fileURLToPath(new URL('../../../.local/journey-review/', import.meta.url));
 await mkdir(output, { recursive: true });
@@ -59,6 +60,7 @@ try {
   };
   await reviewAlphabetLayout(context);
   await reviewAlphabetAnswers(context);
+  await reviewMicroclassAudio(context);
   await page.navigate(`/student/modules/${alphabetModuleId}/lessons/${alphabetId('m1-l01')}`);
   await page.wait('document.body.textContent.includes("Lectura registrada")');
   assert.deepEqual(browser.errors, []);
@@ -77,6 +79,7 @@ try {
       screens: results.screens.length,
       journeys: results.journeys.length,
       ...results.answers,
+      microclassAudio: results.microclassAudio,
     }),
   );
 } finally {
