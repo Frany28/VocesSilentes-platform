@@ -14,14 +14,21 @@ export function CurriculumTheory({ step, pending }) {
   if (step.microclass)
     return (
       <article
-        className="journey-copy education-card flex min-w-0 flex-col gap-4"
+        className="journey-copy education-card journey-video-lesson flex min-w-0 flex-col gap-4"
         aria-labelledby="journey-title"
       >
-        <p className="journey-eyebrow text-muted">Material de referencia</p>
-        <h2 id="journey-title">{step.title}</h2>
+        <div className="journey-video-heading">
+          <p className="journey-eyebrow text-muted">Aprende con imágenes y subtítulos</p>
+          <h2 id="journey-title">{step.title}</h2>
+          <p className="text-muted">
+            Observa cada vocal, sigue los subtítulos y utiliza los controles para repasar a tu
+            ritmo.
+          </p>
+        </div>
         <LazyVowelMicroclass />
-        <p className="text-muted">
-          Puedes verla las veces que quieras. Pulsa Continuar para seguir con la lectura.
+        <p className="journey-after-video text-muted">
+          Puedes repetir cualquier escena. Cuando estés listo, continúa con las siguientes
+          actividades.
         </p>
       </article>
     );

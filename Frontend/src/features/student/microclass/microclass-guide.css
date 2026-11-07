@@ -1,60 +1,114 @@
-/* Guía bajo el reproductor: capítulos, transcripción y fuentes. */
+/* Recursos de apoyo de la microclase: capítulos compactos y transcripción desplegable. */
 .mc-guide {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-  gap: 16px;
+  gap: 14px;
+  width: 100%;
+  min-width: 0;
 }
-@media (width < 760px) {
-  .mc-guide {
-    grid-template-columns: minmax(0, 1fr);
-  }
+.mc-chapter-nav {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+}
+.mc-chapter-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0;
+  color: var(--content);
+  font: var(--type-button);
+}
+.mc-chapter-heading small {
+  color: var(--text-secondary);
+  font: var(--type-label);
 }
 .mc-chapters {
   display: grid;
-  gap: 2px;
+  grid-template-columns: repeat(auto-fit, minmax(162px, 1fr));
+  gap: 8px;
+  width: 100%;
   margin: 0;
   padding: 0;
   list-style: none;
 }
+.mc-chapters li {
+  min-width: 0;
+}
 .mc-chapters button {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
+  gap: 8px;
   width: 100%;
-  min-height: 44px;
-  padding: 8px 12px;
-  border: 0;
+  min-height: 74px;
+  padding: 11px 12px;
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  background: none;
+  background: var(--page);
   color: var(--content);
-  font: var(--type-secondary);
+  font: var(--type-label);
   text-align: left;
+  transition:
+    background var(--motion-control) var(--motion-ease),
+    border-color var(--motion-control) var(--motion-ease);
 }
-.mc-chapters button:hover,
-.mc-chapters [aria-current] {
+.mc-chapters button span {
+  line-height: 1.35;
+}
+.mc-chapters button:hover {
+  border-color: var(--action-primary);
   background: var(--surface-accent);
+}
+.mc-chapters [aria-current='step'] {
+  border-color: var(--action-primary);
+  background: var(--surface-accent);
+  color: var(--action-primary);
+  font-weight: 700;
+}
+.mc-chapters button:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
 }
 .mc-chapters time {
   color: var(--text-secondary);
+  font: var(--type-label);
   font-variant-numeric: tabular-nums;
 }
 .mc-docs {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 12px;
   min-width: 0;
 }
 .mc-details {
+  min-width: 0;
   padding: 4px 16px;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xl);
+  background: var(--surface);
 }
 .mc-details summary {
   display: flex;
   align-items: center;
-  min-height: 44px;
+  min-height: 48px;
+  color: var(--content);
   font: var(--type-button);
   cursor: pointer;
+}
+.mc-details summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.mc-details[open] {
+  padding-bottom: 12px;
 }
 .mc-details p,
 .mc-transcript h4 {
@@ -65,6 +119,23 @@
   color: var(--action-primary);
   font: var(--type-label);
   font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+}
+@media (width < 760px) {
+  .mc-chapter-nav {
+    padding: 14px;
+  }
+  .mc-chapters {
+    display: flex;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: x proximity;
+    padding: 2px 2px 12px;
+  }
+  .mc-chapters li {
+    flex: 0 0 176px;
+    scroll-snap-align: start;
+  }
+  .mc-docs {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

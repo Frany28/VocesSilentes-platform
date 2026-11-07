@@ -9,7 +9,11 @@ import { illustrationCredit } from './vowel-illustrations.js';
 export function MicroclassGuide({ timeline, current, onSelect }) {
   return (
     <div className="mc-guide">
-      <nav aria-label="Capítulos de la microclase">
+      <nav className="mc-chapter-nav" aria-label="Capítulos de la microclase">
+        <p className="mc-chapter-heading">
+          Explora la microclase
+          <small>{timeline.scenes.length} capítulos · Selecciona para ir a una escena</small>
+        </p>
         <ol className="mc-chapters">
           {timeline.scenes.map((scene, index) => (
             <li key={scene.id}>

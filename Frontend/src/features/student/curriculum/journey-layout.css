@@ -1,7 +1,12 @@
+/* Recorrido inmersivo: desplazamiento natural de la página, sin una segunda barra interna. */
 .student-shell.learning-shell {
   display: block;
+  min-height: 100svh;
   padding: 0;
   overflow-wrap: anywhere;
+}
+.learning-shell #student-content {
+  min-width: 0;
 }
 .learning-shell .education-page:not(.learning-journey) {
   max-width: 1440px;
@@ -9,20 +14,83 @@
   padding: 24px 32px;
 }
 .learning-journey {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2vw, 24px);
   width: 100%;
-  max-width: 1440px;
+  max-width: 1320px;
   min-height: 100svh;
-  height: 100svh;
   margin: 0 auto;
-  padding: 24px 32px 0;
+  padding: clamp(16px, 2vw, 28px) clamp(16px, 3vw, 40px) 0;
+}
+.journey-header {
+  display: grid;
+  gap: 20px;
+}
+.journey-topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.journey-topbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+.journey-exit {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--content);
+  font: var(--type-button);
+  text-decoration: none;
+  transition: background var(--motion-control) var(--motion-ease);
+}
+.journey-exit:hover {
+  background: var(--surface-accent);
+}
+.journey-exit:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.journey-context {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.journey-heading {
+  display: grid;
+  gap: 5px;
+}
+.journey-kicker {
+  color: var(--action-primary);
+  font: var(--type-label);
+  font-weight: 700;
+}
+.journey-heading h1 {
+  margin: 0;
+  font: 700 clamp(22px, 2.25vw, 30px) / 1.25 var(--font-brand);
+  letter-spacing: -0.025em;
+  text-wrap: balance;
 }
 .journey-header .vs-progress {
   width: 100%;
   max-width: none;
   padding: 0;
+  gap: 8px;
   border: 0;
   background: transparent;
 }
@@ -31,43 +99,64 @@
 }
 .journey-header .vs-progress-track {
   width: 100%;
+  height: 9px;
+}
+.journey-header .vs-progress-caption {
+  color: var(--text-secondary);
+  font: var(--type-label);
+  font-variant-numeric: tabular-nums;
+}
+.journey-status {
+  width: fit-content;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text-secondary);
+  font: var(--type-label);
 }
 .journey-stage {
   display: flex;
-  align-items: safe center;
+  flex: 1 0 auto;
+  align-items: flex-start;
   justify-content: center;
-  min-height: 0;
+  width: 100%;
   min-width: 0;
-  overflow-y: auto;
-  padding: 16px 0;
+  min-height: 0;
+  overflow: visible;
+  padding: 4px 0 24px;
   animation: journey-enter var(--motion-surface) var(--motion-ease);
 }
 .journey-stage > * {
-  max-width: 760px;
+  width: 100%;
+  max-width: 840px;
+  min-width: 0;
 }
-@media (width >= 1200px) {
-  .journey-stage > * {
-    max-width: 960px;
-  }
-  .journey-stage:has(.camera-exercise) > * {
-    max-width: none;
-  }
-  .journey-reading {
-    max-width: 68ch;
-  }
+.journey-stage:has(.mc-root) > *,
+.journey-stage:has(.camera-exercise) > * {
+  max-width: 1120px;
 }
 .journey-controls {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 20px 0;
+  width: 100%;
+  max-width: 1120px;
+  min-height: 78px;
+  margin: 0 auto;
+  padding: 14px 4px max(18px, env(safe-area-inset-bottom));
   border-top: 1px solid var(--border-subtle);
   background: var(--page);
+  box-shadow: 0 -12px 20px -20px rgb(0 0 0 / 30%);
 }
 .journey-controls .vs-button {
   width: auto;
-  min-width: 160px;
+  min-width: 168px;
 }
 @keyframes journey-enter {
   from {
@@ -84,18 +173,38 @@
     padding: 16px;
   }
   .learning-journey {
-    gap: 12px;
+    gap: 16px;
     padding: 16px 16px 0;
+  }
+  .journey-header {
+    gap: 14px;
+  }
+  .journey-topbar {
+    gap: 10px;
+    padding-bottom: 12px;
+  }
+  .journey-topbar-actions {
+    gap: 6px;
+  }
+  .journey-exit {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+  .journey-stage {
+    padding: 0 0 16px;
   }
   .journey-controls {
     gap: 12px;
-    padding: 16px 0 max(16px, env(safe-area-inset-bottom));
+    min-height: 72px;
+    padding: 12px 0 max(16px, env(safe-area-inset-bottom));
   }
   .journey-controls .vs-button {
     min-width: 0;
     flex: 1;
   }
+}
+@media (prefers-reduced-motion: reduce) {
   .journey-stage {
-    padding: 8px 0;
+    animation: none;
   }
 }

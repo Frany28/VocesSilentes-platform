@@ -1,10 +1,32 @@
 .journey-stage .education-card {
-  padding: 32px;
+  padding: clamp(24px, 3vw, 36px);
   gap: 20px;
+  box-shadow: var(--shadow-soft);
+}
+/* El reproductor ya tiene su propio marco: no duplicar tarjetas alrededor del video. */
+.journey-stage .journey-video-lesson {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.journey-video-heading {
+  display: grid;
+  gap: 8px;
+}
+.journey-video-heading h2 {
+  margin: 0;
+}
+.journey-video-heading p:last-child {
+  max-width: 68ch;
+  font: var(--type-secondary);
+}
+.journey-after-video {
+  font: var(--type-label);
 }
 .journey-copy h2,
 .journey-activity .education-question-title {
-  font: 700 30px / 40px var(--font-brand);
+  font: 700 clamp(24px, 2.6vw, 30px) / 1.25 var(--font-brand);
 }
 .journey-copy .journey-reading {
   font: var(--type-subtitle);
@@ -22,21 +44,29 @@
   overflow: hidden;
 }
 .journey-letters {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
   gap: 16px;
   width: 100%;
 }
 .journey-letters article {
   display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 16px;
+  min-width: 0;
+  min-height: 220px;
+  padding: 18px;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xl);
   background: var(--surface-accent);
-  color: var(--action-primary);
-  font: 700 96px / 1 var(--font-brand);
+  color: var(--content);
+  font: var(--type-secondary);
+}
+.journey-letters article .vs-button {
+  width: 100%;
 }
 .journey-references {
   width: 100%;
@@ -80,13 +110,19 @@
     padding: 20px;
     gap: 16px;
   }
+  .journey-stage .journey-video-lesson {
+    padding: 0;
+  }
+  .journey-letters {
+    grid-template-columns: 1fr;
+  }
   .journey-copy h2,
   .journey-activity .education-question-title {
     font: var(--type-h3);
   }
   .journey-letters article {
     min-height: 160px;
-    font-size: 72px;
+    padding: 16px;
   }
   .journey-welcome {
     min-height: 96px;
