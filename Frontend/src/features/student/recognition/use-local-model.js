@@ -1,10 +1,9 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { predictSequence } from '../../../../../shared/lsv/classifier.js';
 import { sequenceFeatures } from '../../../../../shared/lsv/sequence.js';
 import { RecognitionModelContext } from './model-context.js';
 import { validateFrames } from '../../../../../shared/lsv/recording.js';
 import { assertModelUsage } from './model-usage.js';
-import { readDemoModel } from './demo-model.js';
 
 /**
  * Importa y utiliza el modelo propio entrenado, conservando su condición experimental sin notas académicas.
@@ -14,41 +13,14 @@ import { readDemoModel } from './demo-model.js';
  * @returns {object} Modelo, error, hipótesis local y lectura deliberada de JSON; no usa servicios externos.
  */
 export function useLocalModel({ autoLoad = false } = {}) {
-  const { model, importModel, claimAutoLoad } = useContext(RecognitionModelContext);
+  const { model, importModel, demoLoading, demoError, loadDemo, autoLoadDemo } =
+    useContext(RecognitionModelContext);
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  // Separado de error: un fallo de descarga del modelo no es un fallo del intento del estudiante.
-  const [loadError, setLoadError] = useState('');
-  const active = useRef(null);
-  useEffect(() => () => active.current?.abort(), []);
-  const loadDemo = async () => {
-    if (active.current) return;
-    const controller = new AbortController();
-    active.current = controller;
-    setLoading(true);
-    setLoadError('');
-    setResult(null);
-    try {
-      const demo = await readDemoModel(controller.signal);
-      await importModel(new File([JSON.stringify(demo)], 'lsv-vowels-demo-v1.json'));
-    } catch (failure) {
-      if (!controller.signal.aborted)
-        setLoadError(
-          failure instanceof SyntaxError
-            ? 'El modelo de vocales publicado no es válido.'
-            : failure.message,
-        );
-    } finally {
-      active.current = null;
-      if (!controller.signal.aborted) setLoading(false);
-    }
-  };
   useEffect(() => {
-    // Un solo intento automático por sesión: si falla, el botón permite reintentar sin bucles.
-    // La descarga es un sistema externo: se inicia en un callback, no en el cuerpo del efecto.
-    if (!autoLoad || model || !claimAutoLoad()) return;
-    queueMicrotask(loadDemo);
+    // La descarga (una vez por sesión) es un sistema externo: se inicia en un callback.
+    if (!autoLoad || model) return;
+    queueMicrotask(autoLoadDemo);
   });
   const load = async (event) => {
     const file = event.target.files?.[0];
@@ -85,10 +57,14 @@ export function useLocalModel({ autoLoad = false } = {}) {
     model,
     result,
     error,
-    loadError,
+    // Separado de error: un fallo de descarga del modelo no es un fallo del intento.
+    loadError: demoError,
     load,
-    loadDemo,
-    loading,
+    loadDemo: () => {
+      setResult(null);
+      return loadDemo();
+    },
+    loading: demoLoading,
     predict,
     clear: () => setResult(null),
   };

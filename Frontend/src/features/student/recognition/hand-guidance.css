@@ -1,0 +1,26 @@
+/* Recuadro central de encuadre e indicación de posición. El color nunca es la única señal: el texto
+   de .hand-guidance describe siempre el estado. */
+.camera-guide {
+  position: absolute;
+  inset: 20% 25%;
+  border: 3px dashed var(--status-warning);
+  border-radius: var(--radius-xl);
+  pointer-events: none;
+  transition: border-color var(--motion-surface) var(--motion-ease);
+}
+.camera-guide[data-state='ok'] {
+  border-style: solid;
+  border-color: var(--status-success);
+}
+.hand-guidance {
+  margin: 0;
+  padding: 8px 12px;
+  border-left: 4px solid var(--status-warning);
+  border-radius: var(--radius-md);
+  background: var(--surface-neutral);
+  font: var(--type-secondary);
+  font-weight: 600;
+}
+.hand-guidance[data-state='ok'] {
+  border-left-color: var(--status-success);
+}

@@ -1,4 +1,6 @@
 import { CameraControls } from './CameraControls.jsx';
+import { useHandGuidance } from './use-hand-guidance.js';
+import './hand-guidance.css';
 
 /**
  * Presenta vídeo y landmarks reales, permisos y controles de cámara, sin interpretar señas.
@@ -8,11 +10,15 @@ import { CameraControls } from './CameraControls.jsx';
 export function CameraView({ camera, target, controls = true }) {
   const { videoRef, canvasRef, state } = camera;
   const active = ['permission', 'loading', 'live'].includes(state);
+  const guidance = useHandGuidance(camera);
   return (
     <section className="camera-panel flex min-w-0 flex-col gap-4" aria-label="Cámara de práctica">
       <div className="camera-viewport">
         <video ref={videoRef} muted playsInline autoPlay aria-label="Vista de cámara" />
         <canvas ref={canvasRef} aria-hidden="true" />
+        {guidance && (
+          <span className="camera-guide" data-state={guidance.state} aria-hidden="true" />
+        )}
         {target && <p className="camera-target">Referencia: {target}</p>}
         {!active && <p className="camera-placeholder">Activa la cámara cuando estés listo.</p>}
       </div>

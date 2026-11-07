@@ -1,6 +1,7 @@
 import { Button } from '../../../components/ui/Button.jsx';
 import { ManualReference } from '../recognition/ManualReference.jsx';
 import { recognitionSupports } from '../recognition/recognition-support.js';
+import '../recognition/letter-badge.css';
 
 /**
  * Presenta una o dos letras lado a lado para compararlas, con su referencia y una práctica opcional.

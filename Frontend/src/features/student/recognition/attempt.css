@@ -18,3 +18,34 @@
   border-left-color: var(--action-primary);
   font-weight: 600;
 }
+.camera-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: camera-step;
+}
+.camera-steps li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  font: var(--type-secondary);
+  counter-increment: camera-step;
+}
+.camera-steps li::before {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--surface-accent);
+  color: var(--action-primary);
+  content: counter(camera-step);
+  font-weight: 800;
+}

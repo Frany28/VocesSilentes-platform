@@ -31,11 +31,14 @@ test('el visor no solicita cámara al entrar; activa solo por botón y nunca mue
     screen.getByRole('img', { name: /Ilustración de referencia de la letra A/ }),
   ).toBeVisible();
   expect(await screen.findByText(/No se pudo descargar el modelo de vocales/)).toBeVisible();
-  expect(screen.getByText(/la cámara solo detecta puntos de la mano/)).toBeVisible();
+  expect(screen.getByText(/Puedes practicar frente a la cámara sin análisis/)).toBeVisible();
+  // El estudiante no importa modelos ni los carga a mano: solo puede reintentar tras un fallo.
+  expect(screen.queryByText('Cargar un modelo entrenado')).toBeNull();
+  expect(screen.getByRole('button', { name: 'Reintentar' })).toBeEnabled();
   await userEvent.click(screen.getByRole('button', { name: 'Activar cámara' }));
   await screen.findByRole('button', { name: 'Detener cámara' });
   expect(fixture.getUserMedia).toHaveBeenCalledTimes(1);
-  expect(screen.getByRole('button', { name: 'Analizar intento' })).toBeDisabled();
+  expect(screen.queryByRole('button', { name: 'Analizar intento' })).toBeNull();
   expect(screen.queryByText('Respuesta correcta')).toBeNull();
   view.unmount();
   expect(fixture.track.stop).toHaveBeenCalledTimes(1);

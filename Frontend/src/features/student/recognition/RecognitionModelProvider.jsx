@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { validateModel } from '../../../../../shared/lsv/classifier.js';
 import { RecognitionModelContext } from './model-context.js';
 import { assertModelUsage } from './model-usage.js';
+import { useDemoLoader } from './use-demo-loader.js';
 
 /**
  * Conserva el modelo experimental solo en memoria durante la sesión Student, sin duplicar progreso académico.
@@ -11,7 +12,6 @@ import { assertModelUsage } from './model-usage.js';
 export function RecognitionModelProvider({ children }) {
   const [model, setModel] = useState(null);
   const generation = useRef(0);
-  const autoLoadClaimed = useRef(false);
   useEffect(
     () => () => {
       generation.current += 1;
@@ -25,14 +25,9 @@ export function RecognitionModelProvider({ children }) {
     assertModelUsage(parsed);
     if (generation.current === ticket) setModel(parsed);
   };
-  // La carga automática del modelo de demostración se intenta como máximo una vez por sesión.
-  const claimAutoLoad = () => {
-    if (autoLoadClaimed.current) return false;
-    autoLoadClaimed.current = true;
-    return true;
-  };
+  const demo = useDemoLoader(importModel);
   return (
-    <RecognitionModelContext.Provider value={{ model, importModel, claimAutoLoad }}>
+    <RecognitionModelContext.Provider value={{ model, importModel, ...demo }}>
       {children}
     </RecognitionModelContext.Provider>
   );

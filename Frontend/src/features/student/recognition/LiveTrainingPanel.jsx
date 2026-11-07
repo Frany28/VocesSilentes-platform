@@ -19,7 +19,7 @@ export function LiveTrainingPanel({ camera, capture, collection }) {
         <ManualReference letter={letter} compact />
         <CameraView camera={camera} />
         {collection.experimental && (
-          <ModelInference operation={operation} capture={capture} camera={camera} />
+          <ModelInference operation={operation} capture={capture} camera={camera} lab />
         )}
       </div>
       <TrainingCapture

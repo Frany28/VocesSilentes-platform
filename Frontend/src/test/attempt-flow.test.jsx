@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { expect, test } from 'vitest';
+import { expect, test, vi } from 'vitest';
 import { AttemptResult } from '../features/student/recognition/AttemptResult.jsx';
 import { RecognitionModelProvider } from '../features/student/recognition/RecognitionModelProvider.jsx';
 import { ModelInference } from '../features/student/recognition/ModelInference.jsx';
@@ -23,7 +23,7 @@ test('descarga sola el modelo, cuenta atrás, captura y analiza sin otro clic', 
   const request = serveRelease();
   const camera = fakeCamera();
   render(<Harness camera={camera} target="A" />, { wrapper: RecognitionModelProvider });
-  expect(await screen.findByText(/Modelo experimental cargado: A\./)).toBeVisible();
+  expect(await screen.findByText(/Reconocimiento experimental listo: A\./)).toBeVisible();
   expect(screen.getByText(/Ejemplos solo con la mano derecha/)).toBeVisible();
   expect(request).toHaveBeenCalledTimes(1);
   await attempt(camera, 'Right');
@@ -38,7 +38,7 @@ test('sin ejemplos de esa lateralidad se abstiene e indica qué mano usar', asyn
   serveRelease();
   const camera = fakeCamera();
   render(<Harness camera={camera} target="A" />, { wrapper: RecognitionModelProvider });
-  await screen.findByText(/Modelo experimental cargado/);
+  await screen.findByText(/Reconocimiento experimental listo/);
   await attempt(camera, 'Left');
   expect(
     screen.getByText(
@@ -69,4 +69,18 @@ test('si la hipótesis no coincide con la letra objetivo lo dice sin convertirlo
     screen.getByText(/No coincide con la E que practicas; el modelo puede equivocarse/),
   ).toBeVisible();
   expect(screen.queryByText(/correct/i)).toBeNull();
+});
+
+test('tras un fallo de descarga, cambiar de letra conserva el error y el reintento sin otra descarga', async () => {
+  const request = vi.fn().mockResolvedValue(new Response('', { status: 404 }));
+  vi.stubGlobal('fetch', request);
+  const camera = fakeCamera();
+  const view = render(<Harness key="A" camera={camera} target="A" />, {
+    wrapper: RecognitionModelProvider,
+  });
+  expect(await screen.findByText(/No se pudo descargar el modelo de vocales/)).toBeVisible();
+  view.rerender(<Harness key="E" camera={camera} target="E" />);
+  expect(screen.getByText(/No se pudo descargar el modelo de vocales/)).toBeVisible();
+  expect(screen.getByRole('button', { name: 'Reintentar' })).toBeEnabled();
+  expect(request).toHaveBeenCalledTimes(1);
 });

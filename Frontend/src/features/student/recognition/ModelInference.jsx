@@ -10,13 +10,16 @@ import './attempt.css';
  * Flujo del intento: estado del modelo, cuenta atrás, captura de 3 s, análisis automático y resultado.
  * Mantiene separadas la detección de manos (cámara), la clasificación experimental y la evaluación
  * académica (inexistente aquí). Sin clasificación para la letra objetivo, no ofrece análisis.
- * @param {{operation: object, capture: object, camera: object, target?: string}} props Modelo, intento, detector y letra.
+ * @param {{operation: object, capture: object, camera: object, target?: string, lab?: boolean}} props
+ * Modelo, intento, detector, letra y modo laboratorio (importar modelos y reanalizar a mano).
  * @returns {import('react').ReactElement} Controles y resultados accesibles.
  */
-export function ModelInference({ operation, capture, camera, target }) {
+export function ModelInference({ operation, capture, camera, target, lab = false }) {
   const countdown = useCaptureCountdown();
   const supported = recognitionSupports(target, operation.model);
   const busy = capture.pending || countdown.count !== null;
+  // Mientras se descarga el modelo no se captura: el intento se quedaría sin análisis.
+  const preparing = !operation.model && operation.loading;
   if (!supported)
     return (
       <Alert tone="info" title="Sin reconocimiento para esta letra">
@@ -39,19 +42,21 @@ export function ModelInference({ operation, capture, camera, target }) {
         ? 'Capturando… mantén la seña quieta.'
         : capture.frames
           ? `Intento capturado: ${capture.frames.length} frames reales.`
-          : camera.state === 'live'
-            ? 'Forma la seña y pulsa Capturar intento.'
-            : 'Activa la cámara para hacer un intento.';
+          : preparing
+            ? 'Espera a que el reconocimiento esté listo.'
+            : camera.state === 'live'
+              ? 'Forma la seña y pulsa Capturar intento.'
+              : 'Activa la cámara para hacer un intento.';
   const shown = operation.result && operation.result.frames === capture.frames;
   return (
     <section className="flex flex-col gap-4" aria-label="Modelo propio de LSV">
-      <ModelStatus operation={operation} />
+      <ModelStatus operation={operation} allowImport={lab} />
       <p className="attempt-status" role="status" aria-live="polite">
         {status}
       </p>
       <div className="camera-actions">
         <Button
-          disabled={camera.state !== 'live' || busy}
+          disabled={camera.state !== 'live' || busy || preparing}
           loading={busy}
           loadingLabel={
             countdown.count !== null ? `Empieza en ${countdown.count}…` : 'Capturando 3 segundos…'
@@ -60,14 +65,16 @@ export function ModelInference({ operation, capture, camera, target }) {
         >
           Capturar intento
         </Button>
-        <Button
-          variant="secondary"
-          icon={null}
-          disabled={!operation.model || !capture.frames || busy}
-          onClick={() => operation.predict(capture.frames)}
-        >
-          Analizar intento
-        </Button>
+        {lab && (
+          <Button
+            variant="secondary"
+            icon={null}
+            disabled={!operation.model || !capture.frames || busy}
+            onClick={() => operation.predict(capture.frames)}
+          >
+            Analizar intento
+          </Button>
+        )}
       </div>
       {shown && (
         <AttemptResult

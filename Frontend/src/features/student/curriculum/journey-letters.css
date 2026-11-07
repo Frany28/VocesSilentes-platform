@@ -35,18 +35,6 @@
   color: var(--action-primary);
   font: 800 40px / 1 var(--font-brand);
 }
-.letter-badge {
-  padding: 4px 10px;
-  border-radius: var(--radius-full);
-  background: var(--surface-neutral);
-  color: var(--text-secondary);
-  font: var(--type-label);
-  font-weight: 600;
-}
-.letter-badge[data-tone='ready'] {
-  background: var(--status-success-bg);
-  color: var(--status-success);
-}
 .letter-card .manual-reference {
   display: flex;
   flex-direction: column;

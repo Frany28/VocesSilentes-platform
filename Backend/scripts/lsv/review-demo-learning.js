@@ -25,7 +25,7 @@ export async function reviewDemoLearning({ page, browser }) {
   assert.equal(await page.evaluate('window.__demoReview.calls'), 0);
   await settled();
   // El modelo de demostración se descarga una sola vez al abrir la práctica, sin pedir cámara.
-  await page.wait('document.body.textContent.includes("Modelo experimental cargado")');
+  await page.wait('document.body.textContent.includes("Reconocimiento experimental listo")');
   await page.fill({ 'Vocal de referencia': 'E' });
   await page.wait('document.querySelector(".camera-viewport")');
   assert.equal(await page.evaluate('window.__demoReview.calls'), 0);

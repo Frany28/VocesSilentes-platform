@@ -9,6 +9,8 @@ import { ManualReference } from './ManualReference.jsx';
 import './recognition.css';
 import { isLocalExperiment } from './local-experiment.js';
 import { recognitionSupports } from './recognition-support.js';
+import { CameraSteps } from './CameraSteps.jsx';
+import './letter-badge.css';
 
 /**
  * Integra cámara, referencia y clasificador entrenable en la práctica sin simular una corrección de LSV.
@@ -19,15 +21,22 @@ export function CameraExercise({ letter }) {
   const camera = useHandCamera();
   const capture = useSequenceCapture(camera);
   // El modelo de demostración se descarga solo si puede clasificar la letra que se practica.
-  const operation = useLocalModel({ autoLoad: recognitionSupports(letter) });
+  const supported = recognitionSupports(letter);
+  const operation = useLocalModel({ autoLoad: supported });
   return (
     <section
       className="camera-exercise flex w-full flex-col gap-4"
       aria-label="Práctica con cámara"
     >
-      <h2 className="[font:var(--type-h3)]">
-        {letter ? `Practica la letra ${letter}` : 'Tu práctica con cámara'}
-      </h2>
+      <div className="flex flex-wrap items-center gap-3">
+        <h2 className="[font:var(--type-h3)]">
+          {letter ? `Practica la letra ${letter}` : 'Tu práctica con cámara'}
+        </h2>
+        <span className="letter-badge" data-tone={supported ? 'ready' : undefined}>
+          {supported ? 'Reconocimiento experimental' : 'Sin reconocimiento todavía'}
+        </span>
+      </div>
+      <CameraSteps letter={letter} supported={supported} />
       <div className="camera-workspace">
         <CameraView camera={camera} target={letter} controls={false} />
         <div className="camera-model-panel flex min-w-0 flex-col gap-4">

@@ -1,12 +1,15 @@
 import { Button } from '../../../components/ui/Button.jsx';
 import { Alert } from '../../../components/ui/Alert.jsx';
+import { useHandGuidance } from './use-hand-guidance.js';
 
 /**
  * Agrupa estado, permiso y cierre para situarlos junto al visor en escritorio, sin activar la cámara al montar.
  * @param {{camera: object}} props Estado y acciones del controlador existente.
  * @returns {import('react').ReactElement} Controles y errores accesibles de la cámara.
  */
-export function CameraControls({ camera: { state, error, hands, start, stop } }) {
+export function CameraControls({ camera }) {
+  const { state, error, hands, start, stop } = camera;
+  const guidance = useHandGuidance(camera);
   const active = ['permission', 'loading', 'live'].includes(state);
   const description =
     {
@@ -31,6 +34,11 @@ export function CameraControls({ camera: { state, error, hands, start, stop } })
           )}
         </div>
       </div>
+      {guidance && (
+        <p className="hand-guidance" data-state={guidance.state} aria-live="polite">
+          {guidance.message}
+        </p>
+      )}
       {error && (
         <Alert tone="error" title="Cámara no disponible">
           {error}

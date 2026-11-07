@@ -32,7 +32,7 @@ export async function reviewExperimentalJourney({ page, browser, output }) {
   assert.equal(exported.trainingMode, 'LOCAL_PROVISIONAL');
   assert.equal(exported.sampleAudit.length, 9);
   await page.file('.model-settings input[type=file]', path);
-  await page.wait('document.body.textContent.includes("Modelo experimental cargado")');
+  await page.wait('document.body.textContent.includes("Reconocimiento experimental listo")');
   await page.click('Activar cámara');
   await page.wait('document.body.textContent.includes("Detener cámara")');
   await page.click('Capturar intento');

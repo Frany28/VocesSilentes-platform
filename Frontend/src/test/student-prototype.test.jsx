@@ -39,8 +39,8 @@ test('práctica abre vocales reales sin estados simulados ni permisos automátic
   await userEvent.selectOptions(selector, 'E');
   expect(await screen.findByRole('img', { name: /referencia de la letra E/ })).toBeVisible();
   // La fixture no sirve un modelo válido: la carga automática falla y queda el botón de reintento.
-  expect(await screen.findByRole('button', { name: 'Cargar modelo de vocales' })).toBeEnabled();
-  expect(screen.getByRole('button', { name: 'Analizar intento' })).toBeDisabled();
+  expect(await screen.findByRole('button', { name: 'Reintentar' })).toBeEnabled();
+  expect(screen.queryByRole('button', { name: 'Analizar intento' })).toBeNull();
   expect(media).not.toHaveBeenCalled();
   const urls = fetchMock.mock.calls.map(([url]) => url);
   expect(

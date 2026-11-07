@@ -53,5 +53,6 @@ test('filtra por nombre/estado y abre la actividad de práctica real desde el ca
   expect(
     await screen.findByRole('heading', { name: 'Aprende y practica las vocales' }),
   ).toBeVisible();
-  expect(screen.getByRole('button', { name: 'Cargar modelo de vocales' })).toBeEnabled();
+  expect(screen.getByRole('button', { name: 'Activar cámara' })).toBeEnabled();
+  expect(screen.queryByText('Cargar un modelo entrenado')).toBeNull();
 });

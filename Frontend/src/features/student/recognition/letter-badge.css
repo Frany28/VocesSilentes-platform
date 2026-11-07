@@ -1,0 +1,13 @@
+/* Etiqueta de soporte de reconocimiento por letra (tarjetas y práctica con cámara). */
+.letter-badge {
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  background: var(--surface-neutral);
+  color: var(--text-secondary);
+  font: var(--type-label);
+  font-weight: 600;
+}
+.letter-badge[data-tone='ready'] {
+  background: var(--status-success-bg);
+  color: var(--status-success);
+}
