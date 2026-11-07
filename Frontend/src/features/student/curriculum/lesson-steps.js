@@ -46,7 +46,7 @@ export function lessonSteps(lesson) {
     groups.forEach((cards, group) => {
       if (boundary(group, groups.length) === index)
         steps.push({
-          id: `letters-${group}`,
+          id: `letters-${group}-${cards.map((card) => card.letter).join('')}`,
           type: 'letters',
           title: 'Conoce estas letras',
           cards,
