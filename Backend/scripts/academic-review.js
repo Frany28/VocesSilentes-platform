@@ -20,7 +20,7 @@ let browser;
 const results = { database: 'isolated-PostgreSQL-WASM-over-TCP', independentFromSeed: true };
 try {
   await environment.ready();
-  const password = `Prueba UI ${randomBytes(24).toString('base64url')}!`;
+  const password = `Prueba-UI-${randomBytes(24).toString('base64url')}!`;
   const adminEmail = 'academic_operator@example.invalid';
   // Provisionamiento inicial del operador, separado de las cinco altas de usuarios bajo prueba.
   const operator = await environment.authService.register({

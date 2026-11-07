@@ -14,13 +14,13 @@ try {
     lastName: null,
     username: 'alfabeto_local',
     email: 'alfabeto@example.invalid',
-    password: 'Alfabeto local de prueba 123!',
+    password: 'Alfabeto-local-de-prueba-123!',
   });
   await environment.authService.logout(account.token);
   await environment.ready();
   console.log(`Revisión local del alfabeto: ${environment.origin}/student/modules`);
   console.log(
-    'USER de prueba: alfabeto@example.invalid; contraseña pública: Alfabeto local de prueba 123!',
+    'USER de prueba: alfabeto@example.invalid; contraseña pública: Alfabeto-local-de-prueba-123!',
   );
   console.log(
     '7 lecciones, 27 tarjetas y 34 preguntas en DRAFT. 27 preguntas visuales pendientes.',

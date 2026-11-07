@@ -25,7 +25,7 @@ try {
   const source = await readAlphabetSource();
   // Credenciales públicas solo en memoria, ajenas a cuentas reales.
   const email = 'alphabet-review@example.invalid';
-  const password = 'Alfabeto de prueba local 123!';
+  const password = 'Alfabeto-de-prueba-local-123!';
   await environment.authService.register({
     firstName: 'Revisión local',
     username: 'alphabet_review',

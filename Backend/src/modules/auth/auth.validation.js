@@ -7,9 +7,11 @@ const email = z
   .max(254)
   .email()
   .regex(/^[!-~]+$/);
+// Las contraseñas no admiten espacios en blanco (decisión del 7 de noviembre de 2026, también en login).
 const password = z
   .string()
-  .refine((value) => [...value].length <= 128 && Buffer.byteLength(value) <= 512);
+  .refine((value) => [...value].length <= 128 && Buffer.byteLength(value) <= 512)
+  .refine((value) => !/\s/u.test(value));
 export const registrationSchema = z.strictObject({
   firstName: z.string().trim().min(1).max(100),
   lastName: z.string().trim().min(1).max(100).optional(),

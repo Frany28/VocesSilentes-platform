@@ -28,6 +28,8 @@ export function PasswordInput({
       className={`vs-password-field ${className}`}
       id={inputId}
       disabled={disabled}
+      // Al mostrarla pasa a type="text": se mantiene el rechazo de espacios.
+      noWhitespace
       type={visible ? 'text' : 'password'}
       endControl={
         <button

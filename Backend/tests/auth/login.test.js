@@ -14,7 +14,7 @@ test('login: éxito, fallo genérico, token nuevo y reset de contador concurrent
       agent
         .post('/api/auth/login')
         .set('X-CSRF-Token', csrf)
-        .send({ email: input.email, password: 'incorrect password' })
+        .send({ email: input.email, password: 'incorrect-password' })
         .expect(401),
     ),
   );
@@ -25,7 +25,7 @@ test('login: éxito, fallo genérico, token nuevo y reset de contador concurrent
   const missing = await agent
     .post('/api/auth/login')
     .set('X-CSRF-Token', csrf)
-    .send({ email: registration().email, password: 'incorrect password' })
+    .send({ email: registration().email, password: 'incorrect-password' })
     .expect(401);
   assert.deepEqual(missing.body, responses[0].body);
   const success = await agent
@@ -77,4 +77,31 @@ test('login: bloqueo vencido permite entrar y se limpia sin alargar el bloqueo',
     (await fixture.database.user.findUnique({ where: { id: user.id } })).lockedUntil,
     null,
   );
+});
+
+test('contraseñas sin espacios: registro, login y cambio rechazan espacios sin intentar autenticar', async () => {
+  const agent = request.agent(fixture.app);
+  const csrf = await csrfToken(agent);
+  await agent
+    .post('/api/auth/register')
+    .set('X-CSRF-Token', csrf)
+    .send({ ...registration(), password: 'Una frase con espacios 2026!' })
+    .expect(400);
+  const { input, user } = await registered(fixture);
+  await agent
+    .post('/api/auth/login')
+    .set('X-CSRF-Token', csrf)
+    .send({ email: input.email, password: `${input.password} ` })
+    .expect(400);
+  // Un login rechazado por formato no cuenta como intento fallido de contraseña.
+  assert.equal(
+    (await fixture.database.user.findUnique({ where: { id: user.id } })).failedLoginAttempts,
+    0,
+  );
+  const owner = await registered(fixture);
+  await owner.agent
+    .put('/api/account/password')
+    .set('X-CSRF-Token', owner.csrf)
+    .send({ currentPassword: owner.input.password, newPassword: 'Nueva clave con espacios 2026!' })
+    .expect(400);
 });

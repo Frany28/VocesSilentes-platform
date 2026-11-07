@@ -1,5 +1,5 @@
 -- EXCLUSIVAMENTE PostgreSQL limpio y aislado; nunca Supabase compartido ni producción.
--- Contraseña pública del fixture: Solo practica local 2026! (Argon2id con sal independiente).
+-- Contraseña pública del fixture: Solo-practica-local-2026! (Argon2id con sal independiente).
 -- ExternalIdentity: identificadores SINTÉTICOS, no sujetos OAuth ni identidades verificadas.
 -- ReportEvidence: excepción = 0; no se inventan archivos S3 ni evidencias READY inexistentes.
 BEGIN;

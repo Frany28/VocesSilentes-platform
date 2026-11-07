@@ -48,7 +48,7 @@ let page;
 const results = { physicalCamera: false, independentEvaluation: false, accuracy: null };
 try {
   const email = 'demo-production@example.invalid';
-  const password = 'Production demo local 123!';
+  const password = 'Production-demo-local-123!';
   const account = await environment.authService.register({
     firstName: 'Prueba producción',
     username: 'demo_production',

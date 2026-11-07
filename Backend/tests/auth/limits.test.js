@@ -31,7 +31,7 @@ test('rate limiting por identificador normalizado y por IP, sin permitir spoof d
         .post('/api/auth/login')
         .set('X-CSRF-Token', csrf)
         .set('X-Forwarded-For', ip)
-        .send({ email, password: 'incorrect password' });
+        .send({ email, password: 'incorrect-password' });
     await postLogin('missing@example.invalid', '192.0.2.1').expect(401);
     await postLogin(' MISSING@EXAMPLE.INVALID ', '192.0.2.2').expect(401);
     const limited = await postLogin('missing@example.invalid', '192.0.2.3').expect(429);

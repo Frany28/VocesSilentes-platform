@@ -35,7 +35,7 @@ $packageStudent = [IO.File]::ReadAllText((Join-Path $packageDelivery 'DATOS-DEL-
 $packageCredentials = @{
     '(?m)^(Usuario de demostraci\u00f3n ADMIN[^:]*:)[^\r\n]*' = '${1} academic_1@example.invalid'
     '(?m)^(Usuario de demostraci\u00f3n Estudiante[^:]*:)[^\r\n]*' = '${1} academic_2@example.invalid'
-    '(?m)^(Contrase\u00f1a de demostraci\u00f3n:)[^\r\n]*' = '${1} Solo practica local 2026!'
+    '(?m)^(Contrase\u00f1a de demostraci\u00f3n:)[^\r\n]*' = '${1} Solo-practica-local-2026!'
 }
 foreach ($packagePattern in $packageCredentials.Keys) {
     if ([regex]::Matches($packageStudent, $packagePattern).Count -ne 1) { throw 'Formato de credenciales ambiguo en TXT' }

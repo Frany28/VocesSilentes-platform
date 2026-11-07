@@ -1,5 +1,5 @@
 -- EXCLUSIVAMENTE PostgreSQL limpio y aislado; nunca Supabase compartido ni producción.
--- Contraseña pública del fixture: Solo practica local 2026! (Argon2id con sal independiente).
+-- Contraseña pública del fixture: Solo-practica-local-2026! (Argon2id con sal independiente).
 -- ExternalIdentity: identificadores SINTÉTICOS, no sujetos OAuth ni identidades verificadas.
 -- ReportEvidence: excepción = 0; no se inventan archivos S3 ni evidencias READY inexistentes.
 BEGIN;
@@ -19,11 +19,11 @@ END $$;
 CREATE TEMP TABLE day_one_credentials (n integer, password_hash text, token_hash text) ON COMMIT DROP;
 -- BEGIN GENERATED CREDENTIALS
 INSERT INTO day_one_credentials VALUES
-(1, '$argon2id$v=19$m=19456,p=1,t=2$u8c4kLVM7jmQY+DqZ1yZgg$JyKLJS46H05vde47/pGCfo7/FeWtr4XFfiL1Dbcgk9k', '8f343c1098f99206530ed971eb965f7f81d54da58e7a17a75f8541a423be71f1'),
-(2, '$argon2id$v=19$m=19456,p=1,t=2$j5200+PXTfN2DzIvLi0Bsw$q8tbKRPi+/vENCMzm+oRQgcP4LoQqCzjk4y34jU0JVs', '4bcbf3e739701004f2def21bc12d215d4ce57b665292c5b8b7765cdbdf4f22d1'),
-(3, '$argon2id$v=19$m=19456,p=1,t=2$pXeLEk3fhP80FhRmcu+edQ$OwII1vxqR5rXwQ+fwGzrF5jmgmPW87RIQh1Qph2DBQs', '7ae182148c686dcbc33f5ad7ccd3acb6444e052622af2b3df82015e716caeb2d'),
-(4, '$argon2id$v=19$m=19456,p=1,t=2$4ku5PHEEIrIwYNrGyC3Vdg$8PLjPaT3U3JE15f6EpN1RPNFKc8ovXg1W9/PVhUB/DY', '9a2f0750b7cfc8aac6fd720826818fc94a51fd5fe37bd775976da9650e8b2b4f'),
-(5, '$argon2id$v=19$m=19456,p=1,t=2$UgqDVZCmn/ZANtSGr+YKZg$t2GSKveQjvB4OcUcpZ/PuYm7iR60UYpIX21OH8+T93g', '2d78320969b8bc295969edc949261e22f92f7a8978caf06e33253ceb54e77f90') ;
+(1, '$argon2id$v=19$m=19456,p=1,t=2$E9nM1yJXybROrcA9cpEf4w$kLPf6CDIexQMIbsfBV3ABf7TN/nJZqaLXk7fBWMe0LU', '024d8bdb19c54bc28dabfc0bd007aef182fe1d4a335402e8cded873fa435d7e2'),
+(2, '$argon2id$v=19$m=19456,p=1,t=2$Ag0v45/uLNR5aGzLPNH3AA$zTRdQeR2M1bs5/0OZzjOljHuzIsDUmNuZFx84SfNZG4', 'a2fa91c9507774000870744c1281a17172778a26661e5e6940559ecff5da23db'),
+(3, '$argon2id$v=19$m=19456,p=1,t=2$FBqfWmQeYdG0uRQwAthVqg$QV5mDYtAUEiGzGgr9YK2F7A5VTGEM2QNpKJIkq7wnCk', 'fa39824d4fd6be963ec49dc9b8e064d96b7af3082eadf92ae7d1dafa69ed70e5'),
+(4, '$argon2id$v=19$m=19456,p=1,t=2$xOp+9gpgCfBN1mBNDeUjJw$K7Z/5l103EJazDRe2qJguHZ6hpjXySKTaoGCVGNp13k', '68feb015474e0cb4c781bbcc39c6982c418ac320993e4379694e64718e7d1619'),
+(5, '$argon2id$v=19$m=19456,p=1,t=2$ZkcEtd9qyPRRqAJZ4+z6vA$iwMC14yQJTOC2oh9gNx8rOtUpWiS+Vw1+yQVCY8ulBo', '951f2ff759b2418b5fe4751ba8f9843f4f02f9aef8006987d3f7b339dabfb8e3') ;
 -- END GENERATED CREDENTIALS
 CREATE TEMP TABLE academic_fixture ON COMMIT DROP AS
 SELECT *,

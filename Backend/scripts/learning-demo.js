@@ -3,7 +3,7 @@ import { seedIntroduction } from './learning/seed-introduction.js';
 
 // Credenciales PÚBLICAS exclusivas de la base local efímera; no son secretos ni cuentas compartidas.
 const email = 'lectura@example.invalid';
-const password = 'Lectura local de prueba 123!';
+const password = 'Lectura-local-de-prueba-123!';
 const environment = await createAcademicEnvironment({ port: 5281 });
 try {
   await seedIntroduction(environment.database);

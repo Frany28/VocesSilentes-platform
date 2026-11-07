@@ -11,15 +11,15 @@ test('cambio de contraseña: el límite devuelve JSON coherente y no altera cred
       .put('/api/account/password')
       .set('X-CSRF-Token', user.csrf)
       .send({
-        currentPassword: 'Incorrecta de prueba',
-        newPassword: 'Nueva contraseña de prueba 2026!',
+        currentPassword: 'Incorrecta-de-prueba',
+        newPassword: 'Nueva-contraseña-de-prueba-2026!',
       })
       .expect(400);
   }
   const limited = await user.agent
     .put('/api/account/password')
     .set('X-CSRF-Token', user.csrf)
-    .send({ currentPassword: user.input.password, newPassword: 'Nueva contraseña de prueba 2026!' })
+    .send({ currentPassword: user.input.password, newPassword: 'Nueva-contraseña-de-prueba-2026!' })
     .expect(429);
   assert.equal(limited.body.error.code, 'ACCOUNT_RATE_LIMIT');
   assert.equal(
@@ -42,7 +42,7 @@ test('cambio de contraseña: fallo de bitácora revierte hash y revocación de o
       .set('X-CSRF-Token', user.csrf)
       .send({
         currentPassword: user.input.password,
-        newPassword: 'Nueva contraseña de prueba 2026!',
+        newPassword: 'Nueva-contraseña-de-prueba-2026!',
       })
       .expect(500);
     assert.equal(

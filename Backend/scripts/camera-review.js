@@ -32,7 +32,7 @@ const results = {
 try {
   await seedAlphabet(environment.database);
   const email = 'camera-review@example.invalid';
-  const password = 'Camara local de prueba 123!';
+  const password = 'Camara-local-de-prueba-123!';
   const account = await environment.authService.register({
     firstName: 'Cámara de prueba',
     username: 'camera_review',

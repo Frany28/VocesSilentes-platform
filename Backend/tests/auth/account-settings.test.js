@@ -57,13 +57,13 @@ test('contraseña: valida actual, revoca otras sesiones, conserva la actual y pe
     .set('X-CSRF-Token', anotherToken)
     .send({ email: user.input.email, password: user.input.password })
     .expect(200);
-  const next = 'Una credencial diferente privada 2026!';
+  const next = 'Una-credencial-diferente-privada-2026!';
   const update = (currentPassword, newPassword = next) =>
     user.agent
       .put('/api/account/password')
       .set('X-CSRF-Token', user.csrf)
       .send({ currentPassword, newPassword });
-  await update('Incorrecta de prueba 2026!').expect(400);
+  await update('Incorrecta-de-prueba-2026!').expect(400);
   await update(user.input.password, 'corta').expect(400);
   await update(user.input.password, user.input.password).expect(400);
   await update(user.input.password).expect(204);

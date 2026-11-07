@@ -58,7 +58,7 @@ const results = {
 };
 try {
   const email = 'experimental-review@example.invalid';
-  const password = 'Local experimental review 123!';
+  const password = 'Local-experimental-review-123!';
   const account = await environment.authService.register({
     firstName: 'Revisión local',
     username: 'experimental_review',

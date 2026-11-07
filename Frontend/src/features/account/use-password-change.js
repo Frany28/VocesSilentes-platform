@@ -25,12 +25,13 @@ export function usePasswordChange() {
         !values.currentPassword ||
         length < 15 ||
         length > 128 ||
+        /\s/u.test(values.newPassword) ||
         new TextEncoder().encode(values.newPassword).length > 512 ||
         values.newPassword !== values.confirmation ||
         values.newPassword === values.currentPassword
       ) {
         setValidation(
-          'Introduce tu contraseña actual y una nueva distinta de 15 a 128 caracteres. Ambas copias deben coincidir.',
+          'Introduce tu contraseña actual y una nueva distinta de 15 a 128 caracteres, sin espacios. Ambas copias deben coincidir.',
         );
         return;
       }

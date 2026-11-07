@@ -16,7 +16,7 @@ export function validateRegistration(input, passwordMinimum = 15) {
   if (!/^[a-z0-9_]{3,50}$/.test(input.username.trim().toLowerCase()))
     errors.username = 'Usa de 3 a 50 letras (a–z), números o guiones bajos.';
   Object.assign(errors, validateLogin(input));
-  if (input.password && [...input.password].length < passwordMinimum)
+  if (!errors.password && input.password && [...input.password].length < passwordMinimum)
     errors.password = `La contraseña debe tener al menos ${passwordMinimum} caracteres.`;
   return errors;
 }

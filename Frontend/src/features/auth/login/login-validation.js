@@ -19,6 +19,7 @@ export function validateLogin(input) {
   else if (!email.safeParse(input.email).success)
     errors.email = 'Escribe un correo válido, como nombre@correo.com.';
   if (!input.password) errors.password = 'Introduce tu contraseña.';
+  else if (/\s/u.test(input.password)) errors.password = 'La contraseña no puede contener espacios.';
   else if (
     [...input.password].length > 128 ||
     new TextEncoder().encode(input.password).length > 512

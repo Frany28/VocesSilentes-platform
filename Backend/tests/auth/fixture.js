@@ -82,7 +82,7 @@ export function registration() {
     firstName: 'Prueba',
     email: `${suffix}@example.invalid`,
     username: `test_${suffix}`,
-    password: 'Una frase de prueba 123! ',
+    password: 'Una-frase-de-prueba-123!',
   };
 }
 

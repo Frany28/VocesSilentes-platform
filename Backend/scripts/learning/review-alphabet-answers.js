@@ -30,7 +30,7 @@ export async function reviewAlphabetAnswers(context) {
       await page.click('Cerrar sesión');
       await page.wait('document.querySelector("#login-email")');
       const email = `journey-${combination}@example.invalid`;
-      const password = 'Recorrido local de prueba 123!';
+      const password = 'Recorrido-local-de-prueba-123!';
       const registration = await authService.register({
         firstName: 'Recorrido local',
         username: `journey_${combination}`,

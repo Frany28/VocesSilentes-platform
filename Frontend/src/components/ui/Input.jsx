@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { useNoWhitespace } from './use-no-whitespace.js';
 
 /**
  * Campo nativo con label, ayuda y error asociados; admite ref y atributos HTML del input.
@@ -13,6 +14,7 @@ import { useId } from 'react';
  * @param {'default'|'plain'} [props.appearance] Campo del UI Kit o campo sin superficie exterior de Auth.
  * @param {'compact'|'comfortable'} [props.density] Control de 44 px/Inter 14 o cómodo/Inter 16.
  * @param {string} [props.'aria-describedby'] Identificadores de descripciones externas.
+ * @param {boolean} [props.noWhitespace] Rechaza espacios; activo por defecto en type="password".
  * @returns {import('react').ReactElement} Campo adaptable con identificadores únicos.
  */
 export function Input({
@@ -26,11 +28,15 @@ export function Input({
   appearance = 'default',
   density = 'comfortable',
   'aria-describedby': describedBy,
+  noWhitespace,
   ...attributes
 }) {
   const generatedId = useId();
   const inputId = id || generatedId;
-  const message = error || help;
+  // Las contraseñas no admiten espacios (también lo valida el backend).
+  const guard = useNoWhitespace(noWhitespace ?? attributes.type === 'password', attributes);
+  const notice = guard.removed ? 'Las contraseñas no llevan espacios.' : undefined;
+  const message = error || notice || help;
   const messageId = message ? `${inputId}-message` : undefined;
   const description = [describedBy, messageId].filter(Boolean).join(' ') || undefined;
   return (
@@ -45,6 +51,8 @@ export function Input({
         {icon}
         <input
           {...attributes}
+          onChange={guard.onChange}
+          onKeyDown={guard.onKeyDown}
           id={inputId}
           className="vs-input"
           aria-invalid={error ? true : attributes['aria-invalid']}
