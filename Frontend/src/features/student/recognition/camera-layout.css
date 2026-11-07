@@ -17,6 +17,7 @@
     gap: 32px;
   }
   .camera-workspace .camera-viewport {
-    max-height: clamp(220px, calc(100svh - 540px), 480px);
+    /* Proporcional a la pantalla: la página se desplaza, ya no hay que restar cabecera y pie. */
+    max-height: clamp(260px, 55svh, 540px);
   }
 }
