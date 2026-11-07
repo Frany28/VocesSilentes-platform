@@ -1,8 +1,11 @@
 /* Reproductor: escenario 16:9 (3:4 en móvil), subtítulos en una franja propia que nunca cubre las manos. */
+/* width: 100% porque .education-card alinea sus hijos al inicio y no los estira; sin ancho, el
+   reproductor (que mide su contenedor) se quedaba con el tamaño mínimo. */
 .mc-root {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
   min-width: 0;
 }
 .mc-player {

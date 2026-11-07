@@ -32,6 +32,9 @@ export async function reviewAlphabetJourney({ page, source, moduleId, lesson, su
     assert.ok(state.letters.length <= 2);
     for (const letter of state.letters) letters.add(letter);
     if (state.kind === 'summary') break;
+    // La microclase se carga en diferido: capturarla ya montada, no su estado de carga.
+    if (state.kind === 'resources')
+      await page.wait('!document.body.textContent.includes("Cargando la microclase")');
     await capture(state.kind);
     if (state.kind === 'theory' && !reloaded) {
       await page.click('Volver');

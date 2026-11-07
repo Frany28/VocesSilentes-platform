@@ -68,3 +68,13 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
+.mc-audio {
+  margin: 4px 0 0;
+  padding-left: 10px;
+  border-left: 3px solid var(--status-success);
+  color: var(--text-secondary);
+  font: var(--type-secondary);
+}
+.mc-audio[data-state='off'] {
+  border-left-color: var(--status-warning);
+}

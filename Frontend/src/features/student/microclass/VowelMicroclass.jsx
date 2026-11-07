@@ -3,6 +3,7 @@ import { MicroclassStage } from './MicroclassStage.jsx';
 import { MicroclassControls } from './MicroclassControls.jsx';
 import { MicroclassGuide } from './MicroclassGuide.jsx';
 import { useMicroclassPlayer } from './use-microclass-player.js';
+import { useNarrationStatus } from './use-narration-status.js';
 import './microclass.css';
 import './microclass-guide.css';
 import './microclass-scenes.css';
@@ -20,6 +21,8 @@ export function VowelMicroclass() {
   const player = useMicroclassPlayer();
   const [bigCaptions, setBigCaptions] = useState(false);
   const { state, caption, actions, timeline, cue } = player;
+  const audio = useNarrationStatus();
+  const audible = audio === 'ready' || audio === 'loading';
   return (
     <section className="mc-root" aria-labelledby="mc-title">
       <div className="flex flex-col gap-1">
@@ -27,6 +30,13 @@ export function VowelMicroclass() {
         <h3 id="mc-title" className="[font:var(--type-h3)]">
           Las cinco vocales en LSV
         </h3>
+        <p className="mc-audio" data-state={audible ? 'on' : 'off'}>
+          {audible
+            ? 'Con audio: narración en español con la voz de tu navegador. Sube el volumen.'
+            : audio === 'none'
+              ? 'Tu navegador no tiene una voz en español instalada: la clase sigue con subtítulos. Prueba con Chrome o Edge.'
+              : 'Tu navegador no permite narración: la clase sigue con subtítulos.'}
+        </p>
       </div>
       <div className="mc-player">
         <MicroclassStage player={player} />

@@ -41,7 +41,10 @@
   padding: 16px 0;
   animation: journey-enter var(--motion-surface) var(--motion-ease);
 }
+/* Ancho completo hasta el máximo: sin esto, el contenido centrado con flex se encoge a su mínimo
+   (la microclase, que mide su contenedor, se veía en formato móvil en escritorio). */
 .journey-stage > * {
+  width: 100%;
   max-width: 760px;
 }
 @media (width >= 1200px) {
