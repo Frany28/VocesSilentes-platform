@@ -1,5 +1,7 @@
 @layer theme, base, components, utilities;
 
+@import './camera-layout.css' layer(components);
+
 @layer components {
   .camera-exercise h2 {
     font: var(--type-h3);

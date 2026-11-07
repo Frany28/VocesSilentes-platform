@@ -4,7 +4,7 @@
   overflow-wrap: anywhere;
 }
 .learning-shell .education-page:not(.learning-journey) {
-  max-width: 1040px;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 24px 32px;
 }
@@ -13,7 +13,7 @@
   grid-template-rows: auto minmax(0, 1fr) auto;
   gap: 24px;
   width: 100%;
-  max-width: 1040px;
+  max-width: 1440px;
   min-height: 100svh;
   height: 100svh;
   margin: 0 auto;
@@ -44,6 +44,17 @@
 }
 .journey-stage > * {
   max-width: 760px;
+}
+@media (width >= 1200px) {
+  .journey-stage > * {
+    max-width: 960px;
+  }
+  .journey-stage:has(.camera-exercise) > * {
+    max-width: none;
+  }
+  .journey-reading {
+    max-width: 68ch;
+  }
 }
 .journey-controls {
   display: flex;

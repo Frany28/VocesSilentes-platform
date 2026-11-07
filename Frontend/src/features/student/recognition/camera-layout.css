@@ -1,0 +1,22 @@
+.camera-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+  width: 100%;
+}
+.camera-model-panel > section {
+  min-width: 0;
+}
+.camera-model-panel .vs-button {
+  max-width: 100%;
+}
+@media (width >= 1200px) {
+  .camera-workspace {
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 1fr);
+    gap: 32px;
+  }
+  .camera-workspace .camera-viewport {
+    max-height: clamp(220px, calc(100svh - 540px), 480px);
+  }
+}
