@@ -57,11 +57,11 @@ test('las vocales se recorren en grupos pequeños y concluyen con cero aciertos 
   }));
   renderAuthApp(lessonPath);
   await reachReadingSummary();
-  expect(screen.getByText('Preguntas pendientes de material o revisión: 5.')).toBeVisible();
-  expect(screen.getByRole('progressbar', { name: 'Preguntas resueltas' })).toHaveAttribute(
-    'aria-valuenow',
-    '0',
-  );
+  // Sin preguntas disponibles no se muestra un «0 de 5» desalentador, sino el aviso de pendientes.
+  expect(screen.getByText(/Hay 5 ejercicios que se habilitarán/)).toBeVisible();
+  expect(screen.getByText(/No cuentan como fallos/)).toBeVisible();
+  expect(screen.queryByRole('progressbar', { name: 'Preguntas resueltas' })).toBeNull();
+  expect(screen.getByRole('heading', { name: '¡Muy bien, terminaste la lección!' })).toBeVisible();
   expect(screen.getByRole('progressbar', { name: 'Tu recorrido' })).toHaveAttribute(
     'aria-valuenow',
     '100',

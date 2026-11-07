@@ -1,5 +1,4 @@
 import { lazy, Suspense } from 'react';
-import { DataFeedback } from '../components/DataFeedback.jsx';
 
 const VowelMicroclass = lazy(() =>
   import('./VowelMicroclass.jsx').then((module) => ({ default: module.VowelMicroclass })),
@@ -11,7 +10,13 @@ const VowelMicroclass = lazy(() =>
  */
 export function LazyVowelMicroclass() {
   return (
-    <Suspense fallback={<DataFeedback kind="loading" />}>
+    <Suspense
+      fallback={
+        <p className="text-muted" role="status">
+          Cargando la microclase…
+        </p>
+      }
+    >
       <VowelMicroclass />
     </Suspense>
   );

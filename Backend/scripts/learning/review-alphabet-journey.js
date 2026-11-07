@@ -76,13 +76,16 @@ export async function reviewAlphabetJourney({ page, source, moduleId, lesson, su
   ).length;
   assert.equal(questions, expected);
   await capture('summary');
-  await page.click('Registrar lectura completada');
-  await page.wait('document.body.textContent.includes("Lectura registrada")');
+  assert.ok(await page.evaluate('document.body.textContent.includes("terminaste la lección")'));
+  const next = source.lessons[source.lessons.indexOf(lesson) + 1];
+  const nextPath = `location.pathname.endsWith(${JSON.stringify(alphabetId(next.id))})`;
+  // Una sola acción explícita guarda la lectura y abre la siguiente lección.
+  await page.click('Guardar y continuar');
+  await page.wait(nextPath);
   await page.navigate(path);
   await page.wait('document.body.textContent.includes("Lectura registrada")');
   await page.click('Siguiente lección');
-  const next = source.lessons[source.lessons.indexOf(lesson) + 1];
-  await page.wait(`location.pathname.endsWith(${JSON.stringify(alphabetId(next.id))})`);
+  await page.wait(nextPath);
   results.journeys.push({
     lesson: lesson.id,
     suffix,

@@ -6,10 +6,10 @@ import { videosForLesson } from '../resources/lesson-videos.js';
 /**
  * Etapa de demostración: microclase (vocales), videos autorizados de la lección o, si no hay
  * ninguno, el marcador explícito de material pendiente. Nunca rellena con recursos no aprobados.
- * @param {{step: object, pending: number}} props Paso de recursos y preguntas no disponibles.
+ * @param {{step: object}} props Paso de recursos.
  * @returns {import('react').ReactElement} Recursos de la lección con su estado editorial.
  */
-export function LessonResources({ step, pending }) {
+export function LessonResources({ step }) {
   const videos = videosForLesson(step.lessonId);
   const empty = !step.microclass && videos.length === 0;
   return (
@@ -34,10 +34,7 @@ export function LessonResources({ step, pending }) {
       ) : (
         <p className="text-muted">Puedes volver a verlo las veces que quieras.</p>
       )}
-      <p className="text-muted">
-        Pulsa Continuar para comparar las letras de la lección.
-        {pending > 0 && ` Hay ${pending} ejercicios pendientes; no cuentan como aciertos.`}
-      </p>
+      <p className="text-muted">Pulsa Continuar para seguir con la lección.</p>
     </article>
   );
 }

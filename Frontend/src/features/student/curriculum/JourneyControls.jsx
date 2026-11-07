@@ -3,7 +3,7 @@ import { Button } from '../../../components/ui/Button.jsx';
 /**
  * Fija acciones de regreso y avance; también envía un formulario nativo desde el pie.
  * @param {{onBack?: Function, onContinue?: Function, label?: string, disabled?: boolean,
- * pending?: boolean, form?: string}} props Acciones del paso actual.
+ * pending?: boolean, form?: string, loadingLabel?: string}} props Acciones del paso actual.
  * @returns {import('react').ReactElement} Controles accesibles, sin navegación durante una comprobación.
  */
 export function JourneyControls({
@@ -13,6 +13,7 @@ export function JourneyControls({
   disabled,
   pending,
   form,
+  loadingLabel = 'Comprobando…',
 }) {
   return (
     <footer className="journey-controls">
@@ -25,7 +26,7 @@ export function JourneyControls({
         onClick={onContinue}
         disabled={disabled}
         loading={pending}
-        loadingLabel="Comprobando…"
+        loadingLabel={loadingLabel}
       >
         {label}
       </Button>

@@ -5,6 +5,7 @@ import { useStudent } from './use-student.js';
 /**
  * Guarda progreso con exclusión de doble envío y refresca el catálogo tras confirmación del servidor.
  * @returns {object} pending/error/saved/submit; cancela al desmontar, sin éxito anticipado.
+ * submit resuelve true solo cuando el servidor confirma el guardado.
  */
 export function useLearningProgress() {
   const { refresh } = useStudent();
@@ -14,7 +15,7 @@ export function useLearningProgress() {
   const [saved, setSaved] = useState(false);
   useEffect(() => () => request.current?.abort(), []);
   const submit = async (kind, id, status) => {
-    if (request.current) return;
+    if (request.current) return false;
     const controller = new AbortController();
     request.current = controller;
     setPending(true);
@@ -25,6 +26,7 @@ export function useLearningProgress() {
       if (!controller.signal.aborted) {
         setSaved(true);
         refresh();
+        return true;
       }
     } catch (reason) {
       if (!controller.signal.aborted) setError(reason.message);
@@ -34,6 +36,7 @@ export function useLearningProgress() {
         setPending(false);
       }
     }
+    return false;
   };
   return { pending, error, saved, submit };
 }

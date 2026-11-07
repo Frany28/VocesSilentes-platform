@@ -1,0 +1,18 @@
+/* Cierre de lección: confirmación de guardado y siguiente lección destacadas. */
+.summary-saved {
+  align-self: flex-start;
+  margin: 0;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  background: var(--status-success-bg);
+  color: var(--status-success);
+  font: var(--type-button);
+}
+.summary-next {
+  margin: 0;
+  padding: 12px 16px;
+  border-left: 4px solid var(--action-primary);
+  border-radius: var(--radius-md);
+  background: var(--surface-accent);
+  font: var(--type-button);
+}

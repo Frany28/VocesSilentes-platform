@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, test, vi } from 'vitest';
 import { renderAuthApp, jsonResponse, user } from './auth-fixture.jsx';
@@ -41,8 +41,12 @@ test('lectura publicada permite terminar y guardar sin habilitar preguntas o afi
   expect(screen.getByText(/Las imágenes y los vídeos siguen pendientes/)).toBeVisible();
   await reachReadingSummary();
   expect(screen.queryByRole('button', { name: 'Comprobar respuesta' })).toBeNull();
-  await userEvent.click(screen.getByRole('button', { name: 'Registrar lectura completada' }));
-  expect(await screen.findByRole('button', { name: 'Lectura registrada' })).toBeDisabled();
+  expect(screen.getByRole('heading', { name: '¡Muy bien, terminaste la lección!' })).toBeVisible();
+  // Una sola acción explícita guarda la lectura y abre la siguiente lección.
+  await userEvent.click(screen.getByRole('button', { name: 'Guardar y continuar' }));
+  await waitFor(() =>
+    expect(screen.queryByRole('region', { name: 'Resumen de la lección' })).toBeNull(),
+  );
   expect(transport.mock.calls.filter(([, options]) => options?.method === 'PUT')).toHaveLength(1);
   expect(transport.mock.calls.some(([url]) => url.endsWith('/answer'))).toBe(false);
 });

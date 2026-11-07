@@ -71,16 +71,18 @@ test('el teclado selecciona opciones opacas; el feedback backend precede al avan
   expect(submission[1].headers.get('X-CSRF-Token')).toBe('test-csrf');
   // La evaluación es la última etapa: tras responder se llega al repaso (resumen).
   await userEvent.click(screen.getByRole('button', { name: 'Continuar' }));
+  // El porcentaje se calcula sobre las preguntas disponibles; las pendientes se informan aparte.
   expect(screen.getByRole('progressbar', { name: 'Preguntas resueltas' })).toHaveAttribute(
     'aria-valuenow',
-    '50',
+    '100',
   );
-  expect(screen.getByText('50% · 1 de 2 preguntas resueltas')).toBeVisible();
-  expect(screen.getByText('Preguntas pendientes de material o revisión: 1.')).toBeVisible();
+  expect(screen.getByText('100% · 1 de 1 preguntas resueltas')).toBeVisible();
+  expect(screen.getByText(/Hay 1 ejercicio que se habilitará/)).toBeVisible();
   expect(screen.getByRole('progressbar', { name: 'Tu recorrido' })).toHaveAttribute(
     'aria-valuenow',
     '100',
   );
   expect(answer).toHaveBeenCalledTimes(1);
-  expect(screen.getByRole('button', { name: 'Registrar lectura completada' })).toBeEnabled();
+  expect(screen.getByText(/^Siguiente: Lección 2 · /)).toBeVisible();
+  expect(screen.getByRole('button', { name: 'Guardar y continuar' })).toBeEnabled();
 });

@@ -22,7 +22,7 @@ export function VowelLearningStep({ step }) {
   if (step.type === 'intro')
     return (
       <div className="flex min-w-0 flex-col gap-4">
-        <CurriculumTheory step={step} pending={0} />
+        <CurriculumTheory step={step} />
         <p className="text-muted">
           Primero leerás una explicación y observarás la ilustración de cada vocal. Después podrás
           practicarla. Las referencias y el modelo siguen pendientes de revisión experta LSV.

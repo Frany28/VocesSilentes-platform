@@ -14,7 +14,6 @@ import './curriculum.css';
 export function CurriculumLesson({ lesson, module, onContinue, nextTitle }) {
   const journey = useLessonJourney(lesson, module.id);
   const { step } = journey;
-  const pending = journey.questions.filter((question) => question.availability !== 'READY').length;
   return (
     <div className="learning-journey education-page" data-position={step?.id ?? 'summary'}>
       <JourneyHeader lesson={lesson} module={module} journey={journey} />
@@ -39,7 +38,7 @@ export function CurriculumLesson({ lesson, module, onContinue, nextTitle }) {
       ) : (
         <>
           <div className="journey-stage" data-step={step.type} key={step.id}>
-            <CurriculumTheory step={step} pending={pending} />
+            <CurriculumTheory step={step} />
           </div>
           <JourneyControls
             onBack={journey.back}
