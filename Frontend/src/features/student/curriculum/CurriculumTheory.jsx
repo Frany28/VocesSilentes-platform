@@ -1,6 +1,7 @@
 import { LessonMedia } from '../lesson/LessonMedia.jsx';
 import { LetterPractice } from './LetterPractice.jsx';
 import { PersonalPractice } from './PersonalPractice.jsx';
+import { LazyVowelMicroclass } from '../microclass/LazyVowelMicroclass.jsx';
 
 /**
  * Presenta una sola unidad educativa, conservando su texto original y los recursos pendientes agrupados.
@@ -10,6 +11,20 @@ import { PersonalPractice } from './PersonalPractice.jsx';
 export function CurriculumTheory({ step, pending }) {
   if (step.type === 'letters') return <LetterPractice cards={step.cards} />;
   if (step.type === 'practice') return <PersonalPractice step={step} />;
+  if (step.microclass)
+    return (
+      <article
+        className="journey-copy education-card flex min-w-0 flex-col gap-4"
+        aria-labelledby="journey-title"
+      >
+        <p className="journey-eyebrow text-muted">Material de referencia</p>
+        <h2 id="journey-title">{step.title}</h2>
+        <LazyVowelMicroclass />
+        <p className="text-muted">
+          Puedes verla las veces que quieras. Pulsa Continuar para seguir con la lectura.
+        </p>
+      </article>
+    );
   return (
     <article className="journey-copy education-card" aria-labelledby="journey-title">
       <p className="journey-eyebrow text-muted">

@@ -1,6 +1,7 @@
 import { ManualReference } from '../recognition/ManualReference.jsx';
 import { CameraPracticeLoader } from '../recognition/CameraPracticeLoader.jsx';
 import { CurriculumTheory } from './CurriculumTheory.jsx';
+import { LazyVowelMicroclass } from '../microclass/LazyVowelMicroclass.jsx';
 
 /**
  * Explica la ilustración de cada vocal antes de abrir su práctica real por acción del alumno.
@@ -26,6 +27,9 @@ export function VowelLearningStep({ step }) {
           Primero leerás una explicación y observarás la ilustración de cada vocal. Después podrás
           practicarla. Las referencias y el modelo siguen pendientes de revisión experta LSV.
         </p>
+        <div className="education-card">
+          <LazyVowelMicroclass />
+        </div>
       </div>
     );
   return (

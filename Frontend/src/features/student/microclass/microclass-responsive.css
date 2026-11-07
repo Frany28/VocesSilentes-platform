@@ -1,0 +1,99 @@
+/* Pasos del método, pie de la pregunta, versión móvil apilada y movimiento reducido. */
+.mc-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.6cqw;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mc-steps li {
+  display: grid;
+  gap: 0.6cqw;
+  padding: 2cqw 1.6cqw;
+  border: 1px solid var(--border-subtle);
+  border-radius: 2cqw;
+  background: var(--surface);
+}
+.mc-steps b {
+  color: var(--action-primary);
+  font: 800 max(20px, 3.2cqw) / 1 var(--font-brand);
+}
+.mc-steps span {
+  font: 700 max(14px, 1.9cqw) / 1.2 var(--font-brand);
+}
+.mc-steps small {
+  color: var(--text-secondary);
+  font-size: max(11px, 1.3cqw);
+  line-height: 1.35;
+}
+.mc-quiz-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1cqw 2cqw;
+}
+@container mc-player (width < 640px) {
+  .mc-scene {
+    gap: 4cqw;
+    padding: 5cqw;
+  }
+  .mc-split {
+    grid-template-columns: 1fr;
+    align-content: center;
+  }
+  .mc-card {
+    width: 50cqw;
+    border-radius: 4cqw;
+  }
+  .mc-ghost {
+    font-size: 70cqw;
+  }
+  .mc-orbit img {
+    width: 15cqw;
+  }
+  .mc-display {
+    font-size: 6.6cqw;
+  }
+  .mc-vtitle b {
+    font-size: 12cqw;
+  }
+  .mc-track li {
+    width: 7cqw;
+    font-size: 3cqw;
+  }
+  .mc-chip {
+    padding: 1.6cqw 2.8cqw;
+    font-size: 3.4cqw;
+  }
+  .mc-slot {
+    min-height: 24cqw;
+  }
+  .mc-mini {
+    grid-template-columns: 11cqw 1fr;
+  }
+  .mc-count {
+    width: 16cqw;
+  }
+  .mc-steps {
+    grid-template-columns: 1fr;
+  }
+  .mc-review-card .mc-card {
+    width: 24cqw;
+  }
+  .mc-option {
+    min-height: 13cqw;
+    font-size: 6cqw;
+  }
+  .mc-mask {
+    font-size: 12cqw;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mc-root *,
+  .mc-root *::before,
+  .mc-root *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -12,8 +12,13 @@ export function readingChunks(text) {
   }, []);
 }
 
+// La lección de vocales se reconoce por sus tarjetas (A, E, I, O, U), no por IDs de base de datos.
+const teachesVowels = (content) =>
+  content.letterCards.map((card) => card.letter).join('') === 'AEIOU';
+
 /**
  * Intercala explicaciones, pequeños grupos de letras y preguntas disponibles; reúne pendientes una sola vez.
+ * En la lección de vocales, el paso de recursos abre la microclase en lugar del marcador pendiente.
  * @param {object} lesson Contenido público de la lección, sin claves privadas de evaluación.
  * @returns {object[]} Pasos estables; un recurso pendiente nunca es una pregunta respondible.
  */
@@ -33,7 +38,11 @@ export function lessonSteps(lesson) {
       steps.push({ id: `theory-${index}-${part}`, type: 'theory', title: section.heading, body });
     });
     if (index === 0)
-      steps.push({ id: 'resources', type: 'resources', title: 'Observa a tu ritmo' });
+      steps.push(
+        teachesVowels(content)
+          ? { id: 'resources', type: 'resources', title: 'Mira la microclase', microclass: true }
+          : { id: 'resources', type: 'resources', title: 'Observa a tu ritmo' },
+      );
     groups.forEach((cards, group) => {
       if (boundary(group, groups.length) === index)
         steps.push({
