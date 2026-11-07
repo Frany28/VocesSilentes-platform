@@ -49,3 +49,33 @@
   content: counter(camera-step);
   font-weight: 800;
 }
+.auto-capture {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+}
+.auto-capture input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  accent-color: var(--action-primary);
+}
+.auto-capture span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font: var(--type-secondary);
+}
+.auto-capture small {
+  color: var(--text-secondary);
+}
+.attempt-status[data-phase='holding'] {
+  border-left-color: var(--status-success);
+  background: var(--status-success-bg);
+}

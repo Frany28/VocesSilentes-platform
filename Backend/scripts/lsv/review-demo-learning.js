@@ -38,10 +38,17 @@ export async function reviewDemoLearning({ page, browser }) {
   await page.click('Activar cámara');
   await page.wait('document.body.textContent.includes("Detener cámara")');
   await page.wait('document.body.textContent.includes("1 mano(s) detectada(s).")');
-  await page.click('Capturar intento');
-  await page.wait(
-    'document.body.textContent.includes("Intento capturado:") || document.querySelector("[role=alert]")',
-  );
+  // Captura automática: con la mano quieta en el recuadro el intento empieza sin pulsar nada.
+  const attempted =
+    'document.body.textContent.includes("Intento capturado:") || document.querySelector("[role=alert]")';
+  let automaticCapture = true;
+  try {
+    await page.wait(attempted);
+  } catch {
+    automaticCapture = false;
+    await page.click('Capturar intento');
+    await page.wait(attempted);
+  }
   assert.ok(
     await page.evaluate('document.body.textContent.includes("Intento capturado:")'),
     await page.evaluate('document.querySelector("[role=alert]")?.textContent'),
@@ -81,6 +88,7 @@ export async function reviewDemoLearning({ page, browser }) {
     pendingPublication: true,
     unauthorizedImagesServed: 0,
     authorizedReferenceShown: 'E',
+    automaticCapture,
     productionBundle: true,
     reference: 'E',
     replayedTrainingLabel: 'A',

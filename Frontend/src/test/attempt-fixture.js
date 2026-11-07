@@ -40,12 +40,15 @@ export function serveRelease() {
  * @returns {object} Estado live y suscripción.
  */
 export function fakeCamera() {
-  const camera = { state: 'live', sessionId: 'test', receive: null };
-  camera.subscribe = (listener) => {
-    camera.receive = listener;
-    return () => {};
+  // Varios suscriptores a la vez, como useHandCamera: captura, captura automática e indicaciones.
+  const listeners = new Set();
+  const subscribe = (listener) => {
+    listeners.add(listener);
+    return () => listeners.delete(listener);
   };
-  return camera;
+  // Igual que useHandCamera: Set.forEach también entrega el frame a quien se suscribe durante el reparto.
+  const receive = (result, timing) => listeners.forEach((listener) => listener(result, timing));
+  return { state: 'live', sessionId: 'test', subscribe, receive };
 }
 
 /**

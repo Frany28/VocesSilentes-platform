@@ -14,7 +14,8 @@ export function useSequenceCapture(camera) {
   const [error, setError] = useState('');
   useEffect(() => () => active.current?.cancel(), []);
   // onFrames recibe el intento válido al terminar (p. ej. para analizarlo sin otro clic).
-  const capture = (onFrames) => {
+  // after: marca del frame que disparó una captura automática; ese frame y los anteriores no cuentan.
+  const capture = (onFrames, after = -Infinity) => {
     if (active.current || camera.state !== 'live') return;
     setFrames(null);
     setSessionId(camera.sessionId);
@@ -32,6 +33,9 @@ export function useSequenceCapture(camera) {
         setError('La captura se canceló al detener la cámara.');
         return;
       }
+      // useHandCamera reparte con Set.forEach, que también entrega el frame en curso a quien se
+      // suscribe durante el reparto: el frame que disparó la captura automática no es del intento.
+      if (timing.time <= after) return;
       const hand = result.handedness?.[0]?.[0]?.categoryName;
       if (result.landmarks.length !== 1 || !['Left', 'Right'].includes(hand)) interrupted = true;
       if (result.landmarks.length === 1 && ['Left', 'Right'].includes(hand))
