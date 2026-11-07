@@ -1,0 +1,19 @@
+/* Video de lección: ancho completo, proporción estable y subtítulos legibles. */
+.lesson-video {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  min-width: 0;
+}
+.lesson-video video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-xl);
+  background: var(--content);
+}
+.lesson-video video::cue {
+  font-size: 1.15em;
+  line-height: 1.4;
+}

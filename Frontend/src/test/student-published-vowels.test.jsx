@@ -61,10 +61,17 @@ test('vocales no publicadas muestran estado editorial sin curso alternativo inve
   expect(screen.queryByText('Aprende las vocales, una por una')).toBeNull();
 });
 
-test('runtime normal no sirve la ilustración del manual sin permisos y revisión', () => {
-  render(<ManualReference letter="A" />);
+test('runtime normal no sirve la ilustración de una letra sin autorización registrada', () => {
+  render(<ManualReference letter="B" />);
   expect(screen.queryByRole('img')).toBeNull();
   expect(
     screen.getByText('Referencia visual pendiente de autorización y revisión LSV.'),
   ).toBeVisible();
+});
+
+test('runtime normal muestra las vocales autorizadas sin ocultar la revisión LSV pendiente', () => {
+  render(<ManualReference letter="A" />);
+  expect(screen.getByRole('img', { name: /referencia de la letra A/ })).toBeVisible();
+  expect(screen.getByText(/Revisión lingüística pendiente\./)).toBeVisible();
+  expect(screen.queryByText(/Vista previa de desarrollo/)).toBeNull();
 });

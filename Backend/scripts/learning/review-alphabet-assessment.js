@@ -15,7 +15,7 @@ export async function reviewAlphabetAssessment({ page, question, retry, capture 
     true,
   );
   assert.equal(
-    await page.evaluate('document.querySelectorAll(".journey-letters,select").length'),
+    await page.evaluate('document.querySelectorAll(".letter-compare,select").length'),
     0,
   );
   await capture('question');

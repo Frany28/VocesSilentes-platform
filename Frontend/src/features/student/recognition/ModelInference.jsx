@@ -1,84 +1,82 @@
 import { Button } from '../../../components/ui/Button.jsx';
 import { Alert } from '../../../components/ui/Alert.jsx';
-
-const reasons = {
-  UNSUPPORTED_HAND: 'No hay ejemplos de esta lateralidad.',
-  OUT_OF_DISTRIBUTION: 'El intento está demasiado lejos de los ejemplos.',
-  BACKGROUND: 'Se parece a NONE, fuera de las vocales objetivo.',
-  AMBIGUOUS: 'Las clases competidoras son demasiado parecidas.',
-};
+import { ModelStatus } from './ModelStatus.jsx';
+import { AttemptResult } from './AttemptResult.jsx';
+import { useCaptureCountdown } from './use-capture-countdown.js';
+import { recognitionSupports } from './recognition-support.js';
+import './attempt.css';
 
 /**
- * Presenta un modelo importado y sus hipótesis como experimentales, sin prometer precisión ni completar ejercicios.
- * @param {{operation: object, capture: object, camera: object}} props Modelo, intento y detector.
- * @returns {import('react').ReactElement} Importación y análisis explícito del intento capturado.
+ * Flujo del intento: estado del modelo, cuenta atrás, captura de 3 s, análisis automático y resultado.
+ * Mantiene separadas la detección de manos (cámara), la clasificación experimental y la evaluación
+ * académica (inexistente aquí). Sin clasificación para la letra objetivo, no ofrece análisis.
+ * @param {{operation: object, capture: object, camera: object, target?: string}} props Modelo, intento, detector y letra.
+ * @returns {import('react').ReactElement} Controles y resultados accesibles.
  */
-export function ModelInference({ operation, capture, camera }) {
+export function ModelInference({ operation, capture, camera, target }) {
+  const countdown = useCaptureCountdown();
+  const supported = recognitionSupports(target, operation.model);
+  const busy = capture.pending || countdown.count !== null;
+  if (!supported)
+    return (
+      <Alert tone="info" title="Sin reconocimiento para esta letra">
+        La {target} todavía no tiene reconocimiento experimental: el modelo solo conoce A, E, I, O y
+        U. Practica frente a la cámara comparando tu mano con la referencia. No se analizará el
+        intento.
+      </Alert>
+    );
+  const attempt = () => {
+    operation.clear();
+    capture.clear();
+    // Solo se analiza en automático si el modelo ya estaba listo al empezar el intento.
+    const analyze = operation.model ? operation.predict : undefined;
+    countdown.start(() => capture.capture(analyze));
+  };
+  const status =
+    countdown.count !== null
+      ? `Prepárate: la captura empieza en ${countdown.count}…`
+      : capture.pending
+        ? 'Capturando… mantén la seña quieta.'
+        : capture.frames
+          ? `Intento capturado: ${capture.frames.length} frames reales.`
+          : camera.state === 'live'
+            ? 'Forma la seña y pulsa Capturar intento.'
+            : 'Activa la cámara para hacer un intento.';
+  const shown = operation.result && operation.result.frames === capture.frames;
   return (
     <section className="flex flex-col gap-4" aria-label="Modelo propio de LSV">
-      <Button
-        loading={operation.loading}
-        loadingLabel="Cargando vocales…"
-        disabled={capture.pending}
-        onClick={operation.loadDemo}
-      >
-        Cargar modelo de vocales
-      </Button>
-      <p className="text-muted">
-        Práctica educativa con nueve ejecuciones reales de A, E, I, O y U. Modelo experimental sin
-        revisión experta ni precisión validada. No califica estudiantes.
+      <ModelStatus operation={operation} />
+      <p className="attempt-status" role="status" aria-live="polite">
+        {status}
       </p>
-      <details className="model-settings">
-        <summary>Cargar un modelo entrenado</summary>
-        <label className="model-file-label">
-          Importar modelo LSV entrenado (.json)
-          <input type="file" accept=".json,application/json" onChange={operation.load} />
-        </label>
-      </details>
-      {operation.model ? (
-        <p className="text-muted">
-          Modelo experimental cargado:{' '}
-          {operation.model.labels.filter((label) => label !== 'NONE').join(', ')}.
-        </p>
-      ) : (
-        <p className="text-muted">
-          Carga el modelo de vocales para analizar tus intentos. Hasta cargarlo, la cámara solo
-          detecta puntos de manos.
-        </p>
-      )}
       <div className="camera-actions">
         <Button
-          disabled={camera.state !== 'live'}
-          loading={capture.pending}
-          loadingLabel="Capturando 3 segundos…"
-          onClick={() => {
-            operation.clear();
-            capture.capture();
-          }}
+          disabled={camera.state !== 'live' || busy}
+          loading={busy}
+          loadingLabel={
+            countdown.count !== null ? `Empieza en ${countdown.count}…` : 'Capturando 3 segundos…'
+          }
+          onClick={attempt}
         >
           Capturar intento
         </Button>
         <Button
           variant="secondary"
           icon={null}
-          disabled={!operation.model || !capture.frames || capture.pending}
+          disabled={!operation.model || !capture.frames || busy}
           onClick={() => operation.predict(capture.frames)}
         >
           Analizar intento
         </Button>
       </div>
-      {capture.frames && (
-        <p role="status">Intento capturado: {capture.frames.length} frames reales.</p>
-      )}
-      {operation.result && operation.result.frames === capture.frames && (
-        <Alert tone="info" title="Hipótesis experimental">
-          {operation.result.label
-            ? `El modelo propone: ${operation.result.label}.`
-            : 'El modelo no tiene una hipótesis fiable para este intento.'}{' '}
-          Este resultado no califica ni completa el ejercicio. {reasons[operation.result.reason]}
-          {operation.model.trainingMode &&
-            ' Umbrales sin calibrar; puede abstenerse o confundir letras.'}
-        </Alert>
+      {shown && (
+        <AttemptResult
+          result={operation.result}
+          model={operation.model}
+          target={target}
+          disabled={camera.state !== 'live' || busy}
+          onRetry={attempt}
+        />
       )}
       {(capture.error || operation.error) && (
         <Alert tone="error" title="Intento no disponible">

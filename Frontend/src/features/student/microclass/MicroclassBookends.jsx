@@ -1,6 +1,6 @@
 import { MicroclassOrbit } from './MicroclassIntroScenes.jsx';
 import { formatTime } from './microclass-timeline.js';
-import { illustrationCredit } from './vowel-illustrations.js';
+import { illustrationCredit } from '../resources/letter-resources.js';
 
 const PlayIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">

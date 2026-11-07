@@ -1,0 +1,93 @@
+/* Tarjetas de letras para comparar de dos en dos. No dependen de recognition.css, que solo carga con la cámara. */
+.letter-compare {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 16px;
+  width: 100%;
+}
+.letter-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-2xl);
+  background: var(--surface);
+  animation: letter-card-in var(--motion-surface) var(--motion-ease) both;
+}
+.letter-card:nth-child(2) {
+  animation-delay: 80ms;
+}
+.letter-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.letter-glyph {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-xl);
+  background: var(--surface-accent);
+  color: var(--action-primary);
+  font: 800 40px / 1 var(--font-brand);
+}
+.letter-badge {
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  background: var(--surface-neutral);
+  color: var(--text-secondary);
+  font: var(--type-label);
+  font-weight: 600;
+}
+.letter-badge[data-tone='ready'] {
+  background: var(--status-success-bg);
+  color: var(--status-success);
+}
+.letter-card .manual-reference {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+}
+.letter-card .manual-reference img {
+  display: block;
+  width: 100%;
+  max-height: 240px;
+  object-fit: contain;
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+}
+.manual-pending {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  min-height: 180px;
+  padding: 16px;
+  border: 1px dashed var(--border-subtle);
+  border-radius: var(--radius-xl);
+  background: var(--surface-neutral);
+  text-align: center;
+}
+.manual-pending span {
+  color: var(--action-primary);
+  font: 800 72px / 1 var(--font-brand);
+}
+.letter-card .vs-button {
+  width: 100%;
+  margin-top: auto;
+}
+@keyframes letter-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .letter-card {
+    animation: none;
+  }
+}

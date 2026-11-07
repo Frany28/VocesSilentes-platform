@@ -8,6 +8,7 @@ import { ModelInference } from './ModelInference.jsx';
 import { ManualReference } from './ManualReference.jsx';
 import './recognition.css';
 import { isLocalExperiment } from './local-experiment.js';
+import { recognitionSupports } from './recognition-support.js';
 
 /**
  * Integra cámara, referencia y clasificador entrenable en la práctica sin simular una corrección de LSV.
@@ -17,7 +18,8 @@ import { isLocalExperiment } from './local-experiment.js';
 export function CameraExercise({ letter }) {
   const camera = useHandCamera();
   const capture = useSequenceCapture(camera);
-  const operation = useLocalModel();
+  // El modelo de demostración se descarga solo si puede clasificar la letra que se practica.
+  const operation = useLocalModel({ autoLoad: recognitionSupports(letter) });
   return (
     <section
       className="camera-exercise flex w-full flex-col gap-4"
@@ -31,7 +33,7 @@ export function CameraExercise({ letter }) {
         <div className="camera-model-panel flex min-w-0 flex-col gap-4">
           <CameraControls camera={camera} />
           {letter && <ManualReference letter={letter} compact />}
-          <ModelInference operation={operation} capture={capture} camera={camera} />
+          <ModelInference operation={operation} capture={capture} camera={camera} target={letter} />
         </div>
       </div>
       {isLocalExperiment() && (

@@ -1,7 +1,6 @@
-import { LessonMedia } from '../lesson/LessonMedia.jsx';
 import { LetterPractice } from './LetterPractice.jsx';
 import { PersonalPractice } from './PersonalPractice.jsx';
-import { LazyVowelMicroclass } from '../microclass/LazyVowelMicroclass.jsx';
+import { LessonResources } from './LessonResources.jsx';
 
 /**
  * Presenta una sola unidad educativa, conservando su texto original y los recursos pendientes agrupados.
@@ -11,20 +10,7 @@ import { LazyVowelMicroclass } from '../microclass/LazyVowelMicroclass.jsx';
 export function CurriculumTheory({ step, pending }) {
   if (step.type === 'letters') return <LetterPractice cards={step.cards} />;
   if (step.type === 'practice') return <PersonalPractice step={step} />;
-  if (step.microclass)
-    return (
-      <article
-        className="journey-copy education-card flex min-w-0 flex-col gap-4"
-        aria-labelledby="journey-title"
-      >
-        <p className="journey-eyebrow text-muted">Material de referencia</p>
-        <h2 id="journey-title">{step.title}</h2>
-        <LazyVowelMicroclass />
-        <p className="text-muted">
-          Puedes verla las veces que quieras. Pulsa Continuar para seguir con la lectura.
-        </p>
-      </article>
-    );
+  if (step.type === 'resources') return <LessonResources step={step} pending={pending} />;
   return (
     <article className="journey-copy education-card" aria-labelledby="journey-title">
       <p className="journey-eyebrow text-muted">
@@ -57,18 +43,6 @@ export function CurriculumTheory({ step, pending }) {
             Avanza a tu ritmo. Puedes volver o salir y retomar donde te quedaste.
           </p>
         </section>
-      ) : step.type === 'resources' ? (
-        <>
-          <LessonMedia />
-          <p>
-            Las imágenes y los vídeos siguen pendientes de autorización y revisión LSV. Puedes
-            estudiar la teoría mientras se preparan esos recursos.
-          </p>
-          <p className="text-muted">
-            Puedes continuar con la lectura y las letras escritas.
-            {pending > 0 && ` Hay ${pending} ejercicios pendientes; no cuentan como aciertos.`}
-          </p>
-        </>
       ) : (
         <>
           <p className="journey-reading">{step.body}</p>

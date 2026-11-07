@@ -28,7 +28,7 @@ export async function reviewAlphabetJourney({ page, source, moduleId, lesson, su
       await page.evaluate(`(()=>({kind:document.querySelector('.journey-stage').dataset.step,
       position:document.querySelector('.learning-journey').dataset.position,
       percent:document.querySelector('[role=progressbar]').getAttribute('aria-valuenow'),
-      letters:[...document.querySelectorAll('.journey-letters article')].map(n=>n.dataset.letter)}))()`);
+      letters:[...document.querySelectorAll('.letter-card')].map(n=>n.dataset.letter)}))()`);
     assert.ok(state.letters.length <= 2);
     for (const letter of state.letters) letters.add(letter);
     if (state.kind === 'summary') break;
@@ -52,7 +52,13 @@ export async function reviewAlphabetJourney({ page, source, moduleId, lesson, su
       const question = source.exercises.find((item) => alphabetId(item.id) === state.position);
       await reviewAlphabetAssessment({ page, question, retry: questions === 0, capture });
       questions += 1;
-    } else await page.click(state.kind === 'practice' ? 'Ver mi resumen' : 'Continuar');
+    } else {
+      // «Ver mi resumen» aparece en el último paso, que es la práctica solo si no hay preguntas.
+      const last = await page.evaluate(
+        '[...document.querySelectorAll(".journey-controls button")].some(b=>b.textContent.includes("Ver mi resumen"))',
+      );
+      await page.click(last ? 'Ver mi resumen' : 'Continuar');
+    }
   }
   await page.wait('document.querySelector(".journey-stage[data-step=summary]")');
   assert.equal(

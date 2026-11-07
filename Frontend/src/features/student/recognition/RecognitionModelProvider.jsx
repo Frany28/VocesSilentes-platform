@@ -11,6 +11,7 @@ import { assertModelUsage } from './model-usage.js';
 export function RecognitionModelProvider({ children }) {
   const [model, setModel] = useState(null);
   const generation = useRef(0);
+  const autoLoadClaimed = useRef(false);
   useEffect(
     () => () => {
       generation.current += 1;
@@ -24,8 +25,14 @@ export function RecognitionModelProvider({ children }) {
     assertModelUsage(parsed);
     if (generation.current === ticket) setModel(parsed);
   };
+  // La carga automática del modelo de demostración se intenta como máximo una vez por sesión.
+  const claimAutoLoad = () => {
+    if (autoLoadClaimed.current) return false;
+    autoLoadClaimed.current = true;
+    return true;
+  };
   return (
-    <RecognitionModelContext.Provider value={{ model, importModel }}>
+    <RecognitionModelContext.Provider value={{ model, importModel, claimAutoLoad }}>
       {children}
     </RecognitionModelContext.Provider>
   );

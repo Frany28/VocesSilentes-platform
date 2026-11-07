@@ -1,0 +1,20 @@
+/* Estado del modelo y del intento: visibles sin depender del color (texto + borde lateral). */
+.model-status,
+.attempt-status {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 4px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--surface-neutral);
+  font: var(--type-secondary);
+}
+.model-status[data-state='ready'] {
+  border-left-color: var(--status-success);
+}
+.model-status[data-state='error'] {
+  border-left-color: var(--status-warning);
+}
+.attempt-status {
+  border-left-color: var(--action-primary);
+  font-weight: 600;
+}

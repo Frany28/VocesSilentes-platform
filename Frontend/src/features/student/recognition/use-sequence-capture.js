@@ -13,7 +13,8 @@ export function useSequenceCapture(camera) {
   const [sessionId, setSessionId] = useState('');
   const [error, setError] = useState('');
   useEffect(() => () => active.current?.cancel(), []);
-  const capture = () => {
+  // onFrames recibe el intento válido al terminar (p. ej. para analizarlo sin otro clic).
+  const capture = (onFrames) => {
     if (active.current || camera.state !== 'live') return;
     setFrames(null);
     setSessionId(camera.sessionId);
@@ -58,6 +59,7 @@ export function useSequenceCapture(camera) {
             'Captura interrumpida: mantén exactamente una mano visible durante todo el intento.',
           );
         setFrames(valid);
+        onFrames?.(valid);
       } catch (failure) {
         setError(failure.message);
       }

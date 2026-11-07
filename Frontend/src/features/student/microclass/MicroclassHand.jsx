@@ -1,4 +1,4 @@
-import { vowelIllustration } from './vowel-illustrations.js';
+import { letterResource } from '../resources/letter-resources.js';
 
 const fullView = { x: 50, y: 50, scale: 1, rings: [] };
 
@@ -21,7 +21,7 @@ export function MicroclassHand({
   alt = '',
   credit = true,
 }) {
-  const image = vowelIllustration(letter);
+  const image = letterResource(letter);
   return (
     <figure className="mc-hand">
       <div className="mc-card" data-pulse={pulse || undefined}>

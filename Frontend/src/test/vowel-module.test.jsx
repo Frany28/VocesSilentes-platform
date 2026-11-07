@@ -32,7 +32,11 @@ test('vista previa explícita conserva explicación y práctica sin activar cám
   await userEvent.click(screen.getByRole('button', { name: 'Volver' }));
   expect(await screen.findByRole('heading', { name: 'Practica la letra A' })).toBeVisible();
   expect(media).not.toHaveBeenCalled();
-  expect(fetchMock.mock.calls.every(([url]) => url.endsWith('/me'))).toBe(true);
+  expect(
+    fetchMock.mock.calls.every(
+      ([url]) => url.endsWith('/me') || url === '/models/lsv-vowels-demo-v1.json',
+    ),
+  ).toBe(true);
 });
 
 test('las cinco vocales tienen explicación, práctica opcional y repaso sin aciertos ni escrituras académicas', async () => {
@@ -58,7 +62,11 @@ test('las cinco vocales tienen explicación, práctica opcional y repaso sin aci
   );
   expect(screen.getByText(/ni confirma que hayas realizado capturas/)).toBeVisible();
   expect(media).not.toHaveBeenCalled();
-  expect(fetchMock.mock.calls.every(([url]) => url.endsWith('/me'))).toBe(true);
+  expect(
+    fetchMock.mock.calls.every(
+      ([url]) => url.endsWith('/me') || url === '/models/lsv-vowels-demo-v1.json',
+    ),
+  ).toBe(true);
   await userEvent.click(screen.getByRole('button', { name: 'Repasar desde el inicio' }));
   expect(
     await screen.findByRole('heading', { name: 'Aprende las vocales, una por una' }),

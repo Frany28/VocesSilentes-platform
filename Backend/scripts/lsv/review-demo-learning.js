@@ -24,15 +24,16 @@ export async function reviewDemoLearning({ page, browser }) {
   await page.wait('document.body.textContent.includes("Aprende y practica las vocales")');
   assert.equal(await page.evaluate('window.__demoReview.calls'), 0);
   await settled();
+  // El modelo de demostración se descarga una sola vez al abrir la práctica, sin pedir cámara.
+  await page.wait('document.body.textContent.includes("Modelo experimental cargado")');
   await page.fill({ 'Vocal de referencia': 'E' });
   await page.wait('document.querySelector(".camera-viewport")');
   assert.equal(await page.evaluate('window.__demoReview.calls'), 0);
-  assert.equal(await page.evaluate('window.__demoReview.modelRequests'), 0);
-  await page.click('Cargar modelo de vocales');
-  await page.wait('document.body.textContent.includes("Modelo experimental cargado")');
-  assert.equal(await page.evaluate('document.querySelectorAll(".manual-reference img").length'), 0);
+  assert.equal(await page.evaluate('window.__demoReview.modelRequests'), 1);
+  // E está en el registro de ilustraciones autorizadas; las consonantes siguen sin servirse.
+  await page.wait('document.querySelector(".manual-reference img")?.naturalWidth>0');
   assert.ok(
-    await page.evaluate('document.body.textContent.includes("Referencia visual pendiente")'),
+    await page.evaluate('document.querySelector(".manual-reference img").alt.includes("letra E")'),
   );
   await page.click('Activar cámara');
   await page.wait('document.body.textContent.includes("Detener cámara")');
@@ -45,7 +46,7 @@ export async function reviewDemoLearning({ page, browser }) {
     await page.evaluate('document.body.textContent.includes("Intento capturado:")'),
     await page.evaluate('document.querySelector("[role=alert]")?.textContent'),
   );
-  await page.click('Analizar intento');
+  // El análisis es automático al terminar la captura; el botón queda para reanalizar.
   await page.wait('document.body.textContent.includes("El modelo propone: A.")');
   const hypothesis = await page.evaluate(`Array.from(document.querySelectorAll('.vs-alert'))
     .find(node=>node.textContent.includes('Hipótesis experimental')).textContent`);
@@ -79,6 +80,7 @@ export async function reviewDemoLearning({ page, browser }) {
     guidedLesson: false,
     pendingPublication: true,
     unauthorizedImagesServed: 0,
+    authorizedReferenceShown: 'E',
     productionBundle: true,
     reference: 'E',
     replayedTrainingLabel: 'A',

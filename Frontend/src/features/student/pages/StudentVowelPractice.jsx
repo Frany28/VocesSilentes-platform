@@ -15,7 +15,7 @@ export function StudentVowelPractice() {
     <div className="flex min-w-0 flex-col gap-6">
       <StudentPageHeader
         title="Aprende y practica las vocales"
-        description="Observa la referencia, carga el modelo de vocales y realiza tu intento frente a la cámara."
+        description="Observa la referencia y realiza tu intento frente a la cámara. El modelo de vocales se carga solo."
       />
       <Link
         className="education-back inline-flex min-h-11 items-center"

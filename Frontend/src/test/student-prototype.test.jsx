@@ -38,10 +38,15 @@ test('práctica abre vocales reales sin estados simulados ni permisos automátic
   expect(within(selector).getAllByRole('option')).toHaveLength(5);
   await userEvent.selectOptions(selector, 'E');
   expect(await screen.findByRole('img', { name: /referencia de la letra E/ })).toBeVisible();
-  expect(screen.getByRole('button', { name: 'Cargar modelo de vocales' })).toBeEnabled();
+  // La fixture no sirve un modelo válido: la carga automática falla y queda el botón de reintento.
+  expect(await screen.findByRole('button', { name: 'Cargar modelo de vocales' })).toBeEnabled();
   expect(screen.getByRole('button', { name: 'Analizar intento' })).toBeDisabled();
   expect(media).not.toHaveBeenCalled();
-  expect(fetchMock.mock.calls.every(([url]) => url.endsWith('/me'))).toBe(true);
+  const urls = fetchMock.mock.calls.map(([url]) => url);
+  expect(
+    urls.every((url) => url.endsWith('/me') || url === '/models/lsv-vowels-demo-v1.json'),
+  ).toBe(true);
+  expect(urls.filter((url) => url.startsWith('/models/'))).toHaveLength(1);
   await userEvent.click(screen.getByRole('link', { name: 'Mi progreso' }));
   expect(await screen.findByText('03 / 05')).toBeVisible();
 });

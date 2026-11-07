@@ -4,6 +4,7 @@ import { ThemeAction } from '../../../components/ui/ThemeAction.jsx';
 import { Progress } from '../../../components/ui/Progress.jsx';
 import { Icon } from '../../../components/ui/Icon.jsx';
 import { StudentProfileLink } from '../layout/StudentProfileLink.jsx';
+import { JourneyPhases } from './JourneyPhases.jsx';
 
 /**
  * Mantiene identidad y progreso del recorrido en una cabecera sin navegación ajena a la actividad.
@@ -43,6 +44,7 @@ export function JourneyHeader({ lesson, module, journey }) {
           value={journey.percent}
           valueText={`${journey.completed} de ${journey.steps.length} pasos · ${journey.percent}%`}
         />
+        <JourneyPhases steps={journey.steps} step={journey.step} />
         {module.preview && (
           <p className="text-muted [font:var(--type-label)]">
             Vista previa local · Borrador pendiente de revisión lingüística.

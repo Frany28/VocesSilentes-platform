@@ -1,5 +1,5 @@
 import { vowelFocus } from './microclass-focus.js';
-import { vowelIllustration } from './vowel-illustrations.js';
+import { letterResource } from '../resources/letter-resources.js';
 
 const CIRCLE = 289; // perímetro del anillo de cuenta atrás (r = 46)
 
@@ -22,7 +22,7 @@ export function MicroclassCompare({ letter, other }) {
     <div className="mc-compare" data-pop>
       {[letter, other].map((item) => (
         <div className="mc-mini" key={item}>
-          <img src={vowelIllustration(item).url} alt={`Vocal ${item}`} />
+          <img src={letterResource(item).url} alt={`Vocal ${item}`} />
           <div>
             <b>{item}</b>
             <span>{vowelFocus[item].short}</span>

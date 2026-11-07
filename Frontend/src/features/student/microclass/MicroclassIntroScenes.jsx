@@ -1,4 +1,4 @@
-import { vowelIllustration } from './vowel-illustrations.js';
+import { letterResource } from '../resources/letter-resources.js';
 import { vowelLetters } from './microclass-script.js';
 
 /**
@@ -9,7 +9,7 @@ export function MicroclassOrbit() {
   return (
     <div className="mc-orbit" aria-hidden="true">
       {vowelLetters.map((letter) => (
-        <img key={letter} src={vowelIllustration(letter).url} alt="" />
+        <img key={letter} src={letterResource(letter).url} alt="" />
       ))}
     </div>
   );

@@ -1,5 +1,5 @@
 import { formatTime } from './microclass-timeline.js';
-import { illustrationCredit } from './vowel-illustrations.js';
+import { illustrationCredit } from '../resources/letter-resources.js';
 
 /**
  * Capítulos, transcripción completa y notas de origen: toda la narración también está por escrito.

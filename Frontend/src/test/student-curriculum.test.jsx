@@ -69,9 +69,8 @@ test('el teclado selecciona opciones opacas; el feedback backend precede al avan
   const submission = fetchMock.mock.calls.find(([url]) => url.endsWith('/answer'));
   expect(submission[0]).toContain(questionId);
   expect(submission[1].headers.get('X-CSRF-Token')).toBe('test-csrf');
+  // La evaluación es la última etapa: tras responder se llega al repaso (resumen).
   await userEvent.click(screen.getByRole('button', { name: 'Continuar' }));
-  expect(screen.getByText('Revisar materiales autorizados.')).toBeVisible();
-  await userEvent.click(screen.getByRole('button', { name: 'Ver mi resumen' }));
   expect(screen.getByRole('progressbar', { name: 'Preguntas resueltas' })).toHaveAttribute(
     'aria-valuenow',
     '50',

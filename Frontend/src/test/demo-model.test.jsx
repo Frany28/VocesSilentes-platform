@@ -52,5 +52,7 @@ test('fallo de descarga no fabrica modelo ni predicción', async () => {
   await act(() => result.current.loadDemo());
   expect(result.current.model).toBeNull();
   expect(result.current.result).toBeNull();
-  expect(result.current.error).toMatch(/descargar/);
+  // Un fallo de descarga del modelo se informa aparte; no es un error del intento.
+  expect(result.current.loadError).toMatch(/descargar/);
+  expect(result.current.error).toBe('');
 });

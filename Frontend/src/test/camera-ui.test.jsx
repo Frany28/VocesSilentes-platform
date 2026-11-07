@@ -10,6 +10,8 @@ const factory = vi.hoisted(() => vi.fn());
 vi.mock('../features/student/recognition/hand-engine.js', () => ({ createHandEngine: factory }));
 
 function renderCamera() {
+  // Sin modelo publicado en la prueba: la carga automática falla de forma controlada.
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response('', { status: 404 })));
   return render(
     <MemoryRouter>
       <RecognitionModelProvider>
@@ -28,7 +30,8 @@ test('el visor no solicita cámara al entrar; activa solo por botón y nunca mue
   expect(
     screen.getByRole('img', { name: /Ilustración de referencia de la letra A/ }),
   ).toBeVisible();
-  expect(screen.getByText(/Carga el modelo de vocales para analizar/)).toBeVisible();
+  expect(await screen.findByText(/No se pudo descargar el modelo de vocales/)).toBeVisible();
+  expect(screen.getByText(/la cámara solo detecta puntos de la mano/)).toBeVisible();
   await userEvent.click(screen.getByRole('button', { name: 'Activar cámara' }));
   await screen.findByRole('button', { name: 'Detener cámara' });
   expect(fixture.getUserMedia).toHaveBeenCalledTimes(1);

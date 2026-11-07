@@ -1,0 +1,64 @@
+/* Etapas de la lección bajo la barra de progreso; en móvil se desplazan en horizontal sin cortar texto. */
+.journey-phases {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0 0 2px;
+  overflow-x: auto;
+  list-style: none;
+  scrollbar-width: thin;
+}
+.journey-phases li {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 4px 12px 4px 4px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  font: var(--type-label);
+  font-weight: 600;
+  transition:
+    background-color var(--motion-surface) var(--motion-ease),
+    color var(--motion-surface) var(--motion-ease);
+}
+.journey-phases li > span:first-child {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--surface-neutral);
+}
+.journey-phases [data-state='done'] {
+  border-color: var(--action-primary);
+  color: var(--action-primary);
+}
+.journey-phases [data-state='done'] > span:first-child {
+  background: var(--surface-accent);
+}
+.journey-phases [data-state='now'] {
+  border-color: var(--action-primary);
+  background: var(--action-primary);
+  color: var(--action-text);
+}
+.journey-phases [data-state='now'] > span:first-child {
+  background: var(--action-text);
+  color: var(--action-primary);
+}
+/* En móvil solo la etapa actual muestra su nombre; las demás, el número (el nombre sigue accesible). */
+@media (width < 600px) {
+  .journey-phases li:not([data-state='now']) {
+    padding-right: 4px;
+  }
+  .journey-phases li:not([data-state='now']) .journey-phase-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
