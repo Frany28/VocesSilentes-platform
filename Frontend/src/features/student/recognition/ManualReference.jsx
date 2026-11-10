@@ -5,7 +5,7 @@ import { HandIllustration } from './HandIllustration.jsx';
 import { handReferencePolicy } from '../resources/hand-reference-policy.js';
 
 /**
- * Muestra la ilustración original como referencia, sin reconstruir dedos, trayectorias ni vídeos.
+ * Muestra la ficha basada en el trazado del manual, con su crédito y límites de uso.
  * Las letras publicadas se ven en producción; las demás solo en la vista previa de desarrollo.
  * @param {{letter: string, compact?: boolean, hand?: string, educational?: boolean}} props Presentación y lateralidad.
  * @returns {import('react').ReactElement} Referencia con crédito y estado editorial, o aviso de pendiente.
@@ -14,6 +14,7 @@ export function ManualReference({ letter, compact = false, hand, educational = f
   const context = useContext(RecognitionModelContext);
   const selected = hand ?? context?.referenceHand ?? 'Right';
   const policy = handReferencePolicy(letter);
+  const mirrored = selected === 'Left' && policy.mode === 'STATIC_MIRROR_PREVIEW';
   const resource = letterResource(letter);
   if (!resource.url)
     return (
@@ -29,18 +30,14 @@ export function ManualReference({ letter, compact = false, hand, educational = f
         letter={letter}
         hand={selected}
         alt={`Ilustración de referencia de la letra ${letter} en el manual LSV${
-          selected === 'Left' && policy.mode === 'STATIC_MIRROR_PREVIEW'
-            ? ' (reflejo orientativo)'
-            : ''
+          mirrored ? ' (reflejo orientativo)' : ''
         }`}
       />
       {selected === 'Left' && !educational && <p className="text-muted">{policy.message}</p>}
       <figcaption className="text-muted [font:var(--type-label)]">
         {educational ? (
           <details className="practice-source">
-            <summary>
-              Sobre esta referencia{selected === 'Left' ? ' · reflejo orientativo' : ''}
-            </summary>
+            <summary>Sobre esta referencia{mirrored ? ' · reflejo orientativo' : ''}</summary>
             <p>
               Manual LSV, página {resource.page}. Yulianny Fuentes, 2022. Revisión lingüística
               pendiente.

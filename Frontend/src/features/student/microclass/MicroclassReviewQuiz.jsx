@@ -31,7 +31,7 @@ export function MicroclassReview({ elapsed }) {
 }
 
 /**
- * Pregunta «¿Puedes identificar esta vocal?» con la letra impresa oculta hasta resolverla.
+ * Pregunta «¿Puedes identificar esta vocal?» con la ficha sin rótulo y respuesta tras resolverla.
  * Acertar no certifica la ejecución de la seña y no se guarda en el progreso.
  * @param {{quiz: object, solved: boolean, onAnswer: Function, onReveal: Function}} props Estado y acciones.
  * @returns {import('react').ReactElement} Ilustración y cinco opciones accesibles.
@@ -47,7 +47,7 @@ export function MicroclassQuiz({ quiz, solved, onAnswer, onReveal }) {
       <div className="mc-hand-pane">
         <MicroclassHand
           letter={quizLetter}
-          hideLetter={!solved}
+          hidePage={!solved}
           alt={
             solved
               ? `Ilustración de la vocal ${quizLetter}`

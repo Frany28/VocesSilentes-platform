@@ -46,7 +46,7 @@ export async function reviewStudentHandReference({ page, browser, results }) {
         assert.equal(geometry.selectors, 0);
         assert.equal(geometry.imageTransform, 'none');
         assert.equal(geometry.labelTransform, 'none');
-        assert.ok(geometry.clip.startsWith('polygon'));
+        assert.equal(geometry.clip, 'none');
         assert.equal(geometry.letter, letter);
         assert.equal(geometry.overflow, false);
       }

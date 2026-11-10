@@ -5,113 +5,114 @@
   "reuseBasis": "Uso educativo indicado y autorizado por el usuario el 5 de noviembre de 2026.",
   "rightsStatus": "USER_ASSERTED_EDUCATIONAL_USE",
   "validationStatus": "PENDING_LSV_REVIEW",
+  "presentation": "Fichas 2D sin rótulo basadas en los trazos del manual, con las flechas originales de J, Ñ y Z.",
   "images": {
     "A": {
-      "file": "a.webp",
+      "file": "ficha-bccafbad3ad5.webp",
       "page": 5
     },
     "B": {
-      "file": "b.webp",
+      "file": "ficha-37ab333133f7.webp",
       "page": 5
     },
     "C": {
-      "file": "c.webp",
+      "file": "ficha-f377d41fd440.webp",
       "page": 5
     },
     "D": {
-      "file": "d.webp",
+      "file": "ficha-cf38bf6e3109.webp",
       "page": 5
     },
     "E": {
-      "file": "e.webp",
+      "file": "ficha-c4db4c076d0e.webp",
       "page": 5
     },
     "F": {
-      "file": "f.webp",
+      "file": "ficha-9e38ad57eb87.webp",
       "page": 5
     },
     "G": {
-      "file": "g.webp",
+      "file": "ficha-4e38584e7ef9.webp",
       "page": 5
     },
     "H": {
-      "file": "h.webp",
+      "file": "ficha-3704ff3c6304.webp",
       "page": 5
     },
     "I": {
-      "file": "i.webp",
+      "file": "ficha-b1729f97cbc2.webp",
       "page": 5
     },
     "J": {
-      "file": "j.webp",
+      "file": "ficha-b56247794450.webp",
       "page": 5
     },
     "K": {
-      "file": "k.webp",
+      "file": "ficha-dc73f4f595e0.webp",
       "page": 5
     },
     "L": {
-      "file": "l.webp",
+      "file": "ficha-a4f40269b0e1.webp",
       "page": 5
     },
     "M": {
-      "file": "m.webp",
+      "file": "ficha-b1de039c5314.webp",
       "page": 6
     },
     "N": {
-      "file": "n.webp",
+      "file": "ficha-451534b216c1.webp",
       "page": 6
     },
     "Ñ": {
-      "file": "enye.webp",
+      "file": "ficha-227e97b5a5ee.webp",
       "page": 6
     },
     "O": {
-      "file": "o.webp",
+      "file": "ficha-0ac03b43caa7.webp",
       "page": 6
     },
     "P": {
-      "file": "p.webp",
+      "file": "ficha-98791100a80f.webp",
       "page": 6
     },
     "Q": {
-      "file": "q.webp",
+      "file": "ficha-0db85850327e.webp",
       "page": 6
     },
     "R": {
-      "file": "r.webp",
+      "file": "ficha-1fd54f75ea30.webp",
       "page": 6
     },
     "S": {
-      "file": "s.webp",
+      "file": "ficha-9d76bda368a7.webp",
       "page": 6
     },
     "T": {
-      "file": "t.webp",
+      "file": "ficha-66e07f4bef2e.webp",
       "page": 6
     },
     "U": {
-      "file": "u.webp",
+      "file": "ficha-46c533a46758.webp",
       "page": 6
     },
     "V": {
-      "file": "v.webp",
+      "file": "ficha-df63f8d5003f.webp",
       "page": 6
     },
     "W": {
-      "file": "w.webp",
+      "file": "ficha-4465676eedfc.webp",
       "page": 6
     },
     "X": {
-      "file": "x.webp",
+      "file": "ficha-530616fb1372.webp",
       "page": 6
     },
     "Y": {
-      "file": "y.webp",
+      "file": "ficha-d0ac35ac1e41.webp",
       "page": 6
     },
     "Z": {
-      "file": "z.webp",
+      "file": "ficha-02cde308ad5c.webp",
       "page": 6
     }
   }
