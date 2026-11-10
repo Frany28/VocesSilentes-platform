@@ -79,7 +79,15 @@ test('valida configuración pública sin mostrar credenciales en el error', () =
     apiUrl: 'https://example.invalid/api',
     studentDemo: false,
   });
-  for (const url of ['invalid-url', 'file:///private', 'https://user:secret@example.invalid/api']) {
+  expect(parsePublicConfig({ VITE_API_URL: '/api' }).apiUrl).toBe('/api');
+  for (const url of [
+    'invalid-url',
+    'file:///private',
+    'https://user:secret@example.invalid/api',
+    '//example.invalid/api',
+    '/api/../private',
+    '/api?x=1',
+  ]) {
     expect(() => parsePublicConfig({ VITE_API_URL: url })).toThrow(
       'Configuración pública inválida: VITE_API_URL',
     );
