@@ -23,24 +23,23 @@ export function ModuleCard({ module, illustrated = false, onOpen }) {
       : `${completed} de ${total} lecciones`;
   return (
     <article
-      className="student-module-card flex min-w-0 flex-col self-start rounded-3xl border border-border
+      className="student-module-card flex min-w-0 flex-col rounded-3xl border border-border
       bg-surface shadow-card"
       aria-label={module.title}
+      data-illustrated={illustrated || undefined}
+      data-state={state}
     >
       {illustrated && (
-        <div
-          className="student-module-cover flex min-h-[178px] flex-col overflow-hidden rounded-t-3xl"
-          data-color={module.illustration}
-        >
-          <div className="p-4">
-            <ModuleStatus state={state} />
-          </div>
+        <div className="student-module-cover" data-color={module.illustration}>
           <ModuleIllustration contentKey={module.contentKey} />
         </div>
       )}
-      <div className="flex flex-col gap-3">
+      <div className="student-module-body flex flex-col gap-3">
         {illustrated ? (
-          <p className="text-action [font:var(--type-label)]">{moduleLabel(module)}</p>
+          <div className="student-module-meta flex flex-wrap items-center justify-between gap-2">
+            <p className="text-action [font:var(--type-label)]">{moduleLabel(module)}</p>
+            <ModuleStatus state={state} />
+          </div>
         ) : (
           <div className="flex items-start gap-4">
             <span className="flex rounded-2xl bg-secondary p-3">
@@ -56,34 +55,38 @@ export function ModuleCard({ module, illustrated = false, onOpen }) {
           {module.displayTitle || module.title}
         </h3>
         {illustrated && <p className="text-muted">{module.description}</p>}
-        {upcoming ? (
-          <p className="text-muted">Todavía no hay lecciones publicadas.</p>
-        ) : (
-          <Progress
-            className="student-module-progress"
-            value={percent}
-            label={
-              <span className="flex flex-wrap gap-2">
-                <span>{caption}</span>
-                {!locked && state !== 'available' && (
-                  <span className="text-action">{percent}%</span>
-                )}
-              </span>
-            }
-            valueText={`${percent}% · ${completed} de ${total} lecciones`}
-          />
-        )}
-        <Button className="w-full" disabled={locked || upcoming} onClick={() => onOpen(module)}>
-          {upcoming
-            ? 'Próximamente'
-            : locked
-              ? 'Módulo bloqueado'
-              : state === 'completed'
-                ? 'Repasar las señas'
-                : state === 'progress'
-                  ? 'Seguir aprendiendo'
-                  : 'Explorar módulo'}
-        </Button>
+        <div className="student-module-footer flex flex-col gap-3">
+          {upcoming ? (
+            (!illustrated || !module.description) && (
+              <p className="text-muted">Todavía no hay lecciones publicadas.</p>
+            )
+          ) : (
+            <Progress
+              className="student-module-progress"
+              value={percent}
+              label={
+                <span className="flex flex-wrap gap-2">
+                  <span>{caption}</span>
+                  {!locked && state !== 'available' && (
+                    <span className="text-action">{percent}%</span>
+                  )}
+                </span>
+              }
+              valueText={`${percent}% · ${completed} de ${total} lecciones`}
+            />
+          )}
+          <Button className="w-full" disabled={locked || upcoming} onClick={() => onOpen(module)}>
+            {upcoming
+              ? 'Próximamente'
+              : locked
+                ? 'Módulo bloqueado'
+                : state === 'completed'
+                  ? 'Repasar las señas'
+                  : state === 'progress'
+                    ? 'Seguir aprendiendo'
+                    : 'Explorar módulo'}
+          </Button>
+        </div>
       </div>
     </article>
   );

@@ -16,7 +16,7 @@ const labels = {
 export function ModuleStatus({ state }) {
   return (
     <span
-      className="inline-flex items-center gap-1 rounded-full bg-surface p-2 text-action
+      className="student-module-status inline-flex items-center gap-1 rounded-full p-2 text-action
       [font:var(--type-label)] data-[state=locked]:text-muted data-[state=completed]:text-(--status-success)"
       data-state={state}
     >

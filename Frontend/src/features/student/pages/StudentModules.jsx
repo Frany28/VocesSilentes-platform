@@ -72,7 +72,7 @@ export function StudentModules() {
                   en progreso · Aprende en orden, sin prisa.
                 </p>
               </div>
-              <div className="student-catalog grid items-start gap-4">
+              <div className="student-catalog grid gap-6">
                 {results.map((module) => (
                   <ModuleCard key={module.id} module={module} illustrated onOpen={onOpen} />
                 ))}

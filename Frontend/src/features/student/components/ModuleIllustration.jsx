@@ -35,7 +35,7 @@ export function ModuleIllustration({ contentKey }) {
     );
   }
   return (
-    <div className="student-module-art relative mb-4 h-28 w-full" aria-hidden="true">
+    <div className="student-module-art relative w-full" aria-hidden="true">
       <span className="student-circle-large" />
       <span className="student-circle-small" />
       <span className="student-hand" />
