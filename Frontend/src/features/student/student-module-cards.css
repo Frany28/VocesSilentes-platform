@@ -1,3 +1,7 @@
+.student-module-card {
+  border-color: var(--border);
+  box-shadow: var(--shadow-soft);
+}
 .student-module-card:not([data-illustrated]) {
   align-self: start;
 }
@@ -7,9 +11,6 @@
 .student-module-card[data-illustrated] {
   align-self: stretch;
   min-width: 0;
-  transition:
-    border-color var(--motion-surface) var(--motion-ease),
-    box-shadow var(--motion-surface) var(--motion-ease);
 }
 .student-module-cover {
   margin: 10px 10px 0;
@@ -20,7 +21,6 @@
   aspect-ratio: 4 / 3;
   object-fit: contain;
   border-radius: var(--radius-lg);
-  transition: transform var(--motion-surface) var(--motion-ease);
 }
 .student-module-cover > .student-module-art {
   aspect-ratio: 4 / 3;
@@ -42,35 +42,4 @@
 .student-module-card[data-illustrated] .student-module-footer {
   margin-top: auto;
   padding-top: 8px;
-}
-.student-module-card[data-illustrated]:focus-within {
-  border-color: var(--action-primary);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .student-catalog > .student-module-card {
-    animation: student-module-reveal var(--motion-dialog) var(--motion-ease) both;
-  }
-  .student-module-card[data-illustrated]:focus-within .student-module-cover > img {
-    transform: translateY(var(--motion-lift));
-  }
-}
-@media (hover: hover) and (pointer: fine) {
-  .student-module-card[data-illustrated]:not([data-state='upcoming'], [data-state='locked']):hover {
-    border-color: var(--action-primary);
-    box-shadow: var(--shadow-hover);
-  }
-  .student-module-card[data-illustrated]:not([data-state='upcoming'], [data-state='locked']):hover
-    img {
-    transform: translateY(var(--motion-lift));
-  }
-}
-@keyframes student-module-reveal {
-  from {
-    opacity: 0.85;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
