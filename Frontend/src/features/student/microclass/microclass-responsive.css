@@ -85,9 +85,6 @@
     min-height: 13cqw;
     font-size: 6cqw;
   }
-  .mc-mask {
-    font-size: 12cqw;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .mc-root *,

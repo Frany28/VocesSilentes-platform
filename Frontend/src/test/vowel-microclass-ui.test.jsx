@@ -9,7 +9,7 @@ beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
 });
 
-test('cada vocal muestra la ilustración original con su crédito', async () => {
+test('cada vocal muestra la ficha basada en el manual con su crédito', async () => {
   render(<VowelMicroclass />);
   expect(screen.queryByText('Fuentes y límites')).toBeNull();
   await userEvent.click(screen.getByRole('button', { name: /^Vocal U, / }));
@@ -20,7 +20,10 @@ test('cada vocal muestra la ilustración original con su crédito', async () => 
 test('la pregunta oculta la letra, da una pista y confirma la respuesta correcta', async () => {
   render(<VowelMicroclass />);
   await userEvent.click(screen.getByRole('button', { name: /^Pregunta: ¿qué vocal es\?, / }));
-  expect(screen.getByRole('img', { name: /una vocal por identificar/ })).toBeVisible();
+  const image = screen.getByRole('img', { name: /una vocal por identificar/ });
+  expect(image).toBeVisible();
+  expect(image.getAttribute('src')).toMatch(/\/ficha-[a-f0-9]{12}\.webp$/);
+  expect(image.closest('figure')).not.toHaveTextContent('?');
   await userEvent.click(screen.getByRole('button', { name: 'A' }));
   expect(screen.getByText(/^Todavía no es la A/, { selector: '.mc-captions' })).toBeVisible();
   expect(screen.getByRole('button', { name: 'A' })).toBeDisabled();

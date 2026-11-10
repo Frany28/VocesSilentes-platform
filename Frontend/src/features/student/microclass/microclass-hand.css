@@ -24,7 +24,7 @@
 .mc-card {
   position: relative;
   width: min(100%, 33cqw);
-  aspect-ratio: 243 / 253;
+  aspect-ratio: 1;
   overflow: hidden;
   border-radius: 2.6cqw;
   background: var(--surface);
@@ -51,19 +51,6 @@
   box-shadow: 0 0 0 calc(0.25cqw / var(--mc-scale, 1)) var(--content);
   animation: mc-ring 1.8s ease-in-out 0.9s infinite;
   transform: translate(-50%, -50%);
-}
-.mc-mask {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  display: grid;
-  place-items: center;
-  width: 31%;
-  height: 33%;
-  border-top-left-radius: 2cqw;
-  background: var(--surface);
-  color: var(--action-primary);
-  font: 800 6cqw / 1 var(--font-brand);
 }
 .mc-credit {
   color: var(--text-secondary);
