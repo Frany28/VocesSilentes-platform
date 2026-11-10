@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
-import { spawnSync } from 'node:child_process';
+import { createHandClip } from './lsv/create-hand-clip.js';
 import { createHash } from 'node:crypto';
 import { createAcademicEnvironment } from './academic/environment.js';
 import { createAcademicBrowser } from './academic/browser-session.js';
@@ -9,6 +9,7 @@ import { createAcademicDriver } from './academic/browser-driver.js';
 import { reviewDemoLearning } from './lsv/review-demo-learning.js';
 
 const output = resolve('.local/lsv-demo-review', String(Date.now()));
+const mirrored = process.argv.includes('--mirror-camera');
 await mkdir(output, { recursive: true });
 const manifest = JSON.parse(await readFile('datos-entrenamiento/manifest.json', 'utf8'));
 const source = manifest.sources.find((item) => item.id === 'video_01');
@@ -20,28 +21,12 @@ assert.equal(
   source.sha256,
 );
 const fakeVideoPath = join(output, 'real-training-replay.y4m');
-const clip = spawnSync(
-  'ffmpeg',
-  [
-    '-hide_banner',
-    '-loglevel',
-    'error',
-    '-ss',
-    '76',
-    '-i',
-    file,
-    '-t',
-    '3',
-    '-an',
-    '-pix_fmt',
-    'yuv420p',
-    '-f',
-    'yuv4mpegpipe',
-    fakeVideoPath,
-  ],
-  { encoding: 'utf8', windowsHide: true },
+createHandClip(
+  file,
+  { startMs: 76000, endMs: 79000 },
+  fakeVideoPath,
+  mirrored ? 'MIRROR' : 'ORIGINAL',
 );
-assert.equal(clip.status, 0);
 const environment = await createAcademicEnvironment({ port: 5288, productionFrontend: true });
 let browser;
 let page;
@@ -72,7 +57,7 @@ try {
   });
   page = createAcademicDriver(browser, environment.origin, output);
   await page.login(email, password);
-  results.journey = await reviewDemoLearning({ page, browser });
+  results.journey = await reviewDemoLearning({ page, browser, mirrored });
   assert.deepEqual(browser.errors, []);
   assert.equal(await environment.database.exerciseProgress.count(), 0);
   assert.equal(await environment.database.lessonProgress.count(), 0);

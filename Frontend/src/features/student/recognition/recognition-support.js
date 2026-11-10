@@ -38,7 +38,7 @@ export function abstentionAdvice(reason, model) {
   const hands = modelHands(model).map((hand) => handNames[hand] ?? hand);
   return (
     {
-      UNSUPPORTED_HAND: `El modelo solo tiene ejemplos con la mano ${hands.join(' y ')} (lateralidad de MediaPipe). Prueba con esa mano.`,
+      UNSUPPORTED_HAND: `Esta mano necesita más entrenamiento. Por ahora hay ejemplos con la mano ${hands.join(' y ')}. Puedes seguir practicando por observación.`,
       OUT_OF_DISTRIBUTION:
         'El intento está lejos de los ejemplos. Centra la mano, acércala y mantén la forma quieta los tres segundos.',
       BACKGROUND:

@@ -1,5 +1,6 @@
 import { LSV_LABELS } from './labels.js';
 import { validateVideoSource } from './video-source.js';
+import { recordingHandMetadata } from './handedness.js';
 
 const code = /^[a-zA-Z0-9_-]{1,64}$/;
 const validCode = (value) => typeof value === 'string' && code.test(value);
@@ -37,6 +38,7 @@ export function validateRecording(value) {
     reviewStatus: value.reviewStatus,
     reviewerId: value.reviewerId ?? null,
     frames,
+    ...recordingHandMetadata(value, frames),
     ...(value.source !== undefined ? { source: validateVideoSource(value.source, frames) } : {}),
   };
 }
@@ -58,6 +60,8 @@ export function validateFrames(frames) {
       (previous >= 0 && frame.t - previous > 400) ||
       !['Left', 'Right'].includes(frame.hand) ||
       frame.hand !== frames[0].hand ||
+      frame.trackId !== frames[0].trackId ||
+      (frame.trackId !== undefined && !validCode(frame.trackId)) ||
       !Number.isInteger(frame.width) ||
       !Number.isInteger(frame.height) ||
       frame.width < 16 ||
@@ -83,5 +87,25 @@ export function validateFrames(frames) {
   const duration = frames.at(-1).t - frames[0].t;
   if (duration < 1500 || duration > 6000)
     throw new Error('La muestra debe durar entre 1,5 y 6 segundos');
-  return frames.map(({ t, hand, width, height, points }) => ({ t, hand, width, height, points }));
+  return frames.map(
+    ({
+      t,
+      hand,
+      width,
+      height,
+      points,
+      trackId,
+      rawHand,
+      handednessScore,
+      handednessCorrected,
+    }) => ({
+      t,
+      hand,
+      width,
+      height,
+      points,
+      ...(trackId ? { trackId } : {}),
+      ...(rawHand !== undefined ? { rawHand, handednessScore, handednessCorrected } : {}),
+    }),
+  );
 }

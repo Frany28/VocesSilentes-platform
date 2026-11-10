@@ -17,6 +17,7 @@ export function samplePolicy(experimental) {
       registry.add({
         ...sample,
         participantId: sample.participantId ?? sample.observedSignant ?? 'unknown',
+        partition: experimental ? sample.evaluationPartition : sample.partition,
       });
     return samples;
   };
@@ -30,12 +31,14 @@ export function samplePolicy(experimental) {
         id: crypto.randomUUID(),
         sessionId,
         frames,
+        ...(!metadata.source ? { captureOrigin: 'LIVE_CAMERA' } : {}),
         reviewStatus: 'PENDING_LSV_REVIEW',
         reviewerId: null,
         ...(experimental
           ? {
               type: 'LOCAL_EXPERIMENTAL_SAMPLE',
               partition: null,
+              evaluationPartition: metadata.partition,
               observedSignant: null,
               source: metadata.source
                 ? {

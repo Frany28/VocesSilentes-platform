@@ -4,7 +4,7 @@ const LIMITS = { far: 0.2, near: 0.75, edge: 0.02, centerX: [0.25, 0.75], center
 
 const messages = {
   none: 'No vemos tu mano. Colócala frente a la cámara.',
-  many: 'Hay más de una mano. Deja visible solo la que hace la seña.',
+  many: 'Usa solo una mano para esta práctica.',
   far: 'Acerca la mano a la cámara.',
   near: 'Aleja un poco la mano.',
   edge: 'La mano se sale del encuadre. Llévala al centro.',

@@ -1,12 +1,19 @@
 import { letterResource } from '../resources/letter-resources.js';
+import { useContext } from 'react';
+import { RecognitionModelContext } from './model-context.js';
+import { HandIllustration } from './HandIllustration.jsx';
+import { handReferencePolicy } from '../resources/hand-reference-policy.js';
 
 /**
  * Muestra la ilustración original como referencia, sin reconstruir dedos, trayectorias ni vídeos.
  * Las letras publicadas se ven en producción; las demás solo en la vista previa de desarrollo.
- * @param {{letter: string, compact?: boolean}} props Letra y densidad del visor.
+ * @param {{letter: string, compact?: boolean, hand?: string}} props Letra, densidad y mano elegida.
  * @returns {import('react').ReactElement} Referencia con crédito y estado editorial, o aviso de pendiente.
  */
-export function ManualReference({ letter, compact = false }) {
+export function ManualReference({ letter, compact = false, hand }) {
+  const context = useContext(RecognitionModelContext);
+  const selected = hand ?? context?.referenceHand ?? 'Right';
+  const policy = handReferencePolicy(letter);
   const resource = letterResource(letter);
   if (!resource.url)
     return (
@@ -17,10 +24,17 @@ export function ManualReference({ letter, compact = false }) {
     );
   return (
     <figure className="manual-reference" data-compact={compact || undefined}>
-      <img
-        src={resource.url}
-        alt={`Ilustración de referencia de la letra ${letter} en el manual LSV`}
+      <HandIllustration
+        resource={resource}
+        letter={letter}
+        hand={selected}
+        alt={`Ilustración de referencia de la letra ${letter} en el manual LSV${
+          selected === 'Left' && policy.mode === 'STATIC_MIRROR_PREVIEW'
+            ? ' (reflejo orientativo)'
+            : ''
+        }`}
       />
+      {selected === 'Left' && <p className="text-muted">{policy.message}</p>}
       <figcaption className="text-muted [font:var(--type-label)]">
         Manual LSV, página {resource.page}. Yulianny Fuentes, 2022. Revisión lingüística pendiente.
         {resource.status === 'preview' && ' Vista previa de desarrollo: no publicada.'}

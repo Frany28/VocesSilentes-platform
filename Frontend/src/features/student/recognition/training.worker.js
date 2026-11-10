@@ -2,6 +2,7 @@ import { prepareTrainingData } from '../../../../../shared/lsv/training-data.js'
 import { trainLsvModel } from '../../../../../shared/lsv/train.js';
 import { trainExperimentalModel } from '../../../../../shared/lsv/experimental-train.js';
 import { isLocalExperiment } from './local-experiment.js';
+import { compareHandExperiments } from '../../../../../shared/lsv/hand-experiments.js';
 
 // El worker procesa solo el lote consentido recibido por la página; no tiene red ni persistencia.
 self.onmessage = async ({ data }) => {
@@ -9,6 +10,13 @@ self.onmessage = async ({ data }) => {
     if (data.mode === 'LOCAL_PROVISIONAL') {
       if (!isLocalExperiment())
         throw new Error('El flujo provisional requiere desarrollo en localhost');
+      if (data.compareHands) {
+        const comparison = compareHandExperiments(data.samples, data.augmentation);
+        const selected = comparison.experiments[data.augmentation ? 'C' : 'B'];
+        if (!selected.model) throw new Error(selected.reason);
+        self.postMessage({ model: selected.model, report: { ...selected.report, comparison } });
+        return;
+      }
       self.postMessage(trainExperimentalModel(data.samples));
       return;
     }

@@ -1,4 +1,6 @@
-import { Link } from 'react-router';
+import { useContext } from 'react';
+import { RecognitionModelContext } from './model-context.js';
+import { DetectionStatus } from './DetectionStatus.jsx';
 import { useHandCamera } from './use-hand-camera.js';
 import { useSequenceCapture } from './use-sequence-capture.js';
 import { useLocalModel } from './use-local-model.js';
@@ -7,22 +9,26 @@ import { CameraControls } from './CameraControls.jsx';
 import { ModelInference } from './ModelInference.jsx';
 import { ManualReference } from './ManualReference.jsx';
 import './recognition.css';
-import { isLocalExperiment } from './local-experiment.js';
 import { recognitionSupports } from './recognition-support.js';
+import { hasRealHandExamples } from './practice-hand-support.js';
 import { CameraSteps } from './CameraSteps.jsx';
 import './letter-badge.css';
 
 /**
  * Integra cámara, referencia y clasificador entrenable en la práctica sin simular una corrección de LSV.
- * @param {{letter?: string}} props Letra objetivo de estudio, que nunca se utiliza como predicción.
+ * @param {{letter?: string, onContinue?: Function}} props Letra objetivo y siguiente paso opcional de observación.
  * @returns {import('react').ReactElement} Práctica local con datos reales y reconocimiento experimental opcional.
  */
-export function CameraExercise({ letter }) {
-  const camera = useHandCamera();
+export function CameraExercise({ letter, onContinue }) {
+  const { referenceHand, setReferenceHand } = useContext(RecognitionModelContext);
+  const camera = useHandCamera(setReferenceHand);
   const capture = useSequenceCapture(camera);
   // El modelo de demostración se descarga solo si puede clasificar la letra que se practica.
   const supported = recognitionSupports(letter);
   const operation = useLocalModel({ autoLoad: supported });
+  const canPredict =
+    supported &&
+    (!operation.model || !camera.hand || hasRealHandExamples(operation.model, letter, camera.hand));
   return (
     <section
       className="camera-exercise flex w-full flex-col gap-4"
@@ -33,26 +39,29 @@ export function CameraExercise({ letter }) {
           {letter ? `Practica la letra ${letter}` : 'Tu práctica con cámara'}
         </h2>
         <span className="letter-badge" data-tone={supported ? 'ready' : undefined}>
-          {supported ? 'Reconocimiento experimental' : 'Sin reconocimiento todavía'}
+          {supported
+            ? canPredict
+              ? 'Reconocimiento experimental'
+              : 'Práctica por observación'
+            : 'Sin reconocimiento todavía'}
         </span>
       </div>
-      <CameraSteps letter={letter} supported={supported} />
+      <DetectionStatus camera={camera} model={operation.model} letter={letter} />
+      <CameraSteps letter={letter} supported={canPredict} />
       <div className="camera-workspace">
         <CameraView camera={camera} target={letter} controls={false} />
         <div className="camera-model-panel flex min-w-0 flex-col gap-4">
           <CameraControls camera={camera} />
-          {letter && <ManualReference letter={letter} compact />}
-          <ModelInference operation={operation} capture={capture} camera={camera} target={letter} />
+          {letter && <ManualReference letter={letter} hand={referenceHand} compact />}
+          <ModelInference
+            operation={operation}
+            capture={capture}
+            camera={camera}
+            target={letter}
+            onContinue={onContinue}
+          />
         </div>
       </div>
-      {isLocalExperiment() && (
-        <Link
-          className="education-back inline-flex min-h-11 items-center"
-          to="/student/practice/model-lab"
-        >
-          Preparar muestras para nuestro modelo LSV
-        </Link>
-      )}
     </section>
   );
 }

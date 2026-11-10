@@ -41,6 +41,7 @@ export async function createHandEngine(signal) {
     signal.throwIfAborted();
   }
   return {
+    // Se envían píxeles originales: el espejo del visor es solo CSS. No invertir handedness.
     detect: (video, now) => detector.detectForVideo(video, now),
     draw(canvas, result) {
       const context = canvas.getContext('2d');

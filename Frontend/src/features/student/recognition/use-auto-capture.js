@@ -10,7 +10,7 @@ const REST_MS = 600; // mano fuera de posición para preparar otro intento
  * a disparar, para no capturar en bucle la misma postura. Solo lee frames ya detectados; no abre la
  * cámara ni decide nada sobre la letra.
  * @param {{state: string, subscribe: Function}} camera Controlador de useHandCamera.
- * @param {{enabled: boolean, onTrigger: Function}} options Si puede disparar y acción al disparar,
+ * @param {{enabled: boolean, onTrigger: Function}} options Si puede disparar y acción automática,
  * que recibe la marca de tiempo del frame que la dispara.
  * @returns {{phase: 'waiting'|'holding'|'rest', rearm: Function}} Fase para mostrar y rearme manual.
  */
@@ -20,6 +20,7 @@ export function useAutoCapture(camera, { enabled, onTrigger }) {
   const armed = useRef(true);
   const since = useRef(null);
   const away = useRef(null);
+  const lastTrack = useRef(null);
   const { subscribe } = camera;
   useEffect(() => {
     trigger.current = onTrigger;
@@ -28,7 +29,15 @@ export function useAutoCapture(camera, { enabled, onTrigger }) {
     if (!enabled) return undefined;
     since.current = null;
     return subscribe((result, timing) => {
-      const ready = Boolean(result) && handGuidance(result).ready;
+      const tracked = result?.tracking;
+      const ready = Boolean(result) && (!tracked || tracked.stable) && handGuidance(result).ready;
+      const key = tracked?.observations?.[0]?.trackId ?? result?.handedness?.[0]?.[0]?.categoryName;
+      if (ready && lastTrack.current && key !== lastTrack.current) {
+        armed.current = true;
+        since.current = null;
+        away.current = null;
+      }
+      if (ready) lastTrack.current = key;
       const now = timing?.time ?? 0;
       if (!armed.current) {
         if (ready) away.current = null;

@@ -7,7 +7,7 @@ const CameraExercise = lazy(() =>
 
 /**
  * Difiere la interfaz y el código de cámara hasta elegir practicar, conservando un estado de carga accesible.
- * @param {{letter?: string}} props Referencia opcional de estudio.
+ * @param {{letter?: string, onContinue?: Function}} props Referencia y avance opcional del recorrido de observación.
  * @returns {import('react').ReactElement} Práctica cargada bajo demanda; el permiso sigue siendo una acción posterior.
  */
 export function CameraPracticeLoader(props) {

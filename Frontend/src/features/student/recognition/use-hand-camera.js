@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { startCameraSession } from './camera-session.js';
+import { createHandTracker } from '../../../../../shared/lsv/hand-tracker.js';
 
 const messages = {
   NotAllowedError:
@@ -10,22 +11,23 @@ const messages = {
 
 /**
  * Controla cámara local, permisos y subscripción a resultados reales; nunca la activa durante el montaje.
+ * @param {Function} [onHand] Referencia visual automática después de estabilizar una mano.
  * @returns {object} Estado, refs, activación, cierre y frames para intentos explícitos.
  */
-export function useHandCamera() {
+export function useHandCamera(onHand) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const active = useRef(null);
   const listeners = useRef(new Set());
   const [state, setState] = useState('off');
   const [error, setError] = useState('');
-  const [hands, setHands] = useState(0);
+  const [detection, setDetection] = useState(null);
   const [sessionId, setSessionId] = useState('');
   const stop = useCallback(() => {
     active.current?.abort();
     active.current = null;
     setState('off');
-    setHands(0);
+    setDetection(null);
     listeners.current.forEach((listener) => listener(null));
   }, []);
   useEffect(() => {
@@ -49,13 +51,15 @@ export function useHandCamera() {
       return;
     }
     const controller = new AbortController();
-    setSessionId(crypto.randomUUID());
+    const id = crypto.randomUUID();
+    setSessionId(id);
+    const tracker = createHandTracker(id);
     active.current = controller;
     const failure = (cause) => {
       if (controller.signal.aborted) return;
       controller.abort();
       active.current = null;
-      setHands(0);
+      setDetection(null);
       setState('error');
       setError(
         messages[cause.name] ??
@@ -68,14 +72,14 @@ export function useHandCamera() {
         video: videoRef.current,
         canvas: canvasRef.current,
         signal: controller.signal,
-        onState: (next) => {
-          if (!controller.signal.aborted) setState(next);
-        },
+        onState: setState,
         onError: failure,
         onFrame: (result, timing) => {
           if (controller.signal.aborted) return;
-          setHands(result.landmarks.length);
-          listeners.current.forEach((listener) => listener(result, timing));
+          const tracking = tracker.update(result, timing);
+          setDetection(tracking);
+          if (tracking.singleHand) onHand?.(tracking.singleHand);
+          listeners.current.forEach((listener) => listener({ ...result, tracking }, timing));
         },
       });
     } catch (cause) {
@@ -86,5 +90,17 @@ export function useHandCamera() {
     listeners.current.add(listener);
     return () => listeners.current.delete(listener);
   }, []);
-  return { videoRef, canvasRef, state, error, hands, sessionId, start, stop, subscribe };
+  return {
+    videoRef,
+    canvasRef,
+    state,
+    error,
+    hands: detection?.count ?? 0,
+    detection,
+    hand: detection?.singleHand ?? null,
+    sessionId,
+    start,
+    stop,
+    subscribe,
+  };
 }

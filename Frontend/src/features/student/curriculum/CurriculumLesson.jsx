@@ -38,7 +38,7 @@ export function CurriculumLesson({ lesson, module, onContinue, nextTitle }) {
       ) : (
         <>
           <div className="journey-stage" data-step={step.type} key={step.id}>
-            <CurriculumTheory step={step} />
+            <CurriculumTheory step={step} onPracticeContinue={journey.next} />
           </div>
           <JourneyControls
             onBack={journey.back}

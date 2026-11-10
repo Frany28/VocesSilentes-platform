@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { RecognitionModelContext } from '../recognition/model-context.js';
+import { HandIllustration } from '../recognition/HandIllustration.jsx';
 import { Link } from 'react-router';
 import { CameraPracticeLoader } from '../recognition/CameraPracticeLoader.jsx';
 import {
@@ -14,6 +16,7 @@ import './sign-practice.css';
  * @returns {import('react').ReactElement} Selector de imágenes y práctica local; cámara solo por acción explícita.
  */
 export function SignPracticeWorkspace() {
+  const { referenceHand } = useContext(RecognitionModelContext);
   const letters = publishedLetters();
   const [letter, setLetter] = useState(letters[0]);
   return (
@@ -35,13 +38,26 @@ export function SignPracticeWorkspace() {
             aria-pressed={letter === value}
             onClick={() => setLetter(value)}
           >
-            <img src={letterResource(value).url} alt="" />
+            <HandIllustration
+              resource={letterResource(value)}
+              letter={value}
+              hand={referenceHand}
+              showLabel={false}
+            />
             <span>Vocal {value}</span>
           </button>
         ))}
       </div>
       <p className="text-muted [font:var(--type-label)]">{illustrationCredit}.</p>
-      <CameraPracticeLoader key={letter} letter={letter} />
+      <CameraPracticeLoader
+        key={letter}
+        letter={letter}
+        onContinue={
+          letters.indexOf(letter) < letters.length - 1
+            ? () => setLetter(letters[letters.indexOf(letter) + 1])
+            : undefined
+        }
+      />
       <Link
         className="education-back inline-flex min-h-11 items-center"
         to="/student/modules/vowels"

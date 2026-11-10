@@ -9,7 +9,7 @@ export function CameraSteps({ letter, supported }) {
     'Activa la cámara y coloca la mano dentro del recuadro.',
     supported
       ? 'Pulsa Capturar intento: tras la cuenta de 3, mantén la seña quieta 3 segundos.'
-      : 'Forma la seña y compárala con la referencia. Esta letra no se analiza todavía.',
+      : 'Forma la seña y compárala con la referencia. No hay análisis disponible para esta letra y mano.',
     supported
       ? 'Lee la hipótesis experimental y repite si quieres.'
       : 'Detén la cámara cuando termines.',

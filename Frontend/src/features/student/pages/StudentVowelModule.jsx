@@ -31,7 +31,7 @@ export function StudentVowelModule() {
         data-step={step?.type ?? 'summary'}
       >
         {step ? (
-          <VowelLearningStep step={step} />
+          <VowelLearningStep step={step} onContinue={journey.next} />
         ) : (
           <VowelLearningSummary onReview={journey.restart} />
         )}

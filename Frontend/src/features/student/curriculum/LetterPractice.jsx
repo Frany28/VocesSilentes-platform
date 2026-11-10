@@ -5,10 +5,10 @@ import { CameraPracticeLoader } from '../recognition/CameraPracticeLoader.jsx';
 
 /**
  * Cambia del grupo de letras a una práctica de cámara individual, sin interrumpir el recorrido ni dar aciertos.
- * @param {{cards: object[]}} props Referencias del paso actual.
+ * @param {{cards: object[], onContinue?: Function}} props Referencias y siguiente paso de observación.
  * @returns {import('react').ReactElement} Tarjetas o cámara para una letra elegida explícitamente.
  */
-export function LetterPractice({ cards }) {
+export function LetterPractice({ cards, onContinue }) {
   const [letter, setLetter] = useState(null);
   if (!letter) return <AlphabetCards cards={cards} onPractice={setLetter} />;
   return (
@@ -16,7 +16,15 @@ export function LetterPractice({ cards }) {
       <Button variant="secondary" icon={null} onClick={() => setLetter(null)}>
         Volver a las letras
       </Button>
-      <CameraPracticeLoader key={letter} letter={letter} />
+      <CameraPracticeLoader
+        key={letter}
+        letter={letter}
+        onContinue={() => {
+          const next = cards[cards.findIndex((card) => card.letter === letter) + 1];
+          if (next) setLetter(next.letter);
+          else onContinue?.();
+        }}
+      />
     </div>
   );
 }

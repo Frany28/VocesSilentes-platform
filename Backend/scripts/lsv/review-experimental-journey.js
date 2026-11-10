@@ -16,6 +16,13 @@ export async function reviewExperimentalJourney({ page, browser, output }) {
   await page.wait('document.body.textContent.includes("Modelo local listo")');
   await page.click('Incorporar nueve muestras confirmadas');
   await page.wait('document.body.textContent.includes("Muestras en memoria: 9")');
+  await page.click('Comparar A/B/C y preparar modelo B');
+  await page.wait('document.body.textContent.includes("Capturas evaluadas: 0")');
+  assert.ok(
+    await page.evaluate(
+      'document.body.textContent.includes("Falta validación documentada del reflejo")',
+    ),
+  );
   await page.click('Entrenar modelo experimental');
   await page.wait('document.body.textContent.includes("Modelo EXPERIMENTAL local creado")');
   const downloads = join(output, 'downloads');
@@ -72,6 +79,7 @@ export async function reviewExperimentalJourney({ page, browser, output }) {
     exported: true,
     imported: true,
     workerTrained: true,
+    bilateralComparisonWorker: true,
     cameraApiOpened: true,
     capturedRealReplay: true,
     hypothesis,

@@ -4,10 +4,10 @@ import { CameraPracticeLoader } from '../recognition/CameraPracticeLoader.jsx';
 
 /**
  * Conserva la actividad personal y abre una cámara real únicamente cuando el alumno decide practicar.
- * @param {{step: object}} props Texto de la actividad original.
+ * @param {{step: object, onContinue?: Function}} props Texto y siguiente paso opcional.
  * @returns {import('react').ReactElement} Lectura breve o práctica local, sin evaluación académica inventada.
  */
-export function PersonalPractice({ step }) {
+export function PersonalPractice({ step, onContinue }) {
   const [camera, setCamera] = useState(false);
   if (camera)
     return (
@@ -15,7 +15,7 @@ export function PersonalPractice({ step }) {
         <Button variant="secondary" icon={null} onClick={() => setCamera(false)}>
           Volver a la actividad
         </Button>
-        <CameraPracticeLoader />
+        <CameraPracticeLoader onContinue={onContinue} />
       </div>
     );
   return (

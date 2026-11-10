@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { validateFrames } from '../../../../../shared/lsv/recording.js';
+import { createHandTracker } from '../../../../../shared/lsv/hand-tracker.js';
+import { validateHandSequence, singleHandFrames } from '../../../../../shared/lsv/hand-sequence.js';
 
 /**
  * Captura tres segundos de puntos de una mano solo por acción explícita; no graba vídeo ni envía datos.
@@ -10,20 +11,22 @@ export function useSequenceCapture(camera) {
   const active = useRef(null);
   const [pending, setPending] = useState(false);
   const [frames, setFrames] = useState(null);
+  const [sequence, setSequence] = useState(null);
   const [sessionId, setSessionId] = useState('');
   const [error, setError] = useState('');
   useEffect(() => () => active.current?.cancel(), []);
   // onFrames recibe el intento válido al terminar (p. ej. para analizarlo sin otro clic).
   // after: marca del frame que disparó una captura automática; ese frame y los anteriores no cuentan.
-  const capture = (onFrames, after = -Infinity) => {
+  const capture = (onFrames, after = -Infinity, expectedHands = 1) => {
     if (active.current || camera.state !== 'live') return;
     setFrames(null);
+    setSequence(null);
     setSessionId(camera.sessionId);
     setError('');
     setPending(true);
     const samples = [];
-    let interrupted = false;
-    const start = performance.now();
+    const tracker = createHandTracker(crypto.randomUUID());
+    let firstTime = null;
     let timer;
     const unsubscribe = camera.subscribe((result, timing) => {
       if (!result) {
@@ -36,16 +39,9 @@ export function useSequenceCapture(camera) {
       // useHandCamera reparte con Set.forEach, que también entrega el frame en curso a quien se
       // suscribe durante el reparto: el frame que disparó la captura automática no es del intento.
       if (timing.time <= after) return;
-      const hand = result.handedness?.[0]?.[0]?.categoryName;
-      if (result.landmarks.length !== 1 || !['Left', 'Right'].includes(hand)) interrupted = true;
-      if (result.landmarks.length === 1 && ['Left', 'Right'].includes(hand))
-        samples.push({
-          t: timing.time - start,
-          hand,
-          width: timing.width,
-          height: timing.height,
-          points: result.landmarks[0].map(({ x, y, z }) => [x, y, z]),
-        });
+      firstTime ??= timing.time;
+      const packet = result.tracking ?? tracker.update(result, timing);
+      samples.push({ ...packet, t: timing.time - firstTime });
     });
     const cancel = () => {
       clearTimeout(timer);
@@ -57,13 +53,20 @@ export function useSequenceCapture(camera) {
       active.current = null;
       setPending(false);
       try {
-        const valid = validateFrames(samples);
-        if (interrupted)
-          throw new Error(
-            'Captura interrumpida: mantén exactamente una mano visible durante todo el intento.',
-          );
+        const captured = {
+          version: 2,
+          coordinateConvention: 'MEDIAPIPE_UNMIRRORED',
+          frames: samples,
+        };
+        setSequence(captured);
+        validateHandSequence(captured);
+        if (expectedHands === 2) {
+          onFrames?.(captured);
+          return;
+        }
+        const valid = singleHandFrames(captured);
         setFrames(valid);
-        onFrames?.(valid);
+        onFrames?.(valid, captured);
       } catch (failure) {
         setError(failure.message);
       }
@@ -72,11 +75,21 @@ export function useSequenceCapture(camera) {
   return {
     pending,
     frames,
+    sequence,
     sessionId,
     error,
     capture,
+    cancel: () => {
+      active.current?.cancel();
+      active.current = null;
+      setPending(false);
+      setFrames(null);
+      setSequence(null);
+      setError('');
+    },
     clear: () => {
       setFrames(null);
+      setSequence(null);
       setError('');
     },
   };

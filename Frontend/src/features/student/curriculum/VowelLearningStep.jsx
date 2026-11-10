@@ -5,10 +5,10 @@ import { LazyVowelMicroclass } from '../microclass/LazyVowelMicroclass.jsx';
 
 /**
  * Explica la ilustración de cada vocal antes de abrir su práctica real por acción del alumno.
- * @param {{step: object}} props Paso público de introducción, explicación o cámara.
+ * @param {{step: object, onContinue?: Function}} props Paso público y siguiente observación.
  * @returns {import('react').ReactElement} Una actividad educativa; abrirla no solicita cámara.
  */
-export function VowelLearningStep({ step }) {
+export function VowelLearningStep({ step, onContinue }) {
   if (step.type === 'camera')
     return (
       <div className="education-card flex min-w-0 flex-col gap-4">
@@ -16,7 +16,7 @@ export function VowelLearningStep({ step }) {
           Pon en práctica la vocal {step.letter}. Espera a que se detecte una mano, captura tres
           segundos y analiza el intento. Puedes repetir o continuar sin usar cámara.
         </p>
-        <CameraPracticeLoader letter={step.letter} />
+        <CameraPracticeLoader letter={step.letter} onContinue={onContinue} />
       </div>
     );
   if (step.type === 'intro')

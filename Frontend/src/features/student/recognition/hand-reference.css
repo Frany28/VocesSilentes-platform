@@ -1,0 +1,58 @@
+@layer theme, base, components, utilities;
+
+@layer components {
+  .recognition-candidate {
+    align-self: center;
+    color: var(--action-primary);
+    font: var(--type-h1);
+    padding: 16px;
+  }
+  .detection-status {
+    padding: 12px 16px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    background: var(--surface-neutral);
+    font: var(--type-label);
+  }
+  .manual-hand {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    align-self: center;
+    --reference-height: 360px;
+  }
+  .manual-hand[data-separated] {
+    max-width: calc(var(--reference-height) * var(--reference-aspect));
+    /* Papel blanco del archivo original: rellena el área del rótulo oculto sin crear otra imagen. */
+    background: #fff;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+  }
+  .manual-reference[data-compact] .manual-hand {
+    --reference-height: 240px;
+  }
+  .manual-reference .manual-hand[data-separated] img {
+    width: 100%;
+    height: auto;
+    max-height: none;
+  }
+  .manual-hand[data-mirrored] img {
+    transform: scaleX(-1);
+  }
+  .manual-hand-letter {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    color: var(--text-primary);
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    padding: 4px 8px;
+    font: var(--type-h1);
+    line-height: 1;
+  }
+  @media (width < 600px) {
+    .manual-reference[data-compact] .manual-hand {
+      --reference-height: 200px;
+    }
+  }
+}

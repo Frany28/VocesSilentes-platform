@@ -21,6 +21,10 @@ export async function reviewCameraJourney({ page, results }) {
   await page.wait('document.querySelector(".camera-viewport")');
   await page.click('Activar cámara');
   await page.wait('document.body.textContent.includes("Detener cámara")');
+  assert.equal(
+    await page.evaluate('document.querySelectorAll(".camera-exercise select").length'),
+    0,
+  );
   await page.capture('lesson-vowels-camera');
   await page.click('Continuar');
   await page.wait('!document.querySelector(".camera-viewport")');
@@ -37,7 +41,7 @@ export async function reviewCameraJourney({ page, results }) {
   await page.fill({ 'Código de participante': 'synthetic_browser_test' });
   await page.evaluate('document.querySelector("input[type=checkbox]").click()');
   await page.click('Capturar muestra');
-  await page.wait('document.body.textContent.includes("entre 16 y 60 frames")');
+  await page.wait('document.body.textContent.includes("Repite la muestra")');
   assert.ok(await page.evaluate('document.body.textContent.includes("Muestras en memoria: 0")'));
   await page.evaluate(`Object.defineProperty(document,'hidden',{configurable:true,value:true});
     document.dispatchEvent(new Event('visibilitychange'));delete document.hidden;`);
@@ -55,6 +59,7 @@ export async function reviewCameraJourney({ page, results }) {
   assert.deepEqual(softwareWorker, { status: 'EXPERIMENTAL', tests: 2, error: null });
   results.journey = {
     lessonCamera: true,
+    continuedWithoutManualHandSelection: true,
     stoppedOnNavigation: true,
     stoppedWhenHidden: true,
     emptyCaptureRejected: true,

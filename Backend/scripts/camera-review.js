@@ -8,6 +8,7 @@ import { seedAlphabet } from './learning/seed-alphabet.js';
 import { alphabetModuleId } from './learning/alphabet-source.js';
 import { reviewCameraViews } from './lsv/review-camera-views.js';
 import { reviewCameraJourney } from './lsv/review-camera-journey.js';
+import { reviewStudentHandReference } from './lsv/review-student-hand-reference.js';
 import { reviewVideoImport } from './lsv/review-video-import.js';
 import { join } from 'node:path';
 
@@ -61,6 +62,7 @@ try {
   if (videoOnly) await reviewVideoImport(context);
   else {
     await reviewCameraViews(context);
+    await reviewStudentHandReference(context);
     await reviewCameraJourney(context);
   }
   assert.deepEqual(browser.errors, []);

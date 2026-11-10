@@ -4,6 +4,7 @@ import { sequenceFeatures } from '../../../../../shared/lsv/sequence.js';
 import { RecognitionModelContext } from './model-context.js';
 import { validateFrames } from '../../../../../shared/lsv/recording.js';
 import { assertModelUsage } from './model-usage.js';
+import { predictHandSequence } from '../../../../../shared/lsv/sequence-inference.js';
 
 /**
  * Importa y utiliza el modelo propio entrenado, conservando su condición experimental sin notas académicas.
@@ -36,7 +37,7 @@ export function useLocalModel({ autoLoad = false } = {}) {
     }
     event.target.value = '';
   };
-  const predict = (frames) => {
+  const predict = (frames, sequence) => {
     setError('');
     setResult(null);
     if (!model) {
@@ -45,9 +46,14 @@ export function useLocalModel({ autoLoad = false } = {}) {
     }
     try {
       assertModelUsage(model);
+      const start = performance.now();
       setResult({
-        ...predictSequence(model, sequenceFeatures(validateFrames(frames)), frames[0].hand),
+        ...(sequence
+          ? predictHandSequence(model, sequence)
+          : predictSequence(model, sequenceFeatures(validateFrames(frames)), frames[0].hand)),
+        inferenceMs: performance.now() - start,
         frames,
+        sequence: sequence ?? null,
       });
     } catch {
       setError('No se pudo analizar este intento. Repite la captura.');

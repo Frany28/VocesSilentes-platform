@@ -25,18 +25,16 @@ export function TrainingSampleFields({
         help="Usa el mismo código para la misma persona en todas sus sesiones. No escribas nombres ni correos."
         onChange={(event) => onChange('participantId', event.target.value.toLowerCase())}
       />
-      {!experimental && (
-        <Select
-          label="Grupo de datos"
-          value={metadata.partition}
-          disabled={disabled}
-          onChange={(event) => onChange('partition', event.target.value)}
-        >
-          <option value="train">Entrenamiento</option>
-          <option value="validation">Calibración</option>
-          <option value="test">Prueba independiente</option>
-        </Select>
-      )}
+      <Select
+        label="Grupo de datos"
+        value={metadata.partition}
+        disabled={disabled}
+        onChange={(event) => onChange('partition', event.target.value)}
+      >
+        <option value="train">Entrenamiento</option>
+        {!experimental && <option value="validation">Calibración</option>}
+        <option value="test">Prueba independiente</option>
+      </Select>
       <Select
         label="Etiqueta de la muestra"
         value={metadata.label}
@@ -60,7 +58,7 @@ export function TrainingSampleFields({
       </Checkbox>
       <p className="text-muted">
         {experimental
-          ? 'Sin particiones ni evaluación independiente en este experimento.'
+          ? 'La comparación A/B/C reserva la prueba por persona. El modelo provisional no calibra umbrales.'
           : 'Cada persona debe pertenecer a un solo grupo.'}{' '}
         Las muestras no se envían automáticamente.
       </p>

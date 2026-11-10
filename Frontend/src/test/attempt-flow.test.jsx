@@ -41,9 +41,7 @@ test('sin ejemplos de esa lateralidad se abstiene e indica qué mano usar', asyn
   await screen.findByText(/Reconocimiento experimental listo/);
   await attempt(camera, 'Left');
   expect(
-    screen.getByText(
-      /Sin evidencia suficiente\. El modelo solo tiene ejemplos con la mano derecha/,
-    ),
+    screen.getByText(/Sin evidencia suficiente\. Esta mano necesita más entrenamiento/),
   ).toBeVisible();
   expect(screen.queryByText(/El modelo propone/)).toBeNull();
 });

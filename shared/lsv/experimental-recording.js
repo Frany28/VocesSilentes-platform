@@ -1,5 +1,6 @@
 import { validateFrames } from './recording.js';
 import { LSV_LABELS } from './labels.js';
+import { recordingHandMetadata } from './handedness.js';
 
 const code = (value) => typeof value === 'string' && /^[a-zA-Z0-9_-]{1,64}$/.test(value);
 
@@ -26,6 +27,12 @@ export function validateExperimentalRecording(value, confirmed = false) {
   )
     throw new Error('Muestra experimental incompatible; no modifica el flujo revisado');
   const frames = validateFrames(value.frames);
+  const evaluationPartition = value.evaluationPartition ?? 'train';
+  if (
+    !['train', 'test'].includes(evaluationPartition) ||
+    (evaluationPartition === 'test' && (!code(value.participantId) || value.consent !== true))
+  )
+    throw new Error('La prueba independiente requiere participante conocido y consentimiento');
   const source = value.source;
   if (!source || !['CAMERA', 'LOCAL_VIDEO'].includes(source.type))
     throw new Error('Falta la procedencia experimental');
@@ -65,10 +72,12 @@ export function validateExperimentalRecording(value, confirmed = false) {
     participantId: value.participantId,
     observedSignant: value.observedSignant,
     partition: null,
+    evaluationPartition,
     consent: value.consent,
     reviewStatus: 'PENDING_LSV_REVIEW',
     reviewerId: null,
     frames,
+    ...recordingHandMetadata(value, frames),
     labelConfirmation: confirmation
       ? {
           status: 'MANUALLY_CONFIRMED',

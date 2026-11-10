@@ -43,6 +43,12 @@
     object-fit: contain;
     border-radius: var(--radius-md);
   }
+  .sign-practice-choice .manual-hand[data-separated] {
+    max-width: calc(112px * var(--reference-aspect));
+  }
+  .sign-practice-choice .manual-hand img {
+    height: auto;
+  }
   @media (width < 600px) {
     .sign-practice-picker {
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -53,6 +59,9 @@
     }
     .sign-practice-choice img {
       height: 80px;
+    }
+    .sign-practice-choice .manual-hand[data-separated] {
+      max-width: calc(80px * var(--reference-aspect));
     }
   }
 }

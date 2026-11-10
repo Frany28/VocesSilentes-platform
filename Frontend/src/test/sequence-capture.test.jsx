@@ -33,7 +33,8 @@ test('captura solo por acción, valida continuidad y conserva la sesión de orig
       vi.advanceTimersByTime(3000);
     });
     camera.sessionId = 'later_session';
-    expect(hook.result.current.frames).toHaveLength(20);
+    expect(hook.result.current.frames).toHaveLength(18);
+    expect(hook.result.current.sequence.frames).toHaveLength(20);
     expect(hook.result.current.sessionId).toBe('original_session');
     expect(hook.result.current.pending).toBe(false);
     expect(unsubscribe).toHaveBeenCalledTimes(1);

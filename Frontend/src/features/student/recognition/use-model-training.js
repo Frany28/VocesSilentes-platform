@@ -27,7 +27,7 @@ export function useModelTraining() {
     active.current = null;
     setPending(false);
   };
-  const train = (samples, experimental = false) => {
+  const train = (samples, experimental = false, options = {}) => {
     if (active.current) return;
     setResult(null);
     setApplied(false);
@@ -56,7 +56,11 @@ export function useModelTraining() {
         cancel();
         setError('No se pudo completar el entrenamiento local. Revisa los datos y reintenta.');
       };
-      worker.postMessage({ samples, ...(experimental ? { mode: 'LOCAL_PROVISIONAL' } : {}) });
+      worker.postMessage({
+        samples,
+        ...options,
+        ...(experimental ? { mode: 'LOCAL_PROVISIONAL' } : {}),
+      });
     } catch {
       cancel();
       setError(

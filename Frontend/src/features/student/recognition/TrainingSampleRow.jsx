@@ -18,7 +18,9 @@ export function TrainingSampleRow({ sample, reviewer, collection, onPreview, bus
     <li className="training-sample-row flex min-w-0 flex-col gap-3">
       <p>
         {sample.label} · {sample.participantId ?? sample.observedSignant ?? 'Persona sin confirmar'}{' '}
-        ·{sample.partition ?? 'Sin partición'} · {sample.frames.length} observaciones
+        · {sample.partition ?? sample.evaluationPartition ?? 'Sin partición'} ·{' '}
+        {sample.frames.length} observaciones · mano{' '}
+        {sample.frames[0].hand === 'Left' ? 'izquierda' : 'derecha'} · real
       </p>
       {experimental && (
         <p>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button } from '../../../components/ui/Button.jsx';
 import { Alert } from '../../../components/ui/Alert.jsx';
 import { TrainingSampleFields } from './TrainingSampleFields.jsx';
+import { SequenceCaptureExport } from './SequenceCaptureExport.jsx';
 
 /**
  * Solicita etiqueta, código consistente por persona y consentimiento antes de recopilar puntos para entrenar.
@@ -13,7 +14,8 @@ export function TrainingCapture({ camera, capture, collection, letter, onLetter 
   const [partition, setPartition] = useState('train');
   const [consent, setConsent] = useState(false);
   const clear = () => capture.clear();
-  const ready = camera.state === 'live' && consent && /^[a-z0-9_-]{1,64}$/.test(participantId);
+  const consented = consent && /^[a-z0-9_-]{1,64}$/.test(participantId);
+  const ready = camera.state === 'live' && consented;
   return (
     <section
       className="flex min-w-0 flex-col gap-4"
@@ -40,7 +42,7 @@ export function TrainingCapture({ camera, capture, collection, letter, onLetter 
           loading={capture.pending}
           loadingLabel="Capturando 3 segundos…"
           disabled={!ready}
-          onClick={capture.capture}
+          onClick={() => capture.capture()}
         >
           Capturar muestra
         </Button>
@@ -70,9 +72,15 @@ export function TrainingCapture({ camera, capture, collection, letter, onLetter 
           Descartar captura
         </Button>
       </div>
+      <SequenceCaptureExport
+        capture={capture}
+        metadata={{ participantId, label: letter, consent }}
+        ready={consented}
+      />
       {capture.frames && (
         <p role="status">
-          Muestra lista: {capture.frames.length} frames, etiqueta {letter}.
+          Muestra lista: {capture.frames.length} frames, etiqueta {letter}, mano{' '}
+          {capture.frames[0].hand === 'Left' ? 'izquierda' : 'derecha'}. Grabación auténtica.
         </p>
       )}
       {capture.error && (

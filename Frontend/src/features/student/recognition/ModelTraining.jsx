@@ -1,6 +1,8 @@
 import { Button } from '../../../components/ui/Button.jsx';
 import { Alert } from '../../../components/ui/Alert.jsx';
 import { useModelTraining } from './use-model-training.js';
+import { HandExperimentControls } from './HandExperimentControls.jsx';
+import { HandExperimentResults } from './HandExperimentResults.jsx';
 
 /**
  * Permite crear el modelo propio en el navegador, con evaluación separada y resultados etiquetados como experimentales.
@@ -17,9 +19,10 @@ export function ModelTraining({ samples, experimental = false }) {
       <h2 className="[font:var(--type-h3)]">Entrenar nuestro modelo</h2>
       <p>
         {experimental
-          ? 'Prototipos de etiquetas confirmadas manualmente, incluida NONE. Sin revisión experta, particiones ni métricas.'
+          ? 'Etiquetas confirmadas manualmente, incluida NONE; revisión LSV pendiente. Compara reservando otras personas.'
           : 'Se requieren etiquetas revisadas, incluida NONE, en los tres grupos con personas distintas.'}
       </p>
+      {experimental && <HandExperimentControls samples={samples} operation={operation} />}
       <div className="camera-actions">
         <Button
           disabled={!samples.length}
@@ -57,6 +60,9 @@ export function ModelTraining({ samples, experimental = false }) {
             </Alert>
           )}
           <p>Etiquetas aprendidas: {operation.result.model.labels.join(', ')}.</p>
+          {operation.result.report.comparison && (
+            <HandExperimentResults comparison={operation.result.report.comparison} />
+          )}
           <div className="camera-actions">
             <Button onClick={operation.apply} disabled={operation.applied}>
               {operation.applied

@@ -1,5 +1,4 @@
 import { act, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { expect, test, vi } from 'vitest';
 import { ModelInference } from '../features/student/recognition/ModelInference.jsx';
 import { RecognitionModelProvider } from '../features/student/recognition/RecognitionModelProvider.jsx';
@@ -71,15 +70,18 @@ test('captura sola con la mano quieta, analiza y no repite hasta bajar la mano',
   }
 });
 
-test('con la captura automática desactivada solo captura el botón', async () => {
+test('el estudiante practica sin controles de configuración de captura o lateralidad', async () => {
   serveRelease();
   const camera = fakeCamera();
   render(<Harness camera={camera} />, { wrapper: RecognitionModelProvider });
   await screen.findByText(/Reconocimiento experimental listo/);
-  await userEvent.click(screen.getByRole('checkbox', { name: /Captura automática/ }));
+  expect(screen.queryByRole('checkbox', { name: /Captura automática/ })).toBeNull();
+  expect(screen.queryByRole('combobox', { name: /Mano/ })).toBeNull();
   vi.useFakeTimers();
-  act(() => feed(camera, 2000, [centered]));
+  act(() => feed(camera, 2000, []));
   vi.useRealTimers();
   expect(screen.queryByText('Capturando… mantén la seña quieta.')).toBeNull();
-  expect(screen.getByText('Forma la seña y pulsa Capturar intento.')).toBeVisible();
+  expect(
+    screen.getByText('Forma la seña dentro del recuadro: la captura empieza sola.'),
+  ).toBeVisible();
 });

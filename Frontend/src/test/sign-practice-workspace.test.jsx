@@ -1,4 +1,4 @@
-import { render, screen, within, waitFor } from '@testing-library/react';
+import { act, render, screen, within, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 import { expect, test, vi } from 'vitest';
@@ -56,4 +56,37 @@ test('cambiar la vocal detiene el vídeo anterior y exige activar de nuevo la c�
   expect(fixture.engine.close).toHaveBeenCalledTimes(1);
   expect(screen.getByRole('button', { name: 'Activar cámara' })).toBeEnabled();
   expect(fixture.getUserMedia).toHaveBeenCalledTimes(1);
+});
+
+test('el detector adapta la referencia sin selector ni otra solicitud de cámara', async () => {
+  const { fixture } = setup();
+  await userEvent.click(await screen.findByRole('button', { name: 'Activar cámara' }));
+  await screen.findByRole('button', { name: 'Detener cámara' });
+  expect(screen.queryByLabelText('Mano para practicar')).toBeNull();
+  const video = document.querySelector('video');
+  let time = 0;
+  Object.defineProperties(video, {
+    readyState: { value: 2 },
+    videoWidth: { value: 640 },
+    videoHeight: { value: 480 },
+    currentTime: { get: () => time },
+  });
+  fixture.engine.detect.mockReturnValue({
+    landmarks: [
+      Array.from({ length: 21 }, (_, i) => ({ x: 0.4 + i * 0.005, y: 0.4 + i * 0.008, z: 0 })),
+    ],
+    handedness: [[{ categoryName: 'Left', score: 0.99 }]],
+  });
+  for (const now of [100, 200, 300])
+    act(() => {
+      time = now / 1000;
+      fixture.tick(now);
+    });
+  expect(fixture.getUserMedia).toHaveBeenCalledTimes(1);
+  expect(fixture.track.stop).not.toHaveBeenCalled();
+  await userEvent.click(screen.getByRole('button', { name: 'Practicar vocal E' }));
+  expect(screen.queryByLabelText('Mano para practicar')).toBeNull();
+  expect(
+    screen.getByRole('img', { name: /referencia de la letra E/ }).parentElement,
+  ).toHaveAttribute('data-mirrored', 'true');
 });

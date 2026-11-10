@@ -4,12 +4,14 @@ import { LessonResources } from './LessonResources.jsx';
 
 /**
  * Presenta una sola unidad educativa, conservando su texto original y los recursos pendientes agrupados.
- * @param {{step: object}} props Paso del recorrido.
+ * @param {{step: object, onPracticeContinue?: Function}} props Paso y continuación de observación opcional.
  * @returns {import('react').ReactElement} Introducción, explicación, letras, recursos o práctica personal.
  */
-export function CurriculumTheory({ step }) {
-  if (step.type === 'letters') return <LetterPractice cards={step.cards} />;
-  if (step.type === 'practice') return <PersonalPractice step={step} />;
+export function CurriculumTheory({ step, onPracticeContinue }) {
+  if (step.type === 'letters')
+    return <LetterPractice cards={step.cards} onContinue={onPracticeContinue} />;
+  if (step.type === 'practice')
+    return <PersonalPractice step={step} onContinue={onPracticeContinue} />;
   if (step.type === 'resources') return <LessonResources step={step} />;
   return (
     <article className="journey-copy education-card" aria-labelledby="journey-title">

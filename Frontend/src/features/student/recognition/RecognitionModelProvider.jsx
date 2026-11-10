@@ -6,10 +6,11 @@ import { useDemoLoader } from './use-demo-loader.js';
 
 /**
  * Conserva el modelo experimental solo en memoria durante la sesión Student, sin duplicar progreso académico.
- * @param {{children: import('react').ReactNode}} props Experiencias protegidas del mismo usuario.
+ * @param {{children: import('react').ReactNode}} props Experiencias del mismo usuario.
  * @returns {import('react').ReactElement} Modelo importable una vez y reutilizable entre letras/lecciones.
  */
 export function RecognitionModelProvider({ children }) {
+  const [referenceHand, setReferenceHand] = useState('Right');
   const [model, setModel] = useState(null);
   const generation = useRef(0);
   useEffect(
@@ -27,7 +28,9 @@ export function RecognitionModelProvider({ children }) {
   };
   const demo = useDemoLoader(importModel);
   return (
-    <RecognitionModelContext.Provider value={{ model, importModel, ...demo }}>
+    <RecognitionModelContext.Provider
+      value={{ model, importModel, ...demo, referenceHand, setReferenceHand }}
+    >
       {children}
     </RecognitionModelContext.Provider>
   );
