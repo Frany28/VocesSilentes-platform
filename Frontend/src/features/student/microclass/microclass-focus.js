@@ -12,7 +12,7 @@
 
 /**
  * Señala zonas de las ilustraciones originales; no dibuja ni corrige dedos.
- * Las coordenadas se midieron sobre las cinco imágenes de assets/lsv-manual.
+ * Las coordenadas corresponden al encuadre cuadrado de las fichas sin rótulo.
  * @type {Record<string, VowelFocus>}
  */
 export const vowelFocus = {
@@ -20,8 +20,8 @@ export const vowelFocus = {
     keys: ['Cuatro dedos recogidos', 'Pulgar al costado'],
     short: 'Pulgar al costado',
     compare: 'E',
-    detail: { x: 46, y: 36, scale: 1.45, rings: [[44, 38, 40, 26]] },
-    focus: { x: 62, y: 28, scale: 2, rings: [[62, 27, 16, 26]] },
+    detail: { x: 51, y: 39, scale: 1.45, rings: [[49, 41, 35, 24]] },
+    focus: { x: 64, y: 32, scale: 2, rings: [[64, 31, 14, 24]] },
     practice: 'Ahora inténtalo tú. Forma la A con calma y compárala con la imagen.',
   },
   E: {
@@ -29,15 +29,15 @@ export const vowelFocus = {
     short: 'Pulgar delante de la palma',
     compare: 'A',
     detail: {
-      x: 50,
+      x: 46,
       y: 40,
       scale: 1.5,
       rings: [
-        [47, 34, 38, 16],
-        [56, 47, 18, 12],
+        [43, 35, 30, 13],
+        [50, 46, 14, 10],
       ],
     },
-    focus: { x: 54, y: 44, scale: 2.1, rings: [[56, 47, 18, 12]] },
+    focus: { x: 49, y: 43, scale: 2.1, rings: [[50, 46, 14, 10]] },
     practice: 'Tu turno. Forma la E y revisa dónde quedó tu pulgar.',
   },
   I: {
@@ -45,23 +45,23 @@ export const vowelFocus = {
     short: 'Un dedo extendido',
     compare: 'U',
     detail: {
-      x: 45,
-      y: 30,
+      x: 48,
+      y: 38,
       scale: 1.35,
       rings: [
-        [36, 18, 14, 30],
-        [52, 38, 30, 24],
+        [41, 30, 10, 21],
+        [53, 44, 22, 16],
       ],
     },
-    focus: { x: 38, y: 22, scale: 2, rings: [[36, 18, 14, 30]] },
+    focus: { x: 43, y: 33, scale: 2, rings: [[41, 30, 10, 21]] },
     practice: 'Inténtalo. Meñique extendido y los demás dedos recogidos.',
   },
   O: {
     keys: ['Dedos curvados hacia el pulgar', 'Forma redondeada'],
     short: 'Forma redondeada',
     compare: null,
-    detail: { x: 58, y: 36, scale: 1.5, rings: [[60, 36, 26, 22]] },
-    focus: { x: 58, y: 38, scale: 1.9, rings: [[60, 36, 26, 22]] },
+    detail: { x: 56, y: 40, scale: 1.5, rings: [[57, 40, 21, 18]] },
+    focus: { x: 56, y: 42, scale: 1.9, rings: [[57, 40, 21, 18]] },
     practice: 'Tu turno. Curva los dedos hacia el pulgar y busca la forma redondeada.',
   },
   U: {
@@ -69,15 +69,15 @@ export const vowelFocus = {
     short: 'Dos dedos juntos',
     compare: 'I',
     detail: {
-      x: 50,
-      y: 32,
+      x: 52,
+      y: 42,
       scale: 1.35,
       rings: [
-        [56, 20, 18, 34],
-        [40, 50, 22, 22],
+        [56, 34, 12, 23],
+        [46, 54, 14, 15],
       ],
     },
-    focus: { x: 56, y: 22, scale: 1.9, rings: [[56, 20, 18, 34]] },
+    focus: { x: 56, y: 36, scale: 1.9, rings: [[56, 34, 12, 23]] },
     practice: 'Inténtalo. Índice y medio extendidos y juntos.',
   },
 };

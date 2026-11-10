@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
 // Extracción documental determinista, sin generación ni modificación de configuraciones de manos.
-const output = new URL('../../../Frontend/src/assets/lsv-manual/', import.meta.url);
+const output = new URL('../../../.local/manual-lsv-review/original-crops/', import.meta.url);
 await mkdir(output, { recursive: true });
 const pages = [
   {

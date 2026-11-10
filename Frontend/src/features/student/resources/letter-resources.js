@@ -1,10 +1,10 @@
 import provenance from '../../../assets/lsv-manual/provenance.json';
 import { manualReference } from '../recognition/manual-reference.js';
-import a from '../../../assets/lsv-manual/a.webp';
-import e from '../../../assets/lsv-manual/e.webp';
-import i from '../../../assets/lsv-manual/i.webp';
-import o from '../../../assets/lsv-manual/o.webp';
-import u from '../../../assets/lsv-manual/u.webp';
+import a from '../../../assets/lsv-manual/ficha-bccafbad3ad5.webp';
+import e from '../../../assets/lsv-manual/ficha-c4db4c076d0e.webp';
+import i from '../../../assets/lsv-manual/ficha-b1729f97cbc2.webp';
+import o from '../../../assets/lsv-manual/ficha-0ac03b43caa7.webp';
+import u from '../../../assets/lsv-manual/ficha-46c533a46758.webp';
 
 /**
  * Registro editorial de ilustraciones publicables. Solo una importación estática entra en el build:
