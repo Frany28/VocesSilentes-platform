@@ -29,13 +29,13 @@ export function ModuleCard({ module, illustrated = false, onOpen }) {
     >
       {illustrated && (
         <div
-          className="student-module-cover flex min-h-[178px] flex-col rounded-t-3xl p-4"
+          className="student-module-cover flex min-h-[178px] flex-col overflow-hidden rounded-t-3xl"
           data-color={module.illustration}
         >
-          <div>
+          <div className="p-4">
             <ModuleStatus state={state} />
           </div>
-          <ModuleIllustration />
+          <ModuleIllustration contentKey={module.contentKey} />
         </div>
       )}
       <div className="flex flex-col gap-3">
