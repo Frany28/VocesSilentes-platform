@@ -3,11 +3,8 @@ import { RecognitionModelContext } from '../recognition/model-context.js';
 import { HandIllustration } from '../recognition/HandIllustration.jsx';
 import { Link } from 'react-router';
 import { CameraPracticeLoader } from '../recognition/CameraPracticeLoader.jsx';
-import {
-  publishedLetters,
-  letterResource,
-  illustrationCredit,
-} from '../resources/letter-resources.js';
+import { Button } from '../../../components/ui/Button.jsx';
+import { publishedLetters, letterResource } from '../resources/letter-resources.js';
 import './sign-practice.css';
 
 /**
@@ -19,6 +16,14 @@ export function SignPracticeWorkspace() {
   const { referenceHand } = useContext(RecognitionModelContext);
   const letters = publishedLetters();
   const [letter, setLetter] = useState(letters[0]);
+  const [completed, setCompleted] = useState([]);
+  const [finished, setFinished] = useState(false);
+  const next = () => {
+    setCompleted((current) => [...new Set([...current, letter])]);
+    const following = letters[letters.indexOf(letter) + 1];
+    if (following) setLetter(following);
+    else setFinished(true);
+  };
   return (
     <section className="sign-practice education-card" aria-label="Área de práctica de señas">
       <div className="flex flex-col gap-2">
@@ -36,7 +41,10 @@ export function SignPracticeWorkspace() {
             type="button"
             aria-label={`Practicar vocal ${value}`}
             aria-pressed={letter === value}
-            onClick={() => setLetter(value)}
+            onClick={() => {
+              setLetter(value);
+              setFinished(false);
+            }}
           >
             <HandIllustration
               resource={letterResource(value)}
@@ -48,16 +56,21 @@ export function SignPracticeWorkspace() {
           </button>
         ))}
       </div>
-      <p className="text-muted [font:var(--type-label)]">{illustrationCredit}.</p>
-      <CameraPracticeLoader
-        key={letter}
-        letter={letter}
-        onContinue={
-          letters.indexOf(letter) < letters.length - 1
-            ? () => setLetter(letters[letters.indexOf(letter) + 1])
-            : undefined
-        }
-      />
+      <p className="text-muted" role="status">
+        Vocal {letters.indexOf(letter) + 1} de {letters.length} · {completed.length}{' '}
+        {completed.length === 1 ? 'paso logrado' : 'pasos logrados'} en esta visita
+      </p>
+      {finished ? (
+        <section className="practice-result" data-outcome="success" aria-label="Fin de la práctica">
+          <h3>¡Buen trabajo! Terminaste este recorrido.</h3>
+          <p>Puedes volver a la lección o elegir otra vocal para seguir practicando.</p>
+          <Button variant="secondary" icon={null} onClick={() => setFinished(false)}>
+            Practicar otra vez
+          </Button>
+        </section>
+      ) : (
+        <CameraPracticeLoader key={letter} letter={letter} onContinue={next} />
+      )}
       <Link
         className="education-back inline-flex min-h-11 items-center"
         to="/student/modules/vowels"

@@ -11,7 +11,29 @@ const handNames = { Right: 'derecha', Left: 'izquierda' };
  */
 export function ModelStatus({ operation, allowImport = false }) {
   const { model, loading, loadError } = operation;
-  let message = 'Preparando el reconocimiento de vocales…';
+  let message = 'Estamos preparando tu práctica…';
+  if (!allowImport) {
+    if (model)
+      return (
+        <p className="sr-only" role="status">
+          Todo listo para practicar.
+        </p>
+      );
+    return (
+      <div className="practice-model-state" aria-live="polite">
+        <p>
+          {loadError
+            ? 'La ayuda automática no está disponible. Puedes practicar con la referencia.'
+            : message}
+        </p>
+        {loadError && (
+          <Button variant="secondary" icon={null} loading={loading} onClick={operation.loadDemo}>
+            Reintentar
+          </Button>
+        )}
+      </div>
+    );
+  }
   if (model)
     message = `Reconocimiento experimental listo: ${model.labels
       .filter((label) => label !== 'NONE')

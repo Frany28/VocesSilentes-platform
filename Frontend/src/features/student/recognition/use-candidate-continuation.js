@@ -30,6 +30,7 @@ export function useCandidateContinuation(result, target, onContinue, enabled) {
     advancing,
     stay: () => setHeld(result),
     continueNow: () => {
+      if (done.current === result) return;
       done.current = result;
       setHeld(result);
       action.current?.();

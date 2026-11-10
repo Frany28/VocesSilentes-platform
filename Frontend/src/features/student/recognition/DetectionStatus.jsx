@@ -39,8 +39,8 @@ export function DetectionStatus({ camera, model, letter, expectedHands = 1 }) {
       )}
       {model && camera.hand && !hasRealHandExamples(model, letter, camera.hand) && (
         <p className="text-muted">
-          Esta mano necesita más entrenamiento con ejemplos reales. Puedes practicar por
-          observación; el modelo se abstendrá si no tiene cobertura.
+          Esta mano necesita más entrenamiento con ejemplos reales. Puedes practicar por observación
+          con la referencia.
         </p>
       )}
     </div>

@@ -10,7 +10,7 @@ import { useCandidateContinuation } from './use-candidate-continuation.js';
  * disabled: boolean, onContinue?: Function}} props Datos y acciones.
  * @returns {import('react').ReactElement} Hipótesis o abstención con indicación y opción de repetir.
  */
-export function AttemptResult({ result, model, target, onRetry, disabled, onContinue }) {
+export function LabAttemptResult({ result, model, target, onRetry, disabled, onContinue }) {
   const continuation = useCandidateContinuation(result, target, onContinue, !disabled);
   const candidate = Boolean(result.label);
   const hand = result.frames?.[0]?.hand;

@@ -29,7 +29,7 @@ export async function reviewDemoLearning({ page, browser, mirrored = false }) {
   assert.equal(await page.evaluate('window.__demoReview.calls'), 0);
   await settled();
   // El modelo de demostración se descarga una sola vez al abrir la práctica, sin pedir cámara.
-  await page.wait('document.body.textContent.includes("Reconocimiento experimental listo")');
+  await page.wait('document.body.textContent.includes("Todo listo para practicar.")');
   await page.click('Vocal E');
   await page.wait('document.querySelector(".camera-viewport")');
   assert.equal(await page.evaluate('window.__demoReview.calls'), 0);
@@ -47,7 +47,7 @@ export async function reviewDemoLearning({ page, browser, mirrored = false }) {
   );
   // Captura automática: con la mano quieta en el recuadro el intento empieza sin pulsar nada.
   const attempted =
-    'document.body.textContent.includes("Intento capturado:") || document.querySelector("[role=alert]")';
+    'document.querySelector(".practice-result") || document.querySelector("[role=alert]")';
   let automaticCapture = true;
   try {
     await page.wait(attempted);
@@ -57,25 +57,33 @@ export async function reviewDemoLearning({ page, browser, mirrored = false }) {
     await page.wait(attempted);
   }
   assert.ok(
-    await page.evaluate('document.body.textContent.includes("Intento capturado:")'),
+    await page.evaluate('Boolean(document.querySelector(".practice-result"))'),
     await page.evaluate('document.querySelector("[role=alert]")?.textContent'),
   );
   // El análisis es automático al terminar la captura; el botón queda para reanalizar.
   await page.wait(
     mirrored
-      ? 'document.body.textContent.includes("Sin evidencia suficiente.")'
-      : 'document.body.textContent.includes("El modelo propone: A.")',
+      ? 'document.querySelector(".practice-result")?.textContent.includes("Esta mano necesita más entrenamiento")'
+      : 'document.querySelector(".recognition-candidate")?.textContent==="A"',
   );
-  const hypothesis = await page.evaluate(`Array.from(document.querySelectorAll('.vs-alert'))
-    .find(node=>node.textContent.includes('Hipótesis experimental')).textContent`);
+  const hypothesis = await page.evaluate('document.querySelector(".practice-result").textContent');
   if (mirrored) assert.ok(hypothesis.includes('Esta mano necesita más entrenamiento'));
+  assert.equal(
+    await page.evaluate('document.querySelector(".practice-result").dataset.outcome'),
+    'retry',
+  );
+  assert.ok(
+    await page.evaluate(`!Array.from(document.querySelectorAll('.practice-result button'))
+    .some(button=>button.textContent.trim()==='Continuar')`),
+  );
+  await page.capture('learning-visible-retry');
   await page.click('Detener cámara');
   assert.equal(
     await page.evaluate('window.__reviewStream.getTracks().every(t=>t.readyState==="ended")'),
     true,
   );
-  const automaticObservationAdvance = !mirrored && (await reviewCandidateAdvance(page));
-  const views = await reviewDemoViews({ page, browser, mirrored });
+  const views = await reviewDemoViews({ page, browser, mirrored, outcome: 'retry' });
+  const continuation = !mirrored && (await reviewCandidateAdvance({ page, browser }));
   assert.equal(await page.evaluate('window.__demoReview.learningWrites'), 0);
   assert.equal(await page.evaluate('window.__demoReview.modelRequests'), 1);
   await page.navigate('/student/modules/vowels');
@@ -85,23 +93,17 @@ export async function reviewDemoLearning({ page, browser, mirrored = false }) {
   await page.capture('learning-vowels-pending-publication');
   assert.equal(await page.evaluate('window.__demoReview.learningWrites'), 0);
   return {
-    guidedLesson: false,
     pendingPublication: true,
-    unauthorizedImagesServed: 0,
-    authorizedReferenceShown: 'E',
     automaticCapture,
-    automaticObservationAdvance,
+    automaticObservationAdvance: Boolean(continuation?.automatic),
+    manualObservationAdvance: Boolean(continuation?.manual),
+    successViews: continuation?.views ?? [],
     productionBundle: true,
     reference: 'E',
     detectedHand: hand,
     derivedMirrorReplay: mirrored,
-    manualHandSelectors: 0,
     replayedTrainingLabel: 'A',
     hypothesis,
-    targetLabelDidNotDeterminePrediction: true,
-    modelDownloaded: true,
-    physicalCamera: false,
-    independentEvaluation: false,
     academicWrites: 0,
     views,
   };

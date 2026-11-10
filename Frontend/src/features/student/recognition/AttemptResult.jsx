@@ -1,60 +1,70 @@
-import { Alert } from '../../../components/ui/Alert.jsx';
 import { Button } from '../../../components/ui/Button.jsx';
-import { abstentionAdvice } from './recognition-support.js';
+import { Icon } from '../../../components/ui/Icon.jsx';
 import { useCandidateContinuation } from './use-candidate-continuation.js';
+import { practiceAdvice } from './practice-feedback.js';
+import { useEffect, useRef } from 'react';
+import './practice-result.css';
 
 /**
- * Resultado experimental de un intento. La letra objetivo solo se usa para comparar después de la
- * predicción, nunca como predicción. Ningún resultado califica ni completa el ejercicio.
- * @param {{result: object, model: object, target?: string, onRetry: Function,
- * disabled: boolean, onContinue?: Function}} props Datos y acciones.
- * @returns {import('react').ReactElement} Hipótesis o abstención con indicación y opción de repetir.
+ * Presenta la predicción real como guía educativa: solo la coincidencia permite continuar.
+ * No convierte detección, falta de datos ni candidata en una evaluación lingüística o nota.
+ * @param {{result: object, target?: string, onRetry: Function,
+ * disabled?: boolean, onContinue?: Function}} props Resultado local y navegación del recorrido.
+ * @returns {import('react').ReactElement} Confirmación, ayuda para repetir y siguiente acción.
  */
-export function AttemptResult({ result, model, target, onRetry, disabled, onContinue }) {
+export function AttemptResult({ result, target, onRetry, disabled = false, onContinue }) {
   const continuation = useCandidateContinuation(result, target, onContinue, !disabled);
-  const candidate = Boolean(result.label);
-  const hand = result.frames?.[0]?.hand;
-  let comparison = '';
-  if (candidate && target)
-    comparison =
-      result.label === target
-        ? ` Coincide con la ${target} que practicas.`
-        : ` No coincide con la ${target} que practicas; el modelo puede equivocarse, compara con la referencia.`;
+  const matched = Boolean(result.label && result.label === target);
+  const panel = useRef(null);
+  useEffect(() => {
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    panel.current?.scrollIntoView?.({ block: 'nearest', behavior: reduced ? 'instant' : 'smooth' });
+  }, [result]);
+  const title = matched
+    ? '¡Muy bien!'
+    : result.label
+      ? target
+        ? 'Vamos a intentarlo de nuevo'
+        : 'Vocal encontrada'
+      : 'Vamos paso a paso';
   return (
-    <div className="flex flex-col gap-3">
-      {candidate && (
-        <p className="recognition-candidate" aria-label={`Letra candidata ${result.label}`}>
-          {result.label}
+    <section
+      ref={panel}
+      className="practice-result"
+      data-outcome={matched ? 'success' : result.label && !target ? 'candidate' : 'retry'}
+      aria-label="Resultado de tu práctica"
+    >
+      <div className="practice-result-message" role="status" aria-live="polite" aria-atomic="true">
+        <div className="practice-result-heading">
+          {matched && <Icon name="check" tone="success" size={20} />}
+          <h3>{title}</h3>
+          {result.label && (
+            <span className="recognition-candidate" aria-label={`Letra candidata ${result.label}`}>
+              {result.label}
+            </span>
+          )}
+        </div>
+        <p>
+          {matched ? `Tu intento coincide con la letra ${target}.` : practiceAdvice(result, target)}
         </p>
-      )}
-      <Alert tone={candidate ? 'info' : 'warning'} title="Hipótesis experimental">
-        {candidate
-          ? `El modelo propone: ${result.label}.${comparison}`
-          : `Sin evidencia suficiente. ${abstentionAdvice(result.reason, model)}`}{' '}
-        Este resultado no califica ni completa el ejercicio.
-        {model.trainingMode && ' Umbrales sin calibrar; puede abstenerse o confundir letras.'}
-      </Alert>
-      <p>
-        Mano del intento: {hand ? (hand === 'Left' ? 'izquierda' : 'derecha') : 'sin registrar'}.
-        {Number.isFinite(result.inferenceMs) && ` Inferencia: ${result.inferenceMs.toFixed(1)} ms.`}{' '}
-        Incertidumbre: {candidate ? 'hipótesis sin calibrar' : 'abstención'}.
-      </p>
-      <Button variant="secondary" icon={null} disabled={disabled} onClick={onRetry}>
-        Repetir intento
-      </Button>
-      {candidate && result.label === target && onContinue && (
-        <Button onClick={continuation.continueNow}>Continuar</Button>
-      )}
+        {matched && (
+          <p className="practice-achieved">Paso de práctica logrado · Puedes continuar</p>
+        )}
+      </div>
+      <div className="practice-result-actions">
+        {matched && onContinue && <Button onClick={continuation.continueNow}>Continuar</Button>}
+        <Button variant="secondary" icon={null} disabled={disabled} onClick={onRetry}>
+          Repetir intento
+        </Button>
+      </div>
       {continuation.advancing && (
-        <>
-          <p role="status">
-            Coincidencia experimental. Pasaremos al siguiente paso en 3 segundos, sin calificar.
-          </p>
+        <div className="practice-next">
+          <p>Seguimos al siguiente paso en 3 segundos.</p>
           <Button variant="secondary" icon={null} onClick={continuation.stay}>
             Seguir practicando aquí
           </Button>
-        </>
+        </div>
       )}
-    </div>
+    </section>
   );
 }

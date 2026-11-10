@@ -4,10 +4,10 @@ import { useHandGuidance } from './use-hand-guidance.js';
 
 /**
  * Agrupa estado, permiso y cierre para situarlos junto al visor en escritorio, sin activar la cámara al montar.
- * @param {{camera: object}} props Estado y acciones del controlador existente.
+ * @param {{camera: object, compact?: boolean}} props Estado y controles; compact evita repetir el texto del visor.
  * @returns {import('react').ReactElement} Controles y errores accesibles de la cámara.
  */
-export function CameraControls({ camera }) {
+export function CameraControls({ camera, compact = false }) {
   const { state, error, hands, start, stop } = camera;
   const guidance = useHandGuidance(camera);
   const active = ['permission', 'loading', 'live'].includes(state);
@@ -21,9 +21,11 @@ export function CameraControls({ camera }) {
   return (
     <section className="flex min-w-0 flex-col gap-4" aria-label="Controles de cámara">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p role="status" aria-live="polite">
-          {description}
-        </p>
+        {!compact && (
+          <p role="status" aria-live="polite">
+            {description}
+          </p>
+        )}
         <div className="camera-actions">
           {active ? (
             <Button variant="secondary" icon={null} onClick={stop}>
@@ -34,7 +36,7 @@ export function CameraControls({ camera }) {
           )}
         </div>
       </div>
-      {guidance && (
+      {guidance && !compact && (
         <p className="hand-guidance" data-state={guidance.state} aria-live="polite">
           {guidance.message}
         </p>

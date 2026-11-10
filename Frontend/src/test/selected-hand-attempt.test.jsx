@@ -72,3 +72,28 @@ test('reflejos de entrenamiento por sí solos no habilitan reconocimiento estudi
   );
   expect(hasRealHandExamples(model, 'A', 'Left')).toBe(true);
 });
+
+test('detener la cámara cancela la cuenta atrás y no dispara una captura tardía', () => {
+  vi.useFakeTimers();
+  try {
+    const camera = fakeCamera();
+    const capture = { capture: vi.fn(), clear: vi.fn() };
+    const hook = renderHook(() =>
+      useModelAttempt({
+        camera,
+        capture,
+        operation: { clear: vi.fn(), loading: false },
+        target: 'A',
+        lab: false,
+      }),
+    );
+    act(() => hook.result.current.manual());
+    expect(hook.result.current.countdown.count).toBe(3);
+    act(() => camera.receive(null));
+    expect(hook.result.current.countdown.count).toBeNull();
+    act(() => vi.advanceTimersByTime(5000));
+    expect(capture.capture).not.toHaveBeenCalled();
+  } finally {
+    vi.useRealTimers();
+  }
+});

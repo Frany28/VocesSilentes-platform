@@ -1,23 +1,81 @@
 .camera-workspace {
   display: grid;
+  grid-template-areas: 'reference' 'live' 'feedback';
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
-  gap: 24px;
+  gap: 16px;
   width: 100%;
 }
-.camera-model-panel > section {
+.practice-reference {
+  grid-area: reference;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  background: var(--surface-neutral);
+}
+.practice-reference h3 {
+  font: var(--type-button);
+}
+.practice-reference .manual-reference .manual-hand {
+  --reference-height: 160px;
+}
+.practice-live {
+  grid-area: live;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   min-width: 0;
 }
-.camera-model-panel .vs-button {
-  max-width: 100%;
+.camera-exercise .practice-feedback {
+  grid-area: feedback;
+  min-width: 0;
 }
-@media (width >= 1200px) {
+.camera-exercise .camera-viewport {
+  aspect-ratio: var(--camera-ratio, 1.3333);
+  width: min(100%, calc(60svh * var(--camera-ratio, 1.3333)));
+  align-self: center;
+}
+.camera-exercise .detection-status {
+  padding: 8px 12px;
+}
+.camera-state {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--content);
+  font: var(--type-label);
+}
+.camera-viewport[data-phase='success'] {
+  border: 3px solid var(--status-success);
+}
+.camera-viewport[data-phase='capturing'] {
+  border: 3px solid var(--action-primary);
+}
+@media (width >= 1100px) {
   .camera-workspace {
-    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 1fr);
-    gap: 32px;
+    grid-template-areas: 'live reference' 'feedback reference';
+    grid-template-columns: minmax(0, 1.8fr) minmax(240px, 1fr);
+    column-gap: 24px;
   }
-  .camera-workspace .camera-viewport {
-    /* Proporcional a la pantalla: la página se desplaza, ya no hay que restar cabecera y pie. */
-    max-height: clamp(260px, 55svh, 540px);
+  .practice-reference .manual-reference .manual-hand {
+    --reference-height: 240px;
+  }
+}
+@media (600px <= width < 1100px) {
+  .practice-reference {
+    display: grid;
+    grid-template-columns: minmax(160px, 0.8fr) minmax(0, 1fr);
+    align-items: center;
+  }
+  .practice-reference h3 {
+    grid-column: 1 / -1;
   }
 }

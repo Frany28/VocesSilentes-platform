@@ -5,14 +5,13 @@
  */
 export function CameraSteps({ letter, supported }) {
   const steps = [
-    letter ? `Mira la referencia de la ${letter}.` : 'Elige la vocal que quieres practicar.',
-    'Activa la cámara y coloca la mano dentro del recuadro.',
+    letter
+      ? `Observa la posición de los dedos en la ${letter}.`
+      : 'Forma una de las cinco vocales: A, E, I, O o U.',
+    'Coloca una mano dentro del recuadro.',
     supported
-      ? 'Pulsa Capturar intento: tras la cuenta de 3, mantén la seña quieta 3 segundos.'
-      : 'Forma la seña y compárala con la referencia. No hay análisis disponible para esta letra y mano.',
-    supported
-      ? 'Lee la hipótesis experimental y repite si quieres.'
-      : 'Detén la cámara cuando termines.',
+      ? 'Mantén la seña quieta: el intento se captura solo.'
+      : 'Forma la seña y compárala con la referencia.',
   ];
   return (
     <ol className="camera-steps" aria-label="Cómo hacer el intento">

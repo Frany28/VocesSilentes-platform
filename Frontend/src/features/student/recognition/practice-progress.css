@@ -1,0 +1,29 @@
+.practice-progress {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0;
+  list-style: none;
+}
+.practice-progress li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+  font: var(--type-label);
+}
+.practice-progress li > span:first-child {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 50%;
+}
+.practice-progress [aria-current] {
+  color: var(--action-primary);
+  font-weight: 700;
+}
+.practice-progress [data-completed] {
+  color: var(--status-success);
+}

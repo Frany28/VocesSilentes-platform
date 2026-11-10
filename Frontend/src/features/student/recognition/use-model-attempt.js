@@ -2,6 +2,7 @@ import { useCaptureCountdown } from './use-capture-countdown.js';
 import { useAutoCapture } from './use-auto-capture.js';
 import { attemptStatus } from './attempt-status.js';
 import { recognitionSupports } from './recognition-support.js';
+import { useEffect } from 'react';
 
 /**
  * Coordina captura automática e inferencia por la lateralidad observada, sin selector ni calificación.
@@ -11,6 +12,15 @@ import { recognitionSupports } from './recognition-support.js';
 export function useModelAttempt({ operation, capture, camera, target, lab }) {
   const auto = !lab;
   const countdown = useCaptureCountdown();
+  const { subscribe } = camera;
+  const { cancel } = countdown;
+  useEffect(
+    () =>
+      subscribe((result) => {
+        if (!result) cancel();
+      }),
+    [subscribe, cancel],
+  );
   const supported = recognitionSupports(target, operation.model);
   const busy = capture.pending || countdown.count !== null;
   const preparing = !operation.model && operation.loading;

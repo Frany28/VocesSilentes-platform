@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 /**
  * Cuenta atrás antes de capturar, para que la seña ya esté formada cuando empiezan los tres segundos.
@@ -9,11 +9,11 @@ import { useEffect, useRef, useState } from 'react';
 export function useCaptureCountdown(seconds = 3) {
   const [count, setCount] = useState(null);
   const timer = useRef(null);
-  const cancel = () => {
+  const cancel = useCallback(() => {
     clearInterval(timer.current);
     timer.current = null;
     setCount(null);
-  };
+  }, []);
   useEffect(() => () => clearInterval(timer.current), []);
   const start = (onDone) => {
     if (timer.current) return;

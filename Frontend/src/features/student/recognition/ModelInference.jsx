@@ -1,7 +1,8 @@
 import { Button } from '../../../components/ui/Button.jsx';
 import { Alert } from '../../../components/ui/Alert.jsx';
 import { ModelStatus } from './ModelStatus.jsx';
-import { AttemptResult } from './AttemptResult.jsx';
+import { LabAttemptResult } from './LabAttemptResult.jsx';
+import { StudentAttempt } from './StudentAttempt.jsx';
 import { useModelAttempt } from './use-model-attempt.js';
 import './attempt.css';
 
@@ -14,8 +15,18 @@ import './attempt.css';
  * @returns {import('react').ReactElement} Controles y resultados accesibles.
  */
 export function ModelInference({ operation, capture, camera, target, lab = false, onContinue }) {
-  const { countdown, supported, busy, preparing, live, automatic, manual, status, shown } =
-    useModelAttempt({ operation, capture, camera, target, lab });
+  const attempt = useModelAttempt({ operation, capture, camera, target, lab });
+  const { countdown, supported, busy, preparing, live, manual, status, shown } = attempt;
+  if (!lab)
+    return (
+      <StudentAttempt
+        attempt={attempt}
+        operation={operation}
+        capture={capture}
+        target={target}
+        onContinue={onContinue}
+      />
+    );
   if (!supported)
     return (
       <Alert tone="info" title="Sin reconocimiento para esta letra">
@@ -27,13 +38,11 @@ export function ModelInference({ operation, capture, camera, target, lab = false
   return (
     <section className="flex flex-col gap-4" aria-label="Modelo propio de LSV">
       <ModelStatus operation={operation} allowImport={lab} />
-      <p className="attempt-status" data-phase={!lab ? automatic.phase : undefined} role="status">
+      <p className="attempt-status" role="status">
         {status}
       </p>
       <div className="camera-actions">
         <Button
-          variant={!lab ? 'secondary' : undefined}
-          icon={!lab ? null : undefined}
           disabled={!live || busy || preparing}
           loading={busy}
           loadingLabel={
@@ -55,12 +64,12 @@ export function ModelInference({ operation, capture, camera, target, lab = false
         )}
       </div>
       {shown && (
-        <AttemptResult
+        <LabAttemptResult
           result={operation.result}
           model={operation.model}
           target={target}
           disabled={!live || busy}
-          onRetry={!lab ? automatic.rearm : manual}
+          onRetry={manual}
           onContinue={onContinue}
         />
       )}

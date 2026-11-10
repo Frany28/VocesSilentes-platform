@@ -24,8 +24,8 @@ export function PersonalPractice({ step, onContinue }) {
       <h2>{step.title}</h2>
       <p className="journey-reading">{step.body}</p>
       <p className="text-muted">
-        La práctica con cámara permite cargar el modelo de vocales. Sus candidatos no califican tu
-        ejecución y pueden ser incorrectos; la revisión experta sigue pendiente.
+        Usa la cámara para observar tu mano y practicar las vocales. Compara tu postura con la
+        referencia.
       </p>
       <Button onClick={() => setCamera(true)}>Practicar con cámara</Button>
     </article>

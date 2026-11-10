@@ -30,8 +30,8 @@ test('el visor no solicita cámara al entrar; activa solo por botón y nunca mue
   expect(
     screen.getByRole('img', { name: /Ilustración de referencia de la letra A/ }),
   ).toBeVisible();
-  expect(await screen.findByText(/No se pudo descargar el modelo de vocales/)).toBeVisible();
-  expect(screen.getByText(/Puedes practicar frente a la cámara sin análisis/)).toBeVisible();
+  expect(await screen.findByText(/La ayuda automática no está disponible/)).toBeVisible();
+  expect(screen.getByText(/Puedes practicar con la referencia/)).toBeVisible();
   // El estudiante no importa modelos ni los carga a mano: solo puede reintentar tras un fallo.
   expect(screen.queryByText('Cargar un modelo entrenado')).toBeNull();
   expect(screen.getByRole('button', { name: 'Reintentar' })).toBeEnabled();

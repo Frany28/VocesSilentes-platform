@@ -49,7 +49,7 @@ test('captura sola con la mano quieta, analiza y no repite hasta bajar la mano',
   serveRelease();
   const camera = fakeCamera();
   render(<Harness camera={camera} />, { wrapper: RecognitionModelProvider });
-  await screen.findByText(/Reconocimiento experimental listo/);
+  await screen.findByText('Todo listo para practicar.');
   expect(screen.getByText(/la captura empieza sola/)).toBeVisible();
   vi.useFakeTimers();
   try {
@@ -58,7 +58,7 @@ test('captura sola con la mano quieta, analiza y no repite hasta bajar la mano',
     act(() => feed(camera, 400, [centered]));
     expect(screen.getByText('Capturando… mantén la seña quieta.')).toBeVisible();
     act(() => captureA(camera));
-    expect(screen.getByText(/El modelo propone: A\./)).toBeVisible();
+    expect(screen.getByText('Tu intento coincide con la letra A.')).toBeVisible();
     expect(screen.getByText(/baja la mano y vuelve a formar la seña/)).toBeVisible();
     act(() => feed(camera, 1500, [centered]));
     expect(screen.queryByText('Capturando… mantén la seña quieta.')).toBeNull();
@@ -74,7 +74,7 @@ test('el estudiante practica sin controles de configuración de captura o latera
   serveRelease();
   const camera = fakeCamera();
   render(<Harness camera={camera} />, { wrapper: RecognitionModelProvider });
-  await screen.findByText(/Reconocimiento experimental listo/);
+  await screen.findByText('Todo listo para practicar.');
   expect(screen.queryByRole('checkbox', { name: /Captura automática/ })).toBeNull();
   expect(screen.queryByRole('combobox', { name: /Mano/ })).toBeNull();
   vi.useFakeTimers();

@@ -57,7 +57,7 @@ test('el estudiante no ve importación ni carga manual; el laboratorio sí puede
     load: () => {},
   };
   const student = render(<ModelStatus operation={operation} />);
-  expect(screen.getByText('Preparando el reconocimiento de vocales…')).toBeVisible();
+  expect(screen.getByText('Estamos preparando tu práctica…')).toBeVisible();
   expect(screen.queryByText('Cargar un modelo entrenado')).toBeNull();
   expect(screen.queryByRole('button')).toBeNull();
   student.unmount();

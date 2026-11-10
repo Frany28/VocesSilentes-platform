@@ -39,29 +39,29 @@
   }
   .sign-practice-choice img {
     width: 100%;
-    height: 112px;
+    height: 80px;
     object-fit: contain;
     border-radius: var(--radius-md);
   }
   .sign-practice-choice .manual-hand[data-separated] {
-    max-width: calc(112px * var(--reference-aspect));
+    max-width: calc(80px * var(--reference-aspect));
   }
   .sign-practice-choice .manual-hand img {
     height: auto;
   }
   @media (width < 600px) {
     .sign-practice-picker {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
     }
     .sign-practice-choice {
-      padding: 8px;
+      padding: 6px;
       font: var(--type-label);
     }
     .sign-practice-choice img {
-      height: 80px;
+      height: 48px;
     }
     .sign-practice-choice .manual-hand[data-separated] {
-      max-width: calc(80px * var(--reference-aspect));
+      max-width: calc(48px * var(--reference-aspect));
     }
   }
 }

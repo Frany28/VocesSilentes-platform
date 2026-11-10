@@ -1,21 +1,19 @@
 import { StudentPageHeader } from '../components/StudentPageHeader.jsx';
-import { CameraExercise } from '../recognition/CameraExercise.jsx';
+import { SignPracticeWorkspace } from '../practice/SignPracticeWorkspace.jsx';
 import '../lesson/lesson.css';
 
 /**
  * Entrada de práctica real con cámara bajo los mismos guards USER, sin activarla al abrir la ruta.
- * @returns {import('react').ReactElement} Cámara local y clasificador propio experimental importable.
+ * @returns {import('react').ReactElement} Vocales con referencia, cámara local y recorrido educativo.
  */
 export function StudentCameraPractice() {
   return (
     <div className="flex flex-col gap-6">
       <StudentPageHeader
         title="Practicar con cámara"
-        description="Carga el modelo de vocales y compara tu intento real con sus ejemplos."
+        description="Elige una vocal, observa la referencia y practica con tu mano."
       />
-      <div className="education-card">
-        <CameraExercise />
-      </div>
+      <SignPracticeWorkspace />
     </div>
   );
 }
