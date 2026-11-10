@@ -46,7 +46,6 @@
   font: var(--type-label);
 }
 .admin-mobile-brand,
-.admin-mobile-nav,
 .admin-mobile-logout,
 .account-profile-link > span:last-child {
   display: none;

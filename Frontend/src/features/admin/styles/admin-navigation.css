@@ -67,24 +67,3 @@
     display: none;
   }
 }
-@media (width < 600px) {
-  .admin-mobile-nav .admin-nav {
-    flex-direction: row;
-  }
-  .admin-mobile-nav .admin-nav-item {
-    flex: 1;
-    min-width: 0;
-    justify-content: center;
-    padding: 12px 8px;
-    border: 1px solid var(--border-subtle);
-    background: var(--surface);
-  }
-  .admin-mobile-nav .admin-nav-item[aria-current] {
-    background: var(--action-primary);
-    border-color: var(--action-primary);
-    color: var(--action-text);
-  }
-  .admin-mobile-nav .vs-icon {
-    display: none;
-  }
-}

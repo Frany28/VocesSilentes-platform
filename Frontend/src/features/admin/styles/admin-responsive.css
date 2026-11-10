@@ -26,7 +26,6 @@
     gap: 0;
     min-width: 0;
   }
-  .admin-mobile-nav,
   .admin-mobile-logout,
   .account-profile-link > span:last-child {
     display: block;

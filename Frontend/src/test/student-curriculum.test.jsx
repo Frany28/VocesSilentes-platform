@@ -17,7 +17,7 @@ test('presenta un paso por pantalla sin sidebar ni selector; avanzar y volver no
   expect(screen.getByText(/Vista previa local · Borrador/)).toBeVisible();
   expect(screen.queryByText('Texto recibido de la API de prueba.')).toBeNull();
   expect(screen.queryByRole('article', { name: 'Letra Ñ' })).toBeNull();
-  expect(document.querySelector('.student-sidebar,.student-bottom')).toBeNull();
+  expect(document.querySelector('.student-sidebar,.vs-bottom-nav')).toBeNull();
   expect(screen.queryByRole('combobox')).toBeNull();
   expect(screen.getByRole('progressbar', { name: 'Tu recorrido' })).toHaveAttribute(
     'aria-valuenow',

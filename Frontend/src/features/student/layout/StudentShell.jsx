@@ -85,11 +85,7 @@ export function StudentShell() {
             </button>
           </footer>
           {publicConfig.studentDemo && !account && <StudentDemoControls />}
-          {page !== 'reports' && (
-            <div className="min-[600px]:hidden">
-              <StudentNavigation bottom />
-            </div>
-          )}
+          {page !== 'reports' && <StudentNavigation bottom />}
         </div>
       </div>
       <LogoutConfirmation operation={actions.session} />

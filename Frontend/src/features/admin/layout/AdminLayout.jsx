@@ -21,9 +21,6 @@ export function AdminLayout() {
           <AdminSidebar onLogout={logout.open} />
           <div className="admin-content">
             <AdminTopbar onLogout={logout.open} />
-            <div className="admin-mobile-nav">
-              <AdminNavigation compact />
-            </div>
             <main>
               <Outlet />
             </main>
@@ -31,6 +28,7 @@ export function AdminLayout() {
             <button type="button" className="admin-mobile-logout" onClick={logout.open}>
               Cerrar sesión
             </button>
+            <AdminNavigation bottom />
           </div>
           <LogoutConfirmation operation={logout} />
         </div>
