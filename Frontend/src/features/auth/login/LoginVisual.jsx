@@ -1,59 +1,46 @@
-import { LoginIllustration } from './LoginIllustration.jsx';
-import { Icon } from '../../../components/ui/Icon.jsx';
+import alphabet from '../../../assets/module-previews/alfabeto-dactilologico.webp';
+import numbers from '../../../assets/module-previews/numeros-cantidades.webp';
+import colors from '../../../assets/module-previews/colores-objetos.webp';
+import greetings from '../../../assets/module-previews/saludos-presentacion.webp';
+
+const covers = [
+  { source: alphabet, title: 'Abecedario LSV' },
+  { source: greetings, title: 'Cortesía y saludos' },
+  { source: numbers, title: 'Números' },
+  { source: colors, title: 'Colores' },
+];
 
 /**
- * Presenta la ilustración y una muestra estática del contenido previsto, sin módulos simulados.
- * @returns {import('react').ReactElement} Panel de escritorio o mensaje compacto para tablet.
+ * Presenta las portadas originales como muestra ilustrativa, sin prometer disponibilidad curricular.
+ * @returns {import('react').ReactElement} Bienvenida visual; no consulta datos ni modifica la sesión.
  */
 export function LoginVisual() {
   return (
     <>
-      <aside
-        className="login-visual relative isolate overflow-clip rounded-3xl"
-        aria-label="Bienvenida"
-      >
-        <div className="login-visual-heading flex flex-col gap-3">
-          <p className="text-info [font:var(--type-label)]">LENGUA DE SEÑAS VENEZOLANA</p>
-          <h2 className="font-extrabold">
-            Conecta con
-            <br />
-            un mundo nuevo.
-          </h2>
-          <p className="text-base/[26px] text-muted">
-            Cada seña es un puente. Empieza a construir el tuyo.
-          </p>
+      <aside className="login-visual" aria-label="Bienvenida">
+        <div className="login-visual-heading">
+          <h2>Conecta con un mundo nuevo.</h2>
+          <p>Cada seña es un puente. Empieza a construir el tuyo.</p>
         </div>
-        <LoginIllustration />
         <div
-          className="login-preview flex-col gap-3"
+          className="login-cover-grid"
           aria-label="Vista previa ilustrativa del contenido previsto"
         >
-          <p className="text-info [font:var(--type-label)]">TU PRÓXIMA CONVERSACIÓN EMPIEZA AQUÍ</p>
-          <div
-            className="flex items-center gap-3 rounded-2xl border border-border bg-surface p-4
-              shadow-[0_8px_12px_rgb(38_26_77/8%)]"
-          >
-            <span className="flex rounded-xl bg-accent p-3">
-              <Icon name="play" />
-            </span>
-            <div className="flex min-w-0 flex-1 flex-col gap-2">
-              <strong className="[font:var(--type-button)]">01 · Saludos básicos</strong>
-              <p className="text-muted [font:var(--type-label)]">Video y práctica visual</p>
-            </div>
-            <Icon name="chevron" size={16} />
-          </div>
+          {covers.map(({ source, title }) => (
+            <figure key={title}>
+              <img src={source} alt="" width="1448" height="1086" decoding="async" />
+              <figcaption>{title}</figcaption>
+            </figure>
+          ))}
         </div>
-        <div className="login-education flex-col gap-2 rounded-2xl">
-          <h3 className="[font:var(--type-h3)]">Aprende a tu ritmo.</h3>
-          <p className="text-muted">Contenido visual, ejercicios y progreso en un solo lugar.</p>
+        <div className="login-education">
+          <h3>Aprende a tu ritmo.</h3>
+          <p>Contenido visual, ejercicios y progreso en un solo lugar.</p>
         </div>
       </aside>
-      <aside
-        className="login-compact relative isolate flex-col gap-2 overflow-clip rounded-3xl"
-        aria-label="Bienvenida"
-      >
-        <h2 className="[font:var(--type-h3)]">Más señas, menos barreras.</h2>
-        <p className="text-muted">Aprende a tu ritmo. Cada seña abre una conversación.</p>
+      <aside className="login-compact" aria-label="Bienvenida">
+        <h2>Más señas, menos barreras.</h2>
+        <p>Aprende a tu ritmo. Cada seña abre una conversación.</p>
       </aside>
     </>
   );

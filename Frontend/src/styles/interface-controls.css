@@ -1,0 +1,58 @@
+.vs-button .vs-button-surface::before {
+  border-radius: var(--radius-lg);
+}
+.vs-button:not([data-loading]):enabled:active .vs-button-surface {
+  transform: scale(0.98);
+}
+.vs-button-surface {
+  transition: transform var(--motion-press) var(--motion-enter-ease);
+}
+.vs-field > label,
+.vs-select > label {
+  font-weight: 600;
+}
+.vs-select select,
+.vs-field[data-density='compact'] .vs-input-shell {
+  border-radius: var(--radius-lg);
+}
+.vs-field[data-appearance='plain'] .vs-input-shell {
+  background: var(--surface);
+}
+.vs-field[data-appearance='plain']:not([data-error]):not(:has(:focus-visible)) .vs-input-shell {
+  box-shadow: inset 0 0 0 1px var(--border-subtle);
+}
+.vs-dialog {
+  padding: clamp(20px, 3vw, 32px);
+  border: 0;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-hover);
+}
+.vs-dialog-heading {
+  align-items: flex-start;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.vs-dialog-heading h2 {
+  padding-top: 8px;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.02em;
+}
+.vs-confirmation-actions {
+  padding-top: 8px;
+}
+.vs-badge {
+  font-variant-numeric: tabular-nums;
+}
+@media (pointer: coarse) {
+  .vs-field[data-density='compact'] .vs-input,
+  .vs-select select,
+  :is(.account-page, .admin-shell) textarea {
+    font-size: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vs-button:not([data-loading]):enabled:active .vs-button-surface {
+    transform: none;
+  }
+}

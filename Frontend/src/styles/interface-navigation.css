@@ -1,0 +1,31 @@
+:is(.admin-shell, .student-shell) :is(.admin-sidebar, .student-sidebar) {
+  border: 0;
+  border-right: 1px solid var(--border-subtle);
+  border-radius: 0;
+  padding-block: 28px;
+  gap: 16px;
+}
+:is(.admin-sidebar, .student-sidebar) .vs-navigation[aria-current] {
+  background: var(--surface-accent);
+  box-shadow: none;
+}
+.student-shell .student-sidebar .student-nav-item[aria-current] {
+  background: var(--surface-accent);
+  box-shadow: none;
+}
+:is(.admin-sidebar-account, .student-sidebar-account) {
+  gap: 12px;
+  padding-top: 20px;
+}
+.vs-bottom-nav {
+  box-shadow: var(--shadow-soft);
+}
+@media (width < 600px) {
+  .vs-bottom-nav .vs-bottom-nav-item {
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+  }
+  .vs-bottom-nav .vs-bottom-nav-item[aria-current] {
+    background: var(--surface-accent);
+  }
+}

@@ -1,0 +1,65 @@
+.learning-shell .learning-journey {
+  max-width: 1320px;
+  padding-top: 28px;
+}
+.learning-shell .journey-header {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.learning-shell .journey-stage {
+  animation: none;
+  padding-block: 32px;
+}
+.learning-shell .journey-stage .education-card {
+  padding: clamp(24px, 4vw, 48px);
+  border-radius: var(--radius-xl);
+  gap: 24px;
+}
+.learning-shell .journey-copy h2 {
+  font-size: clamp(28px, 3vw, 38px);
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+}
+.learning-shell .journey-reading {
+  max-width: 68ch;
+}
+.student-shell .education-card {
+  border-radius: var(--radius-xl);
+}
+.student-shell .practice-reference {
+  border: 0;
+  background: var(--surface-secondary);
+  padding: 24px;
+  gap: 20px;
+}
+.student-shell .camera-workspace {
+  gap: 24px;
+}
+.student-shell .camera-viewport {
+  border-radius: var(--radius-xl);
+}
+.student-shell .practice-objective {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.student-shell .video-editor-grid > section,
+.student-shell .training-coverage-grid > article {
+  border-radius: var(--radius-xl);
+}
+.student-shell .mc-root {
+  border-radius: var(--radius-xl);
+}
+@media (width < 600px) {
+  .learning-shell .learning-journey {
+    padding: max(16px, env(safe-area-inset-top)) 16px 0;
+  }
+  .learning-shell .journey-stage {
+    padding-block: 16px;
+  }
+  .learning-shell .journey-controls {
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+  .student-shell .practice-reference {
+    padding: 20px;
+  }
+}

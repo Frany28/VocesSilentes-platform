@@ -1,0 +1,88 @@
+.student-shell {
+  --layout-gap: clamp(20px, 2.5vw, 32px);
+}
+.student-shell .student-content {
+  padding: 28px clamp(24px, 3vw, 48px) 32px;
+}
+.student-shell .student-container {
+  max-width: 1200px;
+}
+.student-shell .student-topbar {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.student-shell .student-page-header h1 {
+  font: 750 clamp(32px, 3vw, 42px) / 1.16 var(--font-brand);
+  letter-spacing: -0.03em;
+}
+.student-page-header > p {
+  max-width: 62ch;
+}
+.student-shell .student-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 0.85fr);
+  align-items: center;
+  gap: 24px;
+  padding: clamp(24px, 3vw, 40px);
+  min-height: 0;
+  background: var(--surface-accent);
+  border-radius: var(--radius-2xl);
+}
+.student-shell .student-hero-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+  min-width: 0;
+}
+.student-shell .student-hero h2 {
+  font-size: clamp(28px, 2.7vw, 38px);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+.student-hero-preview {
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+}
+.student-hero-preview img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  aspect-ratio: 4 / 3;
+}
+.student-shell footer {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 20px;
+}
+@container (min-width: 960px) {
+  .student-home-grid {
+    grid-template-columns: minmax(0, 1fr) 264px;
+  }
+  .student-overview-grid {
+    grid-template-columns: minmax(0, 1fr) 280px;
+  }
+}
+@container (max-width: 620px) {
+  .student-shell .student-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .student-hero-preview {
+    display: none;
+  }
+}
+@media (width < 600px) {
+  .student-shell .student-content {
+    padding: max(16px, env(safe-area-inset-top)) 20px 24px;
+  }
+  .student-shell .student-topbar {
+    padding-bottom: 16px;
+  }
+}
+@media (width < 360px) {
+  .student-shell .student-content {
+    padding-inline: 16px;
+  }
+}

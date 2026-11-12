@@ -12,6 +12,8 @@
 @import './admin-evidence.css' layer(components);
 @import './admin-metrics.css' layer(components);
 @import './admin-metrics-charts.css' layer(components);
+@import './admin-composition.css' layer(components);
+@import './admin-data-surfaces.css' layer(components);
 
 @layer components {
   body:has(.admin-shell) {
@@ -21,8 +23,8 @@
   /* Admin compact de 286:50: tipografía y geometría locales, sin alterar Auth/Student. */
   .admin-shell {
     --radius-panel: 16px;
-    --layout-gap: 24px;
-    --type-h1: 700 28px / 40px var(--font-brand);
+    --layout-gap: 32px;
+    --type-h1: 750 clamp(28px, 2.6vw, 36px) / 1.18 var(--font-brand);
     --type-h3: 700 20px / 28px var(--font-brand);
     --type-button: 600 13px / 20px var(--font-brand);
     --type-secondary: 400 14px / 20px var(--font-brand);

@@ -11,9 +11,6 @@ export function ProfilePage({ user, basePath, children }) {
   return (
     <div className="account-profile-page account-page">
       <header className="account-heading">
-        <p className="account-kicker">
-          {user.role === 'ADMIN' ? 'ADMINISTRACIÓN' : 'MI APRENDIZAJE'} / MI CUENTA
-        </p>
         <h1>Tu perfil, a tu manera.</h1>
         <p>Una identidad que te representa. Un espacio que sientes tuyo.</p>
       </header>

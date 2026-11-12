@@ -1,0 +1,78 @@
+.admin-shell .admin-content {
+  padding: 28px clamp(24px, 3vw, 48px) 32px;
+  max-width: 1536px;
+  width: 100%;
+  margin-inline: auto;
+}
+.admin-shell .admin-topbar {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.admin-shell .admin-heading {
+  gap: 12px;
+}
+.admin-heading h1 {
+  letter-spacing: -0.03em;
+}
+.admin-heading p {
+  max-width: 65ch;
+}
+.admin-shell .admin-hero {
+  gap: 12px;
+  padding: 24px 28px;
+  border-radius: var(--radius-xl);
+  background: var(--surface-secondary);
+}
+.admin-shell .admin-hero h2 {
+  font: 700 clamp(24px, 2vw, 30px) / 1.2 var(--font-brand);
+  letter-spacing: -0.02em;
+}
+.admin-shell .admin-panel {
+  border-radius: var(--radius-xl);
+  gap: 20px;
+}
+.admin-shell .admin-filters {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.admin-shell .admin-facts {
+  gap: 24px;
+}
+.admin-facts dd {
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 500;
+}
+.admin-shell .admin-user-banner {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.admin-shell .admin-content > footer {
+  padding-top: 20px;
+  border-top: 1px solid var(--border-subtle);
+}
+@media (width < 600px) {
+  .admin-shell .admin-content {
+    padding: max(16px, env(safe-area-inset-top)) 20px 24px;
+    gap: 24px;
+  }
+  .admin-shell .admin-topbar {
+    padding-bottom: 16px;
+  }
+  .admin-shell .account-profile-link {
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  .admin-shell .account-profile-link .vs-avatar {
+    display: flex;
+  }
+  .admin-shell .account-profile-link > span:last-child {
+    display: none;
+  }
+}
+@media (width < 360px) {
+  .admin-shell .admin-content {
+    padding-inline: 16px;
+  }
+}

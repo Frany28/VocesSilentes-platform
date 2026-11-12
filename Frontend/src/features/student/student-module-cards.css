@@ -1,5 +1,7 @@
 .student-module-card {
-  border-color: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2xl);
+  background: var(--surface);
   box-shadow: var(--shadow-soft);
 }
 .student-module-card:not([data-illustrated]) {

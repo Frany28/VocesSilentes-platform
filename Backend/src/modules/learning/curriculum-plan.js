@@ -5,7 +5,5 @@ export const curriculumPlan = Object.freeze([
   { key: 'lsv-03-colores', title: 'Colores', order: 3 },
   { key: 'lsv-04-cortesia', title: 'Cortesía y saludos', order: 4 },
   { key: 'lsv-05-familia', title: 'Familia', order: 5 },
-  { key: 'lsv-06-pronombres', title: 'Pronombres', order: 6 },
-  { key: 'lsv-07-emociones', title: 'Emociones', order: 7 },
-  { key: 'lsv-08-verbos', title: 'Verbos básicos', order: 8 },
+  { key: 'lsv-07-emociones', title: 'Emociones', order: 6 },
 ]);

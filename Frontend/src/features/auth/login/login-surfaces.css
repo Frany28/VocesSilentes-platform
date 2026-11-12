@@ -1,5 +1,3 @@
-/* Superficies originales y ajustes internos de controles reutilizados.
-   La composición, tipografía, espaciado y estados de enlaces usan Tailwind en JSX. */
 @layer base {
   body:has(.login-page) {
     margin: 0;
@@ -9,40 +7,20 @@
   }
 }
 .login-page {
-  background: linear-gradient(72.03892deg, var(--login-page-stops));
+  background: var(--page);
 }
 .login-visual {
-  background: linear-gradient(63.29322deg, var(--login-panel-stops));
+  background: var(--surface-secondary);
+  border-radius: var(--radius-2xl);
 }
 .login-compact {
-  background: linear-gradient(10.58164deg, var(--login-compact-stops));
+  background: var(--surface-tertiary);
 }
 .login-education {
-  display: flex;
-  padding: 24px;
-  background: linear-gradient(15.46289deg, var(--login-education-stops));
-}
-.login-page::before,
-.login-visual::before,
-.login-compact::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  inset: -40%;
-  pointer-events: none;
-  background: inherit;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-subtle);
 }
 .login-feedback .vs-alert-heading > span:last-child {
-  width: 148px;
+  width: auto;
   max-width: calc(100% - 48px);
-}
-@media (min-width: 600px) {
-  .login-page {
-    background: linear-gradient(59.89544deg, var(--login-page-stops));
-  }
-}
-@media (min-width: 1200px) {
-  .login-page {
-    background: linear-gradient(41.08175deg, var(--login-page-stops));
-  }
 }

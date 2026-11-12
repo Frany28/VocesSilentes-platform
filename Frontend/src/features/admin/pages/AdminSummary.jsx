@@ -23,7 +23,6 @@ export function AdminSummary() {
         Indicadores de administración y aprendizaje basados en registros de la plataforma.
       </AdminHeading>
       <section className="admin-hero">
-        <p className="admin-demo-note">VOCESSILENTES / MÉTRICAS</p>
         <h2>Más cuidado. Menos barreras.</h2>
         <p>
           {updated

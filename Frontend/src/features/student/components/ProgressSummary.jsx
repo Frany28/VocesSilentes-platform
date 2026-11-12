@@ -9,7 +9,7 @@ import { moduleProgress } from '../data/module-progress.js';
 export function ProgressSummary({ module }) {
   const { completed, total, percent, state } = moduleProgress(module);
   return (
-    <section className="student-summary flex w-full min-w-0 flex-col gap-4 rounded-3xl border border-border bg-surface p-6">
+    <section className="student-summary flex w-full min-w-0 flex-col gap-4">
       <h2 className="[font:var(--type-h3)]">Tu progreso</h2>
       {total > 0 && (
         <p className="[font:var(--type-h1)]">

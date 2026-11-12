@@ -1,0 +1,59 @@
+@layer base {
+  html {
+    scrollbar-color: var(--border-subtle) var(--page);
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-block: 24px 100px;
+  }
+  ::selection {
+    background: var(--surface-accent);
+    color: var(--content);
+  }
+  :is(input, textarea) {
+    caret-color: var(--action-primary);
+  }
+  :is(h1, h2, h3) {
+    text-wrap: balance;
+  }
+  :is(button, a, summary, [role='button']) {
+    touch-action: manipulation;
+  }
+  :is(button, [role='button']) {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  a {
+    text-underline-offset: 4px;
+  }
+}
+@layer components {
+  .app-shell {
+    max-width: 1128px;
+    padding: clamp(20px, 4vw, 48px);
+    font: 400 16px / 26px var(--font-brand);
+  }
+  .app-shell > header {
+    gap: 16px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .app-shell > header > .vs-brand {
+    margin-right: auto;
+  }
+  .app-shell main > section,
+  .route-feedback {
+    display: grid;
+    justify-items: start;
+    gap: 20px;
+    max-width: 720px;
+    padding: clamp(24px, 5vw, 56px) 0;
+  }
+  .app-shell h1 {
+    margin: 0;
+    font: 700 clamp(30px, 4vw, 44px) / 1.15 var(--font-brand);
+    letter-spacing: -0.03em;
+  }
+  .app-shell p {
+    margin: 0;
+  }
+}

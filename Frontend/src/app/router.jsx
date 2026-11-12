@@ -33,9 +33,10 @@ export function createRoutes() {
         {
           path: '*',
           element: (
-            <p>
-              Ruta no encontrada. <Link to="/">Volver al inicio</Link>
-            </p>
+            <section className="route-feedback">
+              <h1>Ruta no encontrada.</h1>
+              <Link to="/">Volver al inicio</Link>
+            </section>
           ),
         },
       ],

@@ -23,7 +23,7 @@ export function ModuleCard({ module, illustrated = false, onOpen }) {
       : `${completed} de ${total} lecciones`;
   return (
     <article
-      className="student-module-card flex min-w-0 flex-col rounded-3xl border bg-surface"
+      className="student-module-card flex min-w-0 flex-col"
       aria-label={module.title}
       data-illustrated={illustrated || undefined}
       data-state={state}

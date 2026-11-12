@@ -6,6 +6,7 @@
 @import './tailwind-theme.css';
 @import './ui.css' layer(components);
 @import './layout.css' layer(components);
+@import './interface-foundations.css';
 
 @source '../app';
 @source '../components';

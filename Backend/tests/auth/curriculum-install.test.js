@@ -50,11 +50,11 @@ test('carga curricular ordenada e idempotente conserva usuarios, IDs y ambos tip
   assert.deepEqual(await preserved(), before);
   const rows = await fixture.database.module.findMany({ orderBy: { order: 'asc' } });
   assert.deepEqual(
-    rows.slice(0, 8).map((item) => item.title),
+    rows.slice(0, 6).map((item) => item.title),
     curriculumPlan.map((item) => item.title),
   );
-  assert.equal(rows[8].id, legacy.id);
-  assert.equal(rows[8].publicationStatus, 'DRAFT');
+  assert.equal(rows[6].id, legacy.id);
+  assert.equal(rows[6].publicationStatus, 'DRAFT');
   const source = await readAlphabetSource();
   const lessons = await fixture.database.lesson.findMany({
     where: { moduleId: rows[0].id },
@@ -73,7 +73,7 @@ test('carga curricular ordenada e idempotente conserva usuarios, IDs y ambos tip
   assert.deepEqual(await preserved(), before);
   const catalog = (await actor.agent.get('/api/learning').expect(200)).body.data;
   assert.equal(catalog.source, 'api');
-  assert.equal(catalog.modules.length, 8);
+  assert.equal(catalog.modules.length, 6);
   assert.ok(
     catalog.modules.every((item) => item.access === 'upcoming' && item.lessons.length === 0),
   );
