@@ -33,6 +33,15 @@ export function createUsersApi() {
     create: (input, signal) => write('admin/users', 'POST', input, signal),
     edit: (id, input, signal) =>
       write(`admin/users/${encodeURIComponent(id)}`, 'PATCH', input, signal),
+    resetPassword: async (id, newPassword, signal) => {
+      const { data } = await requestJson('auth/csrf', { signal });
+      await requestJson(`admin/users/${encodeURIComponent(id)}/password`, {
+        method: 'PUT',
+        signal,
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': data.csrfToken },
+        body: JSON.stringify({ newPassword }),
+      });
+    },
     delete: (id, signal) =>
       write(`admin/users/${encodeURIComponent(id)}`, 'DELETE', undefined, signal),
   };
