@@ -9,6 +9,7 @@ import {
   userIdSchema,
   listUsersSchema,
   paginationSchema,
+  resetUserPasswordSchema,
 } from './users.validation.js';
 import { createUsersReadRepository } from './users.read.repository.js';
 import {
@@ -36,6 +37,18 @@ export async function createUsersService(database) {
     delete: (actorId, id) => deleteAdminUser(repository, actorId, id),
     state: (actorId, id, isActive) => changeUserState(repository, actorId, id, isActive),
     summary: (input) => readAdminMetrics(database, input),
+    async resetPassword(actorId, id, input) {
+      userIdSchema.parse(id);
+      const { newPassword } = resetUserPasswordSchema.parse(input);
+      const passwordHash = await passwords.hash(newPassword);
+      await repository.write(actorId, id, async (operations) => {
+        requireAdministrator(operations.actor);
+        requireEditableUser(operations.current);
+        await operations.update({ passwordHash, failedLoginAttempts: 0, lockedUntil: null });
+        await operations.revokeSessions();
+        await operations.audit('USER_UPDATED', id);
+      });
+    },
     async get(id) {
       const user = await repository.find(userIdSchema.parse(id));
       if (!user) throw new HttpError(404, 'USER_NOT_FOUND', 'Usuario no encontrado');

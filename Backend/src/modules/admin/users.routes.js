@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { rateLimit } from 'express-rate-limit';
 import { HttpError } from '../../errors/http-error.js';
 import { requireSession, requireRole, requireAuthTransport } from '../auth/auth.middleware.js';
 import { createUsersController } from './users.controller.js';
@@ -34,6 +35,18 @@ export function createUsersRouter(config, authService, usersService, csrf) {
   router.post('/users', csrf.protect, controller.create);
   router.patch('/users/:id', csrf.protect, controller.edit);
   router.patch('/users/:id/state', csrf.protect, controller.state);
+  router.put(
+    '/users/:id/password',
+    rateLimit({
+      windowMs: 600000,
+      limit: 10,
+      keyGenerator: (req) => req.auth.id,
+      standardHeaders: 'draft-8',
+      legacyHeaders: false,
+    }),
+    csrf.protect,
+    controller.resetPassword,
+  );
   router.delete('/users/:id', csrf.protect, controller.delete);
   return router;
 }

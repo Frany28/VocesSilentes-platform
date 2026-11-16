@@ -14,6 +14,9 @@ export const createUserSchema = identity.extend({
   isActive: z.boolean(),
 });
 export const editUserSchema = identity.required({ firstName: true, email: true, username: true });
+export const resetUserPasswordSchema = z.strictObject({
+  newPassword: createUserSchema.shape.password,
+});
 export const userIdSchema = z.uuid();
 export const userStateSchema = z.strictObject({ isActive: z.boolean() });
 export const paginationSchema = z.strictObject({
