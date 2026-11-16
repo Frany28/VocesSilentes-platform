@@ -12,6 +12,7 @@ import { AccountStatus } from '../components/AccountStatus.jsx';
 import { UserAccountData } from '../components/UserAccountData.jsx';
 import { UserStateAction } from '../components/UserStateAction.jsx';
 import { UserDeleteAction } from '../components/UserDeleteAction.jsx';
+import { UserPasswordAction } from '../components/UserPasswordAction.jsx';
 
 /**
  * Detalle actual de una cuenta: identidad, acceso y seguridad; conserva borrado lógico real.
@@ -68,6 +69,7 @@ export function AdminUserDetail() {
           {!user.isDeleted && (
             <>
               <UserStateAction user={user} onSaved={result.retry} />
+              <UserPasswordAction user={user} />
               <details className="admin-demo-note">
                 <summary>Otras acciones de cuenta</summary>
                 <UserDeleteAction user={user} />
