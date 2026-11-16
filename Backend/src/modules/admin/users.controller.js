@@ -3,6 +3,7 @@ import {
   editUserSchema,
   userIdSchema,
   userStateSchema,
+  resetUserPasswordSchema,
 } from './users.validation.js';
 
 /**
@@ -19,6 +20,14 @@ export function createUsersController(service) {
       const { isActive } = userStateSchema.parse(req.body);
       const user = await service.state(req.auth.id, userIdSchema.parse(req.params.id), isActive);
       res.json({ data: { user } });
+    },
+    async resetPassword(req, res) {
+      await service.resetPassword(
+        req.auth.id,
+        userIdSchema.parse(req.params.id),
+        resetUserPasswordSchema.parse(req.body),
+      );
+      res.status(204).end();
     },
     async list(req, res) {
       res.json({ data: await service.list(req.query) });
