@@ -40,9 +40,20 @@ export function UserPasswordAction({ user }) {
   return (
     <details className="admin-demo-note">
       <summary>Cambiar contraseña</summary>
-      <p>Se cerrarán las sesiones de esta cuenta. La nueva contraseña se comunicará por un canal seguro.</p>
-      {error && <Alert tone="error" title="No se pudo cambiar la contraseña">{error}</Alert>}
-      {success && <Alert tone="success" title="Contraseña actualizada">Las sesiones anteriores fueron revocadas.</Alert>}
+      <p>
+        Se cerrarán las sesiones de esta cuenta. La nueva contraseña se comunicará por un canal
+        seguro.
+      </p>
+      {error && (
+        <Alert tone="error" title="No se pudo cambiar la contraseña">
+          {error}
+        </Alert>
+      )}
+      {success && (
+        <Alert tone="success" title="Contraseña actualizada">
+          Las sesiones anteriores fueron revocadas.
+        </Alert>
+      )}
       <form className="admin-form" onSubmit={submit}>
         <fieldset disabled={pending}>
           <Input
