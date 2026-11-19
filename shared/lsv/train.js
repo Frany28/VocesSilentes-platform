@@ -1,64 +1,55 @@
 import { LSV_LABELS } from './labels.js';
-import { sequenceDistance } from './sequence.js';
-import { predictSequence, validateModel } from './classifier.js';
+import { validateModel } from './classifier.js';
+import { prepareTrainingData } from './training-data.js';
+import { selectPrototypes, calibrationRadii } from './train-prototypes.js';
+import { evaluateLsvModel } from './model-evaluation.js';
+import { labelReadiness, publicationCandidates } from './readiness.js';
 
 /**
- * Aprende prototipos de secuencias y radios de abstención con calibración independiente del entrenamiento.
- * @param {object} dataset Muestras revisadas y separación validada por persona.
- * @param {string[]} labels Etiquetas del experimento, incluida NONE; no se asume cobertura de las 27 letras.
- * @returns {object} Modelo experimental y métricas reales del conjunto test, sin aprobar publicación ni progreso.
- * @throws {Error} Falta de clases o lateralidad compatible para calibrar.
+ * Entrena el DTW existente con train, calibra con validation y mide test separado por participante.
+ * Revalida los registros para impedir que un llamador salte consentimiento o separación de personas.
+ * @param {object} dataset Muestras preparadas y hashes de los archivos explícitamente autorizados.
+ * @param {string[]} labels Clases fijadas antes de observar test, incluida NONE.
+ * @returns {object} Modelo de investigación y métricas del lote, nunca un modelo validado ni una calificación.
+ * @throws {Error} Contratos, revisión, negativos, duplicados, particiones o calibración incompatibles.
  */
 export function trainLsvModel(dataset, labels) {
   if (
+    !Array.isArray(labels) ||
     labels.length < 2 ||
     !labels.includes('NONE') ||
     new Set(labels).size !== labels.length ||
     labels.some((label) => !LSV_LABELS.includes(label))
   )
     throw new Error('Selecciona letras válidas e incluye NONE');
-  const records = dataset.records.filter((sample) => labels.includes(sample.label));
-  const prototypes = [];
-  const radii = {};
-  for (const label of labels) {
-    for (const partition of ['train', 'validation', 'test']) {
+  const prepared = prepareTrainingData(dataset.records, labels);
+  const records = prepared.records.filter((sample) => labels.includes(sample.label));
+  for (const label of labels)
+    for (const partition of ['train', 'validation', 'test'])
       if (!records.some((sample) => sample.label === label && sample.partition === partition))
         throw new Error(`Faltan muestras revisadas de ${label} en ${partition}`);
-    }
-    for (const hand of ['Left', 'Right']) {
-      const training = records.filter(
-        (sample) => sample.label === label && sample.hand === hand && sample.partition === 'train',
-      );
-      const positions = new Set([0, Math.floor((training.length - 1) / 2), training.length - 1]);
-      for (const index of positions) {
-        const sample = training[index];
-        if (sample) prototypes.push({ label, hand, sequence: sample.sequence });
-      }
-    }
-    const distances = records
-      .filter((sample) => sample.label === label && sample.partition === 'validation')
-      .map((sample) => {
-        const candidates = prototypes.filter(
-          (prototype) => prototype.label === label && prototype.hand === sample.hand,
-        );
-        if (!candidates.length)
-          throw new Error(`Falta entrenamiento de la mano observada en ${label}`);
-        return Math.min(
-          ...candidates.map((prototype) => sequenceDistance(sample.sequence, prototype.sequence)),
-        );
-      })
-      .sort((left, right) => left - right);
-    radii[label] = distances[Math.floor((distances.length - 1) * 0.95)];
-  }
+  const prototypes = labels.flatMap((label) =>
+    ['Left', 'Right'].flatMap((hand) =>
+      selectPrototypes(
+        records.filter(
+          (sample) =>
+            sample.label === label && sample.hand === hand && sample.partition === 'train',
+        ),
+      ).map((sample) => ({ label, hand, sequence: sample.sequence })),
+    ),
+  );
   const model = validateModel({
     version: 1,
     algorithm: 'LSV_DTW_1NN',
     status: 'EXPERIMENTAL',
+    usage: 'LOCAL_RESEARCH_ONLY',
+    academicGrading: false,
     labels,
     prototypes,
-    radii,
+    ...calibrationRadii(records, prototypes, labels),
     featureVersion: 'screen-pose-wrist-v1',
     sources: dataset.sources,
+    prototypeSelection: 'TRAIN_ONLY_FARTHEST_FIRST_3_PER_HAND',
     partitions: Object.fromEntries(
       ['train', 'validation', 'test'].map((partition) => [
         partition,
@@ -66,40 +57,28 @@ export function trainLsvModel(dataset, labels) {
           samples: records.filter((sample) => sample.partition === partition).length,
           participants: [
             ...new Set(
-              records
-                .filter((sample) => sample.partition === partition)
-                .map((sample) => sample.participantId),
+              records.filter((s) => s.partition === partition).map((s) => s.participantId),
             ),
-          ],
+          ].sort(),
         },
       ]),
     ),
   });
-  const matrix = {};
-  let correct = 0;
-  let total = 0;
-  let abstained = 0;
-  for (const sample of records.filter((item) => item.partition === 'test')) {
-    const prediction = predictSequence(model, sample.sequence, sample.hand);
-    const result = prediction.label ?? (prediction.reason === 'BACKGROUND' ? 'NONE' : 'UNSURE');
-    matrix[sample.label] ??= {};
-    matrix[sample.label][result] = (matrix[sample.label][result] ?? 0) + 1;
-    if (result === sample.label) correct += 1;
-    if (result === 'UNSURE') abstained += 1;
-    total += 1;
-  }
-  return {
-    model,
-    report: {
-      status: 'EXPERIMENTAL',
-      total,
-      correct,
-      abstained,
-      accuracy: correct / total,
-      confusionMatrix: matrix,
-      partitions: model.partitions,
-      warning:
-        'Resultados de este dataset; no constituyen validación lingüística ni autorización para calificar estudiantes.',
+  const report = {
+    status: 'EXPERIMENTAL',
+    ...evaluateLsvModel(model, records),
+    partitions: model.partitions,
+    dataReadiness: labelReadiness(records, undefined, labels),
+    protocol: {
+      split: 'PARTICIPANT_HOLDOUT',
+      calibration: 'VALIDATION_ONLY_P95_NEAREST_RANK_PER_LABEL_HAND',
+      featureVersion: model.featureVersion,
+      prototypeSelection: model.prototypeSelection,
+      academicGrading: false,
     },
+    warning:
+      'Métricas de este lote; no autorizan publicación, validación LSV ni calificación académica.',
   };
+  report.publication = publicationCandidates(report);
+  return { model, report };
 }

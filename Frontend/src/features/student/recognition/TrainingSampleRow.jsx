@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import { Button } from '../../../components/ui/Button.jsx';
-import { Checkbox } from '../../../components/ui/Checkbox.jsx';
 import { SamplePreview } from './SamplePreview.jsx';
+import { TrainingSampleReview } from './TrainingSampleReview.jsx';
 
 /**
  * Ofrece inspección y revisión humana declarada por ejecución, sin aprobar geometría como LSV automáticamente.
@@ -10,7 +9,6 @@ import { SamplePreview } from './SamplePreview.jsx';
  * @returns {import('react').ReactElement} Fila accesible con descarte y procedencia exportable.
  */
 export function TrainingSampleRow({ sample, reviewer, collection, onPreview, busy }) {
-  const [observed, setObserved] = useState(false);
   const approved = sample.reviewStatus === 'APPROVED_LSV';
   const experimental = collection.experimental;
   const confirmed = experimental ? Boolean(sample.labelConfirmation) : approved;
@@ -52,11 +50,12 @@ export function TrainingSampleRow({ sample, reviewer, collection, onPreview, bus
         <SamplePreview sample={sample} />
       </details>
       {!confirmed && (
-        <Checkbox checked={observed} onChange={(event) => setObserved(event.target.checked)}>
-          {experimental
-            ? `Observé la ejecución original y confirmo su etiqueta provisional ${sample.label}.`
-            : 'Una persona competente en LSV revisó esta ejecución original en vivo o en el video, y confirmó su etiqueta. Inspeccionar solo los puntos no basta.'}
-        </Checkbox>
+        <TrainingSampleReview
+          sample={sample}
+          reviewer={reviewer}
+          collection={collection}
+          busy={busy}
+        />
       )}
       <div className="camera-actions">
         {sample.source?.type === 'LOCAL_VIDEO' && onPreview && (
@@ -70,15 +69,6 @@ export function TrainingSampleRow({ sample, reviewer, collection, onPreview, bus
             Ver video original
           </Button>
         )}
-        <Button
-          density="compact"
-          variant="secondary"
-          icon={null}
-          disabled={busy || confirmed || !observed || !/^[a-z0-9_-]{1,64}$/.test(reviewer)}
-          onClick={() => collection.review(sample.id, reviewer)}
-        >
-          {experimental ? 'Confirmar etiqueta provisional' : 'Confirmar revisión LSV'}
-        </Button>
         <Button
           density="compact"
           variant="secondary"

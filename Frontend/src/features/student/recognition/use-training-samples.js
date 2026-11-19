@@ -26,11 +26,11 @@ export function useTrainingSamples(experimental = false) {
       return false;
     }
   };
-  const review = (id, reviewerId) => {
+  const review = (id, reviewerId, reviewEvidence) => {
     setError('');
     try {
       const original = current.current.find((sample) => sample.id === id);
-      const revised = policy.review(original, reviewerId);
+      const revised = policy.review(original, reviewerId, reviewEvidence);
       current.current = current.current.map((sample) => (sample.id === id ? revised : sample));
       setSamples(current.current);
       setExported(false);

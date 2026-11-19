@@ -1,10 +1,20 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { letterReadiness, publicationCandidates } from '../../shared/lsv/readiness.js';
+import { syntheticRecording } from './fixtures/lsv-synthetic.js';
 
-// Solo metadatos para contar; no son muestras de entrenamiento ni contienen puntos.
+// Grabaciones y referencias sintéticas exclusivamente para verificar elegibilidad y conteos.
+let fixtureId = 0;
 function meta(label, partition, participantId, hand = 'Right', reviewStatus = 'APPROVED_LSV') {
-  return { label, partition, participantId, hand, reviewStatus };
+  fixtureId += 1;
+  const sample = syntheticRecording(label, partition, fixtureId * 0.0001);
+  return {
+    ...sample,
+    id: `software_${fixtureId}`,
+    participantId,
+    reviewStatus,
+    frames: sample.frames.map((frame) => ({ ...frame, hand })),
+  };
 }
 
 function repeat(count, ...args) {
@@ -30,7 +40,7 @@ test('preparación: el modelo de demostración actual (una persona, mano derecha
   const row = letterReadiness(samples).find((item) => item.label === 'A');
   assert.equal(row.status, 'INSUFFICIENT_DATA');
   assert.ok(row.missing.includes('train: 0/6 personas con 3+ muestras'));
-  assert.ok(row.missing.includes('Sin ejemplos con mano Left'));
+  assert.ok(row.missing.includes('train: sin ejemplos con mano Left'));
 });
 
 test('preparación: personas, repeticiones y lateralidades suficientes permiten evaluar', () => {
@@ -39,7 +49,15 @@ test('preparación: personas, repeticiones y lateralidades suficientes permiten 
     samples.push(...repeat(3, 'E', 'train', `t${person}`, person % 2 ? 'Left' : 'Right'));
   for (const partition of ['validation', 'test'])
     for (let person = 0; person < 2; person += 1)
-      samples.push(...repeat(3, 'E', partition, `${partition}${person}`));
+      samples.push(
+        ...repeat(
+          partition === 'test' ? 10 : 3,
+          'E',
+          partition,
+          `${partition}${person}`,
+          person % 2 ? 'Left' : 'Right',
+        ),
+      );
   assert.equal(
     letterReadiness(samples).find((item) => item.label === 'E').status,
     'READY_FOR_EVALUATION',
@@ -48,6 +66,10 @@ test('preparación: personas, repeticiones y lateralidades suficientes permiten 
 
 test('publicación: exige muestras de prueba, sensibilidad y pocos falsos positivos sobre NONE', () => {
   const report = {
+    dataReadiness: ['A', 'E', 'I', 'NONE'].map((label) => ({
+      label,
+      status: 'READY_FOR_EVALUATION',
+    })),
     confusionMatrix: {
       A: { A: 19, UNSURE: 1 },
       E: { E: 15, A: 5 },

@@ -1,33 +1,46 @@
 import { trainingCoverage } from '../../../../../shared/lsv/coverage.js';
+import { labelReadiness } from '../../../../../shared/lsv/readiness.js';
 
 const groupNames = { train: 'Entrenamiento', validation: 'Calibración', test: 'Prueba' };
 
 /**
  * Explica cobertura de ejecuciones independientes, sin convertir frames o muestras pendientes en suficiencia.
  * @param {{samples: object[]}} props Lote validado en memoria.
- * @returns {import('react').ReactElement} Faltantes de las seis etiquetas y de cada participante.
+ * @returns {import('react').ReactElement} Faltantes de 27 letras y NONE, sin convertirlos en un modelo disponible.
  */
 export function TrainingCoverage({ samples }) {
   const coverage = trainingCoverage(samples);
+  const readiness = labelReadiness(samples);
   return (
     <section
       className="education-card flex min-w-0 flex-col gap-4"
-      aria-label="Cobertura del conjunto piloto"
+      aria-label="Cobertura del abecedario y NONE"
     >
-      <h2 className="[font:var(--type-h3)]">Cobertura del piloto: vocales y NONE</h2>
+      <h2 className="[font:var(--type-h3)]">Cobertura de las 27 letras y NONE</h2>
       <p role="status">
         {coverage.minimumCovered
           ? 'Mínimo de muestras revisadas cubierto.'
           : 'Faltan muestras revisadas en uno o más grupos.'}
       </p>
       <p className="text-muted">
-        Solo este lote en memoria. Mínimo técnico: una ejecución revisada por etiqueta y grupo, con
-        personas separadas. No demuestra precisión ni basta para validar el modelo.
+        Solo este lote en memoria. Se cuentan ejecuciones con consentimiento, documentación y
+        revisión LSV, con personas separadas. La cobertura no demuestra precisión ni valida el
+        modelo.
       </p>
       <div className="training-coverage-grid">
         {coverage.labels.map(({ label, groups }) => (
           <article key={label} className="training-sample-row">
             <h3 className="[font:var(--type-h3)]">{label}</h3>
+            <details>
+              <summary>Datos que faltan para evaluar {label}</summary>
+              <ul>
+                {readiness
+                  .find((row) => row.label === label)
+                  .missing.map((missing) => (
+                    <li key={missing}>{missing}</li>
+                  ))}
+              </ul>
+            </details>
             <ul className="flex list-none flex-col gap-2 p-0">
               {groups.map((group) => (
                 <li key={group.partition}>
@@ -51,7 +64,7 @@ export function TrainingCoverage({ samples }) {
               <p>
                 {person.missing.length
                   ? `Faltan revisadas: ${person.missing.join(', ')}.`
-                  : 'Tiene muestras revisadas de las seis etiquetas.'}
+                  : 'Tiene muestras documentadas de todas las etiquetas.'}
               </p>
               {person.partitions.length > 1 && (
                 <p>Conflicto: esta persona aparece en varios grupos.</p>

@@ -16,7 +16,7 @@ export function LiveTrainingPanel({ camera, capture, collection }) {
   return (
     <div className="education-card camera-reference-grid">
       <div className="flex min-w-0 flex-col gap-4">
-        <ManualReference letter={letter} compact />
+        <ManualReference letter={letter} compact laboratory />
         <CameraView camera={camera} />
         {collection.experimental && (
           <ModelInference operation={operation} capture={capture} camera={camera} lab />

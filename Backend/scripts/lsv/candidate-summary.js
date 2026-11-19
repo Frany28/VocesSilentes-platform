@@ -12,7 +12,7 @@ export function candidateSummary(report, details) {
     `Rechazados técnicamente: ${report.rejectedGeometry}`,
     `Listos para entrenar: ${report.trainingReady}`,
     'Geometría válida no significa seña correcta ni permiso confirmado.',
-    'NONE representa posturas/señas ajenas a las vocales objetivo, no LSV incorrecta.',
+    'NONE requiere revisión frente a las clases elegidas; un negativo de vocales puede ser otra letra LSV.',
     ...report.technicalCoverage.map(
       (item) =>
         `${item.label}: ${item.valid} candidatos técnicamente válidos; ${item.rejected} rechazos.`,

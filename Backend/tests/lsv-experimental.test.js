@@ -92,4 +92,9 @@ test('importar cuarentena excluye todos los desconocidos/video_04 y conserva per
   assert.equal(drafts[0].source.authorizationStatus, 'PENDING');
   assert.equal(drafts[0].labelConfirmation, null);
   assert.throws(() => trainExperimentalModel(drafts), /Confirma/);
+  const manuallyConfirmed = {
+    ...drafts[0],
+    labelConfirmation: syntheticExperimental().labelConfirmation,
+  };
+  assert.throws(() => trainExperimentalModel([manuallyConfirmed]), /consentimiento/);
 });

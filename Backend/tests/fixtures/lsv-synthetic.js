@@ -1,4 +1,6 @@
-// Geometría sintética exclusivamente para probar software. No representa señas ni un dataset de LSV.
+import { LSV_LETTERS } from '../../../shared/lsv/labels.js';
+
+// Geometría y referencias ficticias exclusivamente para probar software. No son datos ni permisos LSV.
 /**
  * Genera una observación numérica identificada para probar contratos, separación y matemática del entrenador.
  * @param {string} label Etiqueta de prueba A o NONE.
@@ -9,7 +11,7 @@
 export function syntheticRecording(label, partition, offset = 0) {
   return {
     version: 1,
-    id: `${partition}-${label}`,
+    id: `${partition}-${label === 'Ñ' ? 'enye' : label}`,
     label,
     participantId: `test_${partition}`,
     sessionId: `session_${partition}`,
@@ -17,6 +19,22 @@ export function syntheticRecording(label, partition, offset = 0) {
     consent: true,
     reviewStatus: 'APPROVED_LSV',
     reviewerId: 'synthetic_test_reviewer',
+    captureOrigin: 'LIVE_CAMERA',
+    reviewEvidence: {
+      language: 'LSV',
+      consentReference: 'SOFTWARE_TEST_ONLY',
+      permissionReference: 'SOFTWARE_TEST_ONLY',
+      reviewReference: 'SOFTWARE_TEST_ONLY',
+      variantReference: 'SOFTWARE_TEST_ONLY',
+      reviewedAt: '2026-01-01T00:00:00.000Z',
+      motionReviewed: true,
+      ...(label === 'NONE'
+        ? {
+            negativeFor: [...LSV_LETTERS],
+            negativeDescription: 'Synthetic numerical negative, not actual LSV',
+          }
+        : {}),
+    },
     frames: Array.from({ length: 20 }, (_, index) => ({
       t: index * 100,
       hand: 'Right',

@@ -1,5 +1,6 @@
-import { LSV_LABELS, LSV_FEATURES, LSV_SEQUENCE_LENGTH } from './labels.js';
+import { LSV_LABELS } from './labels.js';
 import { sequenceDistance } from './sequence.js';
+import { validFeatureSequence } from './feature-sequence.js';
 
 /**
  * Valida el modelo experimental importado; no acepta reglas, notas ni código ejecutable en un JSON.
@@ -47,16 +48,15 @@ export function validateModel(model) {
     if (
       !model.labels.includes(prototype.label) ||
       !['Left', 'Right'].includes(prototype.hand) ||
-      !Array.isArray(prototype.sequence) ||
-      prototype.sequence.length !== LSV_SEQUENCE_LENGTH ||
-      prototype.sequence.some(
-        (frame) =>
-          !Array.isArray(frame) ||
-          frame.length !== LSV_FEATURES ||
-          frame.some((value) => !Number.isFinite(value) || Math.abs(value) > 1000),
-      )
+      !validFeatureSequence(prototype.sequence)
     )
       throw new Error('Prototipo de modelo inválido');
+    if (
+      model.radiiByHand !== undefined &&
+      (!Number.isFinite(model.radiiByHand[prototype.label]?.[prototype.hand]) ||
+        model.radiiByHand[prototype.label][prototype.hand] < 0)
+    )
+      throw new Error('Falta calibración por etiqueta y mano');
   }
   for (const label of model.labels) {
     if (
@@ -77,6 +77,8 @@ export function validateModel(model) {
  * @returns {object} Hipótesis experimental o abstención con motivo, nunca acierto académico.
  */
 export function predictSequence(model, sequence, hand) {
+  if (!validFeatureSequence(sequence))
+    return { label: null, distance: null, reason: 'INVALID_SEQUENCE' };
   const candidates = model.prototypes
     .filter((prototype) => prototype.hand === hand)
     .map((prototype) => ({
@@ -86,7 +88,8 @@ export function predictSequence(model, sequence, hand) {
     .sort((left, right) => left.distance - right.distance);
   const best = candidates[0];
   if (!best) return { label: null, distance: null, reason: 'UNSUPPORTED_HAND' };
-  if (best.distance > model.radii[best.label])
+  const radius = model.radiiByHand?.[best.label]?.[hand] ?? model.radii[best.label];
+  if (best.distance > radius)
     return { label: null, distance: best.distance, reason: 'OUT_OF_DISTRIBUTION' };
   if (best.label === 'NONE') return { label: null, distance: best.distance, reason: 'BACKGROUND' };
   const competing = candidates.find((candidate) => candidate.label !== best.label);

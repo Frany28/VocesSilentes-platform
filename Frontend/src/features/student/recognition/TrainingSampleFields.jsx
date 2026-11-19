@@ -1,7 +1,7 @@
 import { Input } from '../../../components/ui/Input.jsx';
 import { Select } from '../../../components/ui/Select.jsx';
 import { Checkbox } from '../../../components/ui/Checkbox.jsx';
-import { LSV_LABELS } from '../../../../../shared/lsv/labels.js';
+import { LSV_LABELS, LSV_MOTION_LETTERS } from '../../../../../shared/lsv/labels.js';
 
 /**
  * Presenta metadatos mínimos de muestras consentidas, sin solicitar nombres ni aprobar etiquetas automáticamente.
@@ -47,6 +47,12 @@ export function TrainingSampleFields({
           </option>
         ))}
       </Select>
+      {LSV_MOTION_LETTERS.includes(metadata.label) && (
+        <p className="text-muted">
+          Registra la ejecución temporal completa de {metadata.label}, sin congelarla ni repetir
+          fotogramas. Su movimiento y variante LSV requieren revisión humana.
+        </p>
+      )}
       <Checkbox
         checked={metadata.consent}
         disabled={disabled}

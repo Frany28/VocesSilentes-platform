@@ -53,10 +53,11 @@ test('identidades históricas desconocidas impiden afirmar independencia aunque 
   };
   reserved.frames = reserved.frames.map((f) => ({
     ...f,
-    points: f.points.map(([x, y, z]) => [x + 0.002, y, z]),
+    points: f.points.map(([x, y, z], point) => [x, y + (point > 10 ? 0.002 : 0), z]),
   }));
   const result = compareHandExperiments([...training, reserved]);
   assert.equal(result.evaluation.reservedTestSamples, 1);
   assert.equal(result.evaluation.independenceVerified, false);
-  assert.equal(result.experiments.B.metrics.byHand.Right.accuracy, null);
+  assert.equal(result.experiments.B.status, 'BLOCKED');
+  assert.equal(result.experiments.B.metrics, null);
 });

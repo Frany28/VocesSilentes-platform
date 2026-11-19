@@ -1,4 +1,4 @@
-import { screen, within } from '@testing-library/react';
+import { screen, within, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, test, vi } from 'vitest';
 import { syntheticVideoRecording } from '../../../Backend/tests/fixtures/lsv-video-synthetic.js';
@@ -28,6 +28,13 @@ test('importación: anotación → extracción → inspección → lote pendient
   const confirm = screen.getByRole('button', { name: 'Confirmar revisión LSV' });
   expect(confirm).toBeDisabled();
   await userEvent.type(screen.getByLabelText('Código de quien revisa LSV'), 'software_reviewer');
+  for (const label of [
+    'Referencia de consentimiento',
+    'Referencia de permiso para entrenamiento',
+    'Referencia de revisión lingüística',
+    'Referencia de fuente y variante LSV',
+  ])
+    fireEvent.change(screen.getByLabelText(label), { target: { value: 'SOFTWARE_TEST_ONLY' } });
   expect(confirm).toBeDisabled();
   await userEvent.click(screen.getByRole('button', { name: 'Exportar muestras (.json)' }));
   const pending = await readDownloadedJson(view.downloaded());

@@ -11,6 +11,19 @@ export async function reviewVideoImport(context) {
   const { page, results, output } = context;
   await page.navigate('/student/practice/model-lab');
   await page.wait('document.querySelector(".camera-viewport")');
+  await page.evaluate(`(() => {
+    const flow = [...document.querySelectorAll('select')]
+      .find(node => node.labels?.[0]?.textContent === 'Flujo de entrenamiento');
+    if (flow) {
+      flow.value = 'reviewed';
+      flow.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  })()`);
+  await page.wait('document.querySelector(".training-coverage-grid")');
+  assert.equal(
+    await page.evaluate('document.querySelectorAll(".training-coverage-grid article").length'),
+    28,
+  );
   const path = await createVideoFixture(page, output);
   await page.click('Importar video local');
   assert.equal(await page.evaluate('window.__cameraReview.calls'), 0);
@@ -63,6 +76,7 @@ export async function reviewVideoImport(context) {
   assert.equal(await page.evaluate('window.__cameraReview.calls'), 0);
   assert.equal(await page.evaluate('window.__cameraReview.learningWrites'), 0);
   results.videoImport = {
+    coverageLabels: 28,
     localDecode: true,
     receivedFrames: decoding.count,
     invalidIntervalBeforeModel: true,

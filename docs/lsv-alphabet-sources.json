@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "checkedOn": "2026-11-18",
+  "purpose": "LINGUISTIC_AND_RIGHTS_REFERENCE_NOT_TRAINING_DATA",
+  "mediaImported": false,
+  "sources": [
+    {
+      "id": "fevensor-1999-asc",
+      "author": "Federación Venezolana de Sordos (FEVENSOR)",
+      "title": "Manual de Lengua de Señas Venezolana (1999)",
+      "url": "https://ascpaginaweb2018.wixsite.com/asc2021/manualfevensor1999",
+      "evidence": "Página institucional de ASC: atribución a FEVENSOR y créditos de dibujo, diseño y corrección.",
+      "rights": "COPYRIGHT_FEVENSOR_NO_TRAINING_LICENSE_FOUND",
+      "use": "Bibliografía y futura revisión por personas competentes; no se copiaron imágenes ni se extrajeron muestras."
+    },
+    {
+      "id": "fevensor-cnlse-catalog",
+      "author": "CNLSE / Biblioteca Fundación CNSE",
+      "title": "Ficha bibliográfica del manual FEVENSOR de 1999",
+      "url": "https://cnlse.es/es/recursos/biblioteca/manual-de-lengua-de-senas-venezolana",
+      "evidence": "Catálogo: autor FEVENSOR, Caracas 1999, soporte papel y Copyright.",
+      "rights": "BIBLIOGRAPHIC_RECORD_ONLY",
+      "use": "Verificación bibliográfica; no acredita acceso a corpus ni permiso de entrenamiento."
+    },
+    {
+      "id": "asc-lsv-course",
+      "author": "Asociación de Sordos de Caracas",
+      "title": "Curso de Lengua de Señas Venezolana",
+      "url": "https://ascpaginaweb2018.wixsite.com/asc2021/curso-de-lsv",
+      "evidence": "Sitio institucional que presenta formación con instructores sordos.",
+      "rights": "ALL_RIGHTS_RESERVED_NO_DATASET_LICENSE_FOUND",
+      "use": "Posible colaboración/revisión lingüística, sin contactar personas ni inscribir a nadie."
+    },
+    {
+      "id": "asc-lsv-books",
+      "author": "Asociación de Sordos de Caracas",
+      "title": "Libros de LSV",
+      "url": "https://ascpaginaweb2018.wixsite.com/asc2021/librosdelsv",
+      "evidence": "Historia y catálogo de publicaciones de LSV, con manuales FEVENSOR 1999/2006.",
+      "rights": "ALL_RIGHTS_RESERVED_NO_DATASET_LICENSE_FOUND",
+      "use": "Distinguir fuentes venezolanas y sus ediciones; no sustituir con ASL."
+    },
+    {
+      "id": "oviedo-2000-part3",
+      "author": "Alejandro Oviedo, Universidad de Los Andes, Mérida",
+      "title": "Un estudio sobre la estructura de las señas de la LSV, Parte 3 (2000)",
+      "url": "https://cultura-sorda.org/wp-content/uploads/2015/03/Oviedo_Estructura_LSV_Parte3_de_6.pdf",
+      "locator": "Páginas impresas 56–58; PDF páginas 2–4.",
+      "evidence": "Análisis segmental de I/J: J incluye dos posiciones y giro de muñeca, no solo una postura.",
+      "rights": "CONSULTATION_ONLY_NO_TRAINING_OR_IMAGE_REDISTRIBUTION_PERMISSION_ESTABLISHED",
+      "use": "Justifica conservar forma, orientación y tiempo. No convierte dibujos en muestras ni valida variantes actuales."
+    },
+    {
+      "id": "upel-martinez-2018",
+      "author": "Angélica María Martínez, UPEL",
+      "title": "Formación docente para una educación matemática especialmente inclusiva (2018)",
+      "url": "https://mail.espacio.digital.upel.edu.ve/index.php/TD/article/download/1784/1679/5428",
+      "locator": "Página impresa 66, gráfico 9; índice PDF 78.",
+      "evidence": "Documenta variación del alfabeto y formas adicionales de P y Ñ. Referencia gráfica, no protocolo temporal completo.",
+      "rights": "CONSULTATION_ONLY_NO_TRAINING_PERMISSION_ESTABLISHED",
+      "use": "Apoyo académico para variantes. Ñ y Z todavía necesitan protocolo temporal revisado para este dataset."
+    }
+  ],
+  "unavailable": [
+    {
+      "url": "https://www.fevensor.20m.com/",
+      "result": "No accesible con la herramienta de consulta; no se asume contenido ni vigencia."
+    },
+    {
+      "url": "https://www.guiadisc.com/wp-content/uploads/2013/04/manual-de-lengua-de-senas-venezolana-Fevensor.pdf",
+      "result": "404 al consultar. Es un espejo, no se incorporó ni se usó como autorización."
+    }
+  ]
+}

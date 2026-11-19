@@ -10,6 +10,8 @@ export function assertIndependentSample(sample, previous) {
   registry.add(sample);
 }
 
+import { sequenceFeatures } from './sequence.js';
+
 /**
  * Indexa cada huella una sola vez para validar exportaciones grandes sin serializar pares de muestras.
  * @returns {{add: Function}} Registro incremental; add valida antes de modificar el índice.
@@ -18,17 +20,21 @@ export function createSampleRegistry() {
   const people = new Map();
   const ids = new Set();
   const fingerprints = new Set();
+  const normalized = new Set();
   const executions = new Set();
   const videos = new Map();
   const add = (sample) => {
     const person = sample.participantId.toLowerCase();
     const fingerprint = JSON.stringify(sample.frames.map((frame) => frame.points));
+    // Igualdad conservadora a 5 decimales después de quitar posición/escala y remuestrear.
+    // Detecta copias trasladadas, escaladas o con timestamps cambiados; no afirma identidad biométrica.
+    const shape = JSON.stringify(sequenceFeatures(sample.frames));
     if (people.has(person) && people.get(person) !== sample.partition)
       throw new Error('Una persona aparece en más de una partición; conserva su grupo original.');
-    if (ids.has(sample.id) || fingerprints.has(fingerprint))
+    if (ids.has(sample.id.toLowerCase()) || fingerprints.has(fingerprint) || normalized.has(shape))
       throw new Error('Hay muestras repetidas o copiadas.');
     const right = sample.source?.type === 'LOCAL_VIDEO' ? sample.source : null;
-    const key = right ? `${person}:${right.executionId}` : null;
+    const key = right ? `${right.sha256}:${right.executionId.toLowerCase()}` : null;
     if (key && executions.has(key))
       throw new Error(
         'Esta ejecución ya tiene una muestra; no la dividas en muestras independientes.',
@@ -37,8 +43,9 @@ export function createSampleRegistry() {
     if (right && intervals.some((left) => left.startMs < right.endMs && right.startMs < left.endMs))
       throw new Error('Este intervalo se solapa con otra muestra del mismo video.');
     people.set(person, sample.partition);
-    ids.add(sample.id);
+    ids.add(sample.id.toLowerCase());
     fingerprints.add(fingerprint);
+    normalized.add(shape);
     if (right) {
       executions.add(key);
       videos.set(right.sha256, [...intervals, right]);

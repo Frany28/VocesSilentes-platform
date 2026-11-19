@@ -3,7 +3,6 @@ import { TrainingSampleFields } from './TrainingSampleFields.jsx';
 import { VideoSourceFields } from './VideoSourceFields.jsx';
 import { VideoIntervalFields } from './VideoIntervalFields.jsx';
 import { useVideoAnnotation } from './use-video-annotation.js';
-import { PILOT_LABELS } from '../../../../../shared/lsv/coverage.js';
 
 /**
  * Presenta anotación manual y acción explícita de extracción; no adivina tiempos ni etiquetas.
@@ -37,7 +36,6 @@ export function VideoAnnotation({ asset, operation, duration }) {
       />
       <TrainingSampleFields
         metadata={metadata}
-        labels={PILOT_LABELS}
         disabled={operation.pending}
         onChange={annotation.changeMetadata}
       />

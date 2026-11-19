@@ -3,6 +3,7 @@ import { resolve, join } from 'node:path';
 import { readTrainingDataset } from './lsv/dataset.js';
 import { trainLsvModel } from '../../shared/lsv/train.js';
 import { LSV_LABELS } from '../../shared/lsv/labels.js';
+import { trainingFingerprint } from './lsv/training-fingerprint.js';
 
 // Entrenamiento deliberado local: sin .env, cámaras, red, Prisma ni datos de estudiantes de la API.
 const args = process.argv.slice(2);
@@ -23,8 +24,9 @@ if (!files.length || !output || !labels) {
   process.exitCode = 1;
 } else
   try {
-    const dataset = await readTrainingDataset(files);
+    const dataset = await readTrainingDataset(files, labels);
     const { model, report } = trainLsvModel(dataset, labels);
+    report.reproducibility = trainingFingerprint(dataset, model);
     const directory = resolve(output);
     await mkdir(directory, { recursive: true });
     await writeFile(join(directory, 'lsv-model.json'), JSON.stringify(model));
@@ -36,6 +38,8 @@ if (!files.length || !output || !labels) {
         samples: dataset.records.length,
         testSamples: report.total,
         accuracy: report.accuracy,
+        macroF1: report.macroF1,
+        noneFalsePositiveRate: report.noneFalsePositiveRate,
         abstained: report.abstained,
         output: directory,
       }),

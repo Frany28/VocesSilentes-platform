@@ -1,4 +1,5 @@
-import { PILOT_LABELS, DATA_PARTITIONS } from '../../../shared/lsv/coverage.js';
+import { DATA_PARTITIONS } from '../../../shared/lsv/coverage.js';
+import { manifestLabels } from './manifest-labels.js';
 
 /**
  * Enumera requisitos estructurales completos y del piloto reducido sin entrenar ni usar test para elegir precisión.
@@ -8,7 +9,7 @@ import { PILOT_LABELS, DATA_PARTITIONS } from '../../../shared/lsv/coverage.js';
  * @returns {object} Cobertura real, celdas faltantes y métricas null mientras no haya entrenamiento independiente.
  */
 export function candidateDiagnosis(records, ready, manifest) {
-  const classes = PILOT_LABELS.map((label) => {
+  const classes = manifestLabels(manifest).map((label) => {
     const candidates = records.filter((item) => item.label === label);
     const approved = ready.filter((item) => item.label === label);
     const partitions = Object.fromEntries(

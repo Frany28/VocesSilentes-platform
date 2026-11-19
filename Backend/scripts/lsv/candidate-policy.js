@@ -1,5 +1,6 @@
 import { validateRecording } from '../../../shared/lsv/recording.js';
-import { PILOT_LABELS } from '../../../shared/lsv/coverage.js';
+import { manifestLabels } from './manifest-labels.js';
+import { trainableRecording } from '../../../shared/lsv/training-eligibility.js';
 
 /**
  * Distingue geometría útil de elegibilidad: no convierte archivos/señantes provisionales en personas independientes.
@@ -37,7 +38,7 @@ export function candidateEligibility(candidate, source, manifest) {
     !['train', 'validation', 'test'].includes(person?.partition)
   )
     blocked.push('DATA_PARTITION_PENDING');
-  if (!PILOT_LABELS.includes(candidate.label) || !candidate.labelEvidence)
+  if (!manifestLabels(manifest).includes(candidate.label) || !candidate.labelEvidence)
     blocked.push('LABEL_EVIDENCE_PENDING');
   if (candidate.executionIndependenceConfirmed !== true)
     blocked.push('EXECUTION_INDEPENDENCE_REVIEW_PENDING');
@@ -56,6 +57,7 @@ export function candidateEligibility(candidate, source, manifest) {
     frames: candidate.frames,
     reviewStatus: reviewed ? 'APPROVED_LSV' : 'PENDING_LSV_REVIEW',
     reviewerId: reviewed ? candidate.reviewerId : null,
+    ...(candidate.reviewEvidence ? { reviewEvidence: candidate.reviewEvidence } : {}),
     source: {
       type: 'LOCAL_VIDEO',
       sha256: source.sha256,
@@ -67,5 +69,6 @@ export function candidateEligibility(candidate, source, manifest) {
       endMs: candidate.endMs,
     },
   });
+  if (reviewed) trainableRecording(sample, manifestLabels(manifest));
   return { blocked, sample };
 }

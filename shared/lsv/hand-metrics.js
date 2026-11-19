@@ -1,7 +1,8 @@
 import { predictSequence } from './classifier.js';
 import { sequenceFeatures } from './sequence.js';
+import { LSV_LABELS } from './labels.js';
 
-const labels = ['A', 'E', 'I', 'O', 'U', 'NONE'];
+const labels = LSV_LABELS;
 const ratio = (n, d) => (d ? n / d : null);
 
 /**

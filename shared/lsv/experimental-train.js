@@ -2,6 +2,7 @@ import { validateExperimentalRecording } from './experimental-recording.js';
 import { createSampleRegistry } from './sample-conflicts.js';
 import { experimentalPrototypes } from './experimental-prototypes.js';
 import { validateModel } from './classifier.js';
+import { assertExperimentalConsent } from './training-eligibility.js';
 
 /**
  * Aprende ejemplos confirmados sin particiones ni métricas; los umbrales son heurísticos, sin calibración.
@@ -16,6 +17,7 @@ export function trainExperimentalModel(samples, { augmentation = null } = {}) {
   const registry = createSampleRegistry();
   const records = samples.map((input) => {
     const sample = validateExperimentalRecording(input, true);
+    assertExperimentalConsent(sample);
     if (sample.evaluationPartition !== 'train')
       throw new Error('No entrenes con la prueba reservada; utiliza la comparación A/B/C');
     registry.add({

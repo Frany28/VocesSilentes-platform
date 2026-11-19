@@ -1,5 +1,5 @@
 import { validateVideoInterval } from '../../../shared/lsv/video-source.js';
-import { PILOT_LABELS } from '../../../shared/lsv/coverage.js';
+import { manifestLabels } from './manifest-labels.js';
 
 /**
  * Valida fuentes/anotaciones antes de abrir el navegador; no infiere datos humanos faltantes.
@@ -8,6 +8,7 @@ import { PILOT_LABELS } from '../../../shared/lsv/coverage.js';
  * @throws {Error} IDs repetidos, intervalos incompatibles o referencias desconocidas.
  */
 export function validatePreparationManifest(value) {
+  const labels = manifestLabels(value ?? {});
   const code = (input) => typeof input === 'string' && /^[a-zA-Z0-9_-]{1,64}$/.test(input);
   if (
     value?.version !== 1 ||
@@ -54,7 +55,7 @@ export function validatePreparationManifest(value) {
       !value.observedSignants.some(
         (item) => item.id === candidate.observedSignant && item.videoId === candidate.videoId,
       ) ||
-      (candidate.label !== null && !PILOT_LABELS.includes(candidate.label)) ||
+      (candidate.label !== null && !labels.includes(candidate.label)) ||
       !Number.isInteger(candidate.startMs) ||
       !Number.isInteger(candidate.endMs)
     )

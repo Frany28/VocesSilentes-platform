@@ -15,8 +15,9 @@ export function VideoTrainingPanel({ files, operation, collection }) {
     >
       <h2 className="[font:var(--type-h3)]">Preparar muestras desde un video</h2>
       <p>
-        Selecciona un archivo obtenido legalmente y autorizado. Marca una ejecución completa de A,
-        E, I, O, U o NONE. Cada intervalo produce una sola muestra pendiente de revisión LSV.
+        Selecciona un archivo obtenido legalmente y autorizado. Marca una ejecución completa de una
+        de las 27 letras o NONE. J, Ñ y Z requieren conservar el movimiento completo. Cada intervalo
+        produce una sola muestra pendiente de revisión LSV.
       </p>
       <Input
         type="file"

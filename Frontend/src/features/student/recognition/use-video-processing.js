@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { extractVideoSequence } from './extract-video-sequence.js';
 import { validateRecording } from '../../../../../shared/lsv/recording.js';
+import { LSV_LABELS } from '../../../../../shared/lsv/labels.js';
 import {
   validateVideoInterval,
   validateVideoSource,
@@ -59,9 +60,9 @@ export function useVideoProcessing() {
         typeof metadata.participantId !== 'string' ||
         !/^[a-z0-9_-]{1,64}$/.test(metadata.participantId) ||
         !['train', 'validation', 'test'].includes(metadata.partition) ||
-        !['A', 'E', 'I', 'O', 'U', 'NONE'].includes(metadata.label)
+        !LSV_LABELS.includes(metadata.label)
       )
-        throw new Error('Completa participante, etiqueta del piloto y consentimiento.');
+        throw new Error('Completa participante, etiqueta LSV y consentimiento.');
       const result = await extractVideoSequence({
         video,
         canvas: canvasRef.current,

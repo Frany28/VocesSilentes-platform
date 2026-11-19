@@ -2,6 +2,7 @@ import { validateRecording } from '../../../../../shared/lsv/recording.js';
 import { validateExperimentalRecording } from '../../../../../shared/lsv/experimental-recording.js';
 import { experimentalCandidates } from '../../../../../shared/lsv/experimental-candidates.js';
 import { createSampleRegistry } from '../../../../../shared/lsv/sample-conflicts.js';
+import { validateReviewEvidence } from '../../../../../shared/lsv/review-evidence.js';
 
 /**
  * Selecciona contratos separados para reutilizar la colección sin relajar el entrenador revisado.
@@ -57,7 +58,7 @@ export function samplePolicy(experimental) {
             }
           : {}),
       }),
-    review: (sample, reviewerId) =>
+    review: (sample, reviewerId, reviewEvidence) =>
       validate(
         experimental
           ? {
@@ -69,7 +70,15 @@ export function samplePolicy(experimental) {
                 confirmedAt: new Date().toISOString(),
               },
             }
-          : { ...sample, reviewerId, reviewStatus: 'APPROVED_LSV' },
+          : {
+              ...sample,
+              reviewerId,
+              reviewStatus: 'APPROVED_LSV',
+              reviewEvidence: validateReviewEvidence(
+                reviewEvidence ?? sample.reviewEvidence,
+                sample.label,
+              ),
+            },
       ),
     read: (data) => {
       if (experimental && data.type === 'QUARANTINE_NOT_TRAINING_DATA')

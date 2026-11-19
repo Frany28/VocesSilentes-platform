@@ -1,33 +1,58 @@
-import { readFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
-import { letterReadiness, READINESS_CRITERIA } from '../../shared/lsv/readiness.js';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { resolve, dirname } from 'node:path';
+import { readAuditBatches } from './lsv/audit-batches.js';
+import { labelReadiness, READINESS_CRITERIA } from '../../shared/lsv/readiness.js';
+import { auditTrainingSamples } from '../../shared/lsv/sample-audit.js';
 
-// Uso: pnpm lsv:readiness [ruta-a-muestras.json]
-// Lee solo metadatos (letra, partición, persona, revisión, mano) e informa qué falta por letra.
-// No entrena, no genera muestras y no escribe archivos.
-const fallback = fileURLToPath(
-  new URL('../../.local/lsv-experimental/experimental-samples.json', import.meta.url),
+// Sin argumentos informa ausencia de datos. No busca muestras privadas ni las deduce desde el modelo publicado.
+const args = process.argv.slice(2);
+const outputIndex = args.indexOf('--output');
+const output = outputIndex < 0 ? null : args[outputIndex + 1];
+const json = args.includes('--json');
+const paths = args.filter(
+  (value, index) =>
+    !['--json', '--output'].includes(value) && index !== (outputIndex < 0 ? -1 : outputIndex + 1),
 );
-const path = process.argv[2] ?? fallback;
-let samples;
 try {
-  const parsed = JSON.parse(await readFile(path, 'utf8'));
-  samples = Array.isArray(parsed) ? parsed : (parsed.samples ?? []);
-} catch {
-  console.error(`No se pudieron leer muestras en ${path}. Indica la ruta del JSON exportado.`);
-  process.exit(1);
+  if ((outputIndex >= 0 && !output) || paths.some((path) => path.startsWith('--')))
+    throw new Error(
+      'Uso: pnpm lsv:readiness [lote.json ...] [--json] [--output .local/auditoria.json]',
+    );
+  if (output && paths.some((path) => resolve(path) === resolve(output)))
+    throw new Error('El informe no puede sobrescribir un lote de muestras.');
+  const { samples, sourceSha256 } = await readAuditBatches(paths);
+  const audit = auditTrainingSamples(samples);
+  const classes = labelReadiness(samples);
+  const report = {
+    version: 1,
+    trainingExecuted: false,
+    metrics: null,
+    samples: samples.length,
+    eligible: audit.accepted.length,
+    rejected: audit.rejected,
+    sourceSha256,
+    criteria: READINESS_CRITERIA,
+    classes,
+    blockingReasons: audit.errors,
+    warning:
+      'Disponibilidad y declaraciones documentales; no certifica personas, derechos ni competencia LSV.',
+  };
+  if (output) {
+    await mkdir(dirname(resolve(output)), { recursive: true });
+    await writeFile(resolve(output), JSON.stringify(report, null, 2));
+  }
+  if (json) console.log(JSON.stringify(report, null, 2));
+  else {
+    console.log(`Muestras: ${samples.length}. Elegibles: ${audit.accepted.length}. No se entrenó.`);
+    for (const row of classes)
+      console.log(
+        `${row.label}\t${row.status}\t${row.available} disponibles\t${row.missing.join('; ')}`,
+      );
+    console.log(
+      `Listas para evaluar: ${classes.filter((row) => row.status === 'READY_FOR_EVALUATION').length}/28.`,
+    );
+  }
+} catch (error) {
+  console.error(error.message);
+  process.exitCode = 1;
 }
-const rows = letterReadiness(samples);
-console.log(
-  `Muestras leídas: ${samples.length}. Revisadas LSV: ${samples.filter((item) => item.reviewStatus === 'APPROVED_LSV').length}.`,
-);
-console.log(
-  `Criterios: ${JSON.stringify(READINESS_CRITERIA.participants)} personas, ${READINESS_CRITERIA.samplesPerParticipant}+ muestras por persona, manos ${READINESS_CRITERIA.hands.join('/')}.`,
-);
-for (const row of rows)
-  console.log(
-    `${row.label}${row.motion ? ' (movimiento)' : ''}\t${row.status}\t${row.missing.join('; ')}`,
-  );
-console.log(
-  `Listas para evaluar: ${rows.filter((row) => row.status === 'READY_FOR_EVALUATION').length}/27.`,
-);

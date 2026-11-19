@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 
 /**
- * Describe exportación y entrenamiento local del piloto, conservando recursos de licencia del detector.
+ * Describe exportación y entrenamiento documentado, conservando la demostración y la licencia del detector.
  * @returns {import('react').ReactElement} Ayuda sin peticiones ni activación de cámara.
  */
 export function ModelLabInstructions() {
@@ -21,11 +21,18 @@ export function ModelLabInstructions() {
         Guarda los archivos exportados en una carpeta local y ejecuta desde la raíz del proyecto:
       </p>
       <code className="model-command">
-        pnpm lsv:train .local/muestras.json --output .local/modelo-lsv --labels A,E,I,O,U,NONE
+        pnpm lsv:train .local/muestras.json --output .local/modelo-lsv
       </code>
       <p>
         Se generan lsv-model.json y evaluation.json con resultados de prueba independiente. El
-        modelo sigue siendo experimental. Puedes indicar varios archivos de muestras al comando.
+        modelo sigue siendo experimental. Sin --labels exige las 27 letras y NONE. Puedes indicar
+        varios archivos o un subconjunto explícito con --labels A,E,I,O,U,NONE.
+      </p>
+      <p>
+        Antes de entrenar, documenta consentimiento y permiso para este uso, fuente/variante y
+        revisión LSV por ejecución. Separa participantes entre los tres grupos. Revisa cobertura con
+        pnpm lsv:readiness .local/muestras.json. NONE debe ser negativo para todas las letras
+        elegidas.
       </p>
       <Link
         className="education-back inline-flex min-h-11 items-center"

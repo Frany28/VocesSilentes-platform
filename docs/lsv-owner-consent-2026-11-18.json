@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "confirmedOn": "2026-11-18",
+  "origin": "Confirmación explícita de la usuaria durante esta tarea",
+  "statement": "si son esos y ya tenemos el consentimiento deje en claro que era para fines educativos",
+  "scope": "EDUCATIONAL_USE_CONFIRMED_BY_OWNER",
+  "appliesTo": ["datos-entrenamiento/videos/", ".local/lsv-experimental/experimental-samples.json"],
+  "effect": "Documenta la declaración recibida; no modifica registros originales ni asigna identidades, particiones o revisiones lingüísticas.",
+  "participantRegistry": "NOT_DOCUMENTED_IN_AVAILABLE_RECORDS",
+  "linguisticReview": "PENDING_LSV_REVIEW"
+}

@@ -4,7 +4,6 @@ import { validateRecording } from '../../shared/lsv/recording.js';
 import { validateVideoInterval } from '../../shared/lsv/video-source.js';
 import { assertIndependentSample } from '../../shared/lsv/sample-conflicts.js';
 import { prepareTrainingData } from '../../shared/lsv/training-data.js';
-import { trainingCoverage, PILOT_LABELS, DATA_PARTITIONS } from '../../shared/lsv/coverage.js';
 import { syntheticVideoRecording } from './fixtures/lsv-video-synthetic.js';
 
 test('video: conserva procedencia permitida y exige autorización, ejecución e intervalo reales', () => {
@@ -79,21 +78,4 @@ test('video: la CLI comparte los bloqueos y nunca promueve una muestra pendiente
   next.source.startMs = 1000;
   next.source.endMs = 3000;
   assert.throws(() => prepareTrainingData([syntheticVideoRecording(), next]), /solapa/);
-});
-
-test('cobertura: cuenta ejecuciones revisadas, no frames, e identifica etiquetas/grupos/personas faltantes', () => {
-  const pending = { ...syntheticVideoRecording(), reviewStatus: 'PENDING_LSV_REVIEW' };
-  const initial = trainingCoverage([pending]);
-  assert.equal(initial.minimumCovered, false);
-  assert.equal(initial.labels[0].groups[0].pending, 1);
-  assert.equal(initial.labels[0].groups[0].reviewed, 0);
-  assert.deepEqual(initial.people[0].missing, PILOT_LABELS);
-  const complete = DATA_PARTITIONS.flatMap((partition) =>
-    PILOT_LABELS.map((label) => syntheticVideoRecording(label, partition)),
-  );
-  const result = trainingCoverage(complete);
-  assert.equal(result.minimumCovered, true);
-  assert.equal(result.people.length, 3);
-  assert.ok(result.people.every((person) => person.missing.length === 0));
-  assert.equal(trainingCoverage(complete.slice(1)).minimumCovered, false);
 });

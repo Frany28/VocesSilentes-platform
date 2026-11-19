@@ -65,7 +65,10 @@ test('comparaciones reservan personas y reflejos; métricas vacías son null y C
     id: `${s.id}_test`,
     participantId: 'independent_fixture',
     evaluationPartition: 'test',
-    frames: s.frames.map((f) => ({ ...f, points: f.points.map(([x, y, z]) => [x + 0.001, y, z]) })),
+    frames: s.frames.map((f) => ({
+      ...f,
+      points: f.points.map(([x, y, z], point) => [x, y + (point > 10 ? 0.001 : 0), z]),
+    })),
   }));
   const result = compareHandExperiments([...training, ...test], policy);
   assert.equal(result.experiments.A.metrics.byHand.Right.total, 2);

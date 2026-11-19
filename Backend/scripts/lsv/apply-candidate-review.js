@@ -33,6 +33,7 @@ export function applyCandidateReview(quarantine, manifest) {
       reviewStatus:
         annotation.reviewStatus === 'APPROVED_LSV' ? 'APPROVED_LSV' : 'PENDING_LSV_REVIEW',
       reviewerId: annotation.reviewerId ?? null,
+      ...(annotation.reviewEvidence ? { reviewEvidence: annotation.reviewEvidence } : {}),
     };
   });
 }

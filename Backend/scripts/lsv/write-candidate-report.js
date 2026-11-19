@@ -2,7 +2,8 @@ import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { candidateEligibility } from './candidate-policy.js';
 import { createSampleRegistry } from '../../../shared/lsv/sample-conflicts.js';
-import { trainingCoverage, PILOT_LABELS } from '../../../shared/lsv/coverage.js';
+import { trainingCoverage } from '../../../shared/lsv/coverage.js';
+import { manifestLabels } from './manifest-labels.js';
 import { candidateDiagnosis } from './candidate-diagnosis.js';
 import { candidateSummary } from './candidate-summary.js';
 
@@ -63,8 +64,8 @@ export async function writeCandidateReport(directory, records, sources, manifest
       ...source,
       candidates: details.filter((item) => item.videoId === source.id),
     })),
-    coverage: trainingCoverage(ready),
-    technicalCoverage: PILOT_LABELS.map((label) => ({
+    coverage: trainingCoverage(ready, manifestLabels(manifest)),
+    technicalCoverage: manifestLabels(manifest).map((label) => ({
       label,
       valid: records.filter(
         (item) => item.label === label && item.technicalStatus === 'VALID_GEOMETRY',
@@ -76,7 +77,7 @@ export async function writeCandidateReport(directory, records, sources, manifest
     required: [
       'Evidencia y alcance del permiso AUT-LSV-EDU-001',
       'Correspondencia humana de señantes, consentimiento y particiones independientes',
-      'Revisión lingüística por muestra y negativos del piloto',
+      'Revisión lingüística documentada por muestra y alcance de los negativos NONE',
       'Confirmación humana de ejecuciones independientes, sin recortes de una misma ejecución',
       'Completar etiquetas y ventanas rechazadas',
     ],
