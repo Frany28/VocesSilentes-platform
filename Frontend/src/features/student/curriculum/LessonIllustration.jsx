@@ -1,16 +1,20 @@
 import introduction from '../../../assets/alphabet-lessons/introduccion.webp';
 import vowels from '../../../assets/alphabet-lessons/vocales.webp';
+import consonantsBG from '../../../assets/alphabet-lessons/consonantes-b-g.webp';
 import consonantsHM from '../../../assets/alphabet-lessons/consonantes-h-m.webp';
 import consonantsNR from '../../../assets/alphabet-lessons/consonantes-n-r.webp';
 import consonantsSX from '../../../assets/alphabet-lessons/consonantes-s-x.webp';
+import consonantsYZ from '../../../assets/alphabet-lessons/consonantes-y-z.webp';
 import { alphabetLessonIds } from '../resources/lesson-videos.js';
 
 const illustrations = {
   [alphabetLessonIds['m1-l01']]: introduction,
   [alphabetLessonIds['m1-l02']]: vowels,
+  [alphabetLessonIds['m1-l03']]: consonantsBG,
   [alphabetLessonIds['m1-l04']]: consonantsHM,
   [alphabetLessonIds['m1-l05']]: consonantsNR,
   [alphabetLessonIds['m1-l06']]: consonantsSX,
+  [alphabetLessonIds['m1-l07']]: consonantsYZ,
   'vowels-guided-v1': vowels,
 };
 
