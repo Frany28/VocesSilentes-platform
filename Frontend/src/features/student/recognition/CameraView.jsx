@@ -21,7 +21,7 @@ export function CameraView({ camera, target, controls = true, phase, educational
       error: 'Puedes volver a activar tu cámara',
     }[state] ??
     (phase === 'capturing'
-      ? 'Capturando · Mantén la seña quieta'
+      ? 'Capturando · Realiza la seña dentro del encuadre'
       : phase === 'success'
         ? '¡Buen trabajo! Mira tu resultado'
         : phase === 'retry'

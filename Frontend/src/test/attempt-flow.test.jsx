@@ -26,8 +26,8 @@ test('descarga sola el modelo, cuenta atrás, captura y analiza sin otro clic', 
   expect(await screen.findByText('Todo listo para practicar.')).toBeInTheDocument();
   expect(request).toHaveBeenCalledTimes(1);
   await attempt(camera, 'Right');
-  expect(screen.getByText('Tu intento coincide con la letra A.')).toBeVisible();
-  expect(screen.getByText('¡Muy bien!')).toBeVisible();
+  expect(screen.getByText(/No pudimos verificar la seña con claridad/)).toBeVisible();
+  expect(screen.queryByText('¡Muy bien!')).toBeNull();
   expect(screen.queryByText(/experimental|no califica|frames reales|Inferencia:/i)).toBeNull();
   expect(screen.getByRole('button', { name: 'Repetir intento' })).toBeEnabled();
   fireEvent.click(screen.getByRole('button', { name: 'Repetir intento' }));
@@ -35,25 +35,26 @@ test('descarga sola el modelo, cuenta atrás, captura y analiza sin otro clic', 
   expect(screen.getByRole('button', { name: 'Capturar intento' })).toBeEnabled();
 });
 
-test('sin ejemplos de esa lateralidad se abstiene e indica qué mano usar', async () => {
+test('sin cobertura izquierda permite repetir sin culpar al alumno ni pedir cambiar de mano', async () => {
   serveRelease();
   const camera = fakeCamera();
   render(<Harness camera={camera} target="A" />, { wrapper: RecognitionModelProvider });
   await screen.findByText('Todo listo para practicar.');
   await attempt(camera, 'Left');
-  expect(screen.getByText(/Esta mano necesita más entrenamiento/)).toBeVisible();
+  expect(screen.getByText(/No pudimos verificar la seña con claridad/)).toBeVisible();
+  expect(screen.queryByText(/entrenamiento|muestras|prototipos|mano derecha/i)).toBeNull();
   expect(screen.queryByText(/El modelo propone/)).toBeNull();
 });
 
 test('una letra sin clasificación no descarga el modelo ni ofrece análisis', () => {
   const request = serveRelease();
   render(<Harness camera={fakeCamera()} target="B" />, { wrapper: RecognitionModelProvider });
-  expect(screen.getByText(/Esta letra aún no tiene ayuda automática/)).toBeVisible();
+  expect(screen.getByText(/Observa la referencia y practica a tu ritmo/)).toBeVisible();
   expect(screen.queryByRole('button', { name: 'Capturar intento' })).toBeNull();
   expect(request).not.toHaveBeenCalled();
 });
 
-test('si la hipótesis no coincide con la letra objetivo lo dice sin convertirlo en calificación', () => {
+test('una hipótesis distinta no demuestra que el alumno se equivocó', () => {
   render(
     <AttemptResult
       result={{ label: 'A', reason: 'CANDIDATE' }}
@@ -62,9 +63,7 @@ test('si la hipótesis no coincide con la letra objetivo lo dice sin convertirlo
       onRetry={() => {}}
     />,
   );
-  expect(
-    screen.getByText(/La forma se parece a la A\. Observa la E y vuelve a intentarlo/),
-  ).toBeVisible();
+  expect(screen.getByText(/No pudimos verificar la seña con claridad/)).toBeVisible();
   expect(screen.queryByText(/correct/i)).toBeNull();
 });
 

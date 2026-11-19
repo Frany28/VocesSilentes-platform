@@ -19,15 +19,15 @@ modelo nuevo para calificar. Autenticación, administración, currículo y progr
 
 ## Pipeline conservado y cambios
 
-| Responsabilidad | Implementación |
-| --- | --- |
-| Etiquetas y letras temporales | `shared/lsv/labels.js`: 27 letras, NONE y J/Ñ/Z |
-| Contrato de captura | `recording.js`, `recording-frames.js`, `review-evidence.js` |
-| Elegibilidad y calidad | `training-eligibility.js`, `sequence-quality.js`, `sample-audit.js` |
-| Independencia | `sample-conflicts.js`, `training-data.js` |
-| Selección y calibración DTW | `train.js`, `train-prototypes.js` |
-| Evaluación | `model-evaluation.js`, `metrics.js`, `readiness.js` |
-| Auditoría y reproducibilidad CLI | `Backend/scripts/lsv-readiness.js`, `lsv/training-fingerprint.js` |
+| Responsabilidad                  | Implementación                                                      |
+| -------------------------------- | ------------------------------------------------------------------- |
+| Etiquetas y letras temporales    | `shared/lsv/labels.js`: 27 letras, NONE y J/Ñ/Z                     |
+| Contrato de captura              | `recording.js`, `recording-frames.js`, `review-evidence.js`         |
+| Elegibilidad y calidad           | `training-eligibility.js`, `sequence-quality.js`, `sample-audit.js` |
+| Independencia                    | `sample-conflicts.js`, `training-data.js`                           |
+| Selección y calibración DTW      | `train.js`, `train-prototypes.js`                                   |
+| Evaluación                       | `model-evaluation.js`, `metrics.js`, `readiness.js`                 |
+| Auditoría y reproducibilidad CLI | `Backend/scripts/lsv-readiness.js`, `lsv/training-fingerprint.js`   |
 
 - Se conserva `screen-pose-wrist-v1`: corrección de aspecto, centro en muñeca, escala de palma,
   orientación y trayectoria. No se reflejan ni rotan datos ni se fabrican fotogramas.
@@ -55,17 +55,17 @@ revisión y frames originales. Las exportaciones antiguas se pueden inspeccionar
 
 Cada muestra del flujo revisado incorpora `reviewEvidence`:
 
-| Campo | Contenido |
-| --- | --- |
-| `language` | Literal `LSV`; no se aceptan etiquetas ASL como sustituto |
-| `consentReference` | Código de la declaración de consentimiento correspondiente a la persona y al uso |
-| `permissionReference` | Código del permiso para extracción/exportación/entrenamiento educativo |
-| `reviewReference` | Código del registro de revisión de la ejecución original y su etiqueta |
-| `variantReference` | Código de la fuente y variante LSV comprobadas por quien revisa |
-| `reviewedAt` | Fecha de la revisión declarada |
-| `motionReviewed` | Debe ser true para J, Ñ y Z tras revisar el movimiento completo |
-| `negativeFor` | En NONE, letras frente a las que la ejecución fue revisada como negativa |
-| `negativeDescription` | En NONE, descripción de la postura o transición observada |
+| Campo                 | Contenido                                                                        |
+| --------------------- | -------------------------------------------------------------------------------- |
+| `language`            | Literal `LSV`; no se aceptan etiquetas ASL como sustituto                        |
+| `consentReference`    | Código de la declaración de consentimiento correspondiente a la persona y al uso |
+| `permissionReference` | Código del permiso para extracción/exportación/entrenamiento educativo           |
+| `reviewReference`     | Código del registro de revisión de la ejecución original y su etiqueta           |
+| `variantReference`    | Código de la fuente y variante LSV comprobadas por quien revisa                  |
+| `reviewedAt`          | Fecha de la revisión declarada                                                   |
+| `motionReviewed`      | Debe ser true para J, Ñ y Z tras revisar el movimiento completo                  |
+| `negativeFor`         | En NONE, letras frente a las que la ejecución fue revisada como negativa         |
+| `negativeDescription` | En NONE, descripción de la postura o transición observada                        |
 
 Los códigos admiten 1–64 caracteres ASCII alfanuméricos, guion y guion bajo. No incluir nombres,
 contactos ni rutas privadas. Guardar la evidencia original por separado y controlar su acceso y
@@ -89,6 +89,9 @@ se rechazan en captura; no se rellenan con puntos ficticios para crear NONE.
    Seleccionar una letra o NONE. Activar cámara solo por una acción explícita y capturar una ejecución
    completa. La captura en vivo dura tres segundos; para otra duración, importar un intervalo real
    de 1,5–6 segundos. No alargarlo copiando fotogramas.
+   Para registrar izquierda/derecha, seleccionar «Mano que se solicita capturar»: el detector mantiene
+   sus coordenadas originales y el guardado exige que la mano observada coincida. La muestra sigue
+   pendiente de revisión; consultar [la auditoría de lateralidad y ayuda educativa](lsv-left-hand-feedback.md).
 5. Para video local autorizado, registrar origen, permiso, ejecución e intervalo completo. Las
    27 letras y NONE están disponibles. Los rótulos catalogados son aproximaciones, no límites de señas.
 6. Inspeccionar la ejecución original, no solo puntos. Registrar revisor, referencias, variante,

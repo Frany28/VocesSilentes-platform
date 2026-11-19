@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import { RecognitionModelContext } from './model-context.js';
 import { DetectionStatus } from './DetectionStatus.jsx';
 import { useHandCamera } from './use-hand-camera.js';
@@ -23,17 +23,13 @@ import './practice-learning.css';
  * @returns {import('react').ReactElement} Referencia adaptable, cámara y resultado junto al intento.
  */
 export function CameraExercise({ letter, onContinue }) {
+  const reference = useRef(null);
   const { referenceHand, setReferenceHand } = useContext(RecognitionModelContext);
   const camera = useHandCamera(setReferenceHand);
   const capture = useSequenceCapture(camera);
   const operation = useLocalModel({ autoLoad: recognitionSupports(letter) });
   const attempt = useModelAttempt({ operation, capture, camera, target: letter, lab: false });
-  const phase = practicePhase(
-    attempt,
-    operation,
-    letter,
-    Boolean(capture.error || operation.error),
-  );
+  const phase = practicePhase(attempt, Boolean(capture.error || operation.error));
   return (
     <section
       className="camera-exercise flex w-full flex-col gap-4"
@@ -48,16 +44,16 @@ export function CameraExercise({ letter, onContinue }) {
       <PracticeProgress phase={phase} />
       <div className="camera-workspace">
         <aside className="practice-reference" aria-label="Referencia e instrucciones">
-          <h3>Así se forma {letter ? `la ${letter}` : 'la seña'}</h3>
+          <h3 ref={reference} tabIndex={-1}>
+            Así se forma {letter ? `la ${letter}` : 'la seña'}
+          </h3>
           {letter && <ManualReference letter={letter} hand={referenceHand} compact educational />}
           <CameraSteps letter={letter} supported={attempt.supported} />
         </aside>
         <div className="practice-live">
           <CameraView camera={camera} target={letter} controls={false} phase={phase} educational />
           <CameraControls camera={camera} compact />
-          {camera.state === 'live' && (
-            <DetectionStatus camera={camera} model={operation.model} letter={letter} />
-          )}
+          {camera.state === 'live' && <DetectionStatus camera={camera} />}
         </div>
         <div className="practice-feedback">
           <StudentAttempt
@@ -66,6 +62,7 @@ export function CameraExercise({ letter, onContinue }) {
             capture={capture}
             target={letter}
             onContinue={onContinue}
+            onReference={() => reference.current?.focus()}
           />
         </div>
       </div>

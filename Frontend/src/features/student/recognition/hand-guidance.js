@@ -3,13 +3,13 @@
 const LIMITS = { far: 0.2, near: 0.75, edge: 0.02, centerX: [0.25, 0.75], centerY: [0.2, 0.8] };
 
 const messages = {
-  none: 'No vemos tu mano. Colócala frente a la cámara.',
+  none: 'No podemos ver tu mano. Colócala dentro del encuadre.',
   many: 'Usa solo una mano para esta práctica.',
   far: 'Acerca la mano a la cámara.',
   near: 'Aleja un poco la mano.',
-  edge: 'La mano se sale del encuadre. Llévala al centro.',
+  edge: 'Asegúrate de que todos tus dedos estén visibles.',
   offcenter: 'Mueve la mano hacia el recuadro central.',
-  ok: 'Mano bien colocada. Mantén la seña quieta.',
+  ok: 'Mano dentro del encuadre. Puedes realizar la seña.',
 };
 
 /**

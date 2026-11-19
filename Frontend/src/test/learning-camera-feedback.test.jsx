@@ -5,21 +5,30 @@ import { PracticeProgress } from '../features/student/recognition/PracticeProgre
 import { practicePhase } from '../features/student/recognition/practice-feedback.js';
 import { LabAttemptResult } from '../features/student/recognition/LabAttemptResult.jsx';
 
-test('coincidencia ofrece logro visible y continuar; quedarse cancela el avance automático', () => {
+test('una coincidencia experimental no declara logro ni avanza sola; navegación voluntaria y referencia', () => {
   vi.useFakeTimers();
   try {
     const next = vi.fn();
+    const reference = vi.fn();
     const result = { label: 'E', inferenceMs: 3, frames: [{ hand: 'Right' }] };
-    render(<AttemptResult result={result} target="E" onRetry={vi.fn()} onContinue={next} />);
-    expect(screen.getByRole('heading', { name: '¡Muy bien!' })).toBeVisible();
-    expect(screen.getByText('Tu intento coincide con la letra E.')).toBeVisible();
+    render(
+      <AttemptResult
+        result={result}
+        target="E"
+        onRetry={vi.fn()}
+        onContinue={next}
+        onReference={reference}
+      />,
+    );
+    expect(screen.getByRole('heading', { name: 'Vamos paso a paso' })).toBeVisible();
+    expect(screen.getByText(/No pudimos verificar la seña con claridad/)).toBeVisible();
+    expect(screen.queryByText(/logrado|¡Muy bien!|correctamente/)).toBeNull();
     expect(screen.queryByText(/experimental|Inferencia:|no califica/i)).toBeNull();
-    fireEvent.click(screen.getByRole('button', { name: 'Seguir practicando aquí' }));
     act(() => vi.advanceTimersByTime(5000));
     expect(next).not.toHaveBeenCalled();
-    fireEvent.click(screen.getByRole('button', { name: 'Continuar' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Continuar' }));
-    act(() => vi.advanceTimersByTime(5000));
+    fireEvent.click(screen.getByRole('button', { name: 'Ver referencia' }));
+    expect(reference).toHaveBeenCalledTimes(1);
+    fireEvent.click(screen.getByRole('button', { name: 'Continuar práctica' }));
     expect(next).toHaveBeenCalledTimes(1);
   } finally {
     vi.useRealTimers();
@@ -27,16 +36,18 @@ test('coincidencia ofrece logro visible y continuar; quedarse cancela el avance 
 });
 
 test.each([
-  [{ label: 'A' }, /Observa la E/],
-  [{ label: null, reason: 'UNSUPPORTED_HAND' }, /Esta mano necesita más entrenamiento/],
-  [{ label: null, reason: 'AMBIGUOUS' }, /posición de los dedos/],
-  [{ label: null, reason: 'OUT_OF_DISTRIBUTION' }, /dentro del recuadro/],
+  [{ label: 'A' }, /No pudimos verificar/],
+  [{ label: null, reason: 'UNSUPPORTED_HAND' }, /No pudimos verificar/],
+  [{ label: null, reason: 'AMBIGUOUS' }, /No pudimos verificar/],
+  [{ label: null, reason: 'OUT_OF_DISTRIBUTION' }, /No pudimos verificar/],
   [{ label: null, reason: 'SINGLE_HAND_REQUIRED' }, /una sola mano visible/],
-])('otra letra o abstención %j ayuda a repetir sin ofrecer continuación', (result, advice) => {
+])('otra letra o abstención %j ayuda a repetir sin afirmar un error', (result, advice) => {
   const retry = vi.fn();
   render(<AttemptResult result={result} target="E" onRetry={retry} onContinue={vi.fn()} />);
   expect(screen.getByText(advice)).toBeVisible();
-  expect(screen.queryByRole('button', { name: 'Continuar' })).toBeNull();
+  expect(
+    screen.queryByText(/entrenamiento|prototipo|muestras|dataset|incorrect|dedos/i),
+  ).toBeNull();
   expect(screen.queryByText('¡Muy bien!')).toBeNull();
   fireEvent.click(screen.getByRole('button', { name: 'Repetir intento' }));
   expect(retry).toHaveBeenCalledTimes(1);
@@ -45,14 +56,14 @@ test.each([
 test('el progreso no completa con detección ni abstención y el actual se anuncia por texto', () => {
   const operation = { result: { label: null } };
   const state = { live: true, busy: false, shown: false };
-  expect(practicePhase(state, operation, 'E')).toBe('practice');
-  expect(practicePhase(state, operation, 'E', true)).toBe('retry');
-  expect(practicePhase({ ...state, shown: true }, operation, 'E')).toBe('retry');
+  expect(practicePhase(state)).toBe('practice');
+  expect(practicePhase(state, true)).toBe('retry');
+  expect(practicePhase({ ...state, shown: true })).toBe('retry');
   operation.result.label = 'E';
-  const phase = practicePhase({ ...state, shown: true }, operation, 'E');
+  const phase = practicePhase({ ...state, shown: true });
   const view = render(<PracticeProgress phase={phase} />);
-  expect(view.container.querySelector('[aria-current="step"]')).toHaveTextContent('Continúa');
-  expect(view.container.querySelectorAll('[data-completed]')).toHaveLength(2);
+  expect(view.container.querySelector('[aria-current="step"]')).toHaveTextContent('Intenta');
+  expect(view.container.querySelectorAll('[data-completed]')).toHaveLength(1);
 });
 
 test('el laboratorio conserva el resultado experimental y el tiempo real de inferencia', () => {

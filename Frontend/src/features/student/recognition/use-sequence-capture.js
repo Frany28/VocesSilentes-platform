@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createHandTracker } from '../../../../../shared/lsv/hand-tracker.js';
 import { validateHandSequence, singleHandFrames } from '../../../../../shared/lsv/hand-sequence.js';
+import { captureFeedback } from './capture-feedback.js';
 
 /**
  * Captura tres segundos de puntos de una mano solo por acción explícita; no graba vídeo ni envía datos.
@@ -14,6 +15,7 @@ export function useSequenceCapture(camera) {
   const [sequence, setSequence] = useState(null);
   const [sessionId, setSessionId] = useState('');
   const [error, setError] = useState('');
+  const [feedback, setFeedback] = useState(null);
   useEffect(() => () => active.current?.cancel(), []);
   // onFrames recibe el intento válido al terminar (p. ej. para analizarlo sin otro clic).
   // after: marca del frame que disparó una captura automática; ese frame y los anteriores no cuentan.
@@ -23,6 +25,7 @@ export function useSequenceCapture(camera) {
     setSequence(null);
     setSessionId(camera.sessionId);
     setError('');
+    setFeedback(null);
     setPending(true);
     const samples = [];
     const tracker = createHandTracker(crypto.randomUUID());
@@ -60,6 +63,7 @@ export function useSequenceCapture(camera) {
         };
         setSequence(captured);
         validateHandSequence(captured);
+        setFeedback(captureFeedback(captured));
         if (expectedHands === 2) {
           onFrames?.(captured);
           return;
@@ -78,6 +82,7 @@ export function useSequenceCapture(camera) {
     sequence,
     sessionId,
     error,
+    feedback,
     capture,
     cancel: () => {
       active.current?.cancel();
@@ -86,11 +91,13 @@ export function useSequenceCapture(camera) {
       setFrames(null);
       setSequence(null);
       setError('');
+      setFeedback(null);
     },
     clear: () => {
       setFrames(null);
       setSequence(null);
       setError('');
+      setFeedback(null);
     },
   };
 }

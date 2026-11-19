@@ -10,7 +10,7 @@ export function CameraSteps({ letter, supported }) {
       : 'Forma una de las cinco vocales: A, E, I, O o U.',
     'Coloca una mano dentro del recuadro.',
     supported
-      ? 'Mantén la seña quieta: el intento se captura solo.'
+      ? 'Realiza la seña dentro del recuadro: el intento se captura solo.'
       : 'Forma la seña y compárala con la referencia.',
   ];
   return (

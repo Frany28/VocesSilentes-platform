@@ -63,7 +63,7 @@ export async function attempt(camera, hand) {
     fireEvent.click(screen.getByRole('button', { name: 'Capturar intento' }));
     expect(screen.getByText('Prepárate: la captura empieza en 3…')).toBeVisible();
     act(() => vi.advanceTimersByTime(3000));
-    expect(screen.getByText('Capturando… mantén la seña quieta.')).toBeVisible();
+    expect(screen.getByText('Capturando… realiza la seña dentro del encuadre.')).toBeVisible();
     const origin = performance.now();
     act(() => {
       for (const frame of samples[0].frames)

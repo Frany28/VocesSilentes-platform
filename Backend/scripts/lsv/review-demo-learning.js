@@ -61,22 +61,21 @@ export async function reviewDemoLearning({ page, browser, mirrored = false }) {
     await page.evaluate('document.querySelector("[role=alert]")?.textContent'),
   );
   // El análisis es automático al terminar la captura; el botón queda para reanalizar.
-  await page.wait(
-    mirrored
-      ? 'document.querySelector(".practice-result")?.textContent.includes("Esta mano necesita más entrenamiento")'
-      : 'document.querySelector(".recognition-candidate")?.textContent==="A"',
-  );
+  await page.wait('document.querySelector(".practice-result")?.dataset.feedback==="UNCERTAIN"');
   const hypothesis = await page.evaluate('document.querySelector(".practice-result").textContent');
-  if (mirrored) assert.ok(hypothesis.includes('Esta mano necesita más entrenamiento'));
+  assert.ok(hypothesis.includes('No pudimos verificar la seña con claridad'));
   assert.equal(
     await page.evaluate('document.querySelector(".practice-result").dataset.outcome'),
     'retry',
   );
-  assert.ok(
-    await page.evaluate(`!Array.from(document.querySelectorAll('.practice-result button'))
-    .some(button=>button.textContent.trim()==='Continuar')`),
-  );
   await page.capture('learning-visible-retry');
+  await page.click('Ver referencia');
+  assert.equal(
+    await page.evaluate(
+      'document.activeElement===document.querySelector(".practice-reference h3")',
+    ),
+    true,
+  );
   await page.click('Detener cámara');
   assert.equal(
     await page.evaluate('window.__reviewStream.getTracks().every(t=>t.readyState==="ended")'),
@@ -97,7 +96,7 @@ export async function reviewDemoLearning({ page, browser, mirrored = false }) {
     automaticCapture,
     automaticObservationAdvance: Boolean(continuation?.automatic),
     manualObservationAdvance: Boolean(continuation?.manual),
-    successViews: continuation?.views ?? [],
+    matchingCandidateViews: continuation?.views ?? [],
     productionBundle: true,
     reference: 'E',
     detectedHand: hand,

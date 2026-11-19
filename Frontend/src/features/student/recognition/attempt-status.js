@@ -7,7 +7,7 @@
  */
 export function attemptStatus({ count, pending, frames, preparing, live, auto, phase }) {
   if (count !== null) return `Prepárate: la captura empieza en ${count}…`;
-  if (pending) return 'Capturando… mantén la seña quieta.';
+  if (pending) return 'Capturando… realiza la seña dentro del encuadre.';
   if (preparing) return 'Espera a que el reconocimiento esté listo.';
   if (!live) return 'Activa la cámara para hacer un intento.';
   if (auto && phase === 'holding')

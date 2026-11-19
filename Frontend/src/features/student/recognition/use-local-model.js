@@ -5,6 +5,7 @@ import { RecognitionModelContext } from './model-context.js';
 import { validateFrames } from '../../../../../shared/lsv/recording.js';
 import { assertModelUsage } from './model-usage.js';
 import { predictHandSequence } from '../../../../../shared/lsv/sequence-inference.js';
+import { captureFeedback } from './capture-feedback.js';
 
 /**
  * Importa y utiliza el modelo propio entrenado, conservando su condición experimental sin notas académicas.
@@ -54,6 +55,7 @@ export function useLocalModel({ autoLoad = false } = {}) {
         inferenceMs: performance.now() - start,
         frames,
         sequence: sequence ?? null,
+        captureIssue: captureFeedback(sequence),
       });
     } catch {
       setError('No se pudo analizar este intento. Repite la captura.');

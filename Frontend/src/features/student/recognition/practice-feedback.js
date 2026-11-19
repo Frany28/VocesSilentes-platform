@@ -1,46 +1,50 @@
+// Mensajes confirmados reservados para una revisión competente del intento.
+// Ninguna predicción del clasificador experimental habilita CORRECT o INCORRECT.
+export const practiceMessages = Object.freeze({
+  NO_HAND: 'No podemos ver tu mano. Colócala dentro del encuadre.',
+  PARTIAL_HAND: 'Asegúrate de que todos tus dedos estén visibles.',
+  RAPID_MOVEMENT: 'Realiza la seña más despacio para observar el movimiento.',
+  UNCERTAIN:
+    'No pudimos verificar la seña con claridad. Ajusta la posición de tu mano y vuelve a intentarlo.',
+  REFERENCE_ONLY:
+    'Observa la referencia y practica a tu ritmo. Puedes volver a consultarla cuando quieras.',
+  INCORRECT:
+    'La seña realizada no coincide con la letra solicitada. Observa la referencia e inténtalo nuevamente.',
+  CORRECT: '¡Muy bien! Has realizado correctamente la seña.',
+});
+
 /**
- * Traduce abstenciones reales a indicaciones de práctica, sin atribuir el límite al estudiante.
- * @param {{label?: string, reason?: string}} result Predicción o abstención del clasificador.
- * @param {string|undefined} target Letra que se compara después de inferir.
- * @returns {string} Siguiente acción comprensible, sin métricas ni afirmación de corrección LSV.
+ * Separa evidencia de captura, cobertura y predicciones experimentales; nunca confirma corrección LSV.
+ * @param {object} result Resultado local con captureIssue geométrico opcional.
+ * @returns {string} Estado educativo; CORRECT/INCORRECT necesitan una futura fuente de verificación.
  */
-export function practiceAdvice(result, target) {
-  if (result.label) {
-    const next = target
-      ? `Observa la ${target} y vuelve a intentarlo.`
-      : 'Compárala con la referencia.';
-    return `La forma se parece a la ${result.label}. ${next}`;
-  }
-  return (
-    {
-      UNSUPPORTED_HAND:
-        'Esta mano necesita más entrenamiento con ejemplos reales. Puedes seguir practicando con la referencia.',
-      OUT_OF_DISTRIBUTION:
-        'Coloca tu mano dentro del recuadro y mantén la seña quieta unos segundos.',
-      BACKGROUND: 'Observa la referencia y forma la letra antes de empezar el siguiente intento.',
-      AMBIGUOUS:
-        'Todavía no distinguimos una letra. Revisa la posición de los dedos y vuelve a intentarlo.',
-      SINGLE_HAND_REQUIRED: 'Deja una sola mano visible para formar esta letra.',
-      TWO_HAND_MODEL_REQUIRED:
-        'Esta actividad aún no puede reconocer señas con dos manos. Sigue la referencia.',
-    }[result.reason] ??
-    'No pudimos reconocer la letra. Mantén la mano visible y vuelve a intentarlo.'
-  );
+export function practiceOutcome(result) {
+  if (['NO_HAND', 'PARTIAL_HAND', 'RAPID_MOVEMENT'].includes(result.captureIssue))
+    return result.captureIssue;
+  if (result.reason === 'UNSUPPORTED_LETTER') return 'REFERENCE_ONLY';
+  return 'UNCERTAIN';
 }
 
 /**
- * Resume las fases reales para el visor, progreso y controles del estudiante.
- * @param {object} attempt Estado de useModelAttempt.
- * @param {object} operation Modelo y resultado actual.
- * @param {string|undefined} target Letra que se practica.
- * @param {boolean} [failed] Captura o análisis fallidos, con indicaciones para volver a intentar.
- * @returns {string} Fase de presentación, sin cambiar captura ni inferencia.
+ * Traduce resultados a acciones observables; una candidata o abstención no demuestra un error del alumno.
+ * @param {object} result Predicción o evidencia de captura.
+ * @returns {string} Siguiente acción, sin diagnósticos de entrenamiento ni correcciones inventadas.
  */
-export function practicePhase(attempt, operation, target, failed = false) {
+export function practiceAdvice(result) {
+  if (result.reason === 'SINGLE_HAND_REQUIRED')
+    return 'Deja una sola mano visible para formar esta letra.';
+  return practiceMessages[practiceOutcome(result)];
+}
+
+/**
+ * Resume el intento sin convertir una coincidencia experimental en logro ni progreso académico.
+ * @param {object} attempt Estado de useModelAttempt.
+ * @param {boolean} [failed] Captura o análisis fallidos, con indicaciones para volver a intentar.
+ * @returns {string} Fase visual; las hipótesis experimentales permanecen en revisión del intento.
+ */
+export function practicePhase(attempt, failed = false) {
   if (attempt.busy) return 'capturing';
-  if (failed) return 'retry';
-  if (attempt.shown)
-    return operation.result.label && operation.result.label === target ? 'success' : 'retry';
+  if (failed || attempt.shown) return 'retry';
   if (!attempt.live) return 'observe';
   return 'practice';
 }

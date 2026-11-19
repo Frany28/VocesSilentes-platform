@@ -10,12 +10,17 @@ import { SequenceCaptureExport } from './SequenceCaptureExport.jsx';
  * @returns {import('react').ReactElement} Preparación de una muestra, nunca un ejercicio calificado.
  */
 export function TrainingCapture({ camera, capture, collection, letter, onLetter }) {
-  const [participantId, setParticipant] = useState('');
-  const [partition, setPartition] = useState('train');
-  const [consent, setConsent] = useState(false);
+  const [metadata, setMetadata] = useState({
+    participantId: '',
+    partition: 'train',
+    consent: false,
+    requestedHand: 'AUTO',
+  });
+  const { participantId, consent, requestedHand } = metadata;
   const clear = () => capture.clear();
   const consented = consent && /^[a-z0-9_-]{1,64}$/.test(participantId);
   const ready = camera.state === 'live' && consented;
+  const matchingHand = requestedHand === 'AUTO' || capture.frames?.[0]?.hand === requestedHand;
   return (
     <section
       className="flex min-w-0 flex-col gap-4"
@@ -24,17 +29,17 @@ export function TrainingCapture({ camera, capture, collection, letter, onLetter 
       <h2 className="[font:var(--type-h3)]">Recopilar una muestra</h2>
       <TrainingSampleFields
         experimental={collection.experimental}
-        metadata={{ participantId, partition, label: letter, consent }}
+        metadata={{ ...metadata, label: letter }}
         disabled={capture.pending}
         onChange={(field, value) => {
           clear();
-          if (field === 'participantId') {
-            setParticipant(value);
-            setConsent(false);
-          }
-          if (field === 'partition') setPartition(value);
-          if (field === 'consent') setConsent(value);
           if (field === 'label') onLetter(value);
+          else
+            setMetadata((current) => ({
+              ...current,
+              [field]: value,
+              ...(field === 'participantId' ? { consent: false } : {}),
+            }));
         }}
       />
       <div className="camera-actions">
@@ -49,15 +54,9 @@ export function TrainingCapture({ camera, capture, collection, letter, onLetter 
         <Button
           variant="secondary"
           icon={null}
-          disabled={!ready || !capture.frames || capture.pending}
+          disabled={!ready || !capture.frames || !matchingHand || capture.pending}
           onClick={() => {
-            if (
-              collection.add(
-                { participantId, partition, label: letter, consent },
-                capture.frames,
-                capture.sessionId,
-              )
-            )
+            if (collection.add({ ...metadata, label: letter }, capture.frames, capture.sessionId))
               clear();
           }}
         >
@@ -81,6 +80,11 @@ export function TrainingCapture({ camera, capture, collection, letter, onLetter 
         <p role="status">
           Muestra lista: {capture.frames.length} frames, etiqueta {letter}, mano{' '}
           {capture.frames[0].hand === 'Left' ? 'izquierda' : 'derecha'}. Grabación auténtica.
+        </p>
+      )}
+      {capture.frames && !matchingHand && (
+        <p role="status">
+          La mano observada no coincide con la solicitada. Repite la captura sin reflejarla.
         </p>
       )}
       {capture.error && (

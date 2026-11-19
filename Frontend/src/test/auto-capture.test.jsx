@@ -56,15 +56,15 @@ test('captura sola con la mano quieta, analiza y no repite hasta bajar la mano',
     act(() => feed(camera, 500, [centered]));
     expect(screen.getByText(/Mano detectada: mantén la seña/)).toBeVisible();
     act(() => feed(camera, 400, [centered]));
-    expect(screen.getByText('Capturando… mantén la seña quieta.')).toBeVisible();
+    expect(screen.getByText('Capturando… realiza la seña dentro del encuadre.')).toBeVisible();
     act(() => captureA(camera));
-    expect(screen.getByText('Tu intento coincide con la letra A.')).toBeVisible();
+    expect(screen.getByText(/No pudimos verificar la seña con claridad/)).toBeVisible();
     expect(screen.getByText(/baja la mano y vuelve a formar la seña/)).toBeVisible();
     act(() => feed(camera, 1500, [centered]));
-    expect(screen.queryByText('Capturando… mantén la seña quieta.')).toBeNull();
+    expect(screen.queryByText('Capturando… realiza la seña dentro del encuadre.')).toBeNull();
     act(() => feed(camera, 700, []));
     act(() => feed(camera, 1000, [centered]));
-    expect(screen.getByText('Capturando… mantén la seña quieta.')).toBeVisible();
+    expect(screen.getByText('Capturando… realiza la seña dentro del encuadre.')).toBeVisible();
   } finally {
     vi.useRealTimers();
   }
@@ -80,7 +80,7 @@ test('el estudiante practica sin controles de configuración de captura o latera
   vi.useFakeTimers();
   act(() => feed(camera, 2000, []));
   vi.useRealTimers();
-  expect(screen.queryByText('Capturando… mantén la seña quieta.')).toBeNull();
+  expect(screen.queryByText('Capturando… realiza la seña dentro del encuadre.')).toBeNull();
   expect(
     screen.getByText('Forma la seña dentro del recuadro: la captura empieza sola.'),
   ).toBeVisible();

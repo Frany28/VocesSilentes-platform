@@ -42,10 +42,10 @@ test('la indicación de posición sigue los frames en vivo y desaparece al deten
   act(() => listener({ landmarks: [hand(0.5, 0.5, 0.1)] }));
   expect(screen.getByText('Acerca la mano a la cámara.')).toBeVisible();
   act(() => listener({ landmarks: [hand(0.5, 0.5, 0.35)] }));
-  expect(screen.getByText('Mano bien colocada. Mantén la seña quieta.')).toBeVisible();
+  expect(screen.getByText('Mano dentro del encuadre. Puedes realizar la seña.')).toBeVisible();
   act(() => listener(null));
   view.rerender(<CameraControls camera={{ ...camera, state: 'off', hands: 0 }} />);
-  expect(screen.queryByText(/Mano bien colocada/)).toBeNull();
+  expect(screen.queryByText(/Mano dentro del encuadre/)).toBeNull();
 });
 
 test('el estudiante no ve importación ni carga manual; el laboratorio sí puede importar', () => {

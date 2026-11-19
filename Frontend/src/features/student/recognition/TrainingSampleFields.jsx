@@ -35,6 +35,18 @@ export function TrainingSampleFields({
         {!experimental && <option value="validation">Calibración</option>}
         <option value="test">Prueba independiente</option>
       </Select>
+      {metadata.requestedHand !== undefined && (
+        <Select
+          label="Mano que se solicita capturar"
+          value={metadata.requestedHand}
+          disabled={disabled}
+          onChange={(event) => onChange('requestedHand', event.target.value)}
+        >
+          <option value="AUTO">Cualquiera · detectar automáticamente</option>
+          <option value="Left">Izquierda · ejecución real</option>
+          <option value="Right">Derecha · ejecución real</option>
+        </Select>
+      )}
       <Select
         label="Etiqueta de la muestra"
         value={metadata.label}
