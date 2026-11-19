@@ -1,0 +1,57 @@
+.admin-metric-group .admin-metrics {
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  background: var(--border-subtle);
+}
+.admin-metric-group .admin-metric {
+  justify-content: space-between;
+  border: 0;
+  border-radius: 0;
+  padding: 24px;
+  gap: 12px;
+}
+.admin-metric-group .admin-metric strong {
+  font: 700 clamp(30px, 3vw, 40px) / 1.1 var(--font-brand);
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+}
+.admin-metric-group > h2 {
+  padding-top: 8px;
+}
+.admin-shell :is(.admin-list-date, time, .admin-pagination, .admin-facts dd) {
+  font-variant-numeric: tabular-nums;
+}
+.admin-shell .admin-list-head {
+  padding-block: 14px;
+}
+.admin-shell .admin-list-row {
+  background: transparent;
+}
+.admin-panel > .admin-message {
+  padding: 20px 0;
+  border-radius: 0;
+  background: transparent;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.admin-shell .admin-unavailable {
+  padding: 24px;
+  background: var(--surface-neutral);
+  border-radius: var(--radius-lg);
+}
+.admin-shell .admin-feedback {
+  padding-block: 48px;
+}
+.admin-shell .admin-metrics-filter {
+  padding: 20px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+}
+@media (hover: hover) and (pointer: fine) {
+  .admin-shell .admin-list-row:hover,
+  .admin-shell .admin-report-card:hover {
+    background: var(--page);
+  }
+}

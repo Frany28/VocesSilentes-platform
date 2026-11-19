@@ -29,7 +29,6 @@ function ReportDraft({ onReset }) {
   return (
     <div className="account-page report-page">
       <header className="account-heading">
-        <p className="account-kicker">AYUDA Y CUENTA / REPORTAR UN ERROR</p>
         <h1>Una barrera menos.</h1>
         <p>Cuéntanos qué pasó para seguir mejorando VocesSilentes.</p>
       </header>

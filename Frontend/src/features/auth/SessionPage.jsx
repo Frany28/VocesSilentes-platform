@@ -1,6 +1,7 @@
 import { useAuth } from './use-auth.js';
 import { useLogout } from './use-logout.js';
 import { LogoutConfirmation } from './LogoutConfirmation.jsx';
+import { Button } from '../../components/ui/Button.jsx';
 
 /**
  * Verifica el flujo con una vista provisional de usuario/administrador y logout explícito.
@@ -21,12 +22,12 @@ export function SessionPage({ admin = false }) {
         {auth.user.email} · {auth.user.role}
       </p>
       <p>Correo {auth.user.emailVerified ? 'verificado' : 'pendiente de verificación'}.</p>
-      <button onClick={auth.refresh} disabled={logout.pending}>
+      <Button onClick={auth.refresh} disabled={logout.pending} icon={null}>
         Comprobar sesión
-      </button>
-      <button onClick={logout.open} disabled={logout.pending}>
+      </Button>
+      <Button variant="secondary" onClick={logout.open} disabled={logout.pending} icon={null}>
         {logout.pending ? 'Cerrando…' : 'Cerrar sesión'}
-      </button>
+      </Button>
       <LogoutConfirmation operation={logout} />
     </section>
   );

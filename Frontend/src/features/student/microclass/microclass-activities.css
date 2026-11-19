@@ -129,9 +129,11 @@
   color: var(--content);
   font: 800 max(20px, 3.4cqw) / 1 var(--font-brand);
 }
-.mc-option:hover:enabled {
-  border-color: var(--action-primary);
-  color: var(--action-primary);
+@media (hover: hover) and (pointer: fine) {
+  .mc-option:hover:enabled {
+    border-color: var(--action-primary);
+    color: var(--action-primary);
+  }
 }
 .mc-option[data-state='right'] {
   border-color: var(--status-success);

@@ -30,10 +30,8 @@ export function StudentPageHeader({
               ? 'Bienvenida a un mundo de nuevas conexiones.'
               : 'Un pequeño paso hoy. Más conexiones mañana.');
   return (
-    <div className="flex min-w-0 flex-col gap-2">
-      <h1 className="text-[30px]/[38px] font-bold min-[600px]:[font:var(--type-h1)]">
-        {title || (catalog ? 'Mis módulos' : `Hola, ${user.firstName}.`)}
-      </h1>
+    <div className="student-page-header flex min-w-0 flex-col gap-2">
+      <h1>{title || (catalog ? 'Mis módulos' : `Hola, ${user.firstName}.`)}</h1>
       <p className="text-base/[26px] text-muted">{description}</p>
       {demo && (
         <p className="text-info [font:var(--type-label)]">

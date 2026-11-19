@@ -44,7 +44,7 @@
     padding: 4px 8px;
     border-radius: var(--radius-md);
     background: var(--surface);
-    color: var(--text-primary);
+    color: var(--content);
     font: var(--type-label);
   }
   .camera-actions {
@@ -78,7 +78,7 @@
     justify-content: space-between;
     gap: 12px;
     padding: 12px;
-    color: var(--text-primary);
+    color: var(--content);
     font: var(--type-secondary);
     min-width: 0;
   }

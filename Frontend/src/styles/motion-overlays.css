@@ -1,11 +1,11 @@
 /* Solo entrada: desmontaje, callbacks y restauración del foco no esperan a una animación. */
 .vs-dialog[open],
 .practice-instructions[open] {
-  animation: vs-dialog-enter var(--motion-dialog) var(--motion-ease);
+  animation: vs-dialog-enter var(--motion-dialog) var(--motion-enter-ease);
 }
 .vs-dialog[open]::backdrop,
 .practice-instructions[open]::backdrop {
-  animation: vs-backdrop-enter var(--motion-dialog) var(--motion-ease);
+  animation: vs-backdrop-enter var(--motion-dialog) var(--motion-enter-ease);
 }
 @keyframes vs-dialog-enter {
   from {

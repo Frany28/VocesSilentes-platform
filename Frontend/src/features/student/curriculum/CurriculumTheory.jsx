@@ -1,13 +1,14 @@
 import { LetterPractice } from './LetterPractice.jsx';
 import { PersonalPractice } from './PersonalPractice.jsx';
 import { LessonResources } from './LessonResources.jsx';
+import { LessonIllustration } from './LessonIllustration.jsx';
 
 /**
  * Presenta una sola unidad educativa, conservando su texto original y los recursos pendientes agrupados.
- * @param {{step: object, onPracticeContinue?: Function}} props Paso y continuación de observación opcional.
+ * @param {{step: object, lessonId?: string, onPracticeContinue?: Function}} props Paso, lección y continuación.
  * @returns {import('react').ReactElement} Introducción, explicación, letras, recursos o práctica personal.
  */
-export function CurriculumTheory({ step, onPracticeContinue }) {
+export function CurriculumTheory({ step, lessonId, onPracticeContinue }) {
   if (step.type === 'letters')
     return <LetterPractice cards={step.cards} onContinue={onPracticeContinue} />;
   if (step.type === 'practice')
@@ -25,11 +26,7 @@ export function CurriculumTheory({ step, onPracticeContinue }) {
           }[step.type]
         }
       </p>
-      {step.type === 'intro' && (
-        <div className="journey-welcome bg-accent rounded-control">
-          <span className="education-media-art" aria-hidden="true" />
-        </div>
-      )}
+      {step.type === 'intro' && <LessonIllustration lessonId={lessonId} />}
       <h2 id="journey-title">{step.title}</h2>
       {step.type === 'intro' ? (
         <section aria-labelledby="curriculum-objectives" className="flex flex-col gap-4">

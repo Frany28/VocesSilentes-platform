@@ -1,64 +1,74 @@
-/* La geometría responde al viewport; los estados crecen solo por su contenido. */
 .login-page {
-  --auth-gap: clamp(12px, 2svh, 24px);
+  --auth-gap: 24px;
   display: flex;
   flex-direction: column;
-  gap: var(--auth-gap);
-  padding: clamp(16px, 2vw, 24px);
+  gap: 24px;
   min-height: 100svh;
+  padding: 24px;
 }
 .login-access {
   display: flex;
   flex: 1;
   flex-direction: column;
   align-items: center;
-  gap: var(--auth-gap);
+  gap: 32px;
   min-width: 0;
 }
 .login-header {
   flex-wrap: wrap;
-  flex: none;
 }
 .login-spacer {
   flex: 1;
-  min-height: 0;
 }
 .login-card {
   display: flex;
-  flex: none;
   flex-direction: column;
-  gap: clamp(16px, 2.5svh, 32px);
-  width: min(100%, 480px);
-  padding: clamp(20px, 3svh, 40px);
+  gap: 28px;
+  width: min(100%, 472px);
+  padding: 24px 8px;
 }
 .login-fields {
   display: flex;
   flex-direction: column;
-  gap: clamp(12px, 2svh, 24px);
+  gap: 20px;
 }
 .login-welcome h1 {
-  font-size: clamp(28px, 3vw, 36px);
-  line-height: 1.2;
+  font-size: clamp(32px, 3.2vw, 44px);
+  line-height: 1.14;
+  letter-spacing: -0.03em;
 }
 .login-welcome > p {
+  max-width: 38ch;
   font-size: 16px;
   line-height: 26px;
 }
+.login-footer {
+  padding-top: 16px;
+}
 @media (min-width: 600px) {
   .login-card[data-mode='register'] {
-    width: min(100%, 560px);
+    width: min(100%, 540px);
   }
   .login-card[data-mode='register'] .login-fields {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
   }
   .login-card[data-mode='register'] .vs-field:last-child {
     grid-column: 1 / -1;
   }
 }
-
 @media (min-width: 1200px) {
   .login-page {
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    padding: 20px;
+    gap: clamp(32px, 4vw, 72px);
+  }
+  .login-access {
+    padding: 8px clamp(16px, 2vw, 32px) 16px 0;
+  }
+  .login-visual {
+    order: -1;
   }
 }

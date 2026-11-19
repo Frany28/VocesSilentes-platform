@@ -13,3 +13,8 @@ Frontend/public/models/lsv-vowels-demo-v1.json
 *.prisma
 .env
 .env.*
+# Herramientas externas instaladas; sus fuentes conservan el formato de su distribución.
+.agents/skills/
+.github/skills/
+# Caché generada por el hook; el catálogo design.json sí se comprueba.
+**/.impeccable/hook.cache.json

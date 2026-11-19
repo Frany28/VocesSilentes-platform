@@ -1,4 +1,4 @@
-import logo from '../../../assets/auth/36e7e.png';
+import { ModuleIllustration } from './ModuleIllustration.jsx';
 import { Button } from '../../../components/ui/Button.jsx';
 import { moduleProgress } from '../data/module-progress.js';
 
@@ -31,13 +31,8 @@ export function StudentHero({ module, next, catalog = false, onOpen }) {
           ? `Continúa con ${module.title}.\nUna seña a la vez, a tu ritmo.`
           : `Retoma ${module.title}.\nTu siguiente paso: ${module.nextLesson?.title ?? 'repasar la lectura'}.`;
   return (
-    <section
-      className="student-hero relative flex flex-col gap-3 rounded-3xl p-6
-      min-[600px]:p-8"
-      aria-label="Tu próxima conversación"
-    >
-      <div className="student-hero-copy relative z-10 flex min-w-0 flex-col items-start gap-3">
-        <p className="text-muted [font:var(--type-label)]">TU PRÓXIMA CONVERSACIÓN EMPIEZA AQUÍ</p>
+    <section className="student-hero" aria-label="Tu próxima conversación">
+      <div className="student-hero-copy">
         <h2 className="font-bold whitespace-pre-line">{title}</h2>
         <p className="text-muted whitespace-pre-line">{description}</p>
         <Button
@@ -53,13 +48,8 @@ export function StudentHero({ module, next, catalog = false, onOpen }) {
                 : 'Continuar lección'}
         </Button>
       </div>
-      <div className="student-hero-art hidden min-[600px]:block" aria-hidden="true">
-        <span className="student-orbit-outer" />
-        <span className="student-orbit-middle" />
-        <span className="student-orbit-inner" />
-        <div className="student-hero-logo">
-          <img src={logo} alt="" />
-        </div>
+      <div className="student-hero-preview" aria-hidden="true">
+        <ModuleIllustration contentKey={module.contentKey} />
       </div>
     </section>
   );

@@ -3,6 +3,7 @@
 @import './account-profile.css' layer(components);
 @import './account-profile-responsive.css' layer(components);
 @import './account-profile-details.css' layer(components);
+@import './account-composition.css' layer(components);
 
 @layer components {
   .account-page,
@@ -29,7 +30,7 @@
     gap: 8px;
   }
   .account-page .account-heading h1 {
-    font: 700 36px / 44px var(--font-brand);
+    font: 700 clamp(30px, 3vw, 40px) / 1.16 var(--font-brand);
   }
   .account-heading > p:last-child,
   .account-muted,

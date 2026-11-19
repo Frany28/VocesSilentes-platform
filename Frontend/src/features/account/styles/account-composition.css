@@ -1,0 +1,75 @@
+.account-page .account-heading {
+  gap: 12px;
+  padding-block: 8px;
+}
+.account-page .account-heading h1 {
+  font-size: clamp(30px, 3vw, 40px);
+  line-height: 1.16;
+  letter-spacing: -0.03em;
+}
+.account-profile-page .account-profile-grid {
+  grid-template-columns: minmax(220px, 0.72fr) minmax(0, 1.5fr);
+  gap: 32px;
+}
+.account-profile-identity .account-profile-card {
+  padding: 28px 24px;
+  background: var(--surface-accent);
+  border-radius: var(--radius-xl);
+}
+.account-profile-identity .account-profile-privacy {
+  padding: 8px 0;
+  background: transparent;
+  font-size: 13px;
+  line-height: 22px;
+}
+.account-profile-settings.account-panel {
+  padding: 28px;
+  border-radius: var(--radius-xl);
+}
+.account-profile-settings .account-profile-tabs {
+  padding: 0;
+  gap: 24px;
+  border-radius: 0;
+  border-bottom: 1px solid var(--border-subtle);
+  background: transparent;
+}
+.account-profile-settings .account-profile-tabs a {
+  flex: none;
+  padding: 0 0 14px;
+  min-height: 44px;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  font: 600 14px / 24px var(--font-brand);
+}
+.account-profile-settings .account-profile-tabs [aria-current='page'] {
+  border-bottom-color: var(--action-primary);
+  background: transparent;
+}
+.account-profile-settings .account-profile-role {
+  padding: 16px 0;
+  border-radius: 0;
+  border-top: 1px solid var(--border-subtle);
+  background: transparent;
+}
+.account-page .account-panel.report-form-panel {
+  padding: 28px;
+  border-radius: var(--radius-xl);
+}
+@container (max-width: 680px) {
+  .account-profile-page .account-profile-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  .account-profile-identity .account-profile-card {
+    padding: 24px;
+  }
+}
+@media (width < 600px) {
+  .account-profile-settings.account-panel,
+  .account-page .account-panel.report-form-panel {
+    padding: 20px;
+  }
+  .account-profile-settings .account-profile-tabs {
+    gap: 20px;
+  }
+}

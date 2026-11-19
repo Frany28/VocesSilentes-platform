@@ -35,7 +35,7 @@ export function Input({
   const inputId = id || generatedId;
   // Las contraseñas no admiten espacios (también lo valida el backend).
   const guard = useNoWhitespace(noWhitespace ?? attributes.type === 'password', attributes);
-  const notice = guard.removed ? 'Las contraseñas no llevan espacios.' : undefined;
+  const notice = guard.removed ? '' : undefined;
   const message = error || notice || help;
   const messageId = message ? `${inputId}-message` : undefined;
   const description = [describedBy, messageId].filter(Boolean).join(' ') || undefined;

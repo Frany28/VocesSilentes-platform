@@ -12,6 +12,9 @@
 @import './student-module-cards.css' layer(components);
 @import './student-module-motion.css' layer(components);
 @import './student-account.css' layer(components);
+@import './student-composition.css' layer(components);
+@import './student-learning-surfaces.css' layer(components);
+@import './learning-composition.css' layer(components);
 @import './practice/practice-layout.css' layer(components);
 @import './practice/practice-assets.css' layer(components);
 

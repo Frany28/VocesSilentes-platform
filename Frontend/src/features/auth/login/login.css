@@ -3,9 +3,6 @@
 @import './login-tokens.css' layer(components);
 @import './login-surfaces.css' layer(components);
 @import './login-illustration.css' layer(components);
-@import './motion-desktop.css' layer(components);
-@import './motion-tablet.css' layer(components);
-@import './motion-mobile.css' layer(components);
 @import './login-motion.css' layer(components);
 @import './login-layout.css' layer(components);
 @import './login-responsive.css' layer(components);

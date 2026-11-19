@@ -8,10 +8,9 @@ import { ProgressSummary } from './ProgressSummary.jsx';
  */
 export function LearningAside({ module, onOpen }) {
   return (
-    <aside className="flex min-w-0 flex-col gap-6">
+    <aside className="student-learning-aside flex min-w-0 flex-col gap-6">
       <ProgressSummary module={module} />
-      <section className="flex flex-col gap-4 rounded-3xl bg-tertiary p-6">
-        <p className="text-muted [font:var(--type-label)]">UNA SEÑA, UNA CONEXIÓN</p>
+      <section className="student-learning-tip flex flex-col gap-4">
         <h2 className="[font:var(--type-h3)]">
           Mira las manos.
           <br />
@@ -21,7 +20,7 @@ export function LearningAside({ module, onOpen }) {
           La expresión facial forma parte del mensaje. Observa el ejemplo antes de practicar.
         </p>
       </section>
-      <section className="flex flex-col gap-3 rounded-3xl border border-border bg-surface p-6">
+      <section className="student-learning-help flex flex-col gap-3">
         <h2 className="[font:var(--type-subtitle)]">¿Algo no funciona?</h2>
         <p className="text-muted">Tu reporte nos ayuda a mejorar la experiencia.</p>
         <Button variant="secondary" className="w-full" onClick={() => onOpen('Reportar un error')}>

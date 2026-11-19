@@ -1,18 +1,16 @@
-/* Evita que la entrada de la tarjeta se repita y oculte el formulario cada ocho segundos. */
-.login-card {
-  animation-iteration-count: 1;
+/* El formulario está visible desde el primer render; solo entra la muestra ilustrativa. */
+@media (prefers-reduced-motion: no-preference) {
+  .login-cover-grid {
+    animation: login-covers-enter var(--motion-dialog) var(--motion-enter-ease);
+  }
 }
-@media (prefers-reduced-motion: reduce) {
-  .login-page::before,
-  .login-visual::before,
-  .login-compact::before,
-  .login-card,
-  .login-orbit,
-  .login-emblem,
-  .login-float {
-    animation: none;
-    transform: none;
-    translate: none;
-    scale: none;
+@keyframes login-covers-enter {
+  from {
+    opacity: 0.8;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

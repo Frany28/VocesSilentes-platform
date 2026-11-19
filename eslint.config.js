@@ -17,6 +17,9 @@ export default [
       '.local/**',
       'datos-entrenamiento/**',
       '**/.vercel/**',
+      // Skills instaladas son herramientas externas, no código de las aplicaciones.
+      '.agents/skills/**',
+      '.github/skills/**',
     ],
   },
   js.configs.recommended,

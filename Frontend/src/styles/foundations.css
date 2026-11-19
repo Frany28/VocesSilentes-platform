@@ -54,6 +54,7 @@
   --motion-surface: 220ms;
   --motion-dialog: 240ms;
   --motion-ease: ease-in-out;
+  --motion-enter-ease: cubic-bezier(0.23, 1, 0.32, 1);
   --motion-lift: -2px;
 }
 @media (prefers-reduced-motion: reduce) {
