@@ -6,6 +6,7 @@ import { StudentProgress } from './pages/StudentProgress.jsx';
 import { StudentProfile } from './pages/StudentProfile.jsx';
 import { ReportForm } from '../reports/ReportForm.jsx';
 import { StudentLesson } from './lesson/StudentLesson.jsx';
+import { ModuleContents } from './lesson/ModuleContents.jsx';
 import {
   CameraPracticeRoute,
   ModelLabRoute,
@@ -35,6 +36,7 @@ export function studentRoutes() {
       { path: '/student/modules', element: <StudentModules /> },
       { path: '/student/modules/vowels', element: <VowelModuleRoute /> },
       { path: '/student/modules/vowels-camera', element: <VowelPracticeRoute /> },
+      { path: '/student/modules/:moduleId', element: <ModuleContents /> },
       { path: '/student/modules/:moduleId/lessons/:lessonId', element: <StudentLesson /> },
       ...(import.meta.env.DEV
         ? [

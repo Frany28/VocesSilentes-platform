@@ -23,11 +23,13 @@ export function useStudentActions() {
     pending: session.pending,
     notice,
     logout: session.open,
-    openLearning: (module) => {
+    openLearning: (module, selectedLesson) => {
       if (module === 'Reportar un error') return onUnavailable(module);
       if (publicConfig.studentDemo)
         return navigate('/student/practice', { state: { moduleTitle: module.title } });
-      const lesson = module.nextLesson ?? module.lessons[0];
+      if (module.contentKey === 'modulo-01-alfabeto-manual-lsv' && !selectedLesson)
+        return navigate(`/student/modules/${module.id}`);
+      const lesson = selectedLesson ?? module.nextLesson ?? module.lessons[0];
       if (lesson) navigate(`/student/modules/${module.id}/lessons/${lesson.id}`);
     },
     onUnavailable,

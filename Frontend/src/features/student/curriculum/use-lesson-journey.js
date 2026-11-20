@@ -8,15 +8,25 @@ import { journeySignature, readCheckpoint, writeCheckpoint } from './journey-che
  * @param {object} lesson Lección autorizada y resultados de API.
  * @param {string} moduleId Identificador del módulo.
  * @param {object[]} [steps] Pasos públicos versionados de una guía; por defecto se generan del contenido de API.
+ * @param {string} [initialStep] Inicio explícito de repaso: introducción o recursos, sin cambiar aciertos.
  * @returns {object} Paso, barra, navegación y resultados confirmados solo por el servidor.
  */
-export function useLessonJourney(lesson, moduleId, steps = lessonSteps(lesson)) {
+export function useLessonJourney(lesson, moduleId, steps = lessonSteps(lesson), initialStep) {
   const { user } = useAuth();
   const signature = journeySignature(steps);
   const key = `vs:lesson-journey:${user.id}:${moduleId}:${lesson.id}`;
-  const [checkpoint, setCheckpoint] = useState(() => readCheckpoint(key, signature, steps));
+  const [checkpoint, setCheckpoint] = useState(() => {
+    const saved = readCheckpoint(key, signature, steps);
+    return ['intro', 'resources'].includes(initialStep) &&
+      steps.some((item) => item.id === initialStep)
+      ? { ...saved, position: initialStep }
+      : saved;
+  });
   const [confirmed, setConfirmed] = useState({});
   const [remembered, setRemembered] = useState(true);
+  useEffect(() => {
+    if (initialStep) writeCheckpoint(key, checkpoint);
+  }, [initialStep, key, checkpoint]);
   const questions = lesson.exercises.map((item) => ({
     ...item,
     status: item.status === 'COMPLETED' ? item.status : (confirmed[item.id] ?? item.status),

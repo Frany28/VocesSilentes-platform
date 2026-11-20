@@ -11,7 +11,7 @@ export function LessonPreview({ lesson, module, onOpen }) {
       <h2 className="[font:var(--type-h3)]">Tu siguiente paso</h2>
       <button
         type="button"
-        onClick={() => onOpen({ ...module, nextLesson: lesson })}
+        onClick={() => onOpen(module, lesson)}
         className="student-lesson flex w-full items-center gap-3 rounded-2xl border border-border bg-surface
           p-4 text-left text-content focus-visible:outline-3 focus-visible:outline-focus"
       >

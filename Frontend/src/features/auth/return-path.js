@@ -9,7 +9,7 @@ export function safeReturnPath(target, role) {
   if (
     role === 'USER' &&
     typeof target === 'string' &&
-    new RegExp(`^/student/modules/${uuid}/lessons/${uuid}$`, 'i').test(target)
+    new RegExp(`^/student/modules/${uuid}(?:/lessons/${uuid})?$`, 'i').test(target)
   )
     return target;
   if (target === '/admin' && role === 'ADMIN') return target;

@@ -8,11 +8,12 @@ import './curriculum.css';
 
 /**
  * Compone una lección progresiva, un paso por pantalla, conservando el progreso y los servicios académicos.
- * @param {{lesson: object, module: object, onContinue: Function, nextTitle?: string}} props Contenido y siguiente destino.
+ * @param {{lesson: object, module: object, onContinue: Function, nextTitle?: string,
+ * initialStep?: string}} props Contenido, siguiente destino y acceso explícito de repaso.
  * @returns {import('react').ReactElement} Recorrido enfocado con punto local separado del avance del backend.
  */
-export function CurriculumLesson({ lesson, module, onContinue, nextTitle }) {
-  const journey = useLessonJourney(lesson, module.id);
+export function CurriculumLesson({ lesson, module, onContinue, nextTitle, initialStep }) {
+  const journey = useLessonJourney(lesson, module.id, undefined, initialStep);
   const { step } = journey;
   return (
     <div className="learning-journey education-page" data-position={step?.id ?? 'summary'}>

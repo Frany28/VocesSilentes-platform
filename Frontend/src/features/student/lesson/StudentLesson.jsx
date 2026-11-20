@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import { Alert } from '../../../components/ui/Alert.jsx';
 import { useStudent } from '../data/use-student.js';
 import { StudentPageHeader } from '../components/StudentPageHeader.jsx';
@@ -17,6 +17,10 @@ import { CurriculumLesson } from '../curriculum/CurriculumLesson.jsx';
 export function StudentLesson() {
   const { moduleId, lessonId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const initialStep = ['intro', 'resources'].includes(location.state?.reviewStep)
+    ? location.state.reviewStep
+    : undefined;
   const { status, snapshot, retry } = useStudent();
   const module = snapshot?.modules.find((item) => item.id === moduleId);
   const lesson = module?.lessons.find((item) => item.id === lessonId);
@@ -26,6 +30,13 @@ export function StudentLesson() {
     document.getElementById('student-content')?.focus();
   }, [lessonId, status]);
   const available = snapshot?.source === 'api' && module?.access === 'available' && lesson;
+  useEffect(() => {
+    if (available && lesson.content && initialStep)
+      navigate(location.pathname, {
+        replace: true,
+        state: { ...location.state, reviewStep: undefined },
+      });
+  }, [available, lesson, initialStep, location.pathname, location.state, navigate]);
   const continueLearning = () =>
     navigate(next ? `/student/modules/${moduleId}/lessons/${next.id}` : '/student/modules');
   if (available && lesson.content)
@@ -36,6 +47,7 @@ export function StudentLesson() {
         module={module}
         onContinue={continueLearning}
         nextTitle={next?.title}
+        initialStep={initialStep}
       />
     );
   return (
