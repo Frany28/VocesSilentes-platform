@@ -36,7 +36,9 @@ test('la microclase vuelve a abrirse desde un resumen sin reproducirse ni activa
   const camera = vi.fn();
   vi.stubGlobal('navigator', { ...navigator, mediaDevices: { getUserMedia: camera } });
   const view = renderAuthApp(modulePath);
-  await userEvent.click(await screen.findByRole('link', { name: 'Ver microclase de las vocales' }));
+  const links = await screen.findAllByRole('link', { name: 'Ver microclase de las vocales' });
+  expect(links).toHaveLength(2);
+  await userEvent.click(links[1]);
   expect(await screen.findByRole('heading', { name: 'Las cinco vocales en LSV' })).toBeVisible();
   expect(screen.getByRole('button', { name: 'Comenzar la microclase' })).toBeVisible();
   expect(camera).not.toHaveBeenCalled();

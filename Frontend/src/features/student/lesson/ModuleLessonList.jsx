@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { LessonIllustration } from '../curriculum/LessonIllustration.jsx';
 import { lessonSteps } from '../curriculum/lesson-steps.js';
+import { hasVowelMicroclass } from '../resources/lesson-microclasses.js';
 
 /**
  * Conserva todo el catálogo recibido y ofrece inicio, reanudación y acceso a la microclase existente.
@@ -12,7 +13,9 @@ export function ModuleLessonList({ module }) {
     <ol className="flex min-w-0 flex-col gap-6" aria-label="Lecciones del módulo">
       {module.lessons.map((lesson, index) => {
         const path = `/student/modules/${module.id}/lessons/${lesson.id}`;
-        const microclass = lesson.content && lessonSteps(lesson).some((step) => step.microclass);
+        const microclass =
+          lesson.content &&
+          (hasVowelMicroclass(lesson.id) || lessonSteps(lesson).some((step) => step.microclass));
         return (
           <li key={lesson.id} className="education-card flex min-w-0 flex-col gap-4">
             <LessonIllustration lessonId={lesson.id} />

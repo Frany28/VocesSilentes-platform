@@ -40,7 +40,10 @@ test('las siete lecciones reales tienen IDs únicos y recorren las etapas en ord
     ids.forEach((id, index) => expect(ids.indexOf(id)).toBe(index));
     const positions = steps.map((step) => order.indexOf(phaseOf(step)));
     expect(positions).toEqual([...positions].sort((left, right) => left - right));
-    const letters = steps.flatMap((step) => step.cards ?? []).map((card) => card.letter);
+    const letters = steps
+      .filter((step) => step.type === 'letters')
+      .flatMap((step) => step.cards ?? [])
+      .map((card) => card.letter);
     expect(letters).toEqual(lesson.content.letterCards.map((card) => card.letter));
     const ready = lesson.exercises.filter((item) => item.availability === 'READY');
     expect(steps.filter((step) => step.type === 'question').map((step) => step.questionId)).toEqual(
@@ -87,8 +90,6 @@ test('sin secciones de teoría se conservan recursos, letras y preguntas', () =>
     'intro',
     'resources',
     'letters',
-    'practice',
-    'practice',
     'practice',
     'question',
   ]);

@@ -28,7 +28,7 @@ export function VowelLearningStep({ step, onContinue }) {
           Primero leerás una explicación y observarás la ilustración de cada vocal. Después podrás
           practicarla. Las referencias y el modelo siguen pendientes de revisión experta LSV.
         </p>
-        <div className="education-card">
+        <div className="journey-video-lesson">
           <LazyVowelMicroclass />
         </div>
       </div>

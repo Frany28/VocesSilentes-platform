@@ -22,6 +22,7 @@ export async function reviewAlphabetLayout({ page, browser, source, results, mod
       for (const lesson of source.lessons) {
         await page.navigate(`/student/modules/${moduleId}/lessons/${alphabetId(lesson.id)}`);
         await page.wait('document.querySelector("#curriculum-objectives")');
+        await page.wait('document.querySelector(".journey-illustration")?.naturalWidth>0');
         await page.evaluate(`(()=>{if(document.documentElement.dataset.theme!==${JSON.stringify(theme)})
           document.querySelector('button[aria-label="Cambiar a modo ${theme === 'light' ? 'claro' : 'oscuro'}"]').click();})()`);
         await page.evaluate('new Promise(done=>setTimeout(done,250))');
@@ -31,6 +32,8 @@ export async function reviewAlphabetLayout({ page, browser, source, results, mod
           font:getComputedStyle(document.querySelector('.education-page')).fontFamily,
           camera:window.__alphabetCameraCalls,media:document.querySelectorAll('video,iframe').length,
           steps:document.querySelectorAll('.journey-stage').length,
+          illustration:{width:document.querySelector('.journey-illustration').naturalWidth,
+            path:new URL(document.querySelector('.journey-illustration').src).pathname},
           percent:document.querySelector('[role=progressbar]').getAttribute('aria-valuenow'),
           preview:document.body.textContent.includes('Vista previa local · Borrador')}))()`);
         assert.ok(state.document <= width);
@@ -41,6 +44,7 @@ export async function reviewAlphabetLayout({ page, browser, source, results, mod
         assert.equal(state.preview, true);
         assert.equal(state.camera, 0);
         assert.equal(state.media, 0);
+        assert.ok(state.illustration.width >= 1000);
         await page.capture(`${lesson.id}-${theme}-${width}-intro`);
         results.screens.push({ lesson: lesson.id, theme, ...state });
       }

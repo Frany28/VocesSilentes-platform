@@ -40,6 +40,7 @@
   min-width: 0;
 }
 .journey-stage:has(.mc-root) > *,
+.journey-stage:has(.journey-video-lesson) > *,
 .journey-stage:has(.camera-exercise) > * {
   max-width: 1120px;
 }

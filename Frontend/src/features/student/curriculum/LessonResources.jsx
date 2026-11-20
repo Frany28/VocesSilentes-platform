@@ -1,7 +1,8 @@
 import { LessonMedia } from '../lesson/LessonMedia.jsx';
 import { LazyVowelMicroclass } from '../microclass/LazyVowelMicroclass.jsx';
 import { LessonVideo } from '../resources/LessonVideo.jsx';
-import { alphabetLessonIds, videosForLesson } from '../resources/lesson-videos.js';
+import { videosForLesson } from '../resources/lesson-videos.js';
+import { hasVowelMicroclass } from '../resources/lesson-microclasses.js';
 
 /**
  * Etapa de demostración: microclase original en introducción y vocales, videos de la lección o, si no hay
@@ -11,12 +12,12 @@ import { alphabetLessonIds, videosForLesson } from '../resources/lesson-videos.j
  */
 export function LessonResources({ step }) {
   const videos = videosForLesson(step.lessonId);
-  const microclass = step.microclass || step.lessonId === alphabetLessonIds['m1-l01'];
+  const microclass = step.microclass || hasVowelMicroclass(step.lessonId);
   const empty = !microclass && videos.length === 0;
   return (
     <article
       className={`journey-copy education-card flex min-w-0 flex-col gap-4${
-        microclass ? ' journey-video-lesson' : ''
+        !empty ? ' journey-video-lesson' : ''
       }`}
       aria-labelledby="journey-title"
     >

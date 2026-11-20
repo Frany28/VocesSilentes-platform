@@ -1,0 +1,318 @@
+{
+  "date": "2026-11-19",
+  "repository": "Frany28/VocesSilentes-platform",
+  "base": "a9bd46da3541f2610543e3043bbbcdc140818069",
+  "shallow": false,
+  "branches": [
+    "origin/codex/fichas-lsv-webp",
+    "origin/codex/lsv-alphabet-data-pipeline",
+    "origin/design/frontend-renovation",
+    "origin/feat/admin-user-password-change",
+    "origin/fix/left-hand-student-feedback",
+    "origin/fix/student-learning-layout-nov2026",
+    "origin/main",
+    "origin/module-ii/day-01"
+  ],
+  "comparedContent": [
+    {
+      "ref": "d6cc9c9",
+      "commit": "d6cc9c9970acf0ac52657a4fb38e47f3d859db7b",
+      "lessons": 7,
+      "letterCards": 27,
+      "exercises": 34,
+      "lessonsSha256": "d94a840b673e23834e2b39ca582afe1182fa48d4127c0884fb5361a47b1dde46",
+      "cardsSha256": "19353e2547521b14d3e74fe7fc2ee2c4cd7458fbd8624366751dc26373679682",
+      "exercisesSha256": "e640b4ca61d030d308bb454cbab88752c252c0b0029e9e132ee6457063489225"
+    },
+    {
+      "ref": "aef1422",
+      "commit": "aef14222f805dc6ae500a4dcc6e5a7bc9d58f7a7",
+      "lessons": 7,
+      "letterCards": 27,
+      "exercises": 34,
+      "lessonsSha256": "d94a840b673e23834e2b39ca582afe1182fa48d4127c0884fb5361a47b1dde46",
+      "cardsSha256": "19353e2547521b14d3e74fe7fc2ee2c4cd7458fbd8624366751dc26373679682",
+      "exercisesSha256": "e640b4ca61d030d308bb454cbab88752c252c0b0029e9e132ee6457063489225"
+    },
+    {
+      "ref": "946110a",
+      "commit": "946110a3939b844efab866d68cd52e22563cdd55",
+      "lessons": 7,
+      "letterCards": 27,
+      "exercises": 34,
+      "lessonsSha256": "d94a840b673e23834e2b39ca582afe1182fa48d4127c0884fb5361a47b1dde46",
+      "cardsSha256": "19353e2547521b14d3e74fe7fc2ee2c4cd7458fbd8624366751dc26373679682",
+      "exercisesSha256": "e640b4ca61d030d308bb454cbab88752c252c0b0029e9e132ee6457063489225"
+    },
+    {
+      "ref": "0c32bd1",
+      "commit": "0c32bd1c1736f90aa08ac987ea509620bc74b090",
+      "lessons": 7,
+      "letterCards": 27,
+      "exercises": 34,
+      "lessonsSha256": "d94a840b673e23834e2b39ca582afe1182fa48d4127c0884fb5361a47b1dde46",
+      "cardsSha256": "19353e2547521b14d3e74fe7fc2ee2c4cd7458fbd8624366751dc26373679682",
+      "exercisesSha256": "e640b4ca61d030d308bb454cbab88752c252c0b0029e9e132ee6457063489225"
+    },
+    {
+      "ref": "5c05b8f",
+      "commit": "5c05b8f821c9653daeeb232246d4b141749d0e12",
+      "lessons": 7,
+      "letterCards": 27,
+      "exercises": 34,
+      "lessonsSha256": "d94a840b673e23834e2b39ca582afe1182fa48d4127c0884fb5361a47b1dde46",
+      "cardsSha256": "19353e2547521b14d3e74fe7fc2ee2c4cd7458fbd8624366751dc26373679682",
+      "exercisesSha256": "e640b4ca61d030d308bb454cbab88752c252c0b0029e9e132ee6457063489225"
+    },
+    {
+      "ref": "9ee3c6d",
+      "commit": "9ee3c6d66a9618730087b7c9af3dfda751b2e387",
+      "lessons": 7,
+      "letterCards": 27,
+      "exercises": 34,
+      "lessonsSha256": "d94a840b673e23834e2b39ca582afe1182fa48d4127c0884fb5361a47b1dde46",
+      "cardsSha256": "19353e2547521b14d3e74fe7fc2ee2c4cd7458fbd8624366751dc26373679682",
+      "exercisesSha256": "e640b4ca61d030d308bb454cbab88752c252c0b0029e9e132ee6457063489225"
+    },
+    {
+      "ref": "0d62731",
+      "commit": "0d62731fcbfd35fbcc6c0e90bf8bb56060bed3ee",
+      "lessons": 7,
+      "letterCards": 27,
+      "exercises": 34,
+      "lessonsSha256": "d94a840b673e23834e2b39ca582afe1182fa48d4127c0884fb5361a47b1dde46",
+      "cardsSha256": "19353e2547521b14d3e74fe7fc2ee2c4cd7458fbd8624366751dc26373679682",
+      "exercisesSha256": "e640b4ca61d030d308bb454cbab88752c252c0b0029e9e132ee6457063489225"
+    },
+    {
+      "ref": "a9bd46d",
+      "commit": "a9bd46da3541f2610543e3043bbbcdc140818069",
+      "lessons": 7,
+      "letterCards": 27,
+      "exercises": 34,
+      "lessonsSha256": "d94a840b673e23834e2b39ca582afe1182fa48d4127c0884fb5361a47b1dde46",
+      "cardsSha256": "19353e2547521b14d3e74fe7fc2ee2c4cd7458fbd8624366751dc26373679682",
+      "exercisesSha256": "e640b4ca61d030d308bb454cbab88752c252c0b0029e9e132ee6457063489225"
+    }
+  ],
+  "educationalContentUnchanged": true,
+  "illustrationTrees": {
+    "aef1422": [
+      "100644 blob 8cca75967ba20a41ff4af6c1b3affa38deff8366\tFrontend/src/assets/alphabet-lessons/consonantes-h-m.webp",
+      "100644 blob 5fd05b8c815848ee12da1123088d99bc7a4ad91c\tFrontend/src/assets/alphabet-lessons/consonantes-n-r.webp",
+      "100644 blob 9985fd4b3f1821032b03f7867f7baf39ea88492f\tFrontend/src/assets/alphabet-lessons/consonantes-s-x.webp",
+      "100644 blob 98f0b86f1fda96739524ec47a325dd87304e8f2f\tFrontend/src/assets/alphabet-lessons/introduccion.webp",
+      "100644 blob 2deadbeba5a1fccb4c3660689375221c5ac51f47\tFrontend/src/assets/alphabet-lessons/vocales.webp"
+    ],
+    "946110a": [
+      "100644 blob 0ebbf0dcd0ced7016913e2b32dd51a7a1a255d64\tFrontend/src/assets/alphabet-lessons/consonantes-b-g.webp",
+      "100644 blob c3721b92207d9699a48d5e7473a73a0bcc5920b6\tFrontend/src/assets/alphabet-lessons/consonantes-h-m.webp",
+      "100644 blob 9dab18c3f8ff119e4a0e52586145ac627893ec96\tFrontend/src/assets/alphabet-lessons/consonantes-n-r.webp",
+      "100644 blob dc57f06706996da8dd4d4cb388d3aa8b15e92be8\tFrontend/src/assets/alphabet-lessons/consonantes-s-x.webp",
+      "100644 blob b88031b829736a8759672bd7cad55fc1971f9fef\tFrontend/src/assets/alphabet-lessons/consonantes-y-z.webp",
+      "100644 blob 98f0b86f1fda96739524ec47a325dd87304e8f2f\tFrontend/src/assets/alphabet-lessons/introduccion.webp",
+      "100644 blob 2deadbeba5a1fccb4c3660689375221c5ac51f47\tFrontend/src/assets/alphabet-lessons/vocales.webp"
+    ],
+    "main": [
+      "100644 blob 0ebbf0dcd0ced7016913e2b32dd51a7a1a255d64\tFrontend/src/assets/alphabet-lessons/consonantes-b-g.webp",
+      "100644 blob c3721b92207d9699a48d5e7473a73a0bcc5920b6\tFrontend/src/assets/alphabet-lessons/consonantes-h-m.webp",
+      "100644 blob 9dab18c3f8ff119e4a0e52586145ac627893ec96\tFrontend/src/assets/alphabet-lessons/consonantes-n-r.webp",
+      "100644 blob dc57f06706996da8dd4d4cb388d3aa8b15e92be8\tFrontend/src/assets/alphabet-lessons/consonantes-s-x.webp",
+      "100644 blob b88031b829736a8759672bd7cad55fc1971f9fef\tFrontend/src/assets/alphabet-lessons/consonantes-y-z.webp",
+      "100644 blob 98f0b86f1fda96739524ec47a325dd87304e8f2f\tFrontend/src/assets/alphabet-lessons/introduccion.webp",
+      "100644 blob 2deadbeba5a1fccb4c3660689375221c5ac51f47\tFrontend/src/assets/alphabet-lessons/vocales.webp"
+    ]
+  },
+  "videoRegistryHistory": [
+    "5cd3f65 feat: add lesson resources and video components for curriculum"
+  ],
+  "trackedVideoOrCaptionPathsAcrossAllRefs": [],
+  "recordedAudio": {
+    "originalCommit": "d36389a",
+    "original": [
+      "100644 blob 10a33310ebc964971c9c8ad615c0f463a491a4f3\tFrontend/public/media/microclass/05131214.mp3",
+      "100644 blob f075015c3524a226a7abfc4e805ad51ed351b4f6\tFrontend/public/media/microclass/06952b02.mp3",
+      "100644 blob cf10e987d95c6355e22ef7326185d3abaff6b6b9\tFrontend/public/media/microclass/137c743e.mp3",
+      "100644 blob 4ccde953e399923b8cb2c7b4bbc799cc2ec0902a\tFrontend/public/media/microclass/14796204.mp3",
+      "100644 blob dfadad6b683b115457c027e3c568178c854cd305\tFrontend/public/media/microclass/15fc1ef6.mp3",
+      "100644 blob a87a46882efa3406901aa313d3f939ea12cc5510\tFrontend/public/media/microclass/1bf62b09.mp3",
+      "100644 blob a9ddb121c1d9581e61978e2c80649dfedc800817\tFrontend/public/media/microclass/1dadc928.mp3",
+      "100644 blob da7174c93274eef454c5353edd60eb7fe667e74d\tFrontend/public/media/microclass/205b1a9c.mp3",
+      "100644 blob c7df724411e54e3137e335e3feb92ed516057cd2\tFrontend/public/media/microclass/2c53ceb5.mp3",
+      "100644 blob 8eae5a93e6a781693298230ca9a539fe24e6fb25\tFrontend/public/media/microclass/3fffc3b1.mp3",
+      "100644 blob ea135c1a3136a8336d3733f7a9ebeade1d791e82\tFrontend/public/media/microclass/484f839f.mp3",
+      "100644 blob cc76cdc7a965472bf0037f1f2ee177459be0d4f8\tFrontend/public/media/microclass/4c2c35ea.mp3",
+      "100644 blob cc3a2062b191566dd4f73e31e311287fba3a67cc\tFrontend/public/media/microclass/4f6ae8fe.mp3",
+      "100644 blob d5f5f11ce5f813d1db94e1404522f273f5f13c65\tFrontend/public/media/microclass/56309524.mp3",
+      "100644 blob 86116bb9132193dced106e41b506a88efcf3e039\tFrontend/public/media/microclass/674a9f8a.mp3",
+      "100644 blob e74a43dff975542741b7221ef4e6272c752e237c\tFrontend/public/media/microclass/6840ab75.mp3",
+      "100644 blob b199466afc90461f26ec09fe86d38bac3eeea8b4\tFrontend/public/media/microclass/6b152404.mp3",
+      "100644 blob 29117ce54f1a67dc6d65474be9c8965ea48705f4\tFrontend/public/media/microclass/6dfb5992.mp3",
+      "100644 blob 16284d297ddd126ece1ea4d0cb369ac2dddfc618\tFrontend/public/media/microclass/74e527a3.mp3",
+      "100644 blob 1635b07a016520ffb11ee68c96fc5d01951a6704\tFrontend/public/media/microclass/7aac4d60.mp3",
+      "100644 blob 1a48e495f3ad517f3100c5396894148aacb077be\tFrontend/public/media/microclass/7f82762f.mp3",
+      "100644 blob 9f9b2236f8e2d3576b56b226a00d235f0dac8eb3\tFrontend/public/media/microclass/87e70091.mp3",
+      "100644 blob 4b1406c153f63dc834dd8a1b8b3284a867fedf51\tFrontend/public/media/microclass/941dff08.mp3",
+      "100644 blob 0dcee2acdba8b47f9bb5e7e045ce43e2857a6884\tFrontend/public/media/microclass/a4128665.mp3",
+      "100644 blob aecab1092d6a5cc0f5cde8bdb144f51721d82119\tFrontend/public/media/microclass/a99472d6.mp3",
+      "100644 blob 449b9a6412b31e4a513fc2ae4e96ec2fef974af8\tFrontend/public/media/microclass/aa1517ec.mp3",
+      "100644 blob 92e5874478248282d4247acd9c7d9e8f6c1576d4\tFrontend/public/media/microclass/c1ed9abf.mp3",
+      "100644 blob 1b09d68269ee411485f551875d55f7b5ba049f52\tFrontend/public/media/microclass/c6bf021a.mp3",
+      "100644 blob b1655c71d27d8c3915ba450422ddff208eadb8c0\tFrontend/public/media/microclass/cc255945.mp3",
+      "100644 blob 6f5c9f627026759dd67926578eec4978508bf79f\tFrontend/public/media/microclass/d4c6d68f.mp3",
+      "100644 blob 72a98698e799240e048773b8c9afcf09934219f2\tFrontend/public/media/microclass/e845f223.mp3",
+      "100644 blob d29d801122441c1d0c86e59143857c20f02c0740\tFrontend/public/media/microclass/e85979db.mp3",
+      "100644 blob 7c9f9554a98737e7f6651055fd1d400388e8a508\tFrontend/public/media/microclass/e8778eef.mp3",
+      "100644 blob 44d1c727da2680ab890751f85c19e88ca736694b\tFrontend/public/media/microclass/eba4016f.mp3",
+      "100644 blob a3f49d13d71ca1859ec9ee90fe069002bada0f8c\tFrontend/public/media/microclass/fa2a5aa2.mp3"
+    ],
+    "current": [
+      "100644 blob 10a33310ebc964971c9c8ad615c0f463a491a4f3\tFrontend/public/media/microclass/05131214.mp3",
+      "100644 blob f075015c3524a226a7abfc4e805ad51ed351b4f6\tFrontend/public/media/microclass/06952b02.mp3",
+      "100644 blob cf10e987d95c6355e22ef7326185d3abaff6b6b9\tFrontend/public/media/microclass/137c743e.mp3",
+      "100644 blob 4ccde953e399923b8cb2c7b4bbc799cc2ec0902a\tFrontend/public/media/microclass/14796204.mp3",
+      "100644 blob dfadad6b683b115457c027e3c568178c854cd305\tFrontend/public/media/microclass/15fc1ef6.mp3",
+      "100644 blob a87a46882efa3406901aa313d3f939ea12cc5510\tFrontend/public/media/microclass/1bf62b09.mp3",
+      "100644 blob a9ddb121c1d9581e61978e2c80649dfedc800817\tFrontend/public/media/microclass/1dadc928.mp3",
+      "100644 blob da7174c93274eef454c5353edd60eb7fe667e74d\tFrontend/public/media/microclass/205b1a9c.mp3",
+      "100644 blob c7df724411e54e3137e335e3feb92ed516057cd2\tFrontend/public/media/microclass/2c53ceb5.mp3",
+      "100644 blob 8eae5a93e6a781693298230ca9a539fe24e6fb25\tFrontend/public/media/microclass/3fffc3b1.mp3",
+      "100644 blob ea135c1a3136a8336d3733f7a9ebeade1d791e82\tFrontend/public/media/microclass/484f839f.mp3",
+      "100644 blob cc76cdc7a965472bf0037f1f2ee177459be0d4f8\tFrontend/public/media/microclass/4c2c35ea.mp3",
+      "100644 blob cc3a2062b191566dd4f73e31e311287fba3a67cc\tFrontend/public/media/microclass/4f6ae8fe.mp3",
+      "100644 blob d5f5f11ce5f813d1db94e1404522f273f5f13c65\tFrontend/public/media/microclass/56309524.mp3",
+      "100644 blob 86116bb9132193dced106e41b506a88efcf3e039\tFrontend/public/media/microclass/674a9f8a.mp3",
+      "100644 blob e74a43dff975542741b7221ef4e6272c752e237c\tFrontend/public/media/microclass/6840ab75.mp3",
+      "100644 blob b199466afc90461f26ec09fe86d38bac3eeea8b4\tFrontend/public/media/microclass/6b152404.mp3",
+      "100644 blob 29117ce54f1a67dc6d65474be9c8965ea48705f4\tFrontend/public/media/microclass/6dfb5992.mp3",
+      "100644 blob 16284d297ddd126ece1ea4d0cb369ac2dddfc618\tFrontend/public/media/microclass/74e527a3.mp3",
+      "100644 blob 1635b07a016520ffb11ee68c96fc5d01951a6704\tFrontend/public/media/microclass/7aac4d60.mp3",
+      "100644 blob 1a48e495f3ad517f3100c5396894148aacb077be\tFrontend/public/media/microclass/7f82762f.mp3",
+      "100644 blob 9f9b2236f8e2d3576b56b226a00d235f0dac8eb3\tFrontend/public/media/microclass/87e70091.mp3",
+      "100644 blob 4b1406c153f63dc834dd8a1b8b3284a867fedf51\tFrontend/public/media/microclass/941dff08.mp3",
+      "100644 blob 0dcee2acdba8b47f9bb5e7e045ce43e2857a6884\tFrontend/public/media/microclass/a4128665.mp3",
+      "100644 blob aecab1092d6a5cc0f5cde8bdb144f51721d82119\tFrontend/public/media/microclass/a99472d6.mp3",
+      "100644 blob 449b9a6412b31e4a513fc2ae4e96ec2fef974af8\tFrontend/public/media/microclass/aa1517ec.mp3",
+      "100644 blob 92e5874478248282d4247acd9c7d9e8f6c1576d4\tFrontend/public/media/microclass/c1ed9abf.mp3",
+      "100644 blob 1b09d68269ee411485f551875d55f7b5ba049f52\tFrontend/public/media/microclass/c6bf021a.mp3",
+      "100644 blob b1655c71d27d8c3915ba450422ddff208eadb8c0\tFrontend/public/media/microclass/cc255945.mp3",
+      "100644 blob 6f5c9f627026759dd67926578eec4978508bf79f\tFrontend/public/media/microclass/d4c6d68f.mp3",
+      "100644 blob 72a98698e799240e048773b8c9afcf09934219f2\tFrontend/public/media/microclass/e845f223.mp3",
+      "100644 blob d29d801122441c1d0c86e59143857c20f02c0740\tFrontend/public/media/microclass/e85979db.mp3",
+      "100644 blob 7c9f9554a98737e7f6651055fd1d400388e8a508\tFrontend/public/media/microclass/e8778eef.mp3",
+      "100644 blob 44d1c727da2680ab890751f85c19e88ca736694b\tFrontend/public/media/microclass/eba4016f.mp3",
+      "100644 blob a3f49d13d71ca1859ec9ee90fe069002bada0f8c\tFrontend/public/media/microclass/fa2a5aa2.mp3"
+    ],
+    "byteIdentical": true
+  },
+  "causes": [
+    "dac7911 restringio a desarrollo la guia de vocales y las referencias manuales; 5cd3f65 publico solo AEIOU.",
+    "Los puntos guardados en summary y la falta de indice de repaso ocultaban el contenido conservado.",
+    "Nueve commits de distribucion visual quedaron en fix/student-learning-layout-nov2026; no se debe integrar esa rama completa porque contiene versiones funcionales anteriores.",
+    "0d62731 reunio cinco bloques en una pagina; a9bd46d recupero parejas pero aplico vocales tambien a las consonantes.",
+    "946110a no elimino contenido: completo y actualizo las siete ilustraciones."
+  ],
+  "retained": [
+    "7 lecciones completas",
+    "27 fichas VocesSilentes de 9172298",
+    "7 ilustraciones de 946110a",
+    "35 audios grabados y guion original de la microclase",
+    "paginas A/E, I/O, U",
+    "API, progreso, XP, cuestionarios, camara y administracion"
+  ],
+  "missing": [
+    {
+      "resource": "MP4/WebM educativos por leccion",
+      "state": "No versionados en ninguna referencia revisada; lessonVideos vacio desde 5cd3f65."
+    },
+    {
+      "resource": "Demostraciones validadas de consonantes, especialmente J, N con tilde y Z",
+      "state": "Faltan archivo autorizado, subtitulos VTT, transcripcion y revisiones editorial/pedagogica/LSV."
+    },
+    {
+      "resource": "Videos de datos-entrenamiento y clips locales",
+      "state": "Material de entrenamiento o evidencia sintetica, sin metadatos editoriales para publicarlo como leccion; no se integra."
+    }
+  ],
+  "changes": [
+    "Acceso directo coherente a la microclase desde Introduccion y Vocales.",
+    "Practicas de consonantes con sus tarjetas originales, de dos en dos.",
+    "Guia de vocales sin tarjeta adicional alrededor del reproductor; ancho estable mientras carga.",
+    "Compatibilidad estricta de checkpoints conocidos sin aceptar aciertos locales."
+  ],
+  "validation": {
+    "state": "completed-with-preexisting-auth-test-failures",
+    "frontend": {
+      "passed": 331,
+      "failed": 9,
+      "total": 340,
+      "command": "pnpm --filter @vocessilentes/frontend exec vitest run --configLoader native --pool threads --maxWorkers 2 --testTimeout 15000",
+      "failedFiles": [
+        "account-settings.test.jsx",
+        "admin-validation.test.jsx",
+        "auth-forms.test.jsx",
+        "login-fields.test.jsx",
+        "login-submit.test.jsx",
+        "login-validation.test.js",
+        "registration-validation.test.js",
+        "ui-fields.test.jsx"
+      ],
+      "note": "Los nueve fallos son los mismos de politica de contrasenas/espacios de main. Las pruebas de aprendizaje pasan."
+    },
+    "build": "Vite production build passed with native config loader",
+    "lint": "Changed JavaScript files passed ESLint; changed code/JSON passed Prettier",
+    "backendProgress": {
+      "passed": 3,
+      "failed": 0,
+      "files": ["tests/auth/alphabet-content.test.js", "tests/auth/curriculum-progress.test.js"],
+      "database": "isolated PostgreSQL WASM"
+    },
+    "browser": {
+      "completed": true,
+      "introductions": 42,
+      "letterReferences": 27,
+      "practicePages": 57,
+      "microclassViews": 18,
+      "completeJourneys": 12,
+      "correctAnswersPersisted": 18,
+      "manualReadings": 12,
+      "database": "isolated PostgreSQL WASM",
+      "audio": {
+        "path": "/media/microclass/cc255945.mp3",
+        "currentTime": 0.604421,
+        "duration": 6.422948,
+        "paused": false,
+        "muted": false,
+        "volume": 1,
+        "error": null,
+        "pausedOnPause": true,
+        "trustedClick": true
+      }
+    },
+    "camera": {
+      "completed": true,
+      "physicalCamera": false,
+      "source": "Replay de video real en dispositivo de prueba de Chrome",
+      "automaticCapture": true,
+      "manualContinuation": true,
+      "academicWrites": 0,
+      "views": 8,
+      "accuracy": null
+    },
+    "remoteActions": "Consultar el PR; los resultados locales no acreditan GitHub Actions.",
+    "evidence": [
+      "lesson-recovery/introduccion-escritorio.png",
+      "lesson-recovery/microclase-escritorio.png",
+      "lesson-recovery/microclase-movil.png",
+      "lesson-recovery/practica-consonantes-escritorio.png",
+      "lesson-recovery/practica-consonantes-movil.png"
+    ],
+    "globalVerify": {
+      "command": "pnpm verify",
+      "result": "Stopped at format:check",
+      "file": "Backend/tests/auth/admin-password-reset.test.js",
+      "baseline": "File unchanged from main; global lint passed. Remaining phases checked separately where reported."
+    },
+    "loadingChecks": "Las primeras pruebas en frio superaron 5 segundos. La suite completa usa --maxWorkers 2 --testTimeout 15000; no se modifica la configuracion global ni se simula el reproductor."
+  }
+}
