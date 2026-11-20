@@ -11,6 +11,7 @@ import { reviewAlphabetLayout } from './review-alphabet-layout.js';
 import { reviewAlphabetAnswers } from './review-alphabet-answers.js';
 import { reviewMicroclassAudio } from './review-microclass-audio.js';
 import { reviewAlphabetReferences } from './review-alphabet-references.js';
+import { reviewAlphabetPractice } from './review-alphabet-practice.js';
 
 const output = fileURLToPath(new URL('../../../.local/journey-review/', import.meta.url));
 await mkdir(output, { recursive: true });
@@ -63,6 +64,7 @@ try {
   };
   await reviewAlphabetLayout(context);
   await reviewAlphabetReferences(context);
+  await reviewAlphabetPractice(context);
   await reviewAlphabetAnswers(context);
   await reviewMicroclassAudio(context);
   await page.navigate(`/student/modules/${alphabetModuleId}/lessons/${alphabetId('m1-l01')}`);
