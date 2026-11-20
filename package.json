@@ -23,6 +23,7 @@
     "lsv:automatic:verify": "node Backend/scripts/review-automatic-hands.js",
     "lsv:release:demo": "node Backend/scripts/release-lsv-demo.js",
     "lsv:demo:verify": "node Backend/scripts/lsv-demo-review.js",
+    "lsv:feedback:verify": "node Backend/scripts/lsv-feedback-review.js",
     "lsv:demo:verify:mirror": "node Backend/scripts/lsv-demo-review.js --mirror-camera",
     "lsv:experimental:verify": "node Backend/scripts/lsv-experimental-review.js",
     "alphabet:dev": "pnpm --filter @vocessilentes/backend alphabet:dev",

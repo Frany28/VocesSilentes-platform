@@ -29,7 +29,12 @@ export function CameraExercise({ letter, onContinue }) {
   const capture = useSequenceCapture(camera);
   const operation = useLocalModel({ autoLoad: recognitionSupports(letter) });
   const attempt = useModelAttempt({ operation, capture, camera, target: letter, lab: false });
-  const phase = practicePhase(attempt, Boolean(capture.error || operation.error));
+  const phase = practicePhase(
+    attempt,
+    Boolean(capture.error || operation.error),
+    operation.result,
+    letter,
+  );
   return (
     <section
       className="camera-exercise flex w-full flex-col gap-4"

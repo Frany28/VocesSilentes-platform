@@ -4,16 +4,18 @@ import { reviewDemoViews } from './review-demo-views.js';
 /**
  * Reproduce A para comprobar que una coincidencia experimental exige navegación voluntaria, sin notas.
  * @param {{page: object, browser: object}} context Driver y cámara de prueba derecha, nunca un participante nuevo.
- * @returns {Promise<object>} Continuación manual, ausencia de avance automático y ocho vistas neutrales.
+ * @returns {Promise<object>} Continuación manual, ausencia de avance automático y ocho vistas de coincidencia.
  */
 export async function reviewCandidateAdvance({ page, browser }) {
   await page.click('Vocal A');
   await page.wait('document.querySelector(".manual-reference img")?.alt.includes("letra A")');
   await page.click('Activar cámara');
-  await page.wait('document.querySelector(".practice-result")?.dataset.feedback==="UNCERTAIN"');
+  await page.wait(
+    'document.querySelector(".practice-result")?.dataset.feedback==="EXPERIMENTAL_MATCH"',
+  );
   assert.equal(
     await page.evaluate('document.querySelector(".practice-result").dataset.outcome'),
-    'retry',
+    'success',
   );
   assert.ok(
     await page.evaluate(
@@ -26,15 +28,15 @@ export async function reviewCandidateAdvance({ page, browser }) {
   );
   assert.ok(
     await page.evaluate(`document.querySelector('.practice-progress [aria-current="step"]')
-    .textContent.includes('Intenta')`),
+    .textContent.includes('Continúa')`),
   );
   await page.evaluate('new Promise(done=>setTimeout(done,3500))');
   assert.ok(
     await page.evaluate('document.querySelector(".manual-reference img")?.alt.includes("letra A")'),
   );
-  await page.capture('learning-visible-matching-uncertain');
+  await page.capture('learning-visible-experimental-match');
   await page.click('Detener cámara');
-  const views = await reviewDemoViews({ page, browser, mirrored: false, outcome: 'retry' });
+  const views = await reviewDemoViews({ page, browser, mirrored: false, outcome: 'success' });
   await page.click('Continuar práctica');
   await page.wait('document.querySelector(".manual-reference img")?.alt.includes("letra E")');
   assert.equal(

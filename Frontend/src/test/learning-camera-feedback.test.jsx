@@ -10,7 +10,7 @@ test('una coincidencia experimental no declara logro ni avanza sola; navegación
   try {
     const next = vi.fn();
     const reference = vi.fn();
-    const result = { label: 'E', inferenceMs: 3, frames: [{ hand: 'Right' }] };
+    const result = { label: 'E', reason: 'CANDIDATE', inferenceMs: 3, frames: [{ hand: 'Right' }] };
     render(
       <AttemptResult
         result={result}
@@ -20,10 +20,11 @@ test('una coincidencia experimental no declara logro ni avanza sola; navegación
         onReference={reference}
       />,
     );
-    expect(screen.getByRole('heading', { name: 'Vamos paso a paso' })).toBeVisible();
-    expect(screen.getByText(/No pudimos verificar la seña con claridad/)).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'Coincidencia experimental' })).toBeVisible();
+    expect(screen.getByLabelText('Letra candidata E')).toBeVisible();
     expect(screen.queryByText(/logrado|¡Muy bien!|correctamente/)).toBeNull();
-    expect(screen.queryByText(/experimental|Inferencia:|no califica/i)).toBeNull();
+    expect(screen.getByText(/no valida tu ejecución de LSV/)).toBeVisible();
+    expect(screen.queryByText(/Inferencia:/i)).toBeNull();
     act(() => vi.advanceTimersByTime(5000));
     expect(next).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole('button', { name: 'Ver referencia' }));
@@ -36,10 +37,10 @@ test('una coincidencia experimental no declara logro ni avanza sola; navegación
 });
 
 test.each([
-  [{ label: 'A' }, /No pudimos verificar/],
-  [{ label: null, reason: 'UNSUPPORTED_HAND' }, /No pudimos verificar/],
-  [{ label: null, reason: 'AMBIGUOUS' }, /No pudimos verificar/],
-  [{ label: null, reason: 'OUT_OF_DISTRIBUTION' }, /No pudimos verificar/],
+  [{ label: 'A', reason: 'CANDIDATE' }, /El modelo propone la letra A/],
+  [{ label: null, reason: 'UNSUPPORTED_HAND' }, /no tiene cobertura para esta mano/],
+  [{ label: null, reason: 'AMBIGUOUS' }, /No hay evidencia suficiente/],
+  [{ label: null, reason: 'OUT_OF_DISTRIBUTION' }, /No hay evidencia suficiente/],
   [{ label: null, reason: 'SINGLE_HAND_REQUIRED' }, /una sola mano visible/],
 ])('otra letra o abstención %j ayuda a repetir sin afirmar un error', (result, advice) => {
   const retry = vi.fn();
@@ -59,11 +60,11 @@ test('el progreso no completa con detección ni abstención y el actual se anunc
   expect(practicePhase(state)).toBe('practice');
   expect(practicePhase(state, true)).toBe('retry');
   expect(practicePhase({ ...state, shown: true })).toBe('retry');
-  operation.result.label = 'E';
-  const phase = practicePhase({ ...state, shown: true });
+  operation.result = { label: 'E', reason: 'CANDIDATE' };
+  const phase = practicePhase({ ...state, shown: true }, false, operation.result, 'E');
   const view = render(<PracticeProgress phase={phase} />);
-  expect(view.container.querySelector('[aria-current="step"]')).toHaveTextContent('Intenta');
-  expect(view.container.querySelectorAll('[data-completed]')).toHaveLength(1);
+  expect(view.container.querySelector('[aria-current="step"]')).toHaveTextContent('Continúa');
+  expect(view.container.querySelectorAll('[data-completed]')).toHaveLength(2);
 });
 
 test('el laboratorio conserva el resultado experimental y el tiempo real de inferencia', () => {
