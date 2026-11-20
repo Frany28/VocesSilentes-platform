@@ -1,7 +1,10 @@
 @layer theme, base, components, utilities;
 
 @import './journey-layout.css' layer(components);
+@import './journey-header.css' layer(components);
+@import './journey-controls.css' layer(components);
 @import './journey-content.css' layer(components);
+@import './journey-video.css' layer(components);
 @import './journey-phases.css' layer(components);
 @import './journey-letters.css' layer(components);
 @import './journey-summary.css' layer(components);

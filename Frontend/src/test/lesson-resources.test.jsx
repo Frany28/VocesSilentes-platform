@@ -13,6 +13,7 @@ import {
 } from '../features/student/resources/letter-resources.js';
 import { LessonVideo } from '../features/student/resources/LessonVideo.jsx';
 import { demoLetters } from '../features/student/recognition/recognition-support.js';
+import provenance from '../assets/lsv-manual/provenance.json';
 
 vi.mock('../lib/config.js', async (original) => ({
   ...(await original()),
@@ -37,15 +38,19 @@ test('los UUID de lección del registro coinciden con los que genera el backend'
   for (const [key, id] of Object.entries(alphabetLessonIds)) expect(id).toBe(alphabetId(key));
 });
 
-test('solo las vocales autorizadas tienen ilustración en producción; el resto queda pendiente', () => {
-  expect(publishedLetters()).toEqual(['A', 'E', 'I', 'O', 'U']);
-  expect(letterResource('E')).toMatchObject({
-    status: 'published',
-    page: 5,
-    linguisticReview: 'PENDING_LSV_REVIEW',
-  });
-  expect(letterResource('B')).toMatchObject({ status: 'pending' });
-  expect(letterResource('B').url).toBeUndefined();
+test('las 27 fichas VocesSilentes autorizadas llegan a producción con su revisión LSV pendiente', () => {
+  expect(publishedLetters()).toEqual(Object.keys(provenance.images));
+  expect(publishedLetters()).toHaveLength(27);
+  for (const [letter, entry] of Object.entries(provenance.images)) {
+    const resource = letterResource(letter);
+    expect(resource).toMatchObject({
+      status: 'published',
+      page: entry.page,
+      linguisticReview: 'PENDING_LSV_REVIEW',
+    });
+    expect(resource.url).toContain(entry.file);
+  }
+  expect(letterResource('CH')).toEqual({ letter: 'CH', status: 'missing' });
 });
 
 test('la lista de letras con reconocimiento coincide con el modelo de demostración publicado', () => {

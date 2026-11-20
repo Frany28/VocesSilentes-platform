@@ -66,12 +66,11 @@ test('la clase original conserva sus recursos propios sin publicar el paquete ed
   expect(await screen.findByRole('button', { name: 'Comenzar la microclase' })).toBeVisible();
 });
 
-test('runtime normal no sirve la ilustración de una letra sin autorización registrada', () => {
+test('runtime normal muestra también la ficha VocesSilentes de las consonantes autorizadas', () => {
   render(<ManualReference letter="B" />);
-  expect(screen.queryByRole('img')).toBeNull();
-  expect(
-    screen.getByText('Referencia visual pendiente de autorización y revisión LSV.'),
-  ).toBeVisible();
+  expect(screen.getByRole('img', { name: /referencia de la letra B/ })).toBeVisible();
+  expect(screen.getByText(/Revisión lingüística pendiente\./)).toBeVisible();
+  expect(screen.queryByText(/Vista previa de desarrollo/)).toBeNull();
 });
 
 test('runtime normal muestra las vocales autorizadas sin ocultar la revisión LSV pendiente', () => {

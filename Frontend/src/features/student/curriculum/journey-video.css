@@ -1,0 +1,15 @@
+/* El reproductor conserva su marco: se recupera la presentación amplia sin tarjetas anidadas. */
+.learning-shell .journey-stage article.journey-video-lesson {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.journey-video-heading {
+  display: grid;
+  gap: 8px;
+}
+.journey-video-heading p {
+  max-width: 68ch;
+  font: var(--type-secondary);
+}

@@ -38,7 +38,7 @@ test('lectura publicada permite terminar y guardar sin habilitar preguntas o afi
   expect(await screen.findByText(/Lectura educativa · Revisión LSV pendiente/)).toBeVisible();
   await userEvent.click(screen.getByRole('button', { name: 'Continuar' }));
   await userEvent.click(screen.getByRole('button', { name: 'Continuar' }));
-  expect(screen.getByText(/Las imágenes y los vídeos siguen pendientes/)).toBeVisible();
+  expect(screen.getByText(/Todavía no hay un video específico/)).toBeVisible();
   await reachReadingSummary();
   expect(screen.queryByRole('button', { name: 'Comprobar respuesta' })).toBeNull();
   expect(screen.getByRole('heading', { name: '¡Muy bien, terminaste la lección!' })).toBeVisible();

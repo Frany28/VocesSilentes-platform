@@ -1,24 +1,6 @@
 import provenance from '../../../assets/lsv-manual/provenance.json';
 import { manualReference } from '../recognition/manual-reference.js';
-import a from '../../../assets/lsv-manual/ficha-bccafbad3ad5.webp';
-import e from '../../../assets/lsv-manual/ficha-c4db4c076d0e.webp';
-import i from '../../../assets/lsv-manual/ficha-b1729f97cbc2.webp';
-import o from '../../../assets/lsv-manual/ficha-0ac03b43caa7.webp';
-import u from '../../../assets/lsv-manual/ficha-46c533a46758.webp';
-
-/**
- * Registro editorial de ilustraciones publicables. Solo una importación estática entra en el build:
- * añadir una letra aquí equivale a publicarla. Requisitos y procedimiento en docs/lsv-resources.md.
- * No usar import.meta.glob: Vite emitiría también las ilustraciones sin autorización.
- * @type {Record<string, {url: string, authorization: string}>}
- */
-const publishedImages = {
-  A: { url: a, authorization: 'OWNER_CONFIRMED_2026-11-06' },
-  E: { url: e, authorization: 'OWNER_CONFIRMED_2026-11-06' },
-  I: { url: i, authorization: 'OWNER_CONFIRMED_2026-11-06' },
-  O: { url: o, authorization: 'OWNER_CONFIRMED_2026-11-06' },
-  U: { url: u, authorization: 'OWNER_CONFIRMED_2026-11-06' },
-};
+import { publishedImages } from './published-letter-images.js';
 
 export const illustrationCredit = 'Ilustraciones: Yulianny Fuentes, Manual básico de LSV (2022)';
 

@@ -1,42 +1,11 @@
-/* Guía del reproductor: capítulos y transcripción. */
+@import './microclass-chapters.css';
+
+/* Guía histórica con el audio grabado y la composición lateral actuales. */
 .mc-guide {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-  gap: 16px;
-}
-@media (width < 760px) {
-  .mc-guide {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-.mc-chapters {
-  display: grid;
-  gap: 2px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.mc-chapters button {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
+  gap: 14px;
   width: 100%;
-  min-height: 44px;
-  padding: 8px 12px;
-  border: 0;
-  border-radius: var(--radius-lg);
-  background: none;
-  color: var(--content);
-  font: var(--type-secondary);
-  text-align: left;
-}
-.mc-chapters button:hover,
-.mc-chapters [aria-current] {
-  background: var(--surface-accent);
-}
-.mc-chapters time {
-  color: var(--text-secondary);
-  font-variant-numeric: tabular-nums;
+  min-width: 0;
 }
 .mc-docs {
   display: flex;
@@ -45,16 +14,25 @@
   min-width: 0;
 }
 .mc-details {
+  min-width: 0;
   padding: 4px 16px;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xl);
+  background: var(--surface);
 }
 .mc-details summary {
   display: flex;
   align-items: center;
-  min-height: 44px;
+  min-height: 48px;
   font: var(--type-button);
   cursor: pointer;
+}
+.mc-details summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.mc-details[open] {
+  padding-bottom: 12px;
 }
 .mc-details p,
 .mc-transcript h4 {
@@ -65,10 +43,7 @@
   color: var(--action-primary);
   font: var(--type-label);
   font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
 }
-/* Reproductor y guía: apilados en móvil/tablet; en escritorio la guía va al lado del video. */
 .mc-layout {
   display: grid;
   gap: 16px;
@@ -76,11 +51,8 @@
 }
 @media (width >= 1200px) {
   .mc-layout {
-    grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
     align-items: start;
-  }
-  .mc-layout .mc-guide {
-    grid-template-columns: minmax(0, 1fr);
   }
 }
 .mc-volume {

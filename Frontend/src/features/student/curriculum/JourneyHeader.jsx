@@ -12,41 +12,40 @@ import { JourneyPhases } from './JourneyPhases.jsx';
  * @returns {import('react').ReactElement} Marca, salida, tema y progreso local distinguible del académico.
  */
 export function JourneyHeader({ lesson, module, journey }) {
+  const position = module.lessons.findIndex((item) => item.id === lesson.id) + 1;
   return (
-    <header className="journey-header flex flex-col gap-4">
-      <div className="flex flex-wrap items-center gap-3">
+    <header className="journey-header">
+      <div className="journey-topbar">
         <div className="hidden min-[600px]:block">
           <Brand />
         </div>
         <div className="min-[600px]:hidden">
           <Brand compact />
         </div>
-        <Link
-          to="/student/modules"
-          className="education-back ml-auto inline-flex min-h-11 items-center gap-2"
-        >
-          <Icon name="education-back" />
-          Salir de la lección
-        </Link>
-        <div className="student-topbar-actions">
+        <div className="journey-topbar-actions">
+          <Link to="/student/modules" className="journey-exit">
+            <Icon name="education-back" />
+            Salir de la lección
+          </Link>
           <ThemeAction />
           <StudentProfileLink />
         </div>
       </div>
-      {module.id !== 'vowels-learning' && (
-        <Link
-          className="education-back inline-flex min-h-11 items-center self-start"
-          to={`/student/modules/${module.id}`}
-        >
-          Ver todas las lecciones
-        </Link>
-      )}
-      <div className="flex flex-col gap-2">
-        <p className="text-muted [font:var(--type-label)]">
-          Lección {module.lessons.findIndex((item) => item.id === lesson.id) + 1} de{' '}
-          {module.lessons.length}
-        </p>
-        <h1 className="[font:var(--type-subtitle)]">{lesson.title}</h1>
+      <div className="journey-context">
+        <div className="journey-heading">
+          <p className="text-muted [font:var(--type-label)]">
+            Lección {position} de {module.lessons.length}
+          </p>
+          <h1>{lesson.title}</h1>
+        </div>
+        {module.id !== 'vowels-learning' && (
+          <Link
+            className="education-back inline-flex min-h-11 items-center self-start"
+            to={`/student/modules/${module.id}`}
+          >
+            Ver todas las lecciones
+          </Link>
+        )}
         <Progress
           label="Tu recorrido"
           value={journey.percent}
@@ -54,17 +53,17 @@ export function JourneyHeader({ lesson, module, journey }) {
         />
         <JourneyPhases steps={journey.steps} step={journey.step} />
         {module.preview && (
-          <p className="text-muted [font:var(--type-label)]">
+          <p className="journey-status">
             Vista previa local · Borrador pendiente de revisión lingüística.
           </p>
         )}
         {!module.preview && lesson.content?.reviewStatus === 'PENDING_LSV_REVIEW' && (
-          <p className="text-muted [font:var(--type-label)]">
+          <p className="journey-status">
             Lectura educativa · Revisión LSV pendiente. Las evaluaciones aún no están disponibles.
           </p>
         )}
         {!journey.remembered && (
-          <p role="status" className="text-muted">
+          <p role="status" className="journey-status">
             El navegador no permite recordar tu punto al recargar. Puedes continuar estudiando.
           </p>
         )}

@@ -10,6 +10,7 @@ import { alphabetModuleId, alphabetId, readAlphabetSource } from './alphabet-sou
 import { reviewAlphabetLayout } from './review-alphabet-layout.js';
 import { reviewAlphabetAnswers } from './review-alphabet-answers.js';
 import { reviewMicroclassAudio } from './review-microclass-audio.js';
+import { reviewAlphabetReferences } from './review-alphabet-references.js';
 
 const output = fileURLToPath(new URL('../../../.local/journey-review/', import.meta.url));
 await mkdir(output, { recursive: true });
@@ -61,6 +62,7 @@ try {
     authService: environment.authService,
   };
   await reviewAlphabetLayout(context);
+  await reviewAlphabetReferences(context);
   await reviewAlphabetAnswers(context);
   await reviewMicroclassAudio(context);
   await page.navigate(`/student/modules/${alphabetModuleId}/lessons/${alphabetId('m1-l01')}`);
@@ -82,6 +84,7 @@ try {
       journeys: results.journeys.length,
       ...results.answers,
       microclassAudio: results.microclassAudio,
+      referenceViews: results.references.views.length,
     }),
   );
 } finally {

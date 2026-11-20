@@ -4,17 +4,19 @@ import { HandIllustration } from '../recognition/HandIllustration.jsx';
 import { Link } from 'react-router';
 import { CameraPracticeLoader } from '../recognition/CameraPracticeLoader.jsx';
 import { Button } from '../../../components/ui/Button.jsx';
-import { publishedLetters, letterResource } from '../resources/letter-resources.js';
+import { letterResource } from '../resources/letter-resources.js';
+import { demoLetters } from '../recognition/recognition-support.js';
 import './sign-practice.css';
 
 /**
  * Reúne las referencias autorizadas y la cámara real en la misma página de práctica.
+ * El selector conserva las cinco vocales del modelo; publicar más imágenes no amplía el reconocimiento.
  * Cambiar de letra desmonta la cámara anterior y conserva el modelo compartido del estudiante.
  * @returns {import('react').ReactElement} Selector de imágenes y práctica local; cámara solo por acción explícita.
  */
 export function SignPracticeWorkspace() {
   const { referenceHand } = useContext(RecognitionModelContext);
-  const letters = publishedLetters();
+  const letters = demoLetters;
   const [letter, setLetter] = useState(letters[0]);
   const [completed, setCompleted] = useState([]);
   const [finished, setFinished] = useState(false);

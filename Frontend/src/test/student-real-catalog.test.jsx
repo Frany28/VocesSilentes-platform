@@ -42,7 +42,10 @@ test('catálogo API muestra orden real, 3/7=43% y próximos sin progreso ni cand
   expect(within(cards[1]).queryByRole('progressbar')).toBeNull();
   expect(within(cards[1]).getByRole('button', { name: 'Próximamente' })).toBeDisabled();
   expect(screen.queryByText(/Bloqueado|Primeras conversaciones|COMUNICACIÓN COTIDIANA/)).toBeNull();
-  expect(screen.queryByRole('link', { name: /Comenzar módulo de vocales/ })).toBeNull();
+  expect(screen.getByRole('link', { name: /Comenzar módulo de vocales/ })).toHaveAttribute(
+    'href',
+    '/student/modules/vowels',
+  );
   for (const title of ['Saludos y presentaciones', 'Personas y relaciones', 'Vida cotidiana'])
     expect(screen.queryByText(title)).toBeNull();
 });

@@ -2,10 +2,6 @@
   max-width: 1320px;
   padding-top: 28px;
 }
-.learning-shell .journey-header {
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--border-subtle);
-}
 .learning-shell .journey-stage {
   animation: none;
   padding-block: 32px;
@@ -14,11 +10,6 @@
   padding: clamp(24px, 4vw, 48px);
   border-radius: var(--radius-xl);
   gap: 24px;
-}
-.learning-shell .journey-copy h2 {
-  font-size: clamp(28px, 3vw, 38px);
-  line-height: 1.18;
-  letter-spacing: -0.025em;
 }
 .learning-shell .journey-reading {
   max-width: 68ch;

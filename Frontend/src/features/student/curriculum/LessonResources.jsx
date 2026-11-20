@@ -15,11 +15,20 @@ export function LessonResources({ step }) {
   const empty = !microclass && videos.length === 0;
   return (
     <article
-      className="journey-copy education-card flex min-w-0 flex-col gap-4"
+      className={`journey-copy education-card flex min-w-0 flex-col gap-4${
+        microclass ? ' journey-video-lesson' : ''
+      }`}
       aria-labelledby="journey-title"
     >
-      <p className="journey-eyebrow text-muted">Material de referencia</p>
-      <h2 id="journey-title">{step.title}</h2>
+      <div className="journey-video-heading">
+        <h2 id="journey-title">{step.title}</h2>
+        {microclass && (
+          <p className="text-muted">
+            Observa cada vocal, sigue los subtítulos y utiliza los controles para repasar a tu
+            ritmo.
+          </p>
+        )}
+      </div>
       {microclass && <LazyVowelMicroclass />}
       {videos.map((video) => (
         <LessonVideo key={video.id} video={video} />
@@ -28,8 +37,8 @@ export function LessonResources({ step }) {
         <>
           <LessonMedia />
           <p>
-            Las imágenes y los vídeos siguen pendientes de autorización y revisión LSV. Puedes
-            estudiar la teoría mientras se preparan esos recursos.
+            Todavía no hay un video específico para esta lección. Continúa para observar las
+            imágenes de cada letra y compararlas a tu ritmo.
           </p>
         </>
       ) : (
