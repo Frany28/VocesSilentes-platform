@@ -31,7 +31,7 @@ export function AuthForm({
   const localErrors = Object.values(fieldErrors).filter(Boolean).join(' ');
   return (
     <form
-      className="login-card relative"
+      className="login-card relative rounded-3xl border border-border bg-surface shadow-(--login-card-shadow)"
       data-mode={mode}
       noValidate
       onSubmit={onSubmit}
@@ -41,6 +41,9 @@ export function AuthForm({
       aria-busy={pending}
     >
       <div className="login-welcome flex flex-col items-start gap-2">
+        <span className="rounded-full bg-tertiary p-2 [font:var(--type-label)]">
+          {register ? 'COMIENZA TU CAMINO' : 'APRENDE A CONECTAR'}
+        </span>
         <h1 id={`${mode}-title`} className="font-bold">
           {register ? 'Crea tu cuenta' : 'Inicia sesión'}
         </h1>
