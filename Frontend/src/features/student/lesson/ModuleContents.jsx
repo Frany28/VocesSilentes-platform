@@ -4,6 +4,7 @@ import { StudentPageHeader } from '../components/StudentPageHeader.jsx';
 import { DataFeedback } from '../components/DataFeedback.jsx';
 import { Alert } from '../../../components/ui/Alert.jsx';
 import { ModuleLessonList } from './ModuleLessonList.jsx';
+import { VowelPracticeEntry } from '../curriculum/VowelPracticeEntry.jsx';
 import './lesson.css';
 
 /**
@@ -32,7 +33,10 @@ export function ModuleContents() {
           otro.
         </Alert>
       ) : (
-        <ModuleLessonList module={module} />
+        <>
+          {module.contentKey === 'modulo-01-alfabeto-manual-lsv' && <VowelPracticeEntry />}
+          <ModuleLessonList module={module} />
+        </>
       )}
     </div>
   );

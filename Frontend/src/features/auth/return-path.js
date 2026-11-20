@@ -29,6 +29,7 @@ export function safeReturnPath(target, role) {
     [
       '/student',
       '/student/modules',
+      '/student/modules/vowels',
       '/student/practice',
       '/student/progress',
       '/student/profile',

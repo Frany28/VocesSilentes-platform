@@ -44,6 +44,8 @@ try {
   await page.navigate('/student/modules');
   await page.wait('document.querySelector(".student-module-card")');
   await page.click('Explorar módulo');
+  await page.wait('document.querySelector("ol[aria-label=\\"Lecciones del módulo\\"]")');
+  await page.click('Estudiar lección 1 desde el inicio');
   await page.wait('document.querySelector("#curriculum-objectives")');
   assert.equal(
     await page.evaluate('location.pathname'),

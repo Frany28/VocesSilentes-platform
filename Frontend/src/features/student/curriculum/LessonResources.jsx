@@ -1,17 +1,18 @@
 import { LessonMedia } from '../lesson/LessonMedia.jsx';
 import { LazyVowelMicroclass } from '../microclass/LazyVowelMicroclass.jsx';
 import { LessonVideo } from '../resources/LessonVideo.jsx';
-import { videosForLesson } from '../resources/lesson-videos.js';
+import { alphabetLessonIds, videosForLesson } from '../resources/lesson-videos.js';
 
 /**
- * Etapa de demostración: microclase (vocales), videos autorizados de la lección o, si no hay
+ * Etapa de demostración: microclase original en introducción y vocales, videos de la lección o, si no hay
  * ninguno, el marcador explícito de material pendiente. Nunca rellena con recursos no aprobados.
  * @param {{step: object}} props Paso de recursos.
  * @returns {import('react').ReactElement} Recursos de la lección con su estado editorial.
  */
 export function LessonResources({ step }) {
   const videos = videosForLesson(step.lessonId);
-  const empty = !step.microclass && videos.length === 0;
+  const microclass = step.microclass || step.lessonId === alphabetLessonIds['m1-l01'];
+  const empty = !microclass && videos.length === 0;
   return (
     <article
       className="journey-copy education-card flex min-w-0 flex-col gap-4"
@@ -19,7 +20,7 @@ export function LessonResources({ step }) {
     >
       <p className="journey-eyebrow text-muted">Material de referencia</p>
       <h2 id="journey-title">{step.title}</h2>
-      {step.microclass && <LazyVowelMicroclass />}
+      {microclass && <LazyVowelMicroclass />}
       {videos.map((video) => (
         <LessonVideo key={video.id} video={video} />
       ))}

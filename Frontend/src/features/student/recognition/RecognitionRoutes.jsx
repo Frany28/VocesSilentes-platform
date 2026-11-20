@@ -1,7 +1,5 @@
 import { lazy, Suspense } from 'react';
 import { DataFeedback } from '../components/DataFeedback.jsx';
-import { publicConfig } from '../../../lib/config.js';
-import { PublishedVowels } from '../lesson/PublishedVowels.jsx';
 
 const ModelLab = lazy(() =>
   import('../pages/StudentModelLab.jsx').then((module) => ({ default: module.StudentModelLab })),
@@ -16,20 +14,17 @@ const VowelPractice = lazy(() =>
     default: module.StudentVowelPractice,
   })),
 );
-const VowelModule = import.meta.env.DEV
-  ? lazy(() =>
-      import('../pages/StudentVowelModule.jsx').then((module) => ({
-        default: module.StudentVowelModule,
-      })),
-    )
-  : null;
+const VowelModule = lazy(() =>
+  import('../pages/StudentVowelModule.jsx').then((module) => ({
+    default: module.StudentVowelModule,
+  })),
+);
 
 /**
  * Carga el recorrido educativo de vocales sin activar la cámara ni pedir el modelo de inferencia.
  * @returns {import('react').ReactElement} Módulo protegido con introducción, explicaciones y práctica.
  */
 export function VowelModuleRoute() {
-  if (!publicConfig.studentDemo) return <PublishedVowels />;
   return (
     <Suspense fallback={<DataFeedback kind="loading" />}>
       <VowelModule />

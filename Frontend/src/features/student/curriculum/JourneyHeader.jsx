@@ -33,12 +33,14 @@ export function JourneyHeader({ lesson, module, journey }) {
           <StudentProfileLink />
         </div>
       </div>
-      <Link
-        className="education-back inline-flex min-h-11 items-center self-start"
-        to={`/student/modules/${module.id}`}
-      >
-        Ver todas las lecciones
-      </Link>
+      {module.id !== 'vowels-learning' && (
+        <Link
+          className="education-back inline-flex min-h-11 items-center self-start"
+          to={`/student/modules/${module.id}`}
+        >
+          Ver todas las lecciones
+        </Link>
+      )}
       <div className="flex flex-col gap-2">
         <p className="text-muted [font:var(--type-label)]">
           Lección {module.lessons.findIndex((item) => item.id === lesson.id) + 1} de{' '}

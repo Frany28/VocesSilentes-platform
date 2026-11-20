@@ -1,4 +1,6 @@
 import { useLessonJourney } from '../curriculum/use-lesson-journey.js';
+import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router';
 import { JourneyHeader } from '../curriculum/JourneyHeader.jsx';
 import { JourneyControls } from '../curriculum/JourneyControls.jsx';
 import { VowelLearningStep } from '../curriculum/VowelLearningStep.jsx';
@@ -13,7 +15,17 @@ import '../recognition/recognition.css';
  * @returns {import('react').ReactElement} Recorrido recordado por usuario sin escrituras académicas.
  */
 export function StudentVowelModule() {
-  const journey = useLessonJourney(vowelLesson, vowelModule.id, vowelLearningSteps);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const initialStep = location.state?.reviewStep === 'intro' ? 'intro' : undefined;
+  const journey = useLessonJourney(vowelLesson, vowelModule.id, vowelLearningSteps, initialStep);
+  useEffect(() => {
+    if (initialStep)
+      navigate(location.pathname, {
+        replace: true,
+        state: { ...location.state, reviewStep: undefined },
+      });
+  }, [initialStep, location.pathname, location.state, navigate]);
   const { step } = journey;
   const label = !step
     ? undefined

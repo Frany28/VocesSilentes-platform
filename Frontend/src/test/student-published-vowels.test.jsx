@@ -40,25 +40,30 @@ function serve(modules) {
   return fetchMock;
 }
 
-test('enlace antiguo abre la lección de la API por IDs y no el curso estático', async () => {
+test('el enlace original recupera la clase animada en producción, con capítulos y sin el marcador pendiente', async () => {
   const fetchMock = serve([module]);
   renderAuthApp('/student/modules/vowels');
-  expect(await screen.findByRole('heading', { name: module.lessons[0].title })).toBeVisible();
-  expect(screen.getByText('Teoría de la fixture API.')).toBeVisible();
-  expect(screen.queryByText('Aprende las vocales, una por una')).toBeNull();
+  expect(
+    await screen.findByRole('heading', { name: 'Aprende las vocales, una por una' }),
+  ).toBeVisible();
+  expect(await screen.findByRole('heading', { name: 'Las cinco vocales en LSV' })).toBeVisible();
+  expect(screen.getByRole('button', { name: 'Comenzar la microclase' })).toBeVisible();
+  expect(screen.getByRole('group', { name: 'Capítulos de la microclase' })).toBeVisible();
+  expect(document.querySelector('.learning-shell')).not.toBeNull();
+  expect(screen.queryByText('Video de referencia · pendiente')).toBeNull();
   expect(fetchMock.mock.calls.some(([url]) => url.endsWith('/learning'))).toBe(true);
   expect(
     fetchMock.mock.calls.every(([, options]) => !options?.method || options.method === 'GET'),
   ).toBe(true);
 });
 
-test('vocales no publicadas muestran estado editorial sin curso alternativo inventado', async () => {
+test('la clase original conserva sus recursos propios sin publicar el paquete editorial de la API', async () => {
   serve([{ ...module, access: 'upcoming', publicationStatus: 'DRAFT', lessons: [] }]);
   renderAuthApp('/student/modules/vowels');
   expect(
-    await screen.findByRole('heading', { name: 'La lección de vocales está en preparación' }),
+    await screen.findByRole('heading', { name: 'Aprende las vocales, una por una' }),
   ).toBeVisible();
-  expect(screen.queryByText('Aprende las vocales, una por una')).toBeNull();
+  expect(await screen.findByRole('button', { name: 'Comenzar la microclase' })).toBeVisible();
 });
 
 test('runtime normal no sirve la ilustración de una letra sin autorización registrada', () => {
