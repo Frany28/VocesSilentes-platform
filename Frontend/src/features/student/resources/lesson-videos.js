@@ -34,7 +34,8 @@ const videoSchema = z.object({
 });
 
 /**
- * Registro de videos de lección. Vacío: todavía no hay videos autorizados.
+ * Registro de archivos MP4/WebM, vacío desde su creación en 5cd3f65: no se entregaron archivos autorizados.
+ * La microclase animada y sus MP3 se conservan en microclass/; no son entradas ausentes de este registro.
  * Para añadir uno (p. ej. de NotebookLM) seguir docs/lsv-resources.md: archivo y subtítulos .vtt en
  * Frontend/public/media/lessons/, transcripción completa y estados editoriales reales.
  * @type {object[]}

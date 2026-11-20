@@ -10,17 +10,27 @@ export function journeySignature(steps) {
   return `v1-${hash >>> 0}`;
 }
 
-// Solo admite la edición inmediatamente anterior: la práctica única se dividió en A/E, I/O y U.
-// Recalcular su huella completa evita aceptar checkpoints de otros cambios de contenido.
-function previousPracticeSignature(steps) {
+// Solo admite las dos ediciones conocidas: práctica única y práctica general de A/E, I/O y U.
+// La huella completa conserva la posición de lectura sin aceptar otros cambios de contenido.
+function previousPracticeSignatures(steps) {
   const previous = steps
-    .filter((step) => !['practice-IO', 'practice-U'].includes(step.id))
+    .filter((step) => step.type !== 'practice' || step.id === 'practice')
     .map((step) => {
-      if (step.type !== 'practice' || !step.vowels) return step;
+      if (step.type !== 'practice') return step;
       const { id, type, phase, title, body } = step;
       return { id, type, phase, title, body };
     });
-  return journeySignature(previous);
+  const index = previous.findIndex((step) => step.type === 'practice');
+  if (index < 0) return [journeySignature(previous)];
+  const grouped = [['A', 'E'], ['I', 'O'], ['U']].map((vowels, group) => ({
+    ...previous[index],
+    id: group === 0 ? 'practice' : `practice-${vowels.join('')}`,
+    vowels,
+  }));
+  return [
+    journeySignature(previous),
+    journeySignature([...previous.slice(0, index), ...grouped, ...previous.slice(index + 1)]),
+  ];
 }
 
 /**
@@ -34,14 +44,22 @@ export function readCheckpoint(key, signature, steps) {
   const initial = { signature, position: steps[0].id, completed: [] };
   try {
     const saved = JSON.parse(localStorage.getItem(key));
-    const compatible = saved?.signature === previousPracticeSignature(steps);
+    const compatible =
+      signature === journeySignature(steps) &&
+      previousPracticeSignatures(steps).includes(saved?.signature);
     if ((!compatible && saved?.signature !== signature) || !Array.isArray(saved?.completed))
       return initial;
     const ids = new Set(steps.map((step) => step.id));
-    if (!ids.has(saved.position) && saved.position !== 'summary') return initial;
+    const position =
+      compatible &&
+      !ids.has(saved.position) &&
+      ['practice-IO', 'practice-U'].includes(saved.position)
+        ? 'practice'
+        : saved.position;
+    if (!ids.has(position) && position !== 'summary') return initial;
     return {
       signature,
-      position: saved.position,
+      position,
       completed: saved.completed.filter((id) =>
         steps.some((step) => step.id === id && step.type !== 'question'),
       ),

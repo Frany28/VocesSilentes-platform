@@ -34,7 +34,7 @@ export async function reviewDemoLearning({ page, browser, mirrored = false }) {
   await page.wait('document.querySelector(".camera-viewport")');
   assert.equal(await page.evaluate('window.__demoReview.calls'), 0);
   assert.equal(await page.evaluate('window.__demoReview.modelRequests'), 1);
-  // E está en el registro de ilustraciones autorizadas; las consonantes siguen sin servirse.
+  // La práctica conserva la ficha E del registro compartido, sin ampliar las etiquetas del modelo.
   await page.wait('document.querySelector(".manual-reference img")?.naturalWidth>0');
   assert.ok(
     await page.evaluate('document.querySelector(".manual-reference img").alt.includes("letra E")'),
@@ -86,13 +86,14 @@ export async function reviewDemoLearning({ page, browser, mirrored = false }) {
   assert.equal(await page.evaluate('window.__demoReview.learningWrites'), 0);
   assert.equal(await page.evaluate('window.__demoReview.modelRequests'), 1);
   await page.navigate('/student/modules/vowels');
-  await page.wait(
-    'document.body.textContent.includes("La lección de vocales está en preparación")',
+  await page.wait('document.querySelector(".mc-root")');
+  assert.ok(
+    await page.evaluate('document.body.textContent.includes("Aprende las vocales, una por una")'),
   );
-  await page.capture('learning-vowels-pending-publication');
+  await page.capture('learning-vowels-restored-microclass');
   assert.equal(await page.evaluate('window.__demoReview.learningWrites'), 0);
   return {
-    pendingPublication: true,
+    guidedMicroclass: true,
     automaticCapture,
     automaticObservationAdvance: Boolean(continuation?.automatic),
     manualObservationAdvance: Boolean(continuation?.manual),

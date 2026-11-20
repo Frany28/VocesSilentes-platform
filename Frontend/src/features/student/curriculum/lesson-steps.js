@@ -1,3 +1,5 @@
+import { lessonPracticeSteps } from './lesson-practice-steps.js';
+
 /**
  * Conserva todo el texto y lo agrupa en bloques breves, sin cortar frases ni inventar explicaciones.
  * @param {string} text Texto educativo recibido por la API.
@@ -78,16 +80,7 @@ export function lessonSteps(lesson) {
       cards,
     });
   }
-  [['A', 'E'], ['I', 'O'], ['U']].forEach((vowels, index) =>
-    add({
-      id: index === 0 ? 'practice' : `practice-${vowels.join('')}`,
-      type: 'practice',
-      phase: 'practice',
-      title: 'Una pausa para practicar',
-      body: content.practiceInstructions,
-      vowels,
-    }),
-  );
+  lessonPracticeSteps(content).forEach(add);
   lesson.exercises
     .filter((item) => item.availability === 'READY')
     .forEach((question) =>
