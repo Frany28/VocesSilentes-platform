@@ -1,0 +1,197 @@
+{
+  "date": "2026-11-20",
+  "regressionCommit": "26429e4423e4d1b69388d9dfff8db900b56ab06b",
+  "comparedParent": "cc18e25211ca931dff16438d74455759062d040a",
+  "base": "a9bd46da3541f2610543e3043bbbcdc140818069",
+  "cause": [
+    "practiceOutcome descartaba todas las candidatas del modelo y devolvia UNCERTAIN.",
+    "AttemptResult dejo de leer target, retiro la letra visible y fijo todos los resultados como retry.",
+    "CameraExercise dejo de derivar su estado visual de la candidata y el objetivo."
+  ],
+  "reviewed": {
+    "AttemptResult": "Recupera candidata valida, coincidencia experimental, Buen intento y Seña no reconocida.",
+    "practiceFeedback": "Clasifica estados de presentacion sin producir CORRECT/INCORRECT. Conserva avisos geometricos y abstenciones.",
+    "StudentAttempt": "Ya transmite target y operation.result correctamente; conserva coordinacion y continuacion voluntaria, sin cambios.",
+    "useLocalModel": "Conserva label/reason del clasificador. En 26429e4 solo incorporo captureIssue; no se alteran inferencia, umbrales o cobertura."
+  },
+  "unchangedModel": {
+    "sha256": "e129e281be5833b1df450ec207eb4f23cb0e5e8ed5347e23b5f07e5a45bc927e",
+    "prototypes": 9,
+    "right": 9,
+    "left": 0,
+    "status": "EXPERIMENTAL",
+    "linguisticValidation": "PENDING_LSV_REVIEW",
+    "independentAccuracy": null,
+    "matchesRegressionParent": true
+  },
+  "behavior": {
+    "match": "Coincidencia experimental y letra candidata",
+    "different": "Buen intento y la candidata real; no indica ejecucion incorrecta",
+    "abstention": "Seña no reconocida; orientacion segun evidencia o falta de cobertura",
+    "automaticCapture": "unchanged",
+    "automaticAdvance": false,
+    "academicGrading": false,
+    "style": "Se reutilizan los estilos existentes, sin cambios CSS."
+  },
+  "mandatoryChecks": {
+    "focusedFrontend": {
+      "passed": 44,
+      "failed": 0
+    },
+    "backendCoverage": {
+      "passed": 12,
+      "failed": 0,
+      "method": "Referencias del modelo publicado y abstencion por lateralidad; no precision independiente."
+    },
+    "fullFrontend": {
+      "passed": 333,
+      "failed": 9,
+      "total": 342,
+      "command": "pnpm --filter @vocessilentes/frontend exec vitest run --configLoader native --pool threads --maxWorkers 2 --testTimeout 15000",
+      "preexistingFailureFiles": [
+        "account-settings.test.jsx",
+        "admin-validation.test.jsx",
+        "auth-forms.test.jsx",
+        "login-fields.test.jsx",
+        "login-submit.test.jsx",
+        "login-validation.test.js",
+        "registration-validation.test.js",
+        "ui-fields.test.jsx"
+      ]
+    },
+    "browser": {
+      "completed": true,
+      "physicalCamera": false,
+      "independentEvaluation": false,
+      "source": "Replay de clips locales previamente utilizados para entrenamiento; izquierda mediante reflejo tecnico.",
+      "cases": [
+        {
+          "letter": "A",
+          "observedHand": "Right",
+          "derivedMirror": false,
+          "automaticCapture": true,
+          "feedback": "EXPERIMENTAL_MATCH",
+          "candidate": "A",
+          "academicWrites": 0,
+          "viewports": [1440, 390]
+        },
+        {
+          "letter": "A",
+          "observedHand": "Left",
+          "derivedMirror": true,
+          "automaticCapture": true,
+          "feedback": "UNCERTAIN",
+          "candidate": null,
+          "academicWrites": 0,
+          "viewports": [1440, 390]
+        },
+        {
+          "letter": "E",
+          "observedHand": "Right",
+          "derivedMirror": false,
+          "automaticCapture": true,
+          "feedback": "EXPERIMENTAL_MATCH",
+          "candidate": "E",
+          "academicWrites": 0,
+          "viewports": [1440, 390]
+        },
+        {
+          "letter": "E",
+          "observedHand": "Left",
+          "derivedMirror": true,
+          "automaticCapture": true,
+          "feedback": "UNCERTAIN",
+          "candidate": null,
+          "academicWrites": 0,
+          "viewports": [1440, 390]
+        },
+        {
+          "letter": "I",
+          "observedHand": "Right",
+          "derivedMirror": false,
+          "automaticCapture": true,
+          "feedback": "EXPERIMENTAL_MATCH",
+          "candidate": "I",
+          "academicWrites": 0,
+          "viewports": [1440, 390]
+        },
+        {
+          "letter": "I",
+          "observedHand": "Left",
+          "derivedMirror": true,
+          "automaticCapture": true,
+          "feedback": "UNCERTAIN",
+          "candidate": null,
+          "academicWrites": 0,
+          "viewports": [1440, 390]
+        },
+        {
+          "letter": "O",
+          "observedHand": "Right",
+          "derivedMirror": false,
+          "automaticCapture": true,
+          "feedback": "EXPERIMENTAL_MATCH",
+          "candidate": "O",
+          "academicWrites": 0,
+          "viewports": [1440, 390]
+        },
+        {
+          "letter": "O",
+          "observedHand": "Left",
+          "derivedMirror": true,
+          "automaticCapture": true,
+          "feedback": "UNCERTAIN",
+          "candidate": null,
+          "academicWrites": 0,
+          "viewports": [1440, 390]
+        },
+        {
+          "letter": "U",
+          "observedHand": "Right",
+          "derivedMirror": false,
+          "automaticCapture": true,
+          "feedback": "EXPERIMENTAL_MATCH",
+          "candidate": "U",
+          "academicWrites": 0,
+          "viewports": [1440, 390]
+        },
+        {
+          "letter": "U",
+          "observedHand": "Left",
+          "derivedMirror": true,
+          "automaticCapture": true,
+          "feedback": "UNCERTAIN",
+          "candidate": null,
+          "academicWrites": 0,
+          "viewports": [1440, 390]
+        }
+      ],
+      "lessonProgressRows": 0,
+      "exerciseProgressRows": 0
+    },
+    "globalVerify": "pnpm verify: lint global correcto; se detiene en formato preexistente de Backend/tests/auth/admin-password-reset.test.js, sin cambios en esta rama.",
+    "build": "Bundle de produccion compilado por createAcademicEnvironment antes del replay.",
+    "remoteActions": "Consultar el PR; resultados locales separados de GitHub Actions.",
+    "differentCandidateReplay": {
+      "command": "pnpm lsv:demo:verify",
+      "completed": true,
+      "recordedLetter": "A",
+      "requestedLetter": "E",
+      "heading": "Buen intento",
+      "candidate": "A",
+      "automaticCapture": true,
+      "manualContinuation": true,
+      "automaticAdvance": false,
+      "academicWrites": 0,
+      "responsiveViews": 16
+    }
+  },
+  "limitations": [
+    "Nueve prototipos derechos, ninguno izquierdo. Detectar Left no implica que exista clasificacion para Left.",
+    "No se refleja una mano para forzar el clasificador ni se infiere una letra de la opcion solicitada.",
+    "Los replays reutilizan material de entrenamiento; no miden exactitud en personas nuevas ni son capturas de mano izquierda autentica.",
+    "Abstenciones geometricas, de fondo, ambiguedad y distribucion desconocida permanecen activas.",
+    "No se cambian lecciones, XP, progreso, servicios backend, capturas ni el archivo del modelo."
+  ],
+  "reproduction": "pnpm lsv:feedback:verify requiere Chrome, FFmpeg y datos-entrenamiento/manifest.json con sus videos locales. No se incluyen grabaciones ni landmarks en este informe."
+}

@@ -48,7 +48,7 @@ export async function reviewDemoViews({ page, browser, mirrored, outcome = 'retr
       );
       assert.ok(
         await page.evaluate(`!document.querySelector('.camera-exercise').innerText
-        .match(/experimental|no califica|frames reales|inferencia:|entrenamiento|prototipos|dataset|logrado/i)`),
+        .match(/correctamente|incorrect|frames reales|inferencia:|prototipos|dataset|logrado/i)`),
       );
       await page.capture(
         `learning-vowels-production-${mirrored ? 'left' : 'right'}-${outcome}-${width}-${theme}`,

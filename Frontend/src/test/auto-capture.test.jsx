@@ -58,7 +58,8 @@ test('captura sola con la mano quieta, analiza y no repite hasta bajar la mano',
     act(() => feed(camera, 400, [centered]));
     expect(screen.getByText('Capturando… realiza la seña dentro del encuadre.')).toBeVisible();
     act(() => captureA(camera));
-    expect(screen.getByText(/No pudimos verificar la seña con claridad/)).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'Coincidencia experimental' })).toBeVisible();
+    expect(screen.getByLabelText('Letra candidata A')).toBeVisible();
     expect(screen.getByText(/baja la mano y vuelve a formar la seña/)).toBeVisible();
     act(() => feed(camera, 1500, [centered]));
     expect(screen.queryByText('Capturando… realiza la seña dentro del encuadre.')).toBeNull();

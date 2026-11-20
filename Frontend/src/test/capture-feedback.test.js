@@ -61,8 +61,12 @@ test.each([
 ])('%s nunca confirma un error o acierto ni inventa una causa de captura', (reason) => {
   for (const label of [null, 'A', 'E']) {
     const result = { reason, label, confirmed: true };
-    expect(practiceOutcome(result)).toBe('UNCERTAIN');
-    expect(practiceAdvice(result)).toBe(practiceMessages.UNCERTAIN);
+    const candidate = reason === 'CANDIDATE' && label;
+    expect(practiceOutcome(result)).toBe(candidate ? 'EXPERIMENTAL_CANDIDATE' : 'UNCERTAIN');
+    if (candidate) expect(practiceAdvice(result)).toContain(`El modelo propone la letra ${label}`);
+    else if (reason === 'UNSUPPORTED_HAND')
+      expect(practiceAdvice(result)).toContain('no tiene cobertura');
+    else expect(practiceAdvice(result)).toBe(practiceMessages.UNCERTAIN);
     expect(practiceAdvice(result)).not.toMatch(
       /entrenamiento|muestras|prototipos|dataset|incorrect|dedos|despacio/i,
     );

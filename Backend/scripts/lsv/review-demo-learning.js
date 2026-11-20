@@ -61,12 +61,15 @@ export async function reviewDemoLearning({ page, browser, mirrored = false }) {
     await page.evaluate('document.querySelector("[role=alert]")?.textContent'),
   );
   // El análisis es automático al terminar la captura; el botón queda para reanalizar.
-  await page.wait('document.querySelector(".practice-result")?.dataset.feedback==="UNCERTAIN"');
+  const feedback = mirrored ? 'UNCERTAIN' : 'EXPERIMENTAL_DIFFERENT';
+  await page.wait(
+    `document.querySelector(".practice-result")?.dataset.feedback===${JSON.stringify(feedback)}`,
+  );
   const hypothesis = await page.evaluate('document.querySelector(".practice-result").textContent');
-  assert.ok(hypothesis.includes('No pudimos verificar la seña con claridad'));
+  assert.ok(hypothesis.includes(mirrored ? 'Seña no reconocida' : 'Buen intento'));
   assert.equal(
     await page.evaluate('document.querySelector(".practice-result").dataset.outcome'),
-    'retry',
+    mirrored ? 'retry' : 'candidate',
   );
   await page.capture('learning-visible-retry');
   await page.click('Ver referencia');
@@ -81,18 +84,16 @@ export async function reviewDemoLearning({ page, browser, mirrored = false }) {
     await page.evaluate('window.__reviewStream.getTracks().every(t=>t.readyState==="ended")'),
     true,
   );
-  const views = await reviewDemoViews({ page, browser, mirrored, outcome: 'retry' });
+  const views = await reviewDemoViews({
+    page,
+    browser,
+    mirrored,
+    outcome: mirrored ? 'retry' : 'candidate',
+  });
   const continuation = !mirrored && (await reviewCandidateAdvance({ page, browser }));
   assert.equal(await page.evaluate('window.__demoReview.learningWrites'), 0);
   assert.equal(await page.evaluate('window.__demoReview.modelRequests'), 1);
-  await page.navigate('/student/modules/vowels');
-  await page.wait(
-    'document.body.textContent.includes("La lección de vocales está en preparación")',
-  );
-  await page.capture('learning-vowels-pending-publication');
-  assert.equal(await page.evaluate('window.__demoReview.learningWrites'), 0);
   return {
-    pendingPublication: true,
     automaticCapture,
     automaticObservationAdvance: Boolean(continuation?.automatic),
     manualObservationAdvance: Boolean(continuation?.manual),
