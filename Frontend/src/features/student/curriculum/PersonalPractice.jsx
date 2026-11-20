@@ -10,12 +10,13 @@ import { vowelGuides } from './vowel-lesson.js';
  * @returns {import('react').ReactElement} Lectura breve o práctica local, sin evaluación académica inventada.
  */
 export function PersonalPractice({ step, onContinue }) {
+  const guides = vowelGuides.filter((guide) => (step.vowels ?? ['A', 'E']).includes(guide.letter));
   const [letter, setLetter] = useState(null);
   const title = useRef(null);
   useEffect(() => {
     title.current?.focus();
   }, [letter]);
-  const guide = vowelGuides.find((item) => item.letter === letter);
+  const guide = guides.find((item) => item.letter === letter);
   if (guide)
     return (
       <div className="education-card flex flex-col gap-4">
@@ -31,7 +32,7 @@ export function PersonalPractice({ step, onContinue }) {
           key={letter}
           letter={letter}
           onContinue={() => {
-            const next = vowelGuides[vowelGuides.indexOf(guide) + 1];
+            const next = guides[guides.indexOf(guide) + 1];
             if (next) setLetter(next.letter);
             else {
               setLetter(null);
@@ -44,14 +45,15 @@ export function PersonalPractice({ step, onContinue }) {
   return (
     <article className="education-card journey-copy">
       <h2 ref={title} tabIndex={-1}>
-        {step.title}
+        {guides.map((item) => item.letter).join(' · ')}
       </h2>
       <p className="journey-reading">{step.body}</p>
       <p className="text-muted">
-        Observa cada vocal y lee en qué fijarte antes de practicarla. Puedes elegir un bloque o
-        seguir el orden A, E, I, O y U.
+        {guides.length > 1
+          ? 'Observa una referencia y luego la otra. Fíjate en qué dedos cambian entre ambas.'
+          : 'Observa la referencia y lee en qué fijarte antes de practicar esta vocal.'}
       </p>
-      <VowelPracticeBlocks onPractice={setLetter} />
+      <VowelPracticeBlocks guides={guides} onPractice={setLetter} />
     </article>
   );
 }

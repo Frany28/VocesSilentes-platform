@@ -30,7 +30,7 @@ export async function reviewAlphabetJourney({ page, source, moduleId, lesson, su
       percent:document.querySelector('[role=progressbar]').getAttribute('aria-valuenow'),
       letters:[...document.querySelectorAll('.letter-card')].map(n=>n.dataset.letter)}))()`);
     assert.ok(state.letters.length <= 2);
-    for (const letter of state.letters) letters.add(letter);
+    if (state.kind === 'letters') for (const letter of state.letters) letters.add(letter);
     if (state.kind === 'summary') break;
     // La microclase se carga en diferido: capturarla ya montada, no su estado de carga.
     if (state.kind === 'resources')

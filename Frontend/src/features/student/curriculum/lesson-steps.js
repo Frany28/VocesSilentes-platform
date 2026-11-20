@@ -78,13 +78,16 @@ export function lessonSteps(lesson) {
       cards,
     });
   }
-  add({
-    id: 'practice',
-    type: 'practice',
-    phase: 'practice',
-    title: 'Una pausa para practicar',
-    body: content.practiceInstructions,
-  });
+  [['A', 'E'], ['I', 'O'], ['U']].forEach((vowels, index) =>
+    add({
+      id: index === 0 ? 'practice' : `practice-${vowels.join('')}`,
+      type: 'practice',
+      phase: 'practice',
+      title: 'Una pausa para practicar',
+      body: content.practiceInstructions,
+      vowels,
+    }),
+  );
   lesson.exercises
     .filter((item) => item.availability === 'READY')
     .forEach((question) =>

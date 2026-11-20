@@ -25,11 +25,16 @@ export async function reviewAlphabetPractice({ page, browser, moduleId, results 
         if (await page.evaluate('!!document.querySelector(".vowel-practice-blocks")')) break;
         await page.click('Continuar');
       }
-      await page.wait(
-        'document.querySelectorAll(".vowel-practice-block img").length===5&&' +
-          '[...document.querySelectorAll(".vowel-practice-block img")].every(img=>img.naturalWidth>0)',
-      );
-      const state = await page.evaluate(`(()=>({
+      const groups = [['A', 'E'], ['I', 'O'], ['U']];
+      for (const [group, expected] of groups.entries()) {
+        await page.wait(
+          `document.querySelectorAll(".vowel-practice-block img").length===${expected.length}&&` +
+            '[...document.querySelectorAll(".vowel-practice-block img")].every(img=>img.naturalWidth>0)',
+        );
+        await page.wait(
+          '[...document.querySelectorAll(".letter-card")].every(node=>getComputedStyle(node).opacity==="1")',
+        );
+        const state = await page.evaluate(`(()=>({
         letters:[...document.querySelectorAll('.vowel-practice-block')].map(node=>node.dataset.letter),
         images:[...document.querySelectorAll('.vowel-practice-block img')].map(img=>({
           path:new URL(img.src).pathname,width:img.naturalWidth,height:img.naturalHeight})),
@@ -37,35 +42,56 @@ export async function reviewAlphabetPractice({ page, browser, moduleId, results 
         camera:window.__alphabetCameraCalls,
         loadedCamera:!!document.querySelector('.camera-exercise'),
         position:document.querySelector('.learning-journey').dataset.position}))()`);
-      assert.deepEqual(state.letters, ['A', 'E', 'I', 'O', 'U']);
-      assert.equal(state.overflow, false);
-      assert.equal(state.camera, 0);
-      assert.equal(state.loadedCamera, false);
-      assert.equal(state.position, 'practice');
-      for (const image of state.images) {
-        assert.match(image.path, /ficha-[a-f0-9]{12}\.webp$/);
-        assert.ok(image.width >= 720 && image.height === image.width);
+        assert.deepEqual(state.letters, expected);
+        assert.equal(state.overflow, false);
+        assert.equal(state.camera, 0);
+        assert.equal(state.loadedCamera, false);
+        assert.equal(state.position, group === 0 ? 'practice' : `practice-${expected.join('')}`);
+        for (const image of state.images) {
+          assert.match(image.path, /ficha-[a-f0-9]{12}\.webp$/);
+          assert.ok(image.width >= 720 && image.height === image.width);
+        }
+        await page.capture(`practice-pair-${expected.join('')}-lesson-${lesson}-${width}-${theme}`);
+        if (group === 0) {
+          await page.click('Practicar E con cámara');
+          await page.wait(
+            'document.querySelector(".camera-exercise h2")?.textContent==="Practica la letra E"',
+          );
+          await page.wait('document.querySelector(".camera-exercise img")?.naturalWidth>0');
+          assert.equal(await page.evaluate('window.__alphabetCameraCalls'), 0);
+          assert.equal(
+            await page.evaluate(
+              'new URL(document.querySelector(".camera-exercise img").src).pathname',
+            ),
+            state.images[1].path,
+          );
+          assert.equal(
+            await page.evaluate('document.documentElement.scrollWidth>innerWidth'),
+            false,
+          );
+          await page.capture(`practice-selected-E-lesson-${lesson}-${width}-${theme}`);
+          await page.click('Volver a los bloques de vocales');
+          assert.equal(
+            await page.evaluate('document.querySelectorAll(".vowel-practice-block").length'),
+            2,
+          );
+          assert.equal(await page.evaluate('!!document.querySelector(".camera-exercise")'), false);
+        }
+        if (group === 1) {
+          await page.click('Volver');
+          assert.equal(
+            await page.evaluate('document.querySelector(".learning-journey").dataset.position'),
+            'practice',
+          );
+          await page.click('Continuar');
+          await page.navigate(await page.evaluate('location.pathname'));
+          await page.wait(
+            'document.querySelector(".learning-journey")?.dataset.position==="practice-IO"',
+          );
+        }
+        views.push({ lesson, width, theme, ...state, paired: true, reload: group === 1 });
+        if (group < groups.length - 1) await page.click('Continuar');
       }
-      await page.capture(`practice-blocks-lesson-${lesson}-${width}-${theme}`);
-      await page.click('Practicar E con cámara');
-      await page.wait(
-        'document.querySelector(".camera-exercise h2")?.textContent==="Practica la letra E"',
-      );
-      await page.wait('document.querySelector(".camera-exercise img")?.naturalWidth>0');
-      assert.equal(await page.evaluate('window.__alphabetCameraCalls'), 0);
-      assert.equal(
-        await page.evaluate('new URL(document.querySelector(".camera-exercise img").src).pathname'),
-        state.images[1].path,
-      );
-      assert.equal(await page.evaluate('document.documentElement.scrollWidth>innerWidth'), false);
-      await page.capture(`practice-selected-E-lesson-${lesson}-${width}-${theme}`);
-      await page.click('Volver a los bloques de vocales');
-      assert.equal(
-        await page.evaluate('document.querySelectorAll(".vowel-practice-block").length'),
-        5,
-      );
-      assert.equal(await page.evaluate('!!document.querySelector(".camera-exercise")'), false);
-      views.push({ lesson, width, theme, ...state, selected: 'E', returned: true });
     }
   }
   results.vowelPractice = { views };

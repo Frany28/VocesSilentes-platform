@@ -1,24 +1,33 @@
 import { Button } from '../../../components/ui/Button.jsx';
 import { ManualReference } from '../recognition/ManualReference.jsx';
-import { vowelGuides } from './vowel-lesson.js';
-import './vowel-practice-blocks.css';
+import '../recognition/letter-badge.css';
 
 /**
- * Recupera los cinco bloques con las mismas fichas y explicaciones del recorrido guiado original.
- * @param {{onPractice: Function}} props Selección explícita; mostrar las imágenes no abre la cámara.
- * @returns {import('react').ReactElement} Referencias ordenadas A, E, I, O, U con práctica individual.
+ * Recupera las tarjetas de comparación originales para el grupo de una o dos vocales de este paso.
+ * @param {{guides: object[], onPractice: Function}} props Explicaciones y selección explícita de cámara.
+ * @returns {import('react').ReactElement} Grupo visible con las fichas y estilos compartidos del abecedario.
  */
-export function VowelPracticeBlocks({ onPractice }) {
+export function VowelPracticeBlocks({ guides, onPractice }) {
   return (
-    <section className="vowel-practice-blocks" aria-label="Práctica por vocal">
-      {vowelGuides.map((guide) => (
+    <section className="letter-compare vowel-practice-blocks" aria-label="Práctica por vocal">
+      {guides.map((guide) => (
         <article
           key={guide.letter}
-          className="vowel-practice-block"
+          className="letter-card vowel-practice-block"
           aria-labelledby={`practice-vowel-${guide.letter}`}
           data-letter={guide.letter}
         >
-          <h3 id={`practice-vowel-${guide.letter}`}>Vocal {guide.letter}</h3>
+          <div className="letter-card-head">
+            <h3 id={`practice-vowel-${guide.letter}`}>
+              <span className="letter-glyph" aria-hidden="true">
+                {guide.letter}
+              </span>
+              <span className="sr-only">Vocal {guide.letter}</span>
+            </h3>
+            <span className="letter-badge" data-tone="ready">
+              Reconocimiento experimental
+            </span>
+          </div>
           <ManualReference letter={guide.letter} compact educational />
           <p>{guide.description}</p>
           <p className="text-muted">

@@ -17,28 +17,38 @@ vi.mock('../features/student/recognition/CameraPracticeLoader.jsx', () => ({
   ),
 }));
 
-const step = { title: 'Una pausa para practicar', body: 'Actividad original de la lección.' };
+const step = {
+  title: 'Una pausa para practicar',
+  body: 'Actividad original de la lección.',
+  vowels: ['A', 'E'],
+};
 
-test('los cinco bloques conservan las fichas de práctica y la explicación original sin abrir cámara', () => {
-  render(<PersonalPractice step={step} />);
-  const blocks = screen.getByRole('region', { name: 'Práctica por vocal' });
-  for (const guide of vowelGuides) {
-    const block = within(blocks).getByRole('article', { name: `Vocal ${guide.letter}` });
-    expect(within(block).getByRole('img').src).toContain(letterResource(guide.letter).url);
-    expect(within(block).getByText(guide.description)).toBeVisible();
-    expect(within(block).getByText(guide.focus, { exact: false })).toBeVisible();
-    expect(
-      within(block).getByRole('button', { name: `Practicar ${guide.letter} con cámara` }),
-    ).toBeEnabled();
-  }
-  expect(screen.queryByRole('button', { name: /Continuar intento/ })).toBeNull();
-});
+test.each([[['A', 'E']], [['I', 'O']], [['U']]])(
+  'la página %j muestra solo sus tarjetas con estilo original',
+  (vowels) => {
+    render(<PersonalPractice step={{ ...step, vowels }} />);
+    const blocks = screen.getByRole('region', { name: 'Práctica por vocal' });
+    expect(within(blocks).getAllByRole('article')).toHaveLength(vowels.length);
+    expect(blocks).toHaveClass('letter-compare');
+    for (const guide of vowelGuides.filter((item) => vowels.includes(item.letter))) {
+      const block = within(blocks).getByRole('article', { name: `Vocal ${guide.letter}` });
+      expect(block).toHaveClass('letter-card');
+      expect(within(block).getByRole('img').src).toContain(letterResource(guide.letter).url);
+      expect(within(block).getByText(guide.description)).toBeVisible();
+      expect(within(block).getByText(guide.focus, { exact: false })).toBeVisible();
+      expect(
+        within(block).getByRole('button', { name: `Practicar ${guide.letter} con cámara` }),
+      ).toBeEnabled();
+    }
+    expect(screen.queryByRole('button', { name: /Continuar intento/ })).toBeNull();
+  },
+);
 
-test('cada cámara recibe su vocal y A avanza a E, I, O y U antes de salir de la actividad', () => {
+test('la cámara avanza de A a E y solo entonces continúa a la siguiente página', () => {
   const onContinue = vi.fn();
   render(<PersonalPractice step={step} onContinue={onContinue} />);
   fireEvent.click(screen.getByRole('button', { name: 'Practicar A con cámara' }));
-  for (const { letter } of vowelGuides) {
+  for (const letter of step.vowels) {
     expect(screen.getByRole('heading', { name: `Practica la vocal ${letter}` })).toBeVisible();
     expect(onContinue).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole('button', { name: `Continuar intento de prueba ${letter}` }));
@@ -47,18 +57,19 @@ test('cada cámara recibe su vocal y A avanza a E, I, O y U antes de salir de la
   expect(screen.getByRole('region', { name: 'Práctica por vocal' })).toBeVisible();
 });
 
-test('elegir O y volver conserva los cinco bloques sin completar la lectura', () => {
+test('elegir O y volver conserva su página I/O sin completar la lectura', () => {
   const onContinue = vi.fn();
-  render(<PersonalPractice step={step} onContinue={onContinue} />);
+  render(<PersonalPractice step={{ ...step, vowels: ['I', 'O'] }} onContinue={onContinue} />);
   fireEvent.click(screen.getByRole('button', { name: 'Practicar O con cámara' }));
   expect(screen.getByRole('button', { name: 'Continuar intento de prueba O' })).toBeVisible();
   fireEvent.click(screen.getByRole('button', { name: 'Volver a los bloques de vocales' }));
-  expect(screen.getAllByRole('button', { name: /Practicar . con cámara/ })).toHaveLength(5);
+  expect(screen.getAllByRole('button', { name: /Practicar . con cámara/ })).toHaveLength(2);
+  expect(screen.getByRole('heading', { name: 'I · O' })).toBeVisible();
   expect(screen.queryByRole('button', { name: /Continuar intento/ })).toBeNull();
   expect(onContinue).not.toHaveBeenCalled();
 });
 
-test('la ruta real de la introducción muestra los bloques en Práctica sin escribir avance académico', async () => {
+test('la ruta real navega A/E, I/O y U con el pie original y conserva la página al volver', async () => {
   const { snapshot, fetchMock } = mockCompletedAlphabet();
   const module = snapshot.modules[0];
   const lesson = module.lessons[0];
@@ -67,7 +78,17 @@ test('la ruta real de la introducción muestra los bloques en Práctica sin escr
   localStorage.setItem(key, JSON.stringify({ ...checkpoint, position: 'practice' }));
   renderAuthApp(`${modulePath}/lessons/${lesson.id}`);
   expect(await screen.findByRole('region', { name: 'Práctica por vocal' })).toBeVisible();
-  expect(screen.getAllByRole('button', { name: /Practicar . con cámara/ })).toHaveLength(5);
+  expect(screen.getByRole('heading', { name: 'A · E' })).toBeVisible();
+  expect(screen.queryByRole('button', { name: 'Ver mi resumen' })).toBeNull();
+  fireEvent.click(screen.getByRole('button', { name: 'Continuar' }));
+  expect(await screen.findByRole('heading', { name: 'I · O' })).toBeVisible();
+  fireEvent.click(screen.getByRole('button', { name: 'Continuar' }));
+  expect(await screen.findByRole('heading', { name: 'U' })).toBeVisible();
+  expect(screen.getAllByRole('button', { name: /Practicar . con cámara/ })).toHaveLength(1);
+  expect(screen.getByRole('button', { name: 'Ver mi resumen' })).toBeVisible();
+  fireEvent.click(screen.getByRole('button', { name: 'Volver', exact: true }));
+  expect(await screen.findByRole('heading', { name: 'I · O' })).toBeVisible();
+  expect(JSON.parse(localStorage.getItem(key)).position).toBe('practice-IO');
   expect(fetchMock.mock.calls.every(([, options]) => (options.method ?? 'GET') === 'GET')).toBe(
     true,
   );

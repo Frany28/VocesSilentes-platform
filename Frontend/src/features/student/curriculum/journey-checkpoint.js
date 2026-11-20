@@ -10,6 +10,19 @@ export function journeySignature(steps) {
   return `v1-${hash >>> 0}`;
 }
 
+// Solo admite la edición inmediatamente anterior: la práctica única se dividió en A/E, I/O y U.
+// Recalcular su huella completa evita aceptar checkpoints de otros cambios de contenido.
+function previousPracticeSignature(steps) {
+  const previous = steps
+    .filter((step) => !['practice-IO', 'practice-U'].includes(step.id))
+    .map((step) => {
+      if (step.type !== 'practice' || !step.vowels) return step;
+      const { id, type, phase, title, body } = step;
+      return { id, type, phase, title, body };
+    });
+  return journeySignature(previous);
+}
+
 /**
  * Recupera posición y lectura local, sin confiar en aciertos almacenados en el navegador.
  * @param {string} key Clave separada por usuario, módulo y lección.
@@ -21,7 +34,9 @@ export function readCheckpoint(key, signature, steps) {
   const initial = { signature, position: steps[0].id, completed: [] };
   try {
     const saved = JSON.parse(localStorage.getItem(key));
-    if (saved?.signature !== signature || !Array.isArray(saved.completed)) return initial;
+    const compatible = saved?.signature === previousPracticeSignature(steps);
+    if ((!compatible && saved?.signature !== signature) || !Array.isArray(saved?.completed))
+      return initial;
     const ids = new Set(steps.map((step) => step.id));
     if (!ids.has(saved.position) && saved.position !== 'summary') return initial;
     return {

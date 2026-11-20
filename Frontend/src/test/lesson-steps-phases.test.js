@@ -88,6 +88,8 @@ test('sin secciones de teoría se conservan recursos, letras y preguntas', () =>
     'resources',
     'letters',
     'practice',
+    'practice',
+    'practice',
     'question',
   ]);
 });
