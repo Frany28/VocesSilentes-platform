@@ -49,7 +49,7 @@ export const vowelLetters = Object.freeze(vowelGuides.map((guide) => guide.lette
 export const vowelActivities = Object.freeze([
   {
     id: 'identify',
-    title: 'Identifica la vocal',
+    title: 'Reconoce la vocal',
     description: 'Observa una referencia sin rótulo y elige la vocal correspondiente.',
   },
   {
@@ -113,14 +113,20 @@ export function vowelExperienceSteps(lesson) {
       type: 'vowel-camera',
       phase: 'practice',
       mode: 'guided',
-      title: 'Práctica guiada con cámara',
+      title: 'Ahora realiza la seña',
     },
     {
       id: 'camera-memory',
       type: 'vowel-camera',
       phase: 'practice',
       mode: 'memory',
-      title: 'Práctica de memoria',
+      title: 'Desafío de memoria',
+    },
+    {
+      id: 'mixed-review',
+      type: 'vowel-mixed',
+      phase: 'review',
+      title: 'Repaso combinado',
     },
   ];
 }

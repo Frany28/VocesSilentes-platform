@@ -9,6 +9,7 @@ const initialProgress = () => ({
   version: VERSION,
   viewed: [],
   activities: {},
+  mixed: [],
   camera: { guided: emptyCamera(), memory: emptyCamera() },
 });
 
@@ -21,6 +22,7 @@ function readProgress(key) {
       ...parsed,
       viewed: parsed.viewed?.filter((letter) => vowelLetters.includes(letter)) ?? [],
       activities: parsed.activities ?? {},
+      mixed: Array.isArray(parsed.mixed) ? parsed.mixed : [],
       camera: {
         guided: { ...emptyCamera(), ...parsed.camera?.guided },
         memory: { ...emptyCamera(), ...parsed.camera?.memory },
@@ -142,6 +144,10 @@ export function useVowelProgress(moduleId, lessonId) {
       }),
     [update],
   );
+  const completeMixed = useCallback(
+    (id) => update((current) => ({ ...current, mixed: [...new Set([...current.mixed, id])] })),
+    [update],
+  );
   const completedActivities = useMemo(
     () =>
       Object.values(progress.activities).filter((activity) =>
@@ -158,5 +164,6 @@ export function useVowelProgress(moduleId, lessonId) {
     resetActivity,
     visitCamera,
     recordCamera,
+    completeMixed,
   };
 }

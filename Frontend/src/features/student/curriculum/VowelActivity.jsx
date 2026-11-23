@@ -1,120 +1,55 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '../../../components/ui/Button.jsx';
-import { HandIllustration } from '../recognition/HandIllustration.jsx';
-import { letterResource } from '../resources/letter-resources.js';
-import { vowelGuides, vowelLetters } from './vowel-lesson.js';
+import { BridgeAction, VowelSignBridge } from './VowelSignBridge.jsx';
+import { VowelRound } from './VowelRound.jsx';
+import { activityOrder } from './vowel-rounds.js';
 
-const guides = Object.fromEntries(vowelGuides.map((guide) => [guide.letter, guide]));
-
-function HiddenReference({ letter, option }) {
+function RoundTrack({ order, saved, round }) {
   return (
-    <figure className="vowel-hidden-reference">
-      <HandIllustration
-        resource={letterResource(letter)}
-        letter={letter}
-        hand="Right"
-        alt={
-          option ? `Referencia visual ${option}` : 'Referencia visual de una vocal por identificar'
-        }
-        showLabel={false}
-      />
-      {option && <figcaption>{option}</figcaption>}
-    </figure>
-  );
-}
-
-function IdentifyQuestion({ letter, onAnswer, disabled }) {
-  return (
-    <>
-      <HiddenReference letter={letter} />
-      <p className="vowel-question-prompt">¿Qué vocal muestra esta referencia?</p>
-      <div className="vowel-answer-grid" role="group" aria-label="Selecciona una vocal">
-        {vowelLetters.map((option) => (
-          <button key={option} type="button" disabled={disabled} onClick={() => onAnswer(option)}>
-            {option}
-          </button>
-        ))}
-      </div>
-    </>
-  );
-}
-
-function DifferentiateQuestion({ letter, round, onAnswer, disabled }) {
-  const other = guides[letter].compareWith;
-  const choices = round % 2 ? [other, letter] : [letter, other];
-  return (
-    <>
-      <p className="vowel-question-prompt">¿Cuál referencia corresponde a la vocal {letter}?</p>
-      <div className="vowel-visual-options" role="group" aria-label="Compara las dos referencias">
-        {choices.map((choice, index) => (
-          <button
-            key={`${choice}-${index}`}
-            type="button"
-            disabled={disabled}
-            onClick={() => onAnswer(choice)}
+    <ol className="vowel-round-track" aria-label={`Ronda ${round + 1} de ${order.length}`}>
+      {order.map((letter, index) => {
+        const done = saved?.answers?.[letter]?.correct;
+        return (
+          <li
+            key={letter}
+            data-state={done ? 'done' : index === round ? 'now' : undefined}
+            aria-current={index === round ? 'step' : undefined}
           >
-            <HiddenReference letter={choice} option={`Opción ${index + 1}`} />
-          </button>
-        ))}
-      </div>
-    </>
-  );
-}
-
-function RecallQuestion({ letter, onAnswer, disabled }) {
-  const options = useMemo(() => {
-    const start = vowelLetters.indexOf(letter);
-    return vowelLetters.map((_, index) => vowelLetters[(start + index * 2) % vowelLetters.length]);
-  }, [letter]);
-  return (
-    <>
-      <div className="vowel-recall-letter" aria-hidden="true">
-        {letter}
-      </div>
-      <p className="vowel-question-prompt">
-        Sin mirar la ficha, ¿qué rasgo buscarías al formar la vocal {letter}?
-      </p>
-      <div className="vowel-text-options" role="group" aria-label="Selecciona el rasgo principal">
-        {options.map((option) => (
-          <button key={option} type="button" disabled={disabled} onClick={() => onAnswer(option)}>
-            {guides[option].description}
-          </button>
-        ))}
-      </div>
-    </>
+            <span aria-hidden="true">{done ? letter : index + 1}</span>
+          </li>
+        );
+      })}
+    </ol>
   );
 }
 
 /**
- * Actividad formativa de cinco rondas. La respuesta permanece oculta hasta elegir y cada error se
- * explica antes de reintentar; el resultado sólo se conserva como práctica local.
- * @param {{activity: object, saved: object, onAnswer: Function, onReset: Function}} props Estado formativo.
- * @returns {import('react').ReactElement} Identificación, comparación o recuperación activa.
+ * Actividad formativa de cinco rondas. La respuesta permanece oculta hasta elegir, cada error se
+ * explica antes de reintentar y, tras reconocer una vocal, el estudiante puede practicarla con la
+ * cámara sin salir de la actividad. El resultado sólo se conserva como práctica local.
+ * @param {{activity: object, saved: object, onAnswer: Function, onReset: Function,
+ * onPracticeAttempt?: Function}} props Estado formativo e intentos de cámara opcionales.
+ * @returns {import('react').ReactElement} Reconocimiento, comparación o recuperación activa.
  */
-export function VowelActivity({ activity, saved, onAnswer, onReset }) {
-  const firstPending = vowelLetters.findIndex((letter) => !saved?.answers?.[letter]?.correct);
+export function VowelActivity({ activity, saved, onAnswer, onReset, onPracticeAttempt }) {
+  const order = activityOrder(activity.id);
+  const firstPending = order.findIndex((letter) => !saved?.answers?.[letter]?.correct);
   const [round, setRound] = useState(firstPending < 0 ? 0 : firstPending);
-  const [result, setResult] = useState(null);
-  const completed = vowelLetters.every((letter) => saved?.answers?.[letter]?.correct);
-  const letter = vowelLetters[round];
-  const answer = (choice) => {
-    const correct = choice === letter;
-    onAnswer(activity.id, letter, correct);
-    setResult({ choice, correct });
-  };
+  const [practice, setPractice] = useState(false);
+  const completed = order.every((letter) => saved?.answers?.[letter]?.correct);
+  // El cierre se muestra al pulsar «Ver resultado», no en cuanto llega la última respuesta, para
+  // que el estudiante pueda leer la explicación de la quinta ronda.
+  const [closed, setClosed] = useState(completed);
+  const letter = order[round];
+  const pending = (item) => item !== letter && !saved?.answers?.[item]?.correct;
+  const last = !order.some(pending);
   const next = () => {
-    setResult(null);
-    const pending = vowelLetters.findIndex(
-      (item, index) => index > round && !saved?.answers?.[item]?.correct,
-    );
-    setRound(pending >= 0 ? pending : Math.min(vowelLetters.length - 1, round + 1));
+    setPractice(false);
+    if (last) return setClosed(true);
+    const after = order.findIndex((item, index) => index > round && pending(item));
+    setRound(after >= 0 ? after : order.findIndex(pending));
   };
-  const Question = {
-    identify: IdentifyQuestion,
-    differentiate: DifferentiateQuestion,
-    recall: RecallQuestion,
-  }[activity.id];
-  if (completed)
+  if (completed && closed)
     return (
       <section
         className="education-card vowel-activity-complete"
@@ -122,6 +57,18 @@ export function VowelActivity({ activity, saved, onAnswer, onReset }) {
       >
         <p className="journey-eyebrow text-action">ACTIVIDAD COMPLETADA</p>
         <h2>{activity.title}</h2>
+        <ul className="vowel-complete-letters" aria-label="Intentos por vocal">
+          {order.map((item) => (
+            <li key={item}>
+              <b>{item}</b>
+              <span>
+                {saved.answers[item].attempts === 1
+                  ? 'Al primer intento'
+                  : `${saved.answers[item].attempts} intentos`}
+              </span>
+            </li>
+          ))}
+        </ul>
         <p>Respondiste las cinco vocales. Puedes repetir para reforzar la memoria.</p>
         <Button
           variant="secondary"
@@ -129,7 +76,7 @@ export function VowelActivity({ activity, saved, onAnswer, onReset }) {
           onClick={() => {
             onReset(activity.id);
             setRound(0);
-            setResult(null);
+            setClosed(false);
           }}
         >
           Repetir actividad
@@ -138,53 +85,41 @@ export function VowelActivity({ activity, saved, onAnswer, onReset }) {
     );
   return (
     <section className="education-card vowel-activity" aria-labelledby={`activity-${activity.id}`}>
-      <header className="vowel-section-heading">
-        <p className="journey-eyebrow text-action">COMPRUEBA LO APRENDIDO</p>
-        <h2 id={`activity-${activity.id}`}>{activity.title}</h2>
-        <p>{activity.description}</p>
-      </header>
-      <div className="vowel-round-track" aria-label={`Ronda ${round + 1} de 5`}>
-        {vowelLetters.map((item, index) => (
-          <span
-            key={item}
-            data-state={
-              saved?.answers?.[item]?.correct ? 'done' : index === round ? 'now' : undefined
-            }
-          >
-            {index + 1}
-          </span>
-        ))}
-      </div>
-      <div className="vowel-question">
-        <Question letter={letter} round={round} onAnswer={answer} disabled={Boolean(result)} />
-      </div>
-      {result && (
-        <div
-          className="vowel-answer-feedback"
-          data-correct={result.correct || undefined}
-          role="status"
-          aria-live="polite"
-        >
-          <h3>{result.correct ? '¡Bien observado!' : 'Miremos la diferencia'}</h3>
-          <p>
-            {result.correct
-              ? `La respuesta es ${letter}. ${guides[letter].description}`
-              : `La opción elegida corresponde a ${result.choice}. Para ${letter}: ${guides[letter].focus}`}
-          </p>
-          {activity.id !== 'recall' && (
-            <div className="vowel-feedback-reference">
-              <HiddenReference letter={letter} />
-              <span>Respuesta: vocal {letter}</span>
-            </div>
-          )}
-          {result.correct ? (
-            <Button onClick={next}>Siguiente vocal</Button>
-          ) : (
-            <Button variant="secondary" icon={null} onClick={() => setResult(null)}>
-              Intentar de nuevo
-            </Button>
-          )}
+      <header className="vowel-activity-heading">
+        <div className="vowel-section-heading">
+          <h2 id={`activity-${activity.id}`}>{activity.title}</h2>
+          <p>{activity.description}</p>
         </div>
+        <RoundTrack order={order} saved={saved} round={round} />
+      </header>
+      <div className="vowel-activity-body" hidden={practice}>
+        <VowelRound
+          key={`${activity.id}-${letter}`}
+          activityId={activity.id}
+          letter={letter}
+          round={round}
+          onAnswer={(item, correct) => onAnswer(activity.id, item, correct)}
+          onNext={next}
+          nextLabel={last ? 'Ver resultado' : 'Siguiente vocal'}
+          onPractice={onPracticeAttempt ? () => setPractice(true) : undefined}
+        />
+      </div>
+      {practice && (
+        <VowelSignBridge
+          letter={letter}
+          eyebrow="DE RECONOCER A SEÑAR"
+          title={`Ahora realiza la ${letter}`}
+          description="Ya la reconociste. Activa la cámara si quieres formar la vocal con tu mano; el intento es voluntario."
+          onAttempt={(result) => onPracticeAttempt(letter, result)}
+          actions={
+            <>
+              <BridgeAction onClick={() => setPractice(false)}>Volver a la actividad</BridgeAction>
+              <BridgeAction primary onClick={next}>
+                {last ? 'Ver resultado' : 'Siguiente vocal'}
+              </BridgeAction>
+            </>
+          }
+        />
       )}
     </section>
   );

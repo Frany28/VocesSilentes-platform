@@ -8,10 +8,24 @@ import { JourneyPhases } from './JourneyPhases.jsx';
 
 /**
  * Mantiene identidad y progreso del recorrido en una cabecera sin navegación ajena a la actividad.
- * @param {{lesson: object, module: object, journey: object, phaseOrder?: object[]}} props Contexto y pasos.
+ * @param {{lesson: object, module: object, journey: object, phaseOrder?: object[],
+ * children?: import('react').ReactNode, compact?: boolean}} props Contexto, pasos y estado adicional;
+ * compact integra el enlace al índice en la línea de contexto para ahorrar altura.
  * @returns {import('react').ReactElement} Marca, salida, tema y progreso local distinguible del académico.
  */
-export function JourneyHeader({ lesson, module, journey, phaseOrder }) {
+export function JourneyHeader({ lesson, module, journey, phaseOrder, children, compact = false }) {
+  const index = module.id !== 'vowels-learning' && (
+    <Link
+      className={
+        compact
+          ? 'journey-index-link'
+          : 'education-back inline-flex min-h-11 items-center self-start'
+      }
+      to={`/student/modules/${module.id}`}
+    >
+      Ver todas las lecciones
+    </Link>
+  );
   const position = module.lessons.findIndex((item) => item.id === lesson.id) + 1;
   return (
     <header className="journey-header">
@@ -35,23 +49,18 @@ export function JourneyHeader({ lesson, module, journey, phaseOrder }) {
         <div className="journey-heading">
           <p className="text-muted [font:var(--type-label)]">
             Lección {position} de {module.lessons.length}
+            {compact && index && <> · {index}</>}
           </p>
           <h1>{lesson.title}</h1>
         </div>
-        {module.id !== 'vowels-learning' && (
-          <Link
-            className="education-back inline-flex min-h-11 items-center self-start"
-            to={`/student/modules/${module.id}`}
-          >
-            Ver todas las lecciones
-          </Link>
-        )}
+        {!compact && index}
         <Progress
           label="Tu recorrido"
           value={journey.percent}
           valueText={`${journey.completed} de ${journey.steps.length} pasos · ${journey.percent}%`}
         />
         <JourneyPhases steps={journey.steps} step={journey.step} order={phaseOrder} />
+        {children}
         {module.preview && (
           <p className="journey-status">
             Vista previa local · Borrador pendiente de revisión lingüística.

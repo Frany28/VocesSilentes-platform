@@ -27,7 +27,8 @@ export function StudentAttempt({ attempt, operation, capture, target, onContinue
   else if (!live) message = 'Activa la cámara cuando estés listo para intentarlo.';
   else if (automatic.phase === 'holding')
     message = 'Mano detectada: mantén la seña, la captura empieza sola…';
-  if (live && !operation.model) message = 'El reconocimiento requiere que el modelo de vocales esté disponible.';
+  if (live && !operation.model)
+    message = 'El reconocimiento requiere que el modelo de vocales esté disponible.';
   if (preparing) message = 'Estamos preparando tu práctica…';
   if (busy)
     message =

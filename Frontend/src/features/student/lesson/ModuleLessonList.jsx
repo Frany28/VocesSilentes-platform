@@ -59,7 +59,11 @@ export function ModuleLessonList({ module }) {
                 </Link>
               </div>
               {microclass && (
-                <Link className="module-lesson-resource" to={path} state={{ reviewStep: 'resources' }}>
+                <Link
+                  className="module-lesson-resource"
+                  to={path}
+                  state={{ reviewStep: 'resources' }}
+                >
                   <span aria-hidden="true">▷</span> Ver microclase de las vocales
                 </Link>
               )}
