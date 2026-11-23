@@ -11,8 +11,11 @@ import { vowelGuides } from './vowel-lesson.js';
  * @returns {import('react').ReactElement} Lectura breve o práctica local, sin evaluación académica inventada.
  */
 export function PersonalPractice({ step, lessonId, onContinue }) {
-  const vowels = step.vowels ?? (lessonId === alphabetLessonIds['m1-l01'] ? ['A', 'E'] : []);
-  const guides = vowelGuides.filter((guide) => vowels.includes(guide.letter));
+  const guides = step.vowels
+    ? vowelGuides.filter((guide) => step.vowels.includes(guide.letter))
+    : lessonId === alphabetLessonIds['m1-l01']
+      ? vowelGuides
+      : [];
   const [letter, setLetter] = useState(null);
   const title = useRef(null);
   useEffect(() => {
