@@ -2,16 +2,18 @@ import { screen, render } from '@testing-library/react';
 import { test, expect, vi } from 'vitest';
 import { renderAuthApp, user, jsonResponse } from './auth-fixture.jsx';
 import { ManualReference } from '../features/student/recognition/ManualReference.jsx';
+import {
+  alphabetLessonIds,
+  alphabetModuleId,
+} from '../features/student/resources/lesson-videos.js';
 
 vi.mock('../lib/config.js', async (original) => ({
   ...(await original()),
   publicConfig: { apiUrl: 'http://localhost:3000/api', studentDemo: false },
 }));
 
-const moduleId = 'f930e09e-6b1f-58f8-b9a6-dca05a78310e';
-const lessonId = '30000000-0000-4000-8000-000000000002';
 const module = {
-  id: moduleId,
+  id: alphabetModuleId,
   title: 'Abecedario LSV',
   order: 1,
   contentKey: 'modulo-01-alfabeto-manual-lsv',
@@ -19,13 +21,17 @@ const module = {
   access: 'available',
   lessons: [
     {
-      id: lessonId,
+      id: alphabetLessonIds['m1-l02'],
       title: 'Las cinco vocales: A, E, I, O y U',
       order: 2,
       description: 'Objetivo: estudiar las vocales.\n\nTeoría de la fixture API.',
       publicationStatus: 'PUBLISHED',
       status: 'NOT_STARTED',
       exercises: [],
+      content: {
+        objectives: ['Reconocer y comparar A, E, I, O y U.'],
+        letterCards: ['A', 'E', 'I', 'O', 'U'].map((letter) => ({ letter })),
+      },
     },
   ],
 };
@@ -40,15 +46,14 @@ function serve(modules) {
   return fetchMock;
 }
 
-test('el enlace original recupera la clase animada en producción, con capítulos y sin el marcador pendiente', async () => {
+test('el enlace original abre la lección real unificada sin activar recursos de cámara', async () => {
   const fetchMock = serve([module]);
   renderAuthApp('/student/modules/vowels');
   expect(
-    await screen.findByRole('heading', { name: 'Aprende las vocales, una por una' }),
+    await screen.findByRole('heading', { name: 'Aprendamos las cinco vocales' }),
   ).toBeVisible();
-  expect(await screen.findByRole('heading', { name: 'Las cinco vocales en LSV' })).toBeVisible();
-  expect(screen.getByRole('button', { name: 'Comenzar la microclase' })).toBeVisible();
-  expect(screen.getByRole('group', { name: 'Capítulos de la microclase' })).toBeVisible();
+  expect(screen.getByRole('button', { name: 'Comenzar lección' })).toBeVisible();
+  expect(screen.queryByRole('button', { name: 'Activar cámara' })).toBeNull();
   expect(document.querySelector('.learning-shell')).not.toBeNull();
   expect(screen.queryByText('Video de referencia · pendiente')).toBeNull();
   expect(fetchMock.mock.calls.some(([url]) => url.endsWith('/learning'))).toBe(true);
@@ -57,13 +62,11 @@ test('el enlace original recupera la clase animada en producción, con capítulo
   ).toBe(true);
 });
 
-test('la clase original conserva sus recursos propios sin publicar el paquete editorial de la API', async () => {
+test('el enlace original no sustituye con fixtures una lección que la API no publica', async () => {
   serve([{ ...module, access: 'upcoming', publicationStatus: 'DRAFT', lessons: [] }]);
   renderAuthApp('/student/modules/vowels');
-  expect(
-    await screen.findByRole('heading', { name: 'Aprende las vocales, una por una' }),
-  ).toBeVisible();
-  expect(await screen.findByRole('button', { name: 'Comenzar la microclase' })).toBeVisible();
+  expect(await screen.findByText('Lección no disponible')).toBeVisible();
+  expect(screen.queryByRole('button', { name: 'Comenzar lección' })).toBeNull();
 });
 
 test('runtime normal muestra también la ficha VocesSilentes de las consonantes autorizadas', () => {

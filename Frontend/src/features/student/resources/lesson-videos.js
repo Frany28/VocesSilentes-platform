@@ -15,6 +15,9 @@ export const alphabetLessonIds = Object.freeze({
   'm1-l07': '0269df32-f7c5-540b-a824-4dd9bfdc2b91',
 });
 
+// UUID estable de alphabetId('modulo-01-alfabeto-manual-lsv').
+export const alphabetModuleId = 'f930e09e-6b1f-58f8-b9a6-dca05a78310e';
+
 const mediaPath = (extensions) =>
   z.string().regex(new RegExp(`^/media/lessons/[a-z0-9-]+\\.(${extensions})$`));
 

@@ -26,9 +26,10 @@ test('descarga sola el modelo, cuenta atrás, captura y analiza sin otro clic', 
   expect(await screen.findByText('Todo listo para practicar.')).toBeInTheDocument();
   expect(request).toHaveBeenCalledTimes(1);
   await attempt(camera, 'Right');
-  expect(screen.getByText(/No pudimos verificar la seña con claridad/)).toBeVisible();
+  expect(screen.getByRole('heading', { name: 'Predicción coincidente' })).toBeVisible();
+  expect(screen.getByText(/Esta coincidencia no certifica la ejecución/)).toBeVisible();
   expect(screen.queryByText('¡Muy bien!')).toBeNull();
-  expect(screen.queryByText(/experimental|no califica|frames reales|Inferencia:/i)).toBeNull();
+  expect(screen.queryByText(/no califica|frames reales|Inferencia:/i)).toBeNull();
   expect(screen.getByRole('button', { name: 'Repetir intento' })).toBeEnabled();
   fireEvent.click(screen.getByRole('button', { name: 'Repetir intento' }));
   expect(screen.queryByText('¡Muy bien!')).toBeNull();
@@ -41,7 +42,8 @@ test('sin cobertura izquierda permite repetir sin culpar al alumno ni pedir camb
   render(<Harness camera={camera} target="A" />, { wrapper: RecognitionModelProvider });
   await screen.findByText('Todo listo para practicar.');
   await attempt(camera, 'Left');
-  expect(screen.getByText(/No pudimos verificar la seña con claridad/)).toBeVisible();
+  expect(screen.getByRole('heading', { name: 'Vamos paso a paso' })).toBeVisible();
+  expect(screen.getByText(/el modelo no puede reconocer vocales con esa mano/)).toBeVisible();
   expect(screen.queryByText(/entrenamiento|muestras|prototipos|mano derecha/i)).toBeNull();
   expect(screen.queryByText(/El modelo propone/)).toBeNull();
 });
@@ -63,7 +65,8 @@ test('una hipótesis distinta no demuestra que el alumno se equivocó', () => {
       onRetry={() => {}}
     />,
   );
-  expect(screen.getByText(/No pudimos verificar la seña con claridad/)).toBeVisible();
+  expect(screen.getByRole('heading', { name: 'El modelo propuso otra vocal' })).toBeVisible();
+  expect(screen.getByText(/Estás practicando la E/)).toBeVisible();
   expect(screen.queryByText(/correct/i)).toBeNull();
 });
 

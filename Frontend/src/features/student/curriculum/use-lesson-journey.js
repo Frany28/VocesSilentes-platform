@@ -17,8 +17,7 @@ export function useLessonJourney(lesson, moduleId, steps = lessonSteps(lesson), 
   const key = `vs:lesson-journey:${user.id}:${moduleId}:${lesson.id}`;
   const [checkpoint, setCheckpoint] = useState(() => {
     const saved = readCheckpoint(key, signature, steps);
-    return ['intro', 'resources'].includes(initialStep) &&
-      steps.some((item) => item.id === initialStep)
+    return initialStep && steps.some((item) => item.id === initialStep)
       ? { ...saved, position: initialStep }
       : saved;
   });
@@ -83,6 +82,10 @@ export function useLessonJourney(lesson, moduleId, steps = lessonSteps(lesson), 
     percent: Math.round((100 * completed.size) / steps.length),
     back: index > 0 ? () => move(index - 1) : undefined,
     restart: () => move(0),
+    goTo: (id) => {
+      const position = steps.findIndex((item) => item.id === id);
+      if (position >= 0) move(position);
+    },
     confirm: (id, status) => setConfirmed((previous) => ({ ...previous, [id]: status })),
   };
 }

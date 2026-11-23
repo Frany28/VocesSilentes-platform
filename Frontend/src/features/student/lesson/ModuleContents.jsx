@@ -17,8 +17,8 @@ export function ModuleContents() {
   const { status, snapshot, retry } = useStudent();
   const module =
     snapshot?.source === 'api' && snapshot.modules.find((item) => item.id === moduleId);
-  const completed = module?.lessons.filter((lesson) => lesson.status === 'COMPLETED').length ?? 0;
-  const total = module?.lessons.length ?? 0;
+  const completed = module?.lessons?.filter((lesson) => lesson.status === 'COMPLETED').length ?? 0;
+  const total = module?.lessons?.length ?? 0;
   return (
     <div className="education-page module-contents flex min-w-0 flex-col gap-6">
       <Link className="education-back inline-flex min-h-11 items-center" to="/student/modules">

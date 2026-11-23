@@ -1,12 +1,10 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, expect, test, vi } from 'vitest';
-import { renderAuthApp, user } from './auth-fixture.jsx';
-import { mockCompletedAlphabet } from './module-contents-fixture.js';
+import { renderAuthApp } from './auth-fixture.jsx';
+import { mockCompletedAlphabet, modulePath } from './module-contents-fixture.js';
 import { LessonResources } from '../features/student/curriculum/LessonResources.jsx';
 import { alphabetLessonIds } from '../features/student/resources/lesson-videos.js';
-import { vowelLearningSteps } from '../features/student/curriculum/vowel-lesson.js';
-import { journeySignature } from '../features/student/curriculum/journey-checkpoint.js';
 
 vi.mock('../lib/config.js', () => ({
   publicConfig: { apiUrl: 'http://localhost:3000/api', studentDemo: false },
@@ -42,22 +40,22 @@ test('el paso de la introducción muestra la clase original y reproduce su MP3 �
   expect(HTMLMediaElement.prototype.pause).toHaveBeenCalled();
 });
 
-test('Comenzar módulo recupera la introducción con el video aunque la guía antigua estuviera en resumen', async () => {
-  const { fetchMock } = mockCompletedAlphabet();
+test('la lección real ignora el resumen de la guía antigua y comienza en su introducción', async () => {
+  const { snapshot, fetchMock } = mockCompletedAlphabet();
   localStorage.setItem(
-    `vs:lesson-journey:${user.id}:vowels-learning:vowels-guided-v1`,
+    'vs:lesson-journey:test-user:vowels-learning:vowels-guided-v1',
     JSON.stringify({
-      signature: journeySignature(vowelLearningSteps),
+      signature: 'recorrido-obsoleto',
       position: 'summary',
-      completed: vowelLearningSteps.map((step) => step.id),
+      completed: ['intro'],
     }),
   );
-  renderAuthApp('/student/modules');
-  await userEvent.click(await screen.findByRole('link', { name: 'Comenzar módulo de vocales' }));
+  const lesson = snapshot.modules[0].lessons[1];
+  renderAuthApp(`${modulePath}/lessons/${lesson.id}`);
   expect(
-    await screen.findByRole('heading', { name: 'Aprende las vocales, una por una' }),
+    await screen.findByRole('heading', { name: 'Aprendamos las cinco vocales' }),
   ).toBeVisible();
-  expect(await screen.findByRole('button', { name: 'Comenzar la microclase' })).toBeVisible();
+  expect(await screen.findByRole('button', { name: 'Comenzar lección' })).toBeVisible();
   expect(screen.queryByRole('heading', { name: 'Las cinco vocales, de un vistazo' })).toBeNull();
   expect(fetchMock.mock.calls.every(([, options]) => (options.method ?? 'GET') === 'GET')).toBe(
     true,

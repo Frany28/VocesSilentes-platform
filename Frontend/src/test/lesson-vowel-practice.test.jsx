@@ -3,8 +3,6 @@ import { expect, test, vi } from 'vitest';
 import { PersonalPractice } from '../features/student/curriculum/PersonalPractice.jsx';
 import { vowelGuides } from '../features/student/curriculum/vowel-lesson.js';
 import { letterResource } from '../features/student/resources/letter-resources.js';
-import { mockCompletedAlphabet, modulePath } from './module-contents-fixture.js';
-import { renderAuthApp, user } from './auth-fixture.jsx';
 
 vi.mock('../lib/config.js', () => ({
   publicConfig: { apiUrl: 'http://localhost:3000/api', studentDemo: false },
@@ -67,27 +65,4 @@ test('elegir O y volver conserva su página I/O sin completar la lectura', () =>
   expect(screen.getByRole('heading', { name: 'I · O' })).toBeVisible();
   expect(screen.queryByRole('button', { name: /Continuar intento/ })).toBeNull();
   expect(onContinue).not.toHaveBeenCalled();
-});
-
-test('la ruta real navega A/E e I/O/U con el pie original y conserva la página al volver', async () => {
-  const { snapshot, fetchMock } = mockCompletedAlphabet();
-  const module = snapshot.modules[0];
-  const lesson = module.lessons[1];
-  const key = `vs:lesson-journey:${user.id}:${module.id}:${lesson.id}`;
-  const checkpoint = JSON.parse(localStorage.getItem(key));
-  localStorage.setItem(key, JSON.stringify({ ...checkpoint, position: 'practice' }));
-  renderAuthApp(`${modulePath}/lessons/${lesson.id}`);
-  expect(await screen.findByRole('region', { name: 'Práctica por vocal' })).toBeVisible();
-  expect(screen.getByRole('heading', { name: 'A · E' })).toBeVisible();
-  expect(screen.queryByRole('button', { name: 'Ver mi resumen' })).toBeNull();
-  fireEvent.click(screen.getByRole('button', { name: 'Continuar' }));
-  expect(await screen.findByRole('heading', { name: 'I · O · U' })).toBeVisible();
-  expect(screen.getAllByRole('button', { name: /Practicar . con cámara/ })).toHaveLength(3);
-  expect(screen.getByRole('button', { name: 'Ver mi resumen' })).toBeVisible();
-  fireEvent.click(screen.getByRole('button', { name: 'Volver', exact: true }));
-  expect(await screen.findByRole('heading', { name: 'A · E' })).toBeVisible();
-  expect(JSON.parse(localStorage.getItem(key)).position).toBe('practice');
-  expect(fetchMock.mock.calls.every(([, options]) => (options.method ?? 'GET') === 'GET')).toBe(
-    true,
-  );
 });

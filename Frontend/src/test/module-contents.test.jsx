@@ -42,18 +42,22 @@ test('la microclase vuelve a abrirse desde un resumen sin reproducirse ni activa
   vi.stubGlobal('navigator', { ...navigator, mediaDevices: { getUserMedia: camera } });
   const view = renderAuthApp(modulePath);
   await userEvent.click(await screen.findByRole('link', { name: 'Ver microclase de las vocales' }));
-  expect(await screen.findByRole('heading', { name: 'Las cinco vocales en LSV' })).toBeVisible();
-  expect(screen.getByRole('button', { name: 'Comenzar la microclase' })).toBeVisible();
+  expect(
+    await screen.findByRole('heading', { name: 'Las cinco vocales, en una microclase' }),
+  ).toBeVisible();
+  expect(await screen.findByRole('button', { name: 'Comenzar la microclase' })).toBeVisible();
   expect(camera).not.toHaveBeenCalled();
   const lesson = snapshot.modules[0].lessons[1];
   const saved = JSON.parse(
     localStorage.getItem(`vs:lesson-journey:${user.id}:${snapshot.modules[0].id}:${lesson.id}`),
   );
-  expect(saved.position).toBe('resources');
-  expect(saved.completed.length).toBeGreaterThan(0);
+  expect(saved.position).toBe('microclass');
+  expect(saved.completed).toEqual([]);
   view.unmount();
   renderAuthApp(`${modulePath}/lessons/${lesson.id}`);
-  expect(await screen.findByRole('heading', { name: 'Las cinco vocales en LSV' })).toBeVisible();
+  expect(
+    await screen.findByRole('heading', { name: 'Las cinco vocales, en una microclase' }),
+  ).toBeVisible();
   expect(fetchMock.mock.calls.every(([, options]) => (options.method ?? 'GET') === 'GET')).toBe(
     true,
   );

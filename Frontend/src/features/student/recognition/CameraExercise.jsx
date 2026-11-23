@@ -1,4 +1,5 @@
-import { useContext, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
+import { Button } from '../../../components/ui/Button.jsx';
 import { RecognitionModelContext } from './model-context.js';
 import { DetectionStatus } from './DetectionStatus.jsx';
 import { useHandCamera } from './use-hand-camera.js';
@@ -19,10 +20,18 @@ import './practice-learning.css';
 
 /**
  * Actividad guiada con un único coordinador de captura e inferencia real, sin escribir calificaciones.
- * @param {{letter?: string, onContinue?: Function}} props Objetivo y siguiente paso del recorrido.
+ * @param {{letter?: string, onContinue?: Function, referenceVisible?: boolean,
+ * onRevealReference?: Function, onAttempt?: Function, memory?: boolean}} props Objetivo y recorrido.
  * @returns {import('react').ReactElement} Referencia adaptable, cámara y resultado junto al intento.
  */
-export function CameraExercise({ letter, onContinue }) {
+export function CameraExercise({
+  letter,
+  onContinue,
+  referenceVisible = true,
+  onRevealReference,
+  onAttempt,
+  memory = false,
+}) {
   const reference = useRef(null);
   const { referenceHand, setReferenceHand } = useContext(RecognitionModelContext);
   const camera = useHandCamera(setReferenceHand);
@@ -30,6 +39,12 @@ export function CameraExercise({ letter, onContinue }) {
   const operation = useLocalModel({ autoLoad: recognitionSupports(letter) });
   const attempt = useModelAttempt({ operation, capture, camera, target: letter, lab: false });
   const phase = practicePhase(attempt, Boolean(capture.error || operation.error));
+  const reported = useRef(null);
+  useEffect(() => {
+    if (!attempt.shown || !operation.result || reported.current === operation.result) return;
+    reported.current = operation.result;
+    onAttempt?.(operation.result);
+  }, [attempt.shown, onAttempt, operation.result]);
   return (
     <section
       className="camera-exercise flex w-full flex-col gap-4"
@@ -39,7 +54,11 @@ export function CameraExercise({ letter, onContinue }) {
       <header className="practice-objective">
         <p className="text-action [font:var(--type-label)]">TU TURNO</p>
         <h2>{letter ? `Practica la letra ${letter}` : 'Tu práctica con cámara'}</h2>
-        <p>Observa la referencia y forma la seña con una mano. Te acompañamos en cada intento.</p>
+        <p>
+          {memory
+            ? 'Recuerda la configuración antes de consultar la referencia. Te acompañamos en cada intento.'
+            : 'Observa la referencia y forma la seña con una mano. Te acompañamos en cada intento.'}
+        </p>
       </header>
       <PracticeProgress phase={phase} />
       <div className="camera-workspace">
@@ -47,7 +66,17 @@ export function CameraExercise({ letter, onContinue }) {
           <h3 ref={reference} tabIndex={-1}>
             Así se forma {letter ? `la ${letter}` : 'la seña'}
           </h3>
-          {letter && <ManualReference letter={letter} hand={referenceHand} compact educational />}
+          {letter && referenceVisible ? (
+            <ManualReference letter={letter} hand={referenceHand} compact educational />
+          ) : (
+            <div className="practice-reference-hidden">
+              <span aria-hidden="true">{letter}</span>
+              <p>Intenta recordar la configuración antes de mirar la ficha.</p>
+              <Button variant="secondary" icon={null} onClick={onRevealReference}>
+                Consultar referencia
+              </Button>
+            </div>
+          )}
           <CameraSteps letter={letter} supported={attempt.supported} />
         </aside>
         <div className="practice-live">
@@ -62,7 +91,10 @@ export function CameraExercise({ letter, onContinue }) {
             capture={capture}
             target={letter}
             onContinue={onContinue}
-            onReference={() => reference.current?.focus()}
+            onReference={() => {
+              onRevealReference?.();
+              requestAnimationFrame(() => reference.current?.focus());
+            }}
           />
         </div>
       </div>

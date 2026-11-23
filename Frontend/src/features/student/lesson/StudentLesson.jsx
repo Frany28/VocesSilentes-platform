@@ -9,6 +9,8 @@ import { LessonNavigation } from './LessonNavigation.jsx';
 import { LessonTrail } from './LessonTrail.jsx';
 import './lesson.css';
 import { CurriculumLesson } from '../curriculum/CurriculumLesson.jsx';
+import { VowelCurriculumLesson } from '../curriculum/VowelCurriculumLesson.jsx';
+import { isVowelLesson } from '../curriculum/vowel-lesson.js';
 
 /**
  * Lee una lección del catálogo autorizado por IDs; abrirla no modifica el progreso.
@@ -39,6 +41,17 @@ export function StudentLesson() {
   }, [available, lesson, initialStep, location.pathname, location.state, navigate]);
   const continueLearning = () =>
     navigate(next ? `/student/modules/${moduleId}/lessons/${next.id}` : '/student/modules');
+  if (available && lesson.content && isVowelLesson(lesson))
+    return (
+      <VowelCurriculumLesson
+        key={lesson.id}
+        lesson={lesson}
+        module={module}
+        onContinue={continueLearning}
+        nextTitle={next?.title}
+        initialStep={initialStep}
+      />
+    );
   if (available && lesson.content)
     return (
       <CurriculumLesson

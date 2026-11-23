@@ -60,11 +60,11 @@ export function SignPracticeWorkspace() {
       </div>
       <p className="text-muted" role="status">
         Vocal {letters.indexOf(letter) + 1} de {letters.length} · {completed.length}{' '}
-        {completed.length === 1 ? 'paso logrado' : 'pasos logrados'} en esta visita
+        {completed.length === 1 ? 'intento recorrido' : 'intentos recorridos'} en esta visita
       </p>
       {finished ? (
         <section className="practice-result" data-outcome="success" aria-label="Fin de la práctica">
-          <h3>¡Buen trabajo! Terminaste este recorrido.</h3>
+          <h3>Terminaste este recorrido de práctica.</h3>
           <p>Puedes volver a la lección o elegir otra vocal para seguir practicando.</p>
           <Button variant="secondary" icon={null} onClick={() => setFinished(false)}>
             Practicar otra vez

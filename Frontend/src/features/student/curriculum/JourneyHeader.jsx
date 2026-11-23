@@ -8,10 +8,10 @@ import { JourneyPhases } from './JourneyPhases.jsx';
 
 /**
  * Mantiene identidad y progreso del recorrido en una cabecera sin navegación ajena a la actividad.
- * @param {{lesson: object, module: object, journey: object}} props Contexto autorizado y pasos reconocidos.
+ * @param {{lesson: object, module: object, journey: object, phaseOrder?: object[]}} props Contexto y pasos.
  * @returns {import('react').ReactElement} Marca, salida, tema y progreso local distinguible del académico.
  */
-export function JourneyHeader({ lesson, module, journey }) {
+export function JourneyHeader({ lesson, module, journey, phaseOrder }) {
   const position = module.lessons.findIndex((item) => item.id === lesson.id) + 1;
   return (
     <header className="journey-header">
@@ -51,7 +51,7 @@ export function JourneyHeader({ lesson, module, journey }) {
           value={journey.percent}
           valueText={`${journey.completed} de ${journey.steps.length} pasos · ${journey.percent}%`}
         />
-        <JourneyPhases steps={journey.steps} step={journey.step} />
+        <JourneyPhases steps={journey.steps} step={journey.step} order={phaseOrder} />
         {module.preview && (
           <p className="journey-status">
             Vista previa local · Borrador pendiente de revisión lingüística.

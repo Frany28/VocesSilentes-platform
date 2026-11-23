@@ -1,98 +1,52 @@
-import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { expect, test, vi } from 'vitest';
-import { renderAuthApp, user, jsonResponse } from './auth-fixture.jsx';
+import { render, screen } from '@testing-library/react';
+import { MemoryRouter, Route, Routes, useLocation } from 'react-router';
+import { expect, test } from 'vitest';
+import { StudentVowelModule } from '../features/student/pages/StudentVowelModule.jsx';
+import {
+  isVowelLesson,
+  vowelExperienceSteps,
+  vowelLetters,
+} from '../features/student/curriculum/vowel-lesson.js';
+import {
+  alphabetLessonIds,
+  alphabetModuleId,
+} from '../features/student/resources/lesson-videos.js';
 
-function setup() {
-  const fetchMock = vi
-    .fn()
-    .mockImplementation(() => Promise.resolve(jsonResponse({ data: { user } })));
-  vi.stubGlobal('fetch', fetchMock);
-  const media = vi.fn();
-  Object.defineProperty(navigator, 'mediaDevices', {
-    configurable: true,
-    value: { getUserMedia: media },
-  });
-  return { fetchMock, media };
+function Destination() {
+  const location = useLocation();
+  return <output>{location.pathname}</output>;
 }
 
-test('vista previa explícita conserva explicación y práctica sin activar cámara al navegar', async () => {
-  const { media, fetchMock } = setup();
-  renderAuthApp('/student/modules/vowels');
-  await screen.findByRole('heading', { name: 'Aprende las vocales, una por una' });
-  expect(screen.queryByRole('button', { name: 'Activar cámara' })).toBeNull();
-  await userEvent.click(screen.getByRole('button', { name: 'Continuar' }));
-  expect(await screen.findByRole('heading', { name: 'Conoce la vocal A' })).toBeVisible();
-  expect(screen.getByText(/cuatro dedos aparecen recogidos/)).toBeVisible();
-  expect(screen.getByRole('img', { name: /referencia de la letra A/ })).toBeVisible();
-  await userEvent.click(screen.getByRole('button', { name: 'Practicar A con cámara' }));
-  expect(await screen.findByRole('heading', { name: 'Practica la letra A' })).toBeVisible();
-  await userEvent.click(screen.getByRole('button', { name: 'Continuar' }));
-  expect(await screen.findByRole('heading', { name: 'Conoce la vocal E' })).toBeVisible();
-  await userEvent.click(screen.getByRole('button', { name: 'Volver' }));
-  expect(await screen.findByRole('heading', { name: 'Practica la letra A' })).toBeVisible();
-  expect(media).not.toHaveBeenCalled();
-  expect(
-    fetchMock.mock.calls.every(
-      ([url]) => url.endsWith('/me') || url === '/models/lsv-vowels-demo-v1.json',
-    ),
-  ).toBe(true);
+test('el enlace histórico redirige a la lección real unificada', async () => {
+  const destination = `/student/modules/${alphabetModuleId}/lessons/${alphabetLessonIds['m1-l02']}`;
+  render(
+    <MemoryRouter initialEntries={['/student/modules/vowels']}>
+      <Routes>
+        <Route path="/student/modules/vowels" element={<StudentVowelModule />} />
+        <Route path="/student/modules/:moduleId/lessons/:lessonId" element={<Destination />} />
+      </Routes>
+    </MemoryRouter>,
+  );
+  expect(await screen.findByText(destination)).toBeVisible();
 });
 
-test('las cinco vocales tienen explicación, práctica opcional y repaso sin aciertos ni escrituras académicas', async () => {
-  const { media, fetchMock } = setup();
-  renderAuthApp('/student/modules/vowels');
-  await userEvent.click(await screen.findByRole('button', { name: 'Continuar' }));
-  for (const letter of ['A', 'E', 'I', 'O', 'U']) {
-    expect(await screen.findByRole('heading', { name: `Conoce la vocal ${letter}` })).toBeVisible();
-    await userEvent.click(screen.getByRole('button', { name: `Practicar ${letter} con cámara` }));
-    expect(
-      await screen.findByRole('heading', { name: `Practica la letra ${letter}` }),
-    ).toBeVisible();
-    await userEvent.click(
-      screen.getByRole('button', { name: letter === 'U' ? 'Ver mi repaso' : 'Continuar' }),
-    );
-  }
-  expect(
-    await screen.findByRole('heading', { name: 'Las cinco vocales, de un vistazo' }),
-  ).toBeVisible();
-  expect(screen.getByRole('progressbar', { name: 'Tu recorrido' })).toHaveAttribute(
-    'aria-valuenow',
-    '100',
+test('la lección real contiene cinco explicaciones, tres actividades y dos prácticas de cámara', () => {
+  const lesson = {
+    id: alphabetLessonIds['m1-l02'],
+    title: 'Las cinco vocales',
+    exercises: [],
+    content: {
+      letterCards: vowelLetters.map((letter) => ({ letter })),
+    },
+  };
+  expect(isVowelLesson(lesson)).toBe(true);
+  const steps = vowelExperienceSteps(lesson);
+  expect(steps.filter((step) => step.type === 'vowel-study').map((step) => step.letter)).toEqual(
+    vowelLetters,
   );
-  expect(screen.getByText(/ni confirma que hayas realizado capturas/)).toBeVisible();
-  expect(media).not.toHaveBeenCalled();
-  expect(
-    fetchMock.mock.calls.every(
-      ([url]) => url.endsWith('/me') || url === '/models/lsv-vowels-demo-v1.json',
-    ),
-  ).toBe(true);
-  await userEvent.click(screen.getByRole('button', { name: 'Repasar desde el inicio' }));
-  expect(
-    await screen.findByRole('heading', { name: 'Aprende las vocales, una por una' }),
-  ).toBeVisible();
-});
-
-test('retoma la explicación por usuario y conserva solo lectura, sin compartirla con otra sesión', async () => {
-  const { fetchMock } = setup();
-  const first = renderAuthApp('/student/modules/vowels');
-  await userEvent.click(await screen.findByRole('button', { name: 'Continuar' }));
-  await userEvent.click(await screen.findByRole('button', { name: 'Practicar A con cámara' }));
-  await userEvent.click(await screen.findByRole('button', { name: 'Continuar' }));
-  await screen.findByRole('heading', { name: 'Conoce la vocal E' });
-  first.unmount();
-  const resumed = renderAuthApp('/student/modules/vowels');
-  expect(await screen.findByRole('heading', { name: 'Conoce la vocal E' })).toBeVisible();
-  const saved = localStorage.getItem(
-    `vs:lesson-journey:${user.id}:vowels-learning:vowels-guided-v1`,
-  );
-  expect(saved).not.toMatch(/frames|prediction|correct|score|token/);
-  resumed.unmount();
-  fetchMock.mockImplementation(() =>
-    Promise.resolve(jsonResponse({ data: { user: { ...user, id: 'other-student' } } })),
-  );
-  renderAuthApp('/student/modules/vowels');
-  expect(
-    await screen.findByRole('heading', { name: 'Aprende las vocales, una por una' }),
-  ).toBeVisible();
+  expect(steps.filter((step) => step.type === 'vowel-activity')).toHaveLength(3);
+  expect(steps.filter((step) => step.type === 'vowel-camera').map((step) => step.mode)).toEqual([
+    'guided',
+    'memory',
+  ]);
 });

@@ -20,10 +20,11 @@ test('una coincidencia experimental no declara logro ni avanza sola; navegación
         onReference={reference}
       />,
     );
-    expect(screen.getByRole('heading', { name: 'Coincide con la vocal' })).toBeVisible();
-    expect(screen.getByText(/El modelo reconoció la E, la vocal solicitada/)).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'Predicción coincidente' })).toBeVisible();
+    expect(screen.getByText(/modelo experimental propuso la E/)).toBeVisible();
+    expect(screen.getByText(/no certifica la ejecución/)).toBeVisible();
     expect(screen.queryByText(/logrado|¡Muy bien!|correctamente/)).toBeNull();
-    expect(screen.queryByText(/experimental|Inferencia:|no califica/i)).toBeNull();
+    expect(screen.queryByText(/Inferencia:|no califica/i)).toBeNull();
     act(() => vi.advanceTimersByTime(5000));
     expect(next).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole('button', { name: 'Ver referencia' }));
@@ -36,7 +37,7 @@ test('una coincidencia experimental no declara logro ni avanza sola; navegación
 });
 
 test.each([
-  [{ label: 'A', reason: 'CANDIDATE' }, /El modelo reconoció la A/],
+  [{ label: 'A', reason: 'CANDIDATE' }, /modelo experimental propuso la A/],
   [{ label: 'A', reason: 'CANDIDATE', captureIssue: 'NO_HAND' }, /No podemos ver tu mano/],
   [{ label: null, reason: 'UNSUPPORTED_HAND' }, /La cámara detectó tu mano/],
   [{ label: null, reason: 'AMBIGUOUS' }, /No pudimos verificar/],

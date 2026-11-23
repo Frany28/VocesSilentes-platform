@@ -20,18 +20,18 @@ test('seleccionar no completa; continuar cuenta una vez y la última vocal ofrec
     </MemoryRouter>,
   );
   fireEvent.click(screen.getByRole('button', { name: 'Practicar vocal E' }));
-  expect(screen.getByText(/0 pasos logrados/)).toBeVisible();
+  expect(screen.getByText(/0 intentos recorridos/)).toBeVisible();
   fireEvent.click(screen.getByRole('button', { name: 'Continuar intento de prueba E' }));
   expect(screen.getByRole('button', { name: 'Continuar intento de prueba I' })).toBeVisible();
-  expect(screen.getByText(/1 paso logrado/)).toBeVisible();
+  expect(screen.getByText(/1 intento recorrido/)).toBeVisible();
   fireEvent.click(screen.getByRole('button', { name: 'Practicar vocal E' }));
   fireEvent.click(screen.getByRole('button', { name: 'Continuar intento de prueba E' }));
-  expect(screen.getByText(/1 paso logrado/)).toBeVisible();
+  expect(screen.getByText(/1 intento recorrido/)).toBeVisible();
   fireEvent.click(screen.getByRole('button', { name: 'Practicar vocal U' }));
   expect(screen.queryByRole('region', { name: 'Fin de la práctica' })).toBeNull();
   fireEvent.click(screen.getByRole('button', { name: 'Continuar intento de prueba U' }));
   expect(screen.getByRole('region', { name: 'Fin de la práctica' })).toBeVisible();
-  expect(screen.getByText(/2 pasos logrados/)).toBeVisible();
+  expect(screen.getByText(/2 intentos recorridos/)).toBeVisible();
   expect(screen.getByRole('link', { name: 'Ir a la lección de vocales' })).toHaveAttribute(
     'href',
     '/student/modules/vowels',

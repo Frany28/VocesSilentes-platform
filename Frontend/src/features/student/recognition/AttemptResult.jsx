@@ -18,9 +18,7 @@ export function AttemptResult({
   onContinue,
 }) {
   const candidate =
-    practiceOutcome(result) === 'UNCERTAIN' && result.reason === 'CANDIDATE'
-      ? result.label
-      : null;
+    practiceOutcome(result) === 'UNCERTAIN' && result.reason === 'CANDIDATE' ? result.label : null;
   const matches = candidate && candidate === target;
   const otherVowel = target
     ? ` Estás practicando la ${target}. Compara tu mano con la referencia.`
@@ -34,21 +32,25 @@ export function AttemptResult({
     <section
       ref={panel}
       className="practice-result"
-      data-outcome={matches ? 'success' : candidate && !target ? 'candidate' : 'retry'}
+      data-outcome={candidate ? 'candidate' : 'retry'}
       data-feedback={practiceOutcome(result)}
       aria-label="Resultado de tu práctica"
     >
       <div className="practice-result-message" role="status" aria-live="polite" aria-atomic="true">
         <div className="practice-result-heading">
           <h3>
-            {matches ? 'Coincide con la vocal' : candidate ? 'Vocal reconocida' : 'Vamos paso a paso'}
+            {matches
+              ? 'Predicción coincidente'
+              : candidate
+                ? 'El modelo propuso otra vocal'
+                : 'Vamos paso a paso'}
           </h3>
         </div>
         <p>
           {matches
-            ? `El modelo reconoció la ${candidate}, la vocal solicitada.`
+            ? `El modelo experimental propuso la ${candidate}, igual a la vocal solicitada. Esta coincidencia no certifica la ejecución.`
             : candidate
-              ? `El modelo reconoció la ${candidate}.${otherVowel}`
+              ? `El modelo experimental propuso la ${candidate}.${otherVowel}`
               : result.reason === 'UNSUPPORTED_HAND' && !result.captureIssue
                 ? 'La cámara detectó tu mano, pero el modelo no puede reconocer vocales con esa mano.'
                 : practiceAdvice(result)}
