@@ -10,7 +10,7 @@ test('una coincidencia experimental no declara logro ni avanza sola; navegación
   try {
     const next = vi.fn();
     const reference = vi.fn();
-    const result = { label: 'E', inferenceMs: 3, frames: [{ hand: 'Right' }] };
+    const result = { label: 'E', reason: 'CANDIDATE', inferenceMs: 3, frames: [{ hand: 'Right' }] };
     render(
       <AttemptResult
         result={result}
@@ -20,8 +20,8 @@ test('una coincidencia experimental no declara logro ni avanza sola; navegación
         onReference={reference}
       />,
     );
-    expect(screen.getByRole('heading', { name: 'Vamos paso a paso' })).toBeVisible();
-    expect(screen.getByText(/No pudimos verificar la seña con claridad/)).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'Coincide con la vocal' })).toBeVisible();
+    expect(screen.getByText(/El modelo reconoció la E, la vocal solicitada/)).toBeVisible();
     expect(screen.queryByText(/logrado|¡Muy bien!|correctamente/)).toBeNull();
     expect(screen.queryByText(/experimental|Inferencia:|no califica/i)).toBeNull();
     act(() => vi.advanceTimersByTime(5000));
@@ -36,8 +36,9 @@ test('una coincidencia experimental no declara logro ni avanza sola; navegación
 });
 
 test.each([
-  [{ label: 'A' }, /No pudimos verificar/],
-  [{ label: null, reason: 'UNSUPPORTED_HAND' }, /No pudimos verificar/],
+  [{ label: 'A', reason: 'CANDIDATE' }, /El modelo reconoció la A/],
+  [{ label: 'A', reason: 'CANDIDATE', captureIssue: 'NO_HAND' }, /No podemos ver tu mano/],
+  [{ label: null, reason: 'UNSUPPORTED_HAND' }, /La cámara detectó tu mano/],
   [{ label: null, reason: 'AMBIGUOUS' }, /No pudimos verificar/],
   [{ label: null, reason: 'OUT_OF_DISTRIBUTION' }, /No pudimos verificar/],
   [{ label: null, reason: 'SINGLE_HAND_REQUIRED' }, /una sola mano visible/],
