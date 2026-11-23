@@ -31,7 +31,7 @@ export function useModelAttempt({ operation, capture, camera, target, lab }) {
     capture.capture(operation.model ? operation.predict : undefined, after);
   };
   const automatic = useAutoCapture(camera, {
-    enabled: auto && supported && live && !busy && !preparing,
+    enabled: auto && supported && live && !busy && Boolean(operation.model),
     onTrigger: capturing,
   });
   return {
@@ -42,7 +42,9 @@ export function useModelAttempt({ operation, capture, camera, target, lab }) {
     live,
     supported,
     automatic,
-    manual: () => countdown.start(() => capturing()),
+    manual: () => {
+      if (!auto || operation.model) countdown.start(() => capturing());
+    },
     shown: operation.result && operation.result.frames === capture.frames,
     status: attemptStatus({
       ...countdown,
