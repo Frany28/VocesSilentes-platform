@@ -1,0 +1,253 @@
+.module-contents {
+  color: var(--content);
+}
+.module-journey-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(220px, 1fr);
+  align-items: center;
+  gap: 32px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2xl);
+  background: var(--surface-accent);
+}
+.module-journey-eyebrow {
+  display: block;
+  margin-bottom: 12px;
+  font: var(--type-label);
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+.module-journey-intro h2 {
+  margin-bottom: 8px;
+  font: var(--type-h3);
+  text-wrap: balance;
+}
+.module-journey-intro p,
+.module-journey-caption {
+  color: var(--text-secondary);
+}
+.module-journey-progress {
+  display: grid;
+  gap: 12px;
+}
+.module-journey-progress strong {
+  font-size: 28px;
+}
+.module-journey-progress progress {
+  display: block;
+  width: 100%;
+  height: 10px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  background: var(--surface);
+  accent-color: var(--action-primary);
+}
+.module-journey-progress progress::-webkit-progress-bar {
+  background: var(--surface);
+}
+.module-journey-progress progress::-webkit-progress-value {
+  border-radius: 999px;
+  background: var(--action-primary);
+}
+.module-journey-progress progress::-moz-progress-bar {
+  border-radius: 999px;
+  background: var(--action-primary);
+}
+.module-journey-caption {
+  font-size: 13px;
+  line-height: 1.6;
+}
+.module-lesson-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.module-lesson-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2xl);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+  animation: module-lesson-enter 400ms ease-out both;
+  animation-delay: var(--lesson-delay, 0ms);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+.module-lesson-card[data-next] {
+  border-color: var(--action-primary);
+}
+.module-lesson-card:focus-within {
+  border-color: var(--focus);
+}
+.module-lesson-cover {
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: 150px;
+  padding: 36px 16px 12px;
+  background: var(--surface-accent);
+}
+.module-lesson-card:nth-child(3n + 2) .module-lesson-cover {
+  background: var(--surface-tertiary);
+}
+.module-lesson-card:nth-child(3n) .module-lesson-cover {
+  background: var(--surface-secondary);
+}
+.module-lesson-cover .journey-illustration {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 170px;
+  margin: 0;
+  object-fit: contain;
+  transition: transform 220ms ease;
+}
+.module-lesson-cover .journey-welcome {
+  width: 100%;
+  min-height: 120px;
+}
+.module-lesson-number {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  color: var(--content);
+  font: var(--type-label);
+}
+.module-lesson-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+}
+.module-lesson-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--text-secondary);
+  font: var(--type-label);
+}
+.module-lesson-status {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--surface-accent);
+  color: var(--content);
+}
+.module-lesson-status[data-completed] {
+  background: var(--status-success-bg);
+  color: var(--status-success);
+}
+.module-lesson-body h2 {
+  font: var(--type-h3);
+  overflow-wrap: anywhere;
+}
+.module-lesson-objectives {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 8px;
+  padding-left: 20px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.module-lesson-objectives li::marker {
+  color: var(--action-primary);
+}
+.module-lesson-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-top: auto;
+}
+.module-lesson-primary,
+.module-lesson-resume,
+.module-lesson-resource {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  font: var(--type-button);
+  text-decoration: none;
+}
+.module-lesson-primary {
+  flex: 1 1 180px;
+  padding: 12px 16px;
+  background: var(--action-primary);
+  color: var(--action-text);
+  transition: background 180ms ease;
+}
+.module-lesson-primary:hover {
+  background: var(--action-hover);
+}
+.module-lesson-resume,
+.module-lesson-resource {
+  color: var(--action-primary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.module-lesson-resource {
+  justify-content: flex-start;
+}
+.module-contents
+  :is(.module-lesson-primary, .module-lesson-resume, .module-lesson-resource):focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .module-lesson-card:hover .journey-illustration {
+    transform: translateY(-4px);
+  }
+}
+@keyframes module-lesson-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (width < 900px) {
+  .module-journey-summary {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .module-lesson-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (width < 600px) {
+  .module-journey-summary,
+  .module-lesson-body {
+    padding: 20px;
+  }
+  .module-lesson-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .module-lesson-primary {
+    flex: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .module-lesson-card,
+  .module-lesson-cover .journey-illustration,
+  .module-lesson-primary {
+    animation: none;
+    transition: none;
+  }
+}

@@ -6,6 +6,7 @@ import { Alert } from '../../../components/ui/Alert.jsx';
 import { ModuleLessonList } from './ModuleLessonList.jsx';
 import { VowelPracticeEntry } from '../curriculum/VowelPracticeEntry.jsx';
 import './lesson.css';
+import './module-contents.css';
 
 /**
  * Reúne las lecciones reales para estudiar o repasar sin quedar atrapado en un resumen guardado.
@@ -16,8 +17,10 @@ export function ModuleContents() {
   const { status, snapshot, retry } = useStudent();
   const module =
     snapshot?.source === 'api' && snapshot.modules.find((item) => item.id === moduleId);
+  const completed = module?.lessons.filter((lesson) => lesson.status === 'COMPLETED').length ?? 0;
+  const total = module?.lessons.length ?? 0;
   return (
-    <div className="education-page flex min-w-0 flex-col gap-6">
+    <div className="education-page module-contents flex min-w-0 flex-col gap-6">
       <Link className="education-back inline-flex min-h-11 items-center" to="/student/modules">
         Volver a Mis módulos
       </Link>
@@ -34,6 +37,28 @@ export function ModuleContents() {
         </Alert>
       ) : (
         <>
+          <section className="module-journey-summary" aria-label="Progreso del módulo">
+            <div className="module-journey-intro">
+              <span className="module-journey-eyebrow">TU RUTA DE APRENDIZAJE</span>
+              <h2>
+                {total > 0 && completed === total
+                  ? '¡Cada lección cuenta!'
+                  : 'Paso a paso, nuevas formas de comunicar'}
+              </h2>
+              <p>Explora, practica y vuelve cuando lo necesites. Aprende a tu ritmo.</p>
+            </div>
+            <div className="module-journey-progress">
+              <span>
+                <strong>{completed}</strong> de {total} lecciones completadas
+              </span>
+              {total > 0 && (
+                <progress max={total} value={completed} aria-label="Lecciones completadas" />
+              )}
+              <span className="module-journey-caption">
+                Tu avance se conserva al retomar una lección.
+              </span>
+            </div>
+          </section>
           {module.contentKey === 'modulo-01-alfabeto-manual-lsv' && <VowelPracticeEntry />}
           <ModuleLessonList module={module} />
         </>
