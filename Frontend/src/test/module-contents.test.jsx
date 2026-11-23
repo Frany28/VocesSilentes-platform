@@ -15,6 +15,11 @@ test('un abecedario completado abre sus siete lecciones e imágenes, no el resum
   const card = await screen.findByRole('article', { name: 'Abecedario LSV' });
   await userEvent.click(within(card).getByRole('button', { name: 'Repasar las señas' }));
   expect(await screen.findByRole('heading', { level: 1, name: 'Abecedario LSV' })).toBeVisible();
+  expect(screen.getByRole('progressbar', { name: 'Lecciones completadas' })).toHaveAttribute(
+    'value',
+    '7',
+  );
+  expect(screen.getAllByText('✓ Completada')).toHaveLength(7);
   const contents = screen.getByRole('list', { name: 'Lecciones del módulo' });
   expect(within(contents).getAllByRole('heading', { level: 2 })).toHaveLength(7);
   expect(contents.querySelectorAll('img')).toHaveLength(7);
