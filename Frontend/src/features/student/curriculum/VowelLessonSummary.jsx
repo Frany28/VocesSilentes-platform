@@ -5,6 +5,7 @@ import { moduleProgress } from '../data/module-progress.js';
 import { useLearningProgress } from '../data/use-learning-progress.js';
 import { JourneyControls } from './JourneyControls.jsx';
 import { vowelActivities, vowelLetters } from './vowel-lesson.js';
+import { mixedReview } from './vowel-rounds.js';
 
 /**
  * Cierre de la lección con evidencia separada de lectura, comprensión y cámara. La única escritura
@@ -93,6 +94,11 @@ export function VowelLessonSummary({
                 100
               }
               valueText={`${vowelActivities.filter((activity) => vowelLetters.every((letter) => progress.activities[activity.id]?.answers?.[letter]?.correct)).length} de 3 actividades completadas`}
+            />
+            <Progress
+              label="Repaso combinado"
+              value={((progress.mixed?.length ?? 0) / mixedReview.length) * 100}
+              valueText={`${progress.mixed?.length ?? 0} de ${mixedReview.length} retos atendidos`}
             />
             <div className="vowel-model-totals">
               <span>

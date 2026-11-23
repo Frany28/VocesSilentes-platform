@@ -46,11 +46,12 @@ test('una pregunta se recupera desde avance confirmado por API y permite repasar
   expect(screen.getByRole('button', { name: 'Comprobar respuesta' })).toBeDisabled();
 });
 
-test('las vocales se recorren en grupos pequeños y concluyen con cero aciertos en las cinco preguntas pendientes', async () => {
+test('las letras se recorren en grupos pequeños y concluyen con cero aciertos en las cinco preguntas pendientes', async () => {
   const { snapshot, fetchMock } = mockCurriculumApi(vi.fn());
   const lesson = snapshot.modules[0].lessons[0];
   const card = lesson.content.letterCards[0];
-  lesson.content.letterCards = ['A', 'E', 'I', 'O', 'U'].map((letter) => ({ ...card, letter }));
+  // A, E, I, O y U abren la experiencia de vocales; este recorrido genérico usa otras cinco letras.
+  lesson.content.letterCards = ['B', 'C', 'D', 'F', 'G'].map((letter) => ({ ...card, letter }));
   lesson.exercises = Array.from({ length: 5 }, (_, index) => ({
     ...lesson.exercises[1],
     id: `pending-${index}`,

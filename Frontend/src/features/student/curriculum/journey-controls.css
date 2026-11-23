@@ -29,3 +29,19 @@
     flex: 1;
   }
 }
+.journey-controls-hint {
+  flex: 1;
+  min-width: 0;
+  color: var(--text-secondary);
+  text-align: center;
+  font: var(--type-label);
+}
+@media (width < 600px) {
+  .journey-controls:has(.journey-controls-hint) {
+    flex-wrap: wrap;
+  }
+  .journey-controls-hint {
+    order: -1;
+    flex-basis: 100%;
+  }
+}

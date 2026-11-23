@@ -1,0 +1,258 @@
+/* Composición de la lección de vocales. Sustituye el límite heredado de 840 px de .journey-stage
+   por anchos fluidos por tipo de paso, y deja que cada actividad se adapte al ancho real del
+   escenario mediante container queries (no al de la ventana, que incluye márgenes y cabecera). */
+.learning-shell .learning-journey.vowel-experience {
+  max-width: 1480px;
+  padding-top: clamp(14px, 1.6vw, 24px);
+  gap: clamp(12px, 1.4vw, 20px);
+}
+.vowel-experience .journey-context,
+.vowel-experience .journey-controls {
+  max-width: none;
+}
+.learning-shell .vowel-experience .journey-stage {
+  container: vowel-stage / inline-size;
+  padding-block: 4px 20px;
+}
+.vowel-experience .journey-stage > * {
+  max-width: 1400px;
+}
+.vowel-experience .journey-stage > :is(.vowel-welcome, .vowel-study, .vowel-summary) {
+  max-width: 1240px;
+}
+.vowel-experience .journey-stage > .vowel-microclass-step {
+  max-width: 1120px;
+}
+.learning-shell .vowel-experience .journey-stage .education-card {
+  gap: 16px;
+  padding: clamp(16px, 1.8vw, 28px);
+}
+.vowel-experience .journey-controls {
+  scroll-margin-bottom: 0;
+}
+.vowel-experience :is(.vowel-feedback-panel, .workspace-attempt, .vowel-sign-bridge) {
+  scroll-margin-block: 16px 112px;
+}
+
+/* Cabecera: identidad, progreso y orientación en dos columnas desde 1024 px. */
+.vowel-journey-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  margin: 0;
+}
+.vowel-journey-status > div {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  background: var(--surface-neutral);
+  font: var(--type-label);
+}
+.vowel-journey-status dt {
+  flex: none;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+.vowel-journey-status dd {
+  margin: 0;
+  font-weight: 700;
+}
+.vowel-journey-status [data-kind='letter'] {
+  background: var(--surface-accent);
+  color: var(--action-primary);
+}
+.journey-index-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  color: var(--action-primary);
+  font-weight: 600;
+  text-underline-offset: 3px;
+}
+.journey-index-link:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+.vowel-experience .journey-topbar {
+  padding-bottom: 12px;
+}
+.vowel-experience .journey-context {
+  gap: 10px;
+}
+@media (width >= 1024px) {
+  .vowel-experience .journey-header {
+    gap: 12px;
+  }
+  .vowel-experience .journey-context {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 8px 40px;
+  }
+  .vowel-experience .journey-context > .journey-heading {
+    grid-row: 1;
+    grid-column: 1;
+  }
+  .vowel-experience .journey-context > .journey-phases {
+    grid-row: 1;
+    grid-column: 2;
+    justify-self: end;
+  }
+  .vowel-experience .journey-context > .vs-progress {
+    grid-row: 2;
+    grid-column: 1;
+  }
+  .vowel-experience .journey-context > .vowel-journey-status {
+    grid-row: 2;
+    grid-column: 2;
+    justify-content: flex-end;
+  }
+  .vowel-experience .journey-context > .journey-status {
+    grid-column: 1 / -1;
+  }
+}
+/* Entre tableta y escritorio medio sólo la etapa actual muestra su nombre, como en móvil. */
+@media (600px <= width < 1280px) {
+  .vowel-experience .journey-phases li:not([data-state='now']) {
+    padding-right: 4px;
+  }
+  .vowel-experience .journey-phases li:not([data-state='now']) .journey-phase-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+@media (width < 600px) {
+  /* En móvil la tarjeta ya nombra la actividad actual: se conservan «Después» y «Pendientes». */
+  .vowel-journey-status {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .vowel-journey-status > div:first-child {
+    display: none;
+  }
+  .vowel-journey-status > div {
+    min-width: 0;
+    border-radius: var(--radius-lg);
+  }
+  .vowel-journey-status dd {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .vowel-experience .journey-context {
+    gap: 8px;
+  }
+  .vowel-experience .journey-heading h1 {
+    font-size: 24px;
+  }
+}
+
+/* Práctica con cámara: encabezado y selector de vocal en una sola franja. */
+.vowel-camera-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px 24px;
+}
+.vowel-camera-heading .vowel-section-heading {
+  flex: 1 1 340px;
+  gap: 4px;
+}
+.vowel-camera-navigation {
+  display: flex;
+  flex: 1 1 520px;
+  align-items: center;
+  gap: 10px;
+}
+.vowel-camera-navigation > .vs-button {
+  flex: none;
+  width: auto;
+}
+.vowel-camera-track {
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+.vowel-camera-track button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-height: 56px;
+  padding: 6px 4px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  transition:
+    background-color var(--motion-control) var(--motion-ease),
+    border-color var(--motion-control) var(--motion-ease);
+}
+.vowel-camera-track button[data-attempted] {
+  border-color: color-mix(in srgb, var(--action-primary) 40%, var(--border-subtle));
+}
+.vowel-camera-track button[aria-pressed='true'] {
+  border-color: var(--action-primary);
+  background: var(--surface-accent);
+  box-shadow: inset 0 0 0 1px var(--action-primary);
+}
+.vowel-camera-track b {
+  color: var(--action-primary);
+  font: 800 20px / 1 var(--font-brand);
+}
+.vowel-camera-track span {
+  overflow: hidden;
+  max-width: 100%;
+  color: var(--text-secondary);
+  font: var(--type-label);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@container vowel-stage (width < 640px) {
+  .vowel-camera-navigation > .vs-button {
+    display: none;
+  }
+  .vowel-camera-navigation {
+    flex-basis: 100%;
+  }
+  .vowel-camera-track button {
+    min-height: 48px;
+  }
+  /* El estado sigue en el nombre accesible; visualmente se resume con un punto bajo la letra. */
+  .vowel-camera-track span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .vowel-camera-track button::after {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--border-subtle);
+    content: '';
+  }
+  .vowel-camera-track button[data-visited]::after {
+    background: var(--status-info);
+  }
+  .vowel-camera-track button[data-attempted]::after {
+    background: var(--action-primary);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vowel-camera-track button {
+    transition: none;
+  }
+}

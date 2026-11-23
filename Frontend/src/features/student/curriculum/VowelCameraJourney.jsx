@@ -22,73 +22,72 @@ export function VowelCameraJourney({ mode, saved, onVisit, onAttempt }) {
   const attempts = saved?.attempts ?? {};
   return (
     <section className="education-card vowel-camera-journey" aria-labelledby={`camera-${mode}`}>
-      <header className="vowel-section-heading">
-        <p className="journey-eyebrow text-action">
-          {mode === 'guided'
-            ? 'EJERCICIO 1 · PRÁCTICA GUIADA'
-            : 'EJERCICIO 2 · PRÁCTICA DE MEMORIA'}
-        </p>
-        <h2 id={`camera-${mode}`}>
-          {mode === 'guided' ? 'Practica con la referencia' : 'Recuerda antes de mirar'}
-        </h2>
-        <p>
-          {mode === 'guided'
-            ? 'Observa la ficha, activa voluntariamente la cámara y repite cada vocal cuantas veces necesites.'
-            : 'Forma la vocal solicitada de memoria. Si dudas, consulta la referencia y vuelve a intentarlo.'}
-        </p>
+      <header className="vowel-camera-heading">
+        <div className="vowel-section-heading">
+          <h2 id={`camera-${mode}`}>
+            {mode === 'guided' ? 'Ahora realiza la seña' : 'Desafío de memoria'}
+          </h2>
+          <p>
+            {mode === 'guided'
+              ? 'Observa la ficha y forma cada vocal frente a la cámara, las veces que quieras.'
+              : 'Forma la vocal sin mirar la ficha; consúltala solo si la necesitas.'}
+          </p>
+        </div>
+        <nav className="vowel-camera-navigation" aria-label="Cambiar de vocal">
+          <Button
+            variant="secondary"
+            icon={null}
+            disabled={index === 0}
+            onClick={() => move(index - 1)}
+          >
+            Vocal anterior
+          </Button>
+          <div className="vowel-camera-track" role="group" aria-label="Vocales de este ejercicio">
+            {vowelLetters.map((item, position) => {
+              const evidence = attempts[item];
+              return (
+                <button
+                  key={item}
+                  type="button"
+                  aria-pressed={letter === item}
+                  data-visited={visited.includes(item) || undefined}
+                  data-attempted={evidence ? true : undefined}
+                  onClick={() => move(position)}
+                >
+                  <b>{item}</b>
+                  <span>
+                    {evidence
+                      ? `${evidence.total} ${evidence.total === 1 ? 'intento' : 'intentos'}`
+                      : visited.includes(item)
+                        ? 'Visitada'
+                        : 'Nueva'}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          <Button
+            variant="secondary"
+            icon={null}
+            disabled={index === vowelLetters.length - 1}
+            onClick={() => move(index + 1)}
+          >
+            Siguiente vocal
+          </Button>
+          <p className="sr-only" role="status">
+            Vocal {index + 1} de {vowelLetters.length} · {letter}
+          </p>
+        </nav>
       </header>
-      <div className="vowel-camera-track" role="group" aria-label="Vocales de este ejercicio">
-        {vowelLetters.map((item, position) => {
-          const evidence = attempts[item];
-          return (
-            <button
-              key={item}
-              type="button"
-              aria-pressed={letter === item}
-              data-visited={visited.includes(item) || undefined}
-              onClick={() => move(position)}
-            >
-              <b>{item}</b>
-              <span>
-                {evidence
-                  ? `${evidence.total} ${evidence.total === 1 ? 'intento' : 'intentos'}`
-                  : visited.includes(item)
-                    ? 'Pendiente de intento'
-                    : 'Por visitar'}
-              </span>
-            </button>
-          );
-        })}
-      </div>
       <CameraPracticeLoader
         key={`${mode}-${letter}`}
         letter={letter}
         memory={mode === 'memory'}
+        variant="workspace"
         referenceVisible={revealed}
         onRevealReference={() => setRevealed(true)}
         onAttempt={(result) => onAttempt(mode, letter, result)}
       />
-      <div className="vowel-camera-navigation">
-        <Button
-          variant="secondary"
-          icon={null}
-          disabled={index === 0}
-          onClick={() => move(index - 1)}
-        >
-          Vocal anterior
-        </Button>
-        <p role="status">
-          Vocal {index + 1} de {vowelLetters.length} · {letter}
-        </p>
-        <Button
-          variant="secondary"
-          icon={null}
-          disabled={index === vowelLetters.length - 1}
-          onClick={() => move(index + 1)}
-        >
-          Siguiente vocal
-        </Button>
-      </div>
       <details className="vowel-camera-evidence">
         <summary>Resultados de esta práctica</summary>
         <ul>

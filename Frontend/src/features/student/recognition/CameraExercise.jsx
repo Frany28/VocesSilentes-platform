@@ -13,6 +13,7 @@ import { ManualReference } from './ManualReference.jsx';
 import { recognitionSupports } from './recognition-support.js';
 import { CameraSteps } from './CameraSteps.jsx';
 import { PracticeProgress } from './PracticeProgress.jsx';
+import { WorkspaceAttempt } from './WorkspaceAttempt.jsx';
 import { practicePhase } from './practice-feedback.js';
 import './recognition.css';
 import './attempt.css';
@@ -21,7 +22,8 @@ import './practice-learning.css';
 /**
  * Actividad guiada con un único coordinador de captura e inferencia real, sin escribir calificaciones.
  * @param {{letter?: string, onContinue?: Function, referenceVisible?: boolean,
- * onRevealReference?: Function, onAttempt?: Function, memory?: boolean}} props Objetivo y recorrido.
+ * onRevealReference?: Function, onAttempt?: Function, memory?: boolean,
+ * variant?: 'standard'|'workspace'}} props Objetivo, recorrido y composición (workspace: panel estable).
  * @returns {import('react').ReactElement} Referencia adaptable, cámara y resultado junto al intento.
  */
 export function CameraExercise({
@@ -31,7 +33,9 @@ export function CameraExercise({
   onRevealReference,
   onAttempt,
   memory = false,
+  variant = 'standard',
 }) {
+  const workspace = variant === 'workspace';
   const reference = useRef(null);
   const { referenceHand, setReferenceHand } = useContext(RecognitionModelContext);
   const camera = useHandCamera(setReferenceHand);
@@ -40,6 +44,10 @@ export function CameraExercise({
   const attempt = useModelAttempt({ operation, capture, camera, target: letter, lab: false });
   const phase = practicePhase(attempt, Boolean(capture.error || operation.error));
   const reported = useRef(null);
+  const showReference = () => {
+    onRevealReference?.();
+    requestAnimationFrame(() => reference.current?.focus());
+  };
   useEffect(() => {
     if (!attempt.shown || !operation.result || reported.current === operation.result) return;
     reported.current = operation.result;
@@ -50,17 +58,20 @@ export function CameraExercise({
       className="camera-exercise flex w-full flex-col gap-4"
       aria-label="Práctica con cámara"
       data-phase={phase}
+      data-variant={variant}
     >
-      <header className="practice-objective">
-        <p className="text-action [font:var(--type-label)]">TU TURNO</p>
-        <h2>{letter ? `Practica la letra ${letter}` : 'Tu práctica con cámara'}</h2>
-        <p>
-          {memory
-            ? 'Recuerda la configuración antes de consultar la referencia. Te acompañamos en cada intento.'
-            : 'Observa la referencia y forma la seña con una mano. Te acompañamos en cada intento.'}
-        </p>
-      </header>
-      <PracticeProgress phase={phase} />
+      {!workspace && (
+        <header className="practice-objective">
+          <p className="text-action [font:var(--type-label)]">TU TURNO</p>
+          <h2>{letter ? `Practica la letra ${letter}` : 'Tu práctica con cámara'}</h2>
+          <p>
+            {memory
+              ? 'Recuerda la configuración antes de consultar la referencia. Te acompañamos en cada intento.'
+              : 'Observa la referencia y forma la seña con una mano. Te acompañamos en cada intento.'}
+          </p>
+        </header>
+      )}
+      {!workspace && <PracticeProgress phase={phase} />}
       <div className="camera-workspace">
         <aside className="practice-reference" aria-label="Referencia e instrucciones">
           <h3 ref={reference} tabIndex={-1}>
@@ -77,25 +88,34 @@ export function CameraExercise({
               </Button>
             </div>
           )}
-          <CameraSteps letter={letter} supported={attempt.supported} />
+          {!workspace && <CameraSteps letter={letter} supported={attempt.supported} />}
         </aside>
         <div className="practice-live">
           <CameraView camera={camera} target={letter} controls={false} phase={phase} educational />
-          <CameraControls camera={camera} compact />
-          {camera.state === 'live' && <DetectionStatus camera={camera} />}
+          {!workspace && <CameraControls camera={camera} compact />}
+          {!workspace && camera.state === 'live' && <DetectionStatus camera={camera} />}
         </div>
         <div className="practice-feedback">
-          <StudentAttempt
-            attempt={attempt}
-            operation={operation}
-            capture={capture}
-            target={letter}
-            onContinue={onContinue}
-            onReference={() => {
-              onRevealReference?.();
-              requestAnimationFrame(() => reference.current?.focus());
-            }}
-          />
+          {workspace ? (
+            <WorkspaceAttempt
+              camera={camera}
+              attempt={attempt}
+              operation={operation}
+              capture={capture}
+              target={letter}
+              onContinue={onContinue}
+              onReference={showReference}
+            />
+          ) : (
+            <StudentAttempt
+              attempt={attempt}
+              operation={operation}
+              capture={capture}
+              target={letter}
+              onContinue={onContinue}
+              onReference={showReference}
+            />
+          )}
         </div>
       </div>
       <details className="practice-about">
