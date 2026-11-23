@@ -91,3 +91,18 @@ test('la ruta real navega A/E e I/O/U con el pie original y conserva la página 
     true,
   );
 });
+
+test('la práctica de la primera lección ofrece A y E y abre la cámara al elegir una vocal', async () => {
+  const { snapshot } = mockCompletedAlphabet();
+  const module = snapshot.modules[0];
+  const lesson = module.lessons[0];
+  const key = `vs:lesson-journey:${user.id}:${module.id}:${lesson.id}`;
+  const checkpoint = JSON.parse(localStorage.getItem(key));
+  localStorage.setItem(key, JSON.stringify({ ...checkpoint, position: 'practice' }));
+  renderAuthApp(`${modulePath}/lessons/${lesson.id}`);
+  const practice = await screen.findByRole('region', { name: 'Práctica por vocal' });
+  expect(within(practice).getAllByRole('img')).toHaveLength(2);
+  expect(screen.queryByRole('button', { name: /Continuar intento/ })).toBeNull();
+  fireEvent.click(within(practice).getByRole('button', { name: 'Practicar A con cámara' }));
+  expect(screen.getByRole('button', { name: 'Continuar intento de prueba A' })).toBeVisible();
+});

@@ -2,15 +2,17 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from '../../../components/ui/Button.jsx';
 import { CameraPracticeLoader } from '../recognition/CameraPracticeLoader.jsx';
 import { VowelPracticeBlocks } from './VowelPracticeBlocks.jsx';
+import { alphabetLessonIds } from '../resources/lesson-videos.js';
 import { vowelGuides } from './vowel-lesson.js';
 
 /**
  * Conserva la actividad personal y recupera una referencia y una práctica explícita por vocal.
- * @param {{step: object, onContinue?: Function}} props Texto y siguiente paso opcional.
+ * @param {{step: object, lessonId?: string, onContinue?: Function}} props Texto y siguiente paso opcional.
  * @returns {import('react').ReactElement} Lectura breve o práctica local, sin evaluación académica inventada.
  */
-export function PersonalPractice({ step, onContinue }) {
-  const guides = vowelGuides.filter((guide) => step.vowels?.includes(guide.letter));
+export function PersonalPractice({ step, lessonId, onContinue }) {
+  const vowels = step.vowels ?? (lessonId === alphabetLessonIds['m1-l01'] ? ['A', 'E'] : []);
+  const guides = vowelGuides.filter((guide) => vowels.includes(guide.letter));
   const [letter, setLetter] = useState(null);
   const title = useRef(null);
   useEffect(() => {
