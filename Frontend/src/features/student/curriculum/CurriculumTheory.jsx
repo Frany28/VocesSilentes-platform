@@ -12,7 +12,7 @@ export function CurriculumTheory({ step, lessonId, onPracticeContinue }) {
   if (step.type === 'letters')
     return <LetterPractice cards={step.cards} onContinue={onPracticeContinue} />;
   if (step.type === 'practice')
-    return <PersonalPractice step={step} onContinue={onPracticeContinue} />;
+    return <PersonalPractice step={step} lessonId={lessonId} onContinue={onPracticeContinue} />;
   if (step.type === 'resources') return <LessonResources step={step} />;
   return (
     <article className="journey-copy education-card" aria-labelledby="journey-title">

@@ -91,3 +91,24 @@ test('la ruta real navega A/E e I/O/U con el pie original y conserva la página 
     true,
   );
 });
+
+test('la práctica de la primera lección ofrece las cinco vocales y abre la cámara al elegir una vocal', async () => {
+  const { snapshot } = mockCompletedAlphabet();
+  const module = snapshot.modules[0];
+  const lesson = module.lessons[0];
+  const key = `vs:lesson-journey:${user.id}:${module.id}:${lesson.id}`;
+  const checkpoint = JSON.parse(localStorage.getItem(key));
+  localStorage.setItem(key, JSON.stringify({ ...checkpoint, position: 'practice' }));
+  renderAuthApp(`${modulePath}/lessons/${lesson.id}`);
+  const practice = await screen.findByRole('region', { name: 'Práctica por vocal' });
+  expect(within(practice).getAllByRole('img')).toHaveLength(5);
+  expect(screen.queryByRole('button', { name: /Continuar intento/ })).toBeNull();
+  for (const { letter } of vowelGuides) {
+    const card = screen.getByRole('article', { name: `Vocal ${letter}` });
+    fireEvent.click(within(card).getByRole('button', { name: `Practicar ${letter} con cámara` }));
+    expect(
+      screen.getByRole('button', { name: `Continuar intento de prueba ${letter}` }),
+    ).toBeVisible();
+    fireEvent.click(screen.getByRole('button', { name: 'Volver a los bloques de vocales' }));
+  }
+});
