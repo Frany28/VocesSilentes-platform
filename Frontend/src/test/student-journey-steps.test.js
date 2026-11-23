@@ -57,12 +57,11 @@ test('el punto local descarta una edición anterior, datos corruptos y cualquier
   expect(readCheckpoint('checkpoint-test', signature, steps).position).toBe('intro');
 });
 
-test('las páginas de práctica son A/E, I/O y U, con IDs propios y sin perder el punto anterior', () => {
+test('las páginas de práctica son A/E e I/O/U, con IDs propios y sin perder el punto anterior', () => {
   const steps = lessonSteps(lesson);
   expect(steps.filter((step) => step.type === 'practice').map((step) => step.vowels)).toEqual([
     ['A', 'E'],
-    ['I', 'O'],
-    ['U'],
+    ['I', 'O', 'U'],
   ]);
   const previous = [
     ...steps.slice(

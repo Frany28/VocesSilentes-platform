@@ -10,7 +10,7 @@ export function journeySignature(steps) {
   return `v1-${hash >>> 0}`;
 }
 
-// Solo admite la edición inmediatamente anterior: la práctica única se dividió en A/E, I/O y U.
+// Admite los recorridos anteriores con una práctica única o tres grupos.
 // Recalcular su huella completa evita aceptar checkpoints de otros cambios de contenido.
 function previousPracticeSignature(steps) {
   const previous = steps
@@ -20,6 +20,26 @@ function previousPracticeSignature(steps) {
       const { id, type, phase, title, body } = step;
       return { id, type, phase, title, body };
     });
+  return journeySignature(previous);
+}
+
+function splitPracticeSignature(steps) {
+  const previous = steps.flatMap((step) => {
+    if (step.id === 'practice-IO' && step.type === 'practice') {
+      return [
+        { ...step, vowels: ['I', 'O'] },
+        { ...step, id: 'practice-U', vowels: ['U'] },
+      ];
+    }
+    if (step.type === 'practice' && !step.vowels) {
+      return [
+        { ...step, vowels: ['A', 'E'] },
+        { ...step, id: 'practice-IO', vowels: ['I', 'O'] },
+        { ...step, id: 'practice-U', vowels: ['U'] },
+      ];
+    }
+    return [step];
+  });
   return journeySignature(previous);
 }
 
@@ -34,14 +54,21 @@ export function readCheckpoint(key, signature, steps) {
   const initial = { signature, position: steps[0].id, completed: [] };
   try {
     const saved = JSON.parse(localStorage.getItem(key));
-    const compatible = saved?.signature === previousPracticeSignature(steps);
+    const wasSplit = saved?.signature === splitPracticeSignature(steps);
+    const compatible = wasSplit || saved?.signature === previousPracticeSignature(steps);
     if ((!compatible && saved?.signature !== signature) || !Array.isArray(saved?.completed))
       return initial;
     const ids = new Set(steps.map((step) => step.id));
-    if (!ids.has(saved.position) && saved.position !== 'summary') return initial;
+    const position =
+      wasSplit && ['practice-IO', 'practice-U'].includes(saved.position)
+        ? ids.has('practice-IO')
+          ? 'practice-IO'
+          : 'practice'
+        : saved.position;
+    if (!ids.has(position) && position !== 'summary') return initial;
     return {
       signature,
-      position: saved.position,
+      position,
       completed: saved.completed.filter((id) =>
         steps.some((step) => step.id === id && step.type !== 'question'),
       ),

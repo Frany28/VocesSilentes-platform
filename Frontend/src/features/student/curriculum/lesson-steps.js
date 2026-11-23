@@ -78,14 +78,15 @@ export function lessonSteps(lesson) {
       cards,
     });
   }
-  [['A', 'E'], ['I', 'O'], ['U']].forEach((vowels, index) =>
+  const groups = teachesVowels(content) ? [['A', 'E'], ['I', 'O', 'U']] : [undefined];
+  groups.forEach((vowels, index) =>
     add({
-      id: index === 0 ? 'practice' : `practice-${vowels.join('')}`,
+      id: index === 0 ? 'practice' : 'practice-IO',
       type: 'practice',
       phase: 'practice',
       title: 'Una pausa para practicar',
       body: content.practiceInstructions,
-      vowels,
+      ...(vowels && { vowels }),
     }),
   );
   lesson.exercises

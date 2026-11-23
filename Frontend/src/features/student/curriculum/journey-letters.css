@@ -79,3 +79,13 @@
     animation: none;
   }
 }
+
+.vowel-practice-blocks .letter-card {
+  background: var(--surface-accent);
+}
+.vowel-practice-blocks .letter-card:nth-child(3) {
+  animation-delay: 160ms;
+}
+.vowel-practice-blocks .letter-card-head {
+  flex-wrap: wrap;
+}

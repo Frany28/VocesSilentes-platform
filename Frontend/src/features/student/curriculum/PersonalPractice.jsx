@@ -10,13 +10,20 @@ import { vowelGuides } from './vowel-lesson.js';
  * @returns {import('react').ReactElement} Lectura breve o práctica local, sin evaluación académica inventada.
  */
 export function PersonalPractice({ step, onContinue }) {
-  const guides = vowelGuides.filter((guide) => (step.vowels ?? ['A', 'E']).includes(guide.letter));
+  const guides = vowelGuides.filter((guide) => step.vowels?.includes(guide.letter));
   const [letter, setLetter] = useState(null);
   const title = useRef(null);
   useEffect(() => {
     title.current?.focus();
   }, [letter]);
   const guide = guides.find((item) => item.letter === letter);
+  if (!guides.length)
+    return (
+      <article className="education-card journey-copy">
+        <h2>{step.title}</h2>
+        <p className="journey-reading">{step.body}</p>
+      </article>
+    );
   if (guide)
     return (
       <div className="education-card flex flex-col gap-4">
@@ -49,9 +56,7 @@ export function PersonalPractice({ step, onContinue }) {
       </h2>
       <p className="journey-reading">{step.body}</p>
       <p className="text-muted">
-        {guides.length > 1
-          ? 'Observa una referencia y luego la otra. Fíjate en qué dedos cambian entre ambas.'
-          : 'Observa la referencia y lee en qué fijarte antes de practicar esta vocal.'}
+        Compara las referencias y fíjate en qué dedos cambian antes de practicar.
       </p>
       <VowelPracticeBlocks guides={guides} onPractice={setLetter} />
     </article>

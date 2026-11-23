@@ -69,10 +69,10 @@ test('elegir O y volver conserva su página I/O sin completar la lectura', () =>
   expect(onContinue).not.toHaveBeenCalled();
 });
 
-test('la ruta real navega A/E, I/O y U con el pie original y conserva la página al volver', async () => {
+test('la ruta real navega A/E e I/O/U con el pie original y conserva la página al volver', async () => {
   const { snapshot, fetchMock } = mockCompletedAlphabet();
   const module = snapshot.modules[0];
-  const lesson = module.lessons[0];
+  const lesson = module.lessons[1];
   const key = `vs:lesson-journey:${user.id}:${module.id}:${lesson.id}`;
   const checkpoint = JSON.parse(localStorage.getItem(key));
   localStorage.setItem(key, JSON.stringify({ ...checkpoint, position: 'practice' }));
@@ -81,14 +81,12 @@ test('la ruta real navega A/E, I/O y U con el pie original y conserva la página
   expect(screen.getByRole('heading', { name: 'A · E' })).toBeVisible();
   expect(screen.queryByRole('button', { name: 'Ver mi resumen' })).toBeNull();
   fireEvent.click(screen.getByRole('button', { name: 'Continuar' }));
-  expect(await screen.findByRole('heading', { name: 'I · O' })).toBeVisible();
-  fireEvent.click(screen.getByRole('button', { name: 'Continuar' }));
-  expect(await screen.findByRole('heading', { name: 'U' })).toBeVisible();
-  expect(screen.getAllByRole('button', { name: /Practicar . con cámara/ })).toHaveLength(1);
+  expect(await screen.findByRole('heading', { name: 'I · O · U' })).toBeVisible();
+  expect(screen.getAllByRole('button', { name: /Practicar . con cámara/ })).toHaveLength(3);
   expect(screen.getByRole('button', { name: 'Ver mi resumen' })).toBeVisible();
   fireEvent.click(screen.getByRole('button', { name: 'Volver', exact: true }));
-  expect(await screen.findByRole('heading', { name: 'I · O' })).toBeVisible();
-  expect(JSON.parse(localStorage.getItem(key)).position).toBe('practice-IO');
+  expect(await screen.findByRole('heading', { name: 'A · E' })).toBeVisible();
+  expect(JSON.parse(localStorage.getItem(key)).position).toBe('practice');
   expect(fetchMock.mock.calls.every(([, options]) => (options.method ?? 'GET') === 'GET')).toBe(
     true,
   );
