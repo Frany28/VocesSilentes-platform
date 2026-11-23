@@ -78,7 +78,12 @@ export function lessonSteps(lesson) {
       cards,
     });
   }
-  const groups = teachesVowels(content) ? [['A', 'E'], ['I', 'O', 'U']] : [undefined];
+  const groups = teachesVowels(content)
+    ? [
+        ['A', 'E'],
+        ['I', 'O', 'U'],
+      ]
+    : [undefined];
   groups.forEach((vowels, index) =>
     add({
       id: index === 0 ? 'practice' : 'practice-IO',
