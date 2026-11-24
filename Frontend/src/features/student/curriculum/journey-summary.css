@@ -16,3 +16,17 @@
   background: var(--surface-accent);
   font: var(--type-button);
 }
+.summary-results {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+}
+@media (width >= 900px) {
+  .summary-results:has(.vs-progress ~ .vs-progress) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+  .summary-results > p {
+    grid-column: 1 / -1;
+  }
+}

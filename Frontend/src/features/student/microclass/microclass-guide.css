@@ -46,13 +46,36 @@
 }
 .mc-layout {
   display: grid;
-  gap: 16px;
+  gap: 12px;
   min-width: 0;
 }
-@media (width >= 1200px) {
+.mc-root {
+  container: mc-layout / inline-size;
+}
+@container mc-layout (width >= 900px) {
   .mc-layout {
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
+    grid-template-columns:
+      minmax(642px, min(76%, calc((100dvh - 375px) * 16 / 9)))
+      minmax(240px, min(320px, 100% - 654px));
     align-items: start;
+    grid-template-rows: auto 1fr;
+    justify-content: center;
+  }
+  .mc-player {
+    grid-area: 1 / 1 / span 2;
+  }
+  .mc-heading {
+    grid-area: 1 / 2;
+  }
+  .mc-guide {
+    grid-area: 2 / 2;
+  }
+  .mc-chapters {
+    align-content: start;
+    max-height: clamp(140px, calc(100dvh - 480px), 460px);
+    overflow-y: auto;
+    overscroll-behavior-block: contain;
+    padding: 4px;
   }
 }
 .mc-volume {
@@ -61,7 +84,7 @@
   gap: 8px;
 }
 .mc-volume input[type='range'] {
-  width: 96px;
+  width: clamp(56px, 9cqw, 96px);
   min-height: 44px;
   accent-color: var(--action-primary);
 }

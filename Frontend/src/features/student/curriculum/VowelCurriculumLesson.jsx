@@ -95,13 +95,7 @@ export function VowelCurriculumLesson({ lesson, module, onContinue, nextTitle, i
     (item) => practiceTypes.has(item.type) && !stepDone(item, formative.progress),
   ).length;
   const header = (
-    <JourneyHeader
-      lesson={lesson}
-      module={module}
-      journey={journey}
-      phaseOrder={phaseOrder}
-      compact
-    >
+    <JourneyHeader lesson={lesson} module={module} journey={journey} phaseOrder={phaseOrder}>
       <VowelJourneyStatus
         journey={journey}
         letter={step?.type === 'vowel-study' ? step.letter : undefined}

@@ -1,16 +1,12 @@
 .journey-controls {
-  position: sticky;
-  bottom: 0;
-  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
   width: 100%;
   max-width: 1120px;
-  min-height: 78px;
   margin: 0 auto;
-  padding: 14px 4px max(18px, env(safe-area-inset-bottom));
+  padding: 8px 4px max(8px, env(safe-area-inset-bottom));
   border-top: 1px solid var(--border-subtle);
   background: var(--page);
 }
@@ -21,12 +17,16 @@
 @media (width < 600px) {
   .journey-controls {
     gap: 12px;
-    min-height: 72px;
-    padding: 12px 0 max(16px, env(safe-area-inset-bottom));
+    padding: 8px 0 max(10px, env(safe-area-inset-bottom));
   }
   .journey-controls .vs-button {
     min-width: 0;
     flex: 1;
+  }
+}
+@media (width >= 760px) and (height < 740px) {
+  .journey-controls {
+    padding-block: 6px max(6px, env(safe-area-inset-bottom));
   }
 }
 .journey-controls-hint {

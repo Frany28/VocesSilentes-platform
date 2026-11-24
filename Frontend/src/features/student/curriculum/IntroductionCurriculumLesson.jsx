@@ -39,13 +39,7 @@ export function IntroductionCurriculumLesson(props) {
     ? introductionPhases
     : introductionPhases.filter((phase) => phase.id !== 'assess');
   const header = (
-    <JourneyHeader
-      lesson={lesson}
-      module={module}
-      journey={journey}
-      phaseOrder={phaseOrder}
-      compact
-    />
+    <JourneyHeader lesson={lesson} module={module} journey={journey} phaseOrder={phaseOrder} />
   );
   if (!step)
     return (

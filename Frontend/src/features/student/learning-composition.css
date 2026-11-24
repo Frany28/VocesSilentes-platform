@@ -1,16 +1,3 @@
-.learning-shell .learning-journey {
-  max-width: 1320px;
-  padding-top: 28px;
-}
-.learning-shell .journey-stage {
-  animation: none;
-  padding-block: 32px;
-}
-.learning-shell .journey-stage .education-card {
-  padding: clamp(24px, 4vw, 48px);
-  border-radius: var(--radius-xl);
-  gap: 24px;
-}
 .learning-shell .journey-reading {
   max-width: 68ch;
 }
@@ -41,15 +28,6 @@
   border-radius: var(--radius-xl);
 }
 @media (width < 600px) {
-  .learning-shell .learning-journey {
-    padding: max(16px, env(safe-area-inset-top)) 16px 0;
-  }
-  .learning-shell .journey-stage {
-    padding-block: 16px;
-  }
-  .learning-shell .journey-controls {
-    padding-bottom: max(16px, env(safe-area-inset-bottom));
-  }
   .student-shell .practice-reference {
     padding: 20px;
   }

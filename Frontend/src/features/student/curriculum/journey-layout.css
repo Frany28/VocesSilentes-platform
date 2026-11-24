@@ -16,42 +16,53 @@
 .learning-journey {
   display: flex;
   flex-direction: column;
-  gap: clamp(16px, 2vw, 24px);
+  gap: clamp(10px, 1.2vw, 16px);
   width: 100%;
   max-width: 1320px;
-  min-height: 100svh;
+  min-height: 100dvh;
   margin: 0 auto;
-  padding: clamp(16px, 2vw, 28px) clamp(16px, 3vw, 40px) 0;
+  padding: clamp(10px, 1.4vw, 20px) clamp(16px, 3vw, 40px) 0;
 }
 .journey-stage {
   display: flex;
-  flex: 1 0 auto;
+  flex: 1 1 auto;
   align-items: flex-start;
   justify-content: center;
   width: 100%;
   min-width: 0;
   min-height: 0;
   overflow: visible;
-  padding: 4px 0 24px;
+  padding: 2px 0 clamp(8px, 1.4dvh, 16px);
 }
 .journey-stage > * {
   width: 100%;
   max-width: 840px;
   min-width: 0;
 }
-.journey-stage:has(.mc-root) > *,
 .journey-stage:has(.camera-exercise) > * {
   max-width: 1120px;
+}
+.journey-stage > .journey-video-lesson {
+  max-width: 1400px;
 }
 @media (width < 600px) {
   .learning-shell .education-page:not(.learning-journey) {
     padding: 16px;
   }
   .learning-journey {
-    gap: 16px;
-    padding: 16px 16px 0;
+    gap: 12px;
+    padding: max(12px, env(safe-area-inset-top)) 16px 0;
   }
   .journey-stage {
     padding: 0 0 16px;
+  }
+}
+@media (width >= 760px) and (height < 900px) {
+  .learning-journey {
+    gap: 8px;
+    padding-top: 8px;
+  }
+  .journey-stage {
+    padding-bottom: 8px;
   }
 }

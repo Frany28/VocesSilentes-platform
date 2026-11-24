@@ -1,5 +1,7 @@
 # Estándar de diseño de lecciones de VocesSilentes
 
+Versión 1.1 · Actualizado el 24 de noviembre de 2026.
+
 > Fuente oficial para diseñar, desarrollar, modificar, revisar y mantener todas las lecciones
 > educativas de VocesSilentes.
 
@@ -156,18 +158,59 @@ icono, borde o `role="status"`. Conserva `focus-visible` con un contorno basado 
 ### Responsive y aprovechamiento del ancho
 
 - `.lesson-experience` permite hasta 1480 px; su contenido principal hasta 1400 px.
-- El recorrido base limita texto convencional a 840 px y amplía microclase o cámara hasta 1120 px.
+- El recorrido base limita texto convencional a 840 px. Las experiencias visuales especializadas
+  pueden ampliar microclase, cámara o actividades hasta 1400 px cuando su composición lo requiere.
 - En escritorio, `LessonIntroduction`, `LessonContent` y `LessonActivity` pueden usar dos columnas
   cuando existe una relación útil entre explicación, referencia y actividad.
 - Por debajo de 760 px estas superficies y la vista previa pasan a una columna.
-- Entre 600 y 1279 px, las fases no actuales pueden ocultar visualmente su etiqueta, conservando la
+- Por debajo de 1280 px, las fases no actuales muestran su número y conservan su etiqueta en la
   estructura accesible.
-- Desde 1024 px, la cabecera ubica título y fases en una línea; el progreso ocupa el ancho inferior.
+- Desde 900 px, la cabecera agrupa la marca, el título y los accesos en la primera fila. La segunda
+  reúne el progreso, las fases y los detalles secundarios. Por debajo de 820 px de alto, reduce separaciones y usa la marca
+  compacta, sin reducir objetivos táctiles.
 - En móvil, los controles inferiores se reparten el ancho y respetan el área segura.
 
 No limites una actividad visual compleja al ancho de un párrafo, pero tampoco extiendas texto largo
 de borde a borde. Evita anchos fijos, desbordamiento horizontal y columnas vacías. Dedica el ancho
 extra a comparar, mostrar referencias o reducir desplazamiento vertical.
+
+### Distribución adaptativa por ancho y altura
+
+El ancho decide cuándo existe espacio para columnas; la altura decide cuánto puede crecer el área
+visual principal. No uses un breakpoint de ancho como única señal para reproductores, cámaras o
+actividades altas.
+
+- La microclase mantiene `aspect-ratio: 16 / 9`. Cuando su reproductor mide menos de 640 px,
+  adopta `3 / 4` para dar espacio a las escenas apiladas.
+- A partir de 900 px de ancho de la microclase, `.mc-layout` coloca el reproductor a la izquierda
+  y el título y la guía a la derecha. El reproductor usa un mínimo operativo de 642 px y crece
+  según el espacio libre y el ancho 16:9 derivado de `100dvh`. Una ventana muy baja conserva ese
+  mínimo y permite desplazamiento natural.
+- La guía lateral limita su alto según `100dvh`; únicamente la lista secundaria de capítulos puede
+  desplazarse internamente. El reproductor, sus subtítulos y controles nunca se recortan para hacer
+  caber la página.
+- Bajo 900 px de alto, el recorrido reduce las separaciones exteriores. Bajo 740 px, el pie reduce
+  su relleno y conserva los controles.
+- Los ejercicios de vocales usan consultas al contenedor del escenario. La evaluación genérica
+  muestra pregunta y feedback en dos columnas desde 1000 px. Los resultados usan dos columnas desde
+  900 px. En móvil todos vuelven a una secuencia vertical.
+
+### Encabezado compacto, multimedia y overflow
+
+`JourneyHeader` conserva visibles el título, la etapa, el progreso y la navegación. La orientación
+adicional y la información de vista previa se agrupan en `journey-details`, un `details` operable
+con teclado. Los avisos de revisión pendiente en una lección publicada y de fallo de persistencia
+se muestran directamente. Usa un solo encabezado para cada actividad.
+
+La microclase es la superficie principal de su etapa. El reproductor ocupa la primera columna; la
+guía y transcripción ocupan el panel lateral. Los subtítulos permanecen en una franja propia y los
+controles principales conservan una altura de al menos 44 px. En contenedores estrechos las
+acciones, incluido el volumen, se ajustan en varias líneas.
+
+El documento y el escenario educativo usan scroll natural. `overflow: hidden` solo es válido para
+recortar decoraciones o escenas dentro de un marco con proporción definida, nunca para esconder
+contenido, feedback o navegación. Un scroll interno se reserva para contenido secundario acotado,
+como capítulos; debe tener `overscroll-behavior` y no sustituye al scroll de la página.
 
 ## 4. Estándar de animaciones
 
@@ -267,9 +310,12 @@ estado académico del backend.
 
 ## 7. Navegación y progreso
 
-`JourneyControls` mantiene **Volver** y la acción principal en un pie `sticky`. Volver se desactiva
-sin paso anterior. La acción principal nombra el efecto: «Comenzar lección», «Comprobar respuesta»,
-«Reintentar», «Ver mi repaso» o «Guardar y continuar».
+`JourneyControls` mantiene **Volver** y la acción principal después del escenario, en el flujo
+normal del documento. En etapas breves el escenario ocupa el espacio libre y empuja los controles
+hacia el borde inferior. En etapas largas los controles se alcanzan al final del contenido. El
+relleno inferior respeta el área segura. Volver se desactiva sin paso anterior. La acción
+principal nombra el efecto: «Comenzar lección», «Comprobar respuesta», «Reintentar», «Ver mi repaso»
+o «Guardar y continuar».
 
 `useLessonJourney` guarda en `localStorage` un checkpoint versionado por estudiante, módulo y
 lección: posición, firma y pasos visitados. Si cambia la firma, el checkpoint se reconcilia. Una
@@ -288,9 +334,10 @@ guardar el checkpoint local, `JourneyHeader` lo comunica y permite continuar.
 
 ## 8. Accesibilidad y responsive
 
-La interfaz usa flujo natural, no altura fija. En escritorio puede haber dos columnas y cabecera
-horizontal. En tablet se compactan etiquetas de fases. En móvil el contenido pasa a una columna,
-los botones se reparten el ancho y el pie respeta `env(safe-area-inset-bottom)`.
+La interfaz usa flujo natural, no una altura fija ni un recorte global. En escritorio puede haber
+dos columnas y cabecera horizontal. En tablet se compactan etiquetas de fases. En móvil el contenido
+pasa a una columna, los botones se reparten el ancho y el pie respeta
+`env(safe-area-inset-bottom)`.
 
 Requisitos:
 
@@ -303,13 +350,16 @@ Requisitos:
 - videos educativos ofrecen subtítulos y controles; el contenido esencial no reside solo en audio o
   imagen;
 - los errores indican qué ocurrió y cómo reintentar sin borrar avance;
-- evita carruseles obligatorios, scroll horizontal, paneles internos con desplazamiento y saltos
-  automáticos repetidos;
-- el pie sticky no cubre el último contenido;
+- evita carruseles obligatorios, scroll horizontal, paneles principales con desplazamiento y saltos
+  automáticos repetidos; el scroll interno de capítulos es una excepción secundaria y acotada;
+- el pie sigue al último contenido y deja accesibles todos los controles;
 - respeta `prefers-reduced-motion` y áreas táctiles de al menos 44 px.
 
-Prueba anchos por debajo de 600 px, entre 600 y 1023 px y desde 1024 px. Verifica zoom, textos
-largos, tema oscuro, teclado y contenido con y sin evaluaciones.
+Prueba, como matriz de referencia, 1920×1080, 1773×832, 1440×900, 1366×768, 1280×720,
+1024×768, 768×1024, 390×844 y 360×800. Verifica zoom, textos largos, tema oscuro, teclado y
+contenido con y sin evaluaciones. En cada tamaño confirma que la navegación no cubre contenido, la
+microclase conserva subtítulos y controles, no hay títulos duplicados ni overflow horizontal y una
+ventana baja no fuerza un recorte.
 
 ## 9. Guía para desarrollar nuevas lecciones
 
@@ -358,7 +408,6 @@ Composición de una etapa especializada con componentes reales:
     module={module}
     journey={journey}
     phaseOrder={phaseOrder}
-    compact
   />
   <div className="journey-stage" data-step={step.type}>
     <LessonContent
@@ -416,7 +465,10 @@ del repositorio ni autoriza texto, respuestas o validación locales.
 - [ ] La lección funciona en temas claro y oscuro.
 - [ ] No hay ancho fijo ni desplazamiento horizontal en móvil.
 - [ ] Escritorio aprovecha el ancho sin extender demasiado la lectura.
-- [ ] El pie sticky no cubre contenido y respeta el área segura.
+- [ ] El pie está en el flujo después del escenario y respeta el área segura.
+- [ ] Los layouts visuales responden a la altura disponible, no solo al ancho.
+- [ ] Reproductor, subtítulos y controles permanecen visibles sin `overflow: hidden` estructural.
+- [ ] Solo contenido secundario acotado utiliza scroll interno.
 - [ ] Los estados tienen una señal adicional al color.
 - [ ] `prefers-reduced-motion` conserva información y funcionalidad.
 - [ ] No hay animaciones continuas, distractoras o bloqueantes.

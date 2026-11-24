@@ -22,14 +22,13 @@ export function VowelMicroclass() {
   const { state, caption, actions, timeline, cue } = player;
   return (
     <section className="mc-root" aria-labelledby="mc-title">
-      <div className="flex flex-col gap-1">
-        <p className="journey-eyebrow text-muted">Microclase · ver, leer, escuchar y practicar</p>
-        <h3 id="mc-title" className="[font:var(--type-h3)]">
-          Las cinco vocales en LSV
-        </h3>
-      </div>
-      {/* En escritorio, capítulos y transcripción van al lado del reproductor. */}
       <div className="mc-layout">
+        <header className="mc-heading">
+          <h2 id="mc-title" className="[font:var(--type-subtitle)]">
+            Las cinco vocales, en una microclase
+          </h2>
+          <p className="text-muted">Narración opcional y subtítulos siempre visibles.</p>
+        </header>
         <div className="mc-player">
           <MicroclassStage player={player} />
           <p

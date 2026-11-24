@@ -12,7 +12,7 @@ export function SummaryResults({ questions, reading }) {
   const pending = questions.length - ready.length;
   const percent = ready.length ? Math.round((100 * solved) / ready.length) : 0;
   return (
-    <div className="flex flex-col gap-3">
+    <div className="summary-results">
       {ready.length > 0 && (
         <Progress
           className="education-result-progress"

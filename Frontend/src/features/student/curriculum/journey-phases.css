@@ -1,4 +1,4 @@
-/* Etapas de la lección bajo la barra de progreso; en móvil se desplazan en horizontal sin cortar texto. */
+/* Las etapas se envuelven en ventanas estrechas y conservan sus nombres accesibles. */
 .journey-phases {
   display: flex;
   gap: 6px;
@@ -48,8 +48,8 @@
   background: var(--action-text);
   color: var(--action-primary);
 }
-/* En móvil solo la etapa actual muestra su nombre; las demás, el número (el nombre sigue accesible). */
-@media (width < 600px) {
+/* En anchos reducidos se destaca el nombre de la etapa actual. */
+@media (width < 1280px) {
   .journey-phases li:not([data-state='now']) {
     padding-right: 4px;
   }

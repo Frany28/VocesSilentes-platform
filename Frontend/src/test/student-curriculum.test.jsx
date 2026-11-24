@@ -14,6 +14,9 @@ test('presenta un paso por pantalla sin sidebar ni selector; avanzar y volver no
   const { fetchMock } = mockCurriculumApi(vi.fn());
   renderAuthApp(lessonPath);
   expect(await screen.findByRole('heading', { name: 'Tu objetivo en esta lección' })).toBeVisible();
+  const preview = screen.getByText('Vista previa local', { selector: 'summary' });
+  expect(screen.getByText(/Vista previa local · Borrador/)).not.toBeVisible();
+  await userEvent.click(preview);
   expect(screen.getByText(/Vista previa local · Borrador/)).toBeVisible();
   expect(screen.queryByText('Texto recibido de la API de prueba.')).toBeNull();
   expect(screen.queryByRole('article', { name: 'Letra Ñ' })).toBeNull();
@@ -65,6 +68,9 @@ test('el teclado selecciona opciones opacas; el feedback backend precede al avan
   expect(screen.getByRole('radio', { name: 'Segunda alternativa' })).toBeChecked();
   await userEvent.click(screen.getByRole('button', { name: 'Comprobar respuesta' }));
   expect(await screen.findByText('Explicación recibida del servidor.')).toBeVisible();
+  expect(screen.getByRole('region', { name: 'Tu respuesta' })).toHaveTextContent(
+    'Elegiste: Segunda alternativa',
+  );
   expect(screen.queryByRole('region', { name: 'Resumen de la lección' })).toBeNull();
   const submission = fetchMock.mock.calls.find(([url]) => url.endsWith('/answer'));
   expect(submission[0]).toContain(questionId);

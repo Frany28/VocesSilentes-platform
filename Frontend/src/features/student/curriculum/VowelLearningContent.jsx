@@ -42,20 +42,9 @@ export function VowelIntroduction({ objectives }) {
  */
 export function VowelMicroclassStep() {
   return (
-    <article
-      className="education-card vowel-microclass-step"
-      aria-labelledby="vowel-microclass-title"
-    >
-      <div className="vowel-section-heading">
-        <p className="journey-eyebrow text-action">PRIMERO, MIRA EL CONJUNTO</p>
-        <h2 id="vowel-microclass-title">Las cinco vocales, en una microclase</h2>
-        <p>
-          Usa los capítulos para avanzar a tu ritmo. La narración es opcional, los subtítulos están
-          siempre disponibles y puedes repetir cualquier escena.
-        </p>
-      </div>
+    <div className="vowel-microclass-step">
       <LazyVowelMicroclass />
-    </article>
+    </div>
   );
 }
 

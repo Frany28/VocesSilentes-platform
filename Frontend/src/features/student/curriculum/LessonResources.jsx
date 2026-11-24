@@ -18,17 +18,13 @@ export function LessonResources({ step }) {
       className={`journey-copy education-card flex min-w-0 flex-col gap-4${
         microclass ? ' journey-video-lesson' : ''
       }`}
-      aria-labelledby="journey-title"
+      aria-labelledby={microclass ? 'mc-title' : 'journey-title'}
     >
-      <div className="journey-video-heading">
-        <h2 id="journey-title">{step.title}</h2>
-        {microclass && (
-          <p className="text-muted">
-            Observa cada vocal, sigue los subtítulos y utiliza los controles para repasar a tu
-            ritmo.
-          </p>
-        )}
-      </div>
+      {!microclass && (
+        <div className="journey-video-heading">
+          <h2 id="journey-title">{step.title}</h2>
+        </div>
+      )}
       {microclass && <LazyVowelMicroclass />}
       {videos.map((video) => (
         <LessonVideo key={video.id} video={video} />
@@ -41,10 +37,10 @@ export function LessonResources({ step }) {
             imágenes de cada letra y compararlas a tu ritmo.
           </p>
         </>
-      ) : (
+      ) : !microclass ? (
         <p className="text-muted">Puedes volver a verlo las veces que quieras.</p>
-      )}
-      <p className="text-muted">Pulsa Continuar para seguir con la lección.</p>
+      ) : null}
+      {!microclass && <p className="text-muted">Pulsa Continuar para seguir con la lección.</p>}
     </article>
   );
 }

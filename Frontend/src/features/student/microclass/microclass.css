@@ -4,13 +4,16 @@
 .mc-root {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
   width: 100%;
   min-width: 0;
 }
+.mc-heading {
+  display: grid;
+  gap: 4px;
+}
 .mc-player {
   container: mc-player / inline-size;
-  overflow: hidden;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-2xl);
   background: var(--surface);
@@ -20,6 +23,7 @@
   position: relative;
   aspect-ratio: 16 / 9;
   overflow: hidden;
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
   background:
     radial-gradient(circle at 8% 0%, var(--surface-accent), transparent 45%),
     radial-gradient(circle at 100% 100%, var(--surface-secondary), transparent 40%), var(--page);
@@ -36,9 +40,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(2.8em + 28px);
+  min-height: clamp(60px, 8dvh, 80px);
   margin: 0;
-  padding: 14px max(18px, 3cqw);
+  padding: 10px max(16px, 2.4cqw);
   background: var(--content);
   color: var(--surface);
   font: 600 clamp(18px, 2.25cqw, 26px) / 1.4 var(--font-field);
@@ -52,8 +56,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px 10px;
-  padding: 12px max(14px, 2cqw);
+  gap: 6px 8px;
+  padding: 8px max(10px, 1.6cqw);
   border-top: 1px solid var(--border-subtle);
 }
 .mc-control {
@@ -69,6 +73,9 @@
   color: var(--content);
   font: var(--type-button);
   font-size: 14px;
+}
+.mc-control:has(svg) {
+  padding-inline: 8px;
 }
 @media (hover: hover) and (pointer: fine) {
   .mc-control:hover,
@@ -96,7 +103,7 @@
 }
 .mc-bar {
   display: flex;
-  flex: 1 1 240px;
+  flex: 1 1 92px;
   align-items: center;
   gap: 3px;
   min-width: 0;
@@ -131,4 +138,17 @@
   font: var(--type-secondary);
   font-variant-numeric: tabular-nums;
   text-align: right;
+}
+@container mc-player (width < 720px) {
+  .mc-time {
+    min-width: 82px;
+  }
+}
+@container mc-player (width < 480px) {
+  .mc-bar {
+    flex-basis: 50px;
+  }
+  .mc-time {
+    min-width: auto;
+  }
 }

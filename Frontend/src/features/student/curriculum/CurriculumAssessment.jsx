@@ -7,7 +7,7 @@ import { useLessonAssessment } from './use-lesson-assessment.js';
 import { JourneyControls } from './JourneyControls.jsx';
 
 /**
- * Mantiene una sola pregunta o feedback en pantalla, con avance guiado y corrección exclusivamente backend.
+ * Presenta una pregunta con avance guiado y la explicación del servidor junto a la respuesta.
  * @param {{question: object, onConfirmed: Function, onBack?: Function, onContinue: Function}} props Paso actual.
  * @returns {import('react').ReactElement} Actividad, respuesta del servidor y pie de navegación.
  */
@@ -15,6 +15,10 @@ export function CurriculumAssessment({ question, onConfirmed, onBack, onContinue
   const operation = useLessonAssessment(question, onConfirmed);
   const [review, setReview] = useState(false);
   const { result } = operation;
+  const selected = question.options.find(
+    (option, index) =>
+      (typeof option === 'string' ? String(index) : option.id) === operation.selection,
+  );
   const saved = !review && !result && question.status === 'COMPLETED';
   useEffect(() => {
     const stage = document.querySelector('.journey-stage');
@@ -37,11 +41,20 @@ export function CurriculumAssessment({ question, onConfirmed, onBack, onContinue
               </Button>
             </article>
           ) : result ? (
-            <LessonFeedback
-              feedback={result.feedback}
-              showAction={false}
-              label="Retroalimentación de la respuesta"
-            />
+            <div className="assessment-result-layout">
+              <section className="education-card" aria-label="Tu respuesta">
+                <h2 className="education-question-title">{question.prompt}</h2>
+                <p>
+                  Elegiste:{' '}
+                  <strong>{typeof selected === 'string' ? selected : selected?.text}</strong>
+                </p>
+              </section>
+              <LessonFeedback
+                feedback={result.feedback}
+                showAction={false}
+                label="Retroalimentación de la respuesta"
+              />
+            </div>
           ) : (
             <LessonQuestion
               question={question}

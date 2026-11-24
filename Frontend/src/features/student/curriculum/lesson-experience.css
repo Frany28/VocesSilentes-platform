@@ -1,7 +1,5 @@
 .learning-shell .learning-journey.lesson-experience {
   max-width: 1480px;
-  padding-top: clamp(14px, 1.6vw, 24px);
-  gap: clamp(12px, 1.4vw, 20px);
 }
 .lesson-experience .journey-context,
 .lesson-experience .journey-controls {
@@ -9,9 +7,6 @@
 }
 .lesson-experience .journey-stage > * {
   max-width: 1400px;
-}
-.lesson-experience .journey-topbar {
-  padding-bottom: 12px;
 }
 .lesson-introduction {
   position: relative;
@@ -56,6 +51,22 @@
 .lesson-route-preview,
 .lesson-introduction-footer {
   grid-column: 1 / -1;
+}
+@media (width >= 900px) {
+  .lesson-introduction:has(.lesson-introduction-media) {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.9fr);
+  }
+  .lesson-introduction:has(.lesson-introduction-media) .lesson-introduction-copy {
+    grid-area: 1 / 1;
+  }
+  .lesson-introduction-media {
+    grid-area: 2 / 1;
+  }
+  .lesson-introduction:has(.lesson-introduction-media) .lesson-introduction-objectives {
+    grid-area: 1 / 2 / span 2;
+    align-self: stretch;
+    justify-content: center;
+  }
 }
 .lesson-introduction-media {
   order: -1;
@@ -119,43 +130,5 @@
   }
   .lesson-route-preview {
     grid-template-columns: 1fr;
-  }
-}
-@media (width >= 1024px) {
-  .lesson-experience .journey-header {
-    gap: 12px;
-  }
-  .lesson-experience .journey-context {
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-  }
-  .lesson-experience .journey-heading {
-    grid-column: 1;
-    grid-row: 1;
-  }
-  .lesson-experience .journey-phases {
-    grid-column: 2;
-    grid-row: 1;
-    justify-self: end;
-  }
-  .lesson-experience .journey-context > .vs-progress {
-    grid-column: 1 / -1;
-    grid-row: 2;
-  }
-  .lesson-experience .journey-context > .journey-status {
-    grid-column: 1 / -1;
-  }
-}
-@media (600px <= width < 1280px) {
-  .lesson-experience .journey-phases li:not([data-state='now']) {
-    padding-right: 4px;
-  }
-  .lesson-experience .journey-phases li:not([data-state='now']) .journey-phase-label {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
   }
 }

@@ -9,32 +9,34 @@ import { JourneyPhases } from './JourneyPhases.jsx';
 /**
  * Mantiene identidad y progreso del recorrido en una cabecera sin navegación ajena a la actividad.
  * @param {{lesson: object, module: object, journey: object, phaseOrder?: object[],
- * children?: import('react').ReactNode, compact?: boolean}} props Contexto, pasos y estado adicional;
- * compact integra el enlace al índice en la línea de contexto para ahorrar altura.
+ * children?: import('react').ReactNode}} props Contexto, pasos y estado adicional.
  * @returns {import('react').ReactElement} Marca, salida, tema y progreso local distinguible del académico.
  */
-export function JourneyHeader({ lesson, module, journey, phaseOrder, children, compact = false }) {
+export function JourneyHeader({ lesson, module, journey, phaseOrder, children }) {
   const index = module.id !== 'vowels-learning' && (
-    <Link
-      className={
-        compact
-          ? 'journey-index-link'
-          : 'education-back inline-flex min-h-11 items-center self-start'
-      }
-      to={`/student/modules/${module.id}`}
-    >
+    <Link className="journey-index-link" to={`/student/modules/${module.id}`}>
       Ver todas las lecciones
     </Link>
   );
   const position = module.lessons.findIndex((item) => item.id === lesson.id) + 1;
+  const preview = module.preview;
+  const pendingReview = !preview && lesson.content?.reviewStatus === 'PENDING_LSV_REVIEW';
+  const hasDetails = Boolean(children || preview);
   return (
     <header className="journey-header">
       <div className="journey-topbar">
-        <div className="hidden min-[600px]:block">
+        <div className="journey-brand-full">
           <Brand />
         </div>
-        <div className="min-[600px]:hidden">
+        <div className="journey-brand-compact">
           <Brand compact />
+        </div>
+        <div className="journey-heading">
+          <p className="text-muted [font:var(--type-label)]">
+            Lección {position} de {module.lessons.length}
+            {index && <> · {index}</>}
+          </p>
+          <h1>{lesson.title}</h1>
         </div>
         <div className="journey-topbar-actions">
           <Link to="/student/modules" className="journey-exit">
@@ -46,27 +48,29 @@ export function JourneyHeader({ lesson, module, journey, phaseOrder, children, c
         </div>
       </div>
       <div className="journey-context">
-        <div className="journey-heading">
-          <p className="text-muted [font:var(--type-label)]">
-            Lección {position} de {module.lessons.length}
-            {compact && index && <> · {index}</>}
-          </p>
-          <h1>{lesson.title}</h1>
-        </div>
-        {!compact && index}
         <Progress
           label="Tu recorrido"
           value={journey.percent}
           valueText={`${journey.completed} de ${journey.steps.length} pasos · ${journey.percent}%`}
         />
         <JourneyPhases steps={journey.steps} step={journey.step} order={phaseOrder} />
-        {children}
-        {module.preview && (
-          <p className="journey-status">
-            Vista previa local · Borrador pendiente de revisión lingüística.
-          </p>
+        {hasDetails && (
+          <details className="journey-details">
+            <summary>
+              {preview ? 'Vista previa local' : 'Detalles de esta etapa'}
+              <span aria-hidden="true">⌄</span>
+            </summary>
+            <div className="journey-details-content">
+              {children}
+              {preview && (
+                <p className="journey-status">
+                  Vista previa local · Borrador pendiente de revisión lingüística.
+                </p>
+              )}
+            </div>
+          </details>
         )}
-        {!module.preview && lesson.content?.reviewStatus === 'PENDING_LSV_REVIEW' && (
+        {pendingReview && (
           <p className="journey-status">
             Lectura educativa · Revisión LSV pendiente. Las evaluaciones aún no están disponibles.
           </p>

@@ -1,7 +1,7 @@
 import { Button } from '../../../components/ui/Button.jsx';
 
 /**
- * Fija acciones de regreso y avance; también envía un formulario nativo desde el pie.
+ * Ofrece acciones de regreso y avance al final del escenario, incluido el envío de formularios.
  * @param {{onBack?: Function, onContinue?: Function, label?: string, disabled?: boolean,
  * pending?: boolean, form?: string, loadingLabel?: string, hint?: string}} props Acciones del paso
  * actual; hint explica junto al botón qué falta para continuar.

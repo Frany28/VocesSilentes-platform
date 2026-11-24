@@ -41,7 +41,7 @@ export function VowelFeedbackPanel({
   const hint =
     typeof hints[activityId] === 'function' ? hints[activityId](letter) : hints[activityId];
   const panel = useRef(null);
-  // En pantallas bajas la explicación puede quedar bajo el pie fijo: se acerca sin saltos bruscos.
+  // Acerca la explicación si la selección ocurrió fuera de su área visible.
   useEffect(() => {
     if (state === 'idle') return;
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
