@@ -11,6 +11,8 @@ import './lesson.css';
 import { CurriculumLesson } from '../curriculum/CurriculumLesson.jsx';
 import { VowelCurriculumLesson } from '../curriculum/VowelCurriculumLesson.jsx';
 import { isVowelLesson } from '../curriculum/vowel-lesson.js';
+import { IntroductionCurriculumLesson } from '../curriculum/IntroductionCurriculumLesson.jsx';
+import { isIntroductionLesson } from '../curriculum/introduction-lesson.js';
 
 /**
  * Lee una lección del catálogo autorizado por IDs; abrirla no modifica el progreso.
@@ -44,6 +46,17 @@ export function StudentLesson() {
   if (available && lesson.content && isVowelLesson(lesson))
     return (
       <VowelCurriculumLesson
+        key={lesson.id}
+        lesson={lesson}
+        module={module}
+        onContinue={continueLearning}
+        nextTitle={next?.title}
+        initialStep={initialStep}
+      />
+    );
+  if (available && lesson.content && isIntroductionLesson(lesson))
+    return (
+      <IntroductionCurriculumLesson
         key={lesson.id}
         lesson={lesson}
         module={module}

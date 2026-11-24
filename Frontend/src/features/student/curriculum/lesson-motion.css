@@ -1,0 +1,36 @@
+@media (prefers-reduced-motion: no-preference) {
+  .learning-journey > .journey-header {
+    animation: lesson-header-in var(--motion-dialog) var(--motion-enter-ease) both;
+  }
+  .learning-journey .journey-stage > * {
+    animation: lesson-surface-in var(--motion-dialog) var(--motion-enter-ease) both;
+  }
+  .learning-journey .education-feedback,
+  .introduction-scenario-answer {
+    animation: lesson-feedback-in var(--motion-surface) var(--motion-enter-ease) both;
+  }
+}
+@keyframes lesson-header-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes lesson-surface-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@keyframes lesson-feedback-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .learning-journey *,
+  .learning-journey *::before,
+  .learning-journey *::after {
+    scroll-behavior: auto;
+  }
+}

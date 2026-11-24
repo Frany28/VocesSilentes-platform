@@ -1,0 +1,161 @@
+.learning-shell .learning-journey.lesson-experience {
+  max-width: 1480px;
+  padding-top: clamp(14px, 1.6vw, 24px);
+  gap: clamp(12px, 1.4vw, 20px);
+}
+.lesson-experience .journey-context,
+.lesson-experience .journey-controls {
+  max-width: none;
+}
+.lesson-experience .journey-stage > * {
+  max-width: 1400px;
+}
+.lesson-experience .journey-topbar {
+  padding-bottom: 12px;
+}
+.lesson-introduction {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 92% 4%, var(--surface-tertiary) 0 100px, transparent 101px),
+    linear-gradient(135deg, var(--surface) 54%, var(--surface-accent));
+}
+.lesson-introduction-copy,
+.lesson-introduction-objectives {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.lesson-introduction h2,
+.lesson-content h2,
+.lesson-activity h2 {
+  font: 700 clamp(28px, 3.2vw, 40px) / 1.15 var(--font-brand);
+  text-wrap: balance;
+}
+.lesson-introduction-objectives {
+  align-self: center;
+  padding: 24px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-2xl);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  box-shadow: var(--shadow-soft);
+}
+.lesson-introduction-objectives h3,
+.lesson-content-details h3,
+.lesson-activity h3 {
+  font: var(--type-subtitle);
+}
+.lesson-introduction-objectives ul {
+  display: grid;
+  gap: 12px;
+  padding-left: 20px;
+}
+.lesson-introduction-media,
+.lesson-route-preview,
+.lesson-introduction-footer {
+  grid-column: 1 / -1;
+}
+.lesson-introduction-media {
+  order: -1;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+}
+.lesson-route-preview {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+}
+.lesson-route-preview li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px;
+  border-radius: var(--radius-lg);
+  background: var(--surface-neutral);
+  font: var(--type-label);
+}
+.lesson-route-preview span {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--action-primary);
+  color: var(--action-text);
+}
+.lesson-content,
+.lesson-activity {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+  align-items: start;
+}
+.lesson-content-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.lesson-content-visual,
+.lesson-content-details {
+  min-width: 0;
+}
+.lesson-content-details {
+  grid-column: 1 / -1;
+}
+.lesson-activity > :not(header) {
+  grid-column: 1 / -1;
+}
+@media (width < 760px) {
+  .lesson-introduction,
+  .lesson-content,
+  .lesson-activity {
+    grid-template-columns: 1fr;
+  }
+  .lesson-route-preview {
+    grid-template-columns: 1fr;
+  }
+}
+@media (width >= 1024px) {
+  .lesson-experience .journey-header {
+    gap: 12px;
+  }
+  .lesson-experience .journey-context {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+  .lesson-experience .journey-heading {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .lesson-experience .journey-phases {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+  .lesson-experience .journey-context > .vs-progress {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .lesson-experience .journey-context > .journey-status {
+    grid-column: 1 / -1;
+  }
+}
+@media (600px <= width < 1280px) {
+  .lesson-experience .journey-phases li:not([data-state='now']) {
+    padding-right: 4px;
+  }
+  .lesson-experience .journey-phases li:not([data-state='now']) .journey-phase-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}

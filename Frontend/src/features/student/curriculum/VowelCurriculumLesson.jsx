@@ -111,7 +111,10 @@ export function VowelCurriculumLesson({ lesson, module, onContinue, nextTitle, i
   );
   if (!step)
     return (
-      <div className="learning-journey education-page vowel-experience" data-position="summary">
+      <div
+        className="learning-journey education-page lesson-experience vowel-experience"
+        data-position="summary"
+      >
         {header}
         <VowelLessonSummary
           lesson={lesson}
@@ -134,7 +137,10 @@ export function VowelCurriculumLesson({ lesson, module, onContinue, nextTitle, i
         ? 'Ver mi repaso'
         : 'Continuar';
   return (
-    <div className="learning-journey education-page vowel-experience" data-position={step.id}>
+    <div
+      className="learning-journey education-page lesson-experience vowel-experience"
+      data-position={step.id}
+    >
       {header}
       <div className="journey-stage" data-step={step.type} key={step.id}>
         <StepContent step={step} formative={formative} />

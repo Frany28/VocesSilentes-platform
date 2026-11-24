@@ -1,0 +1,148 @@
+.introduction-experience .journey-stage > * {
+  max-width: 1240px;
+}
+.introduction-experience .lesson-introduction-media .journey-illustration {
+  max-height: 250px;
+}
+.introduction-concept-map {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.introduction-concept-map > div {
+  display: flex;
+  min-height: 148px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  background: var(--surface-accent);
+}
+.introduction-concept-map span {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--action-primary);
+  color: var(--action-text);
+  font: var(--type-button);
+}
+.introduction-concept-map b {
+  color: var(--action-primary);
+  font: 700 18px / 1.3 var(--font-brand);
+}
+.introduction-contrast {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  border-left: 4px solid var(--action-primary);
+  border-radius: var(--radius-xl);
+  background: var(--surface-neutral);
+}
+.introduction-contrast > span {
+  display: grid;
+  place-items: center;
+  min-width: 80px;
+  min-height: 80px;
+  padding: 12px;
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  color: var(--action-primary);
+  font: 800 20px / 1 var(--font-brand);
+}
+.introduction-contrast > div {
+  display: grid;
+  gap: 6px;
+}
+.introduction-scenarios {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.introduction-scenarios article {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 20px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  transition:
+    border-color var(--motion-control) var(--motion-ease),
+    box-shadow var(--motion-control) var(--motion-ease),
+    transform var(--motion-control) var(--motion-ease);
+}
+.introduction-scenarios article[data-visited] {
+  border-color: var(--action-primary);
+  background: var(--surface-accent);
+}
+.introduction-scenario-cue {
+  padding: 6px 10px;
+  border-radius: var(--radius-full);
+  background: var(--surface-neutral);
+  color: var(--action-primary);
+  font: var(--type-label);
+  font-weight: 700;
+}
+.introduction-scenarios button {
+  min-height: 44px;
+  margin-top: auto;
+  border: 0;
+  background: transparent;
+  color: var(--action-primary);
+  font: var(--type-button);
+  text-align: left;
+  cursor: pointer;
+}
+.introduction-scenarios button:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+.introduction-scenario-answer {
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+}
+.introduction-practice-note,
+.introduction-summary-activity {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border-radius: var(--radius-xl);
+  background: var(--surface-neutral);
+}
+@media (hover: hover) and (pointer: fine) {
+  .introduction-scenarios article:hover {
+    border-color: var(--action-primary);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(var(--motion-lift));
+  }
+}
+@media (width < 820px) {
+  .introduction-concept-map,
+  .introduction-scenarios {
+    grid-template-columns: 1fr;
+  }
+  .introduction-concept-map > div {
+    min-height: 0;
+  }
+}
+@media (width < 520px) {
+  .introduction-contrast {
+    grid-template-columns: 1fr;
+  }
+  .introduction-contrast > span {
+    min-height: 56px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .introduction-scenarios article {
+    transition: none;
+  }
+}

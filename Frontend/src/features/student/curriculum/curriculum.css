@@ -8,3 +8,5 @@
 @import './journey-phases.css' layer(components);
 @import './journey-letters.css' layer(components);
 @import './journey-summary.css' layer(components);
+@import './lesson-experience.css' layer(components);
+@import './lesson-motion.css' layer(components);

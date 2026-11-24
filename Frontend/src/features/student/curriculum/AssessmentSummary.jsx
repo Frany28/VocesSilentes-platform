@@ -10,7 +10,8 @@ import { SummaryResults } from './SummaryResults.jsx';
  * explícita para guardar la lectura y seguir con la siguiente lección. En la última lección, guardar
  * muestra el cierre del módulo. Guardar sigue siendo manual: nunca se registra solo al llegar aquí.
  * @param {{questions: object[], lesson: object, module: object, onContinue: Function, onReview: Function,
- * onBack?: Function, nextTitle?: string}} props Mejor avance del servidor y navegación autorizada.
+ * onBack?: Function, nextTitle?: string, activityResults?: import('react').ReactNode}} props Mejor avance
+ * del servidor, evidencia formativa opcional y navegación autorizada.
  * @returns {import('react').ReactElement} Resumen, resultados reales y navegación.
  */
 export function AssessmentSummary({
@@ -21,6 +22,7 @@ export function AssessmentSummary({
   onReview,
   onBack,
   nextTitle,
+  activityResults,
 }) {
   const operation = useLearningProgress();
   const registered = lesson.status === 'COMPLETED' || operation.saved;
@@ -70,6 +72,7 @@ export function AssessmentSummary({
               </ul>
             </section>
           )}
+          {activityResults}
           <SummaryResults questions={questions} reading={reading} />
           <p className="summary-next">
             {nextTitle

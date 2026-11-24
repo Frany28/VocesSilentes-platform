@@ -3,6 +3,7 @@ import { ManualReference } from '../recognition/ManualReference.jsx';
 import { LazyVowelMicroclass } from '../microclass/LazyVowelMicroclass.jsx';
 import { vowelGuides, vowelLetters } from './vowel-lesson.js';
 import { VowelDemonstration } from './VowelDemonstration.jsx';
+import { LessonIntroduction } from './LessonExperience.jsx';
 
 /**
  * @param {{objectives: string[]}} props Objetivos publicados de la lección.
@@ -10,43 +11,29 @@ import { VowelDemonstration } from './VowelDemonstration.jsx';
  */
 export function VowelIntroduction({ objectives }) {
   return (
-    <article className="education-card vowel-welcome" aria-labelledby="vowel-welcome-title">
-      <div className="vowel-welcome-copy">
-        <p className="journey-eyebrow text-action">TU RECORRIDO GUIADO</p>
-        <h2 id="vowel-welcome-title">Aprendamos las cinco vocales</h2>
-        <p className="journey-reading">
-          Observa, compara, recuerda y practica A, E, I, O y U en el alfabeto manual de la Lengua de
-          Señas Venezolana.
-        </p>
+    <LessonIntroduction
+      id="vowel-welcome-title"
+      eyebrow="TU RECORRIDO GUIADO"
+      title="Aprendamos las cinco vocales"
+      description="Observa, compara, recuerda y practica A, E, I, O y U en el alfabeto manual de la Lengua de Señas Venezolana."
+      objectives={objectives}
+      route={['Microclase', 'Cinco vocales', 'Tres actividades', 'Cámara', 'Repaso']}
+      variant="vowel"
+      lead={
         <div className="vowel-letter-row" aria-label="Vocales de esta lección">
           {vowelLetters.map((letter) => (
             <span key={letter}>{letter}</span>
           ))}
         </div>
-      </div>
-      <section className="vowel-welcome-objectives" aria-labelledby="vowel-objectives">
-        <h3 id="vowel-objectives">Al terminar podrás</h3>
-        <ul>
-          {objectives.map((objective) => (
-            <li key={objective}>{objective}</li>
-          ))}
-        </ul>
-      </section>
-      <ol className="vowel-route-preview" aria-label="Vista previa del recorrido">
-        {['Microclase', 'Cinco vocales', 'Tres actividades', 'Cámara', 'Repaso'].map(
-          (label, index) => (
-            <li key={label}>
-              <span>{index + 1}</span>
-              {label}
-            </li>
-          ),
-        )}
-      </ol>
-      <p className="text-muted">
-        El alfabeto manual permite representar letras y ayuda a deletrear determinados nombres y
-        términos. Es una herramienta dentro de la LSV: no sustituye su vocabulario ni su gramática.
-      </p>
-    </article>
+      }
+      footer={
+        <p className="text-muted">
+          El alfabeto manual permite representar letras y ayuda a deletrear determinados nombres y
+          términos. Es una herramienta dentro de la LSV: no sustituye su vocabulario ni su
+          gramática.
+        </p>
+      }
+    />
   );
 }
 
