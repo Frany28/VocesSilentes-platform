@@ -15,6 +15,7 @@
     "video:verify": "pnpm --filter @vocessilentes/backend video:verify",
     "camera:verify": "pnpm --filter @vocessilentes/backend camera:verify",
     "lsv:train": "node Backend/scripts/train-lsv.js",
+    "lsv:engine:evaluate": "node Backend/scripts/lsv-engine-evaluate.js",
     "lsv:readiness": "node Backend/scripts/lsv-readiness.js",
     "lsv:train:experimental": "node Backend/scripts/train-lsv-experimental.js",
     "lsv:compare:hands": "node Backend/scripts/compare-lsv-hands.js",

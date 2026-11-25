@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useAuth } from '../../auth/use-auth.js';
 import { vowelLetters } from './vowel-lesson.js';
+import { attemptMatches } from '../../../../../shared/lsv/engine/hybrid.js';
 
 const VERSION = 1;
 
@@ -123,7 +124,8 @@ export function useVowelProgress(moduleId, lessonId) {
           matches: 0,
           uncertain: 0,
         };
-        const match = result.reason === 'CANDIDATE' && result.label === letter;
+        // Con evidencia geométrica, la geometría puede vetar una coincidencia del modelo.
+        const match = attemptMatches(result, letter);
         return {
           ...current,
           camera: {

@@ -15,6 +15,7 @@ import { CameraSteps } from './CameraSteps.jsx';
 import { PracticeProgress } from './PracticeProgress.jsx';
 import { WorkspaceAttempt } from './WorkspaceAttempt.jsx';
 import { practicePhase } from './practice-feedback.js';
+import { useLetterRecognizer } from './use-letter-recognizer.js';
 import './recognition.css';
 import './attempt.css';
 import './practice-learning.css';
@@ -40,8 +41,10 @@ export function CameraExercise({
   const { referenceHand, setReferenceHand } = useContext(RecognitionModelContext);
   const camera = useHandCamera(setReferenceHand);
   const capture = useSequenceCapture(camera);
-  const operation = useLocalModel({ autoLoad: recognitionSupports(letter) });
+  const operation = useLocalModel({ autoLoad: recognitionSupports(letter), target: letter });
   const attempt = useModelAttempt({ operation, capture, camera, target: letter, lab: false });
+  // Guía continua del motor único: ambas manos, estados y correcciones antes de capturar.
+  const live = useLetterRecognizer(camera, letter);
   const phase = practicePhase(attempt, Boolean(capture.error || operation.error));
   const reported = useRef(null);
   const showReference = () => {
@@ -103,6 +106,7 @@ export function CameraExercise({
               operation={operation}
               capture={capture}
               target={letter}
+              live={live}
               onContinue={onContinue}
               onReference={showReference}
             />
@@ -112,6 +116,7 @@ export function CameraExercise({
               operation={operation}
               capture={capture}
               target={letter}
+              live={live}
               onContinue={onContinue}
               onReference={showReference}
             />

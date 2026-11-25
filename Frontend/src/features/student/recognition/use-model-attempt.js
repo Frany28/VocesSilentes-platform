@@ -21,17 +21,19 @@ export function useModelAttempt({ operation, capture, camera, target, lab }) {
       }),
     [subscribe, cancel],
   );
-  const supported = recognitionSupports(target, operation.model);
+  // El motor geométrico amplía la práctica a ambas manos y a letras sin prototipos DTW.
+  const supported = recognitionSupports(target, operation.model) || Boolean(operation.geometric);
+  const ready = Boolean(operation.model) || Boolean(operation.ready);
   const busy = capture.pending || countdown.count !== null;
-  const preparing = !operation.model && operation.loading;
+  const preparing = !ready && operation.loading;
   const live = camera.state === 'live';
   const capturing = (after) => {
     operation.clear();
     capture.clear();
-    capture.capture(operation.model ? operation.predict : undefined, after);
+    capture.capture(ready ? operation.predict : undefined, after);
   };
   const automatic = useAutoCapture(camera, {
-    enabled: auto && supported && live && !busy && Boolean(operation.model),
+    enabled: auto && supported && live && !busy && ready,
     onTrigger: capturing,
   });
   return {
@@ -42,8 +44,9 @@ export function useModelAttempt({ operation, capture, camera, target, lab }) {
     live,
     supported,
     automatic,
+    ready,
     manual: () => {
-      if (!auto || operation.model) countdown.start(() => capturing());
+      if (!auto || ready) countdown.start(() => capturing());
     },
     shown: operation.result && operation.result.frames === capture.frames,
     status: attemptStatus({

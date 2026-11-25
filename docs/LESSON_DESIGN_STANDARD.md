@@ -309,6 +309,22 @@ interfaz explica permiso, estado, referencia y resultado. Solo guarda conteos de
 coincidentes o inciertos; no guarda imágenes, landmarks, secuencias, confianza ni una nota. Una
 predicción coincidente es evidencia experimental, no certificación de LSV.
 
+Toda práctica con cámara usa el motor único `shared/lsv/engine/` a través de `CameraExercise`
+([arquitectura](HAND_RECOGNITION_ARCHITECTURE.md)). No implementes reglas de dedos, normalización ni
+temporizadores de reconocimiento dentro de una lección. El motor:
+
+- funciona con la mano izquierda y la derecha sin pedir la mano dominante;
+- evalúa toda letra con especificación verificable (`engineSupports`), también consonantes y J, Ñ, Z;
+  Q y T siguen como referencia, sin comprobación;
+- muestra estados estables junto a la cámara (buscando mano, analizando, ajuste necesario con una
+  corrección concreta, mantener la posición, configuración compatible, seña no reconocida);
+- presenta una coincidencia como «Configuración compatible», comprobación orientativa y no
+  certificación, e indica cuando la letra tiene fuentes o variantes en revisión;
+- cuenta un intento como coincidente con `attemptMatches`, donde la geometría puede vetar al modelo.
+
+La retroalimentación del intento permanece en el panel estable de `WorkspaceAttempt`, dentro del área
+visible de práctica.
+
 No agregues cámara por uniformidad. Debe corresponder al objetivo, manejar permiso o ausencia del
 dispositivo y seguir las reglas de privacidad.
 

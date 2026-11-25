@@ -5,13 +5,14 @@ import { CameraControls } from './CameraControls.jsx';
 import { DetectionStatus } from './DetectionStatus.jsx';
 import './workspace-attempt.css';
 
-const resultStages = new Set(['match', 'different', 'uncertain']);
+const resultStages = new Set(['match', 'different', 'adjust', 'uncertain']);
 
 /**
  * Panel estable junto a la cámara: etapa real, orientación y acciones en un único lugar visible.
  * Sustituye a la retroalimentación apilada bajo el visor en el workspace educativo.
  * @param {{camera: object, attempt: object, operation: object, capture: object, target?: string,
- * onReference?: Function, onContinue?: Function}} props Estados reales del intento.
+ * live?: object|null, onReference?: Function, onContinue?: Function}} props Estados reales del
+ * intento; `live` es la guía continua del motor de reconocimiento.
  * @returns {import('react').ReactElement} Estado, guía y controles sin simular resultados.
  */
 export function WorkspaceAttempt({
@@ -20,10 +21,11 @@ export function WorkspaceAttempt({
   operation,
   capture,
   target,
+  live = null,
   onReference,
   onContinue,
 }) {
-  const current = cameraStage({ camera, attempt, operation, capture, target });
+  const current = cameraStage({ camera, attempt, operation, capture, target, live });
   const position = cameraMilestones.findIndex((item) => item.id === current.milestone);
   const panel = useRef(null);
   const showsResult = resultStages.has(current.id);
@@ -78,18 +80,21 @@ export function WorkspaceAttempt({
             Repetir intento
           </Button>
         )}
-        {!showsResult && attempt.live && attempt.supported && operation.model && (
-          <Button
-            variant="secondary"
-            icon={null}
-            loading={attempt.busy}
-            loadingLabel="Capturando…"
-            onClick={attempt.manual}
-          >
-            Capturar ahora
-          </Button>
-        )}
-        {!operation.model && operation.loadError && (
+        {!showsResult &&
+          attempt.live &&
+          attempt.supported &&
+          (attempt.ready ?? operation.model) && (
+            <Button
+              variant="secondary"
+              icon={null}
+              loading={attempt.busy}
+              loadingLabel="Capturando…"
+              onClick={attempt.manual}
+            >
+              Capturar ahora
+            </Button>
+          )}
+        {!operation.model && !operation.ready && operation.loadError && (
           <Button variant="secondary" icon={null} onClick={operation.loadDemo}>
             Reintentar reconocimiento
           </Button>

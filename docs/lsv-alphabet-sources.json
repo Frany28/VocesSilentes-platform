@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "checkedOn": "2026-11-18",
+  "checkedOn": "2026-11-24",
   "purpose": "LINGUISTIC_AND_RIGHTS_REFERENCE_NOT_TRAINING_DATA",
   "mediaImported": false,
   "sources": [
@@ -59,6 +59,52 @@
       "evidence": "Documenta variación del alfabeto y formas adicionales de P y Ñ. Referencia gráfica, no protocolo temporal completo.",
       "rights": "CONSULTATION_ONLY_NO_TRAINING_PERMISSION_ESTABLISHED",
       "use": "Apoyo académico para variantes. Ñ y Z todavía necesitan protocolo temporal revisado para este dataset."
+    },
+    {
+      "id": "oviedo-2000-part3-motion",
+      "author": "Alejandro Oviedo, Universidad de Los Andes, Mérida",
+      "title": "Un estudio sobre la estructura de las señas de la LSV, Parte 3 (2000)",
+      "url": "https://cultura-sorda.org/wp-content/uploads/2015/03/Oviedo_Estructura_LSV_Parte3_de_6.pdf",
+      "locator": "Páginas impresas 60–62.",
+      "evidence": "Taxonomía de movimientos de muñeca y oscilación. En p. 62 describe «puño cerrado, con el pulgar extendido (que en el alfabeto manual de la LSV corresponde a la letra S)», en conflicto con la ficha del curso.",
+      "rights": "CONSULTATION_ONLY_NO_TRAINING_OR_IMAGE_REDISTRIBUTION_PERMISSION_ESTABLISHED",
+      "use": "Criterios temporales de J y registro de la discrepancia A/S. Consultado el 2026-11-24."
+    },
+    {
+      "id": "oviedo-2006-origen",
+      "author": "Alejandro Oviedo",
+      "title": "Origen del alfabeto manual usado entre nosotros (2006)",
+      "url": "http://www.cultura-sorda.org/origen-del-alfabeto-manual/",
+      "evidence": "Origen histórico común (Yebra 1593, Bonet 1620) y pequeñas variaciones entre países. No describe letras en texto.",
+      "rights": "NO_LICENSE_NOTICE_FOUND",
+      "use": "Contexto histórico; no se usa como especificación. Consultado el 2026-11-24."
+    },
+    {
+      "id": "oviedo-rumbos-perez-2004",
+      "author": "Alejandro Oviedo, Henry Rumbos, Yolanda Pérez",
+      "title": "El estudio de la Lengua de Señas Venezolana (2004)",
+      "url": "https://www.cultura-sorda.org/el-estudio-de-la-lsv/",
+      "evidence": "Las variedades regionales de la LSV difieren mayormente en el léxico.",
+      "rights": "NO_LICENSE_NOTICE_FOUND",
+      "use": "Alcance de la variación regional. Consultado el 2026-11-24."
+    },
+    {
+      "id": "perez-2011-blog",
+      "author": "Iván Pérez, facilitador de LSV",
+      "title": "Lengua de Señas a tu alcance: El alfabeto manual (2011)",
+      "url": "http://lenguadesenasatualcance.blogspot.com/2011/05/alfabeto.html",
+      "evidence": "«El Alfabeto Manual Venezolano, se ejecuta con una sola mano». La tabla es una imagen.",
+      "rights": "NO_LICENSE_NOTICE_FOUND",
+      "use": "Corrobora el carácter unimanual. No se copiaron imágenes. Consultado el 2026-11-24."
+    },
+    {
+      "id": "arteliro-lsv",
+      "author": "Arteliro (blog)",
+      "title": "Alfabeto en la Lengua de Señas Venezolana",
+      "url": "https://arteliro.com/lengua-de-senas-venezolana/",
+      "evidence": "Imágenes con Ll y RR, sin descripción textual.",
+      "rights": "NO_LICENSE_NOTICE_FOUND",
+      "use": "Solo indicio de que LL/RR circulan en materiales; no se usa como configuración. Consultado el 2026-11-24."
     }
   ],
   "unavailable": [
@@ -69,6 +115,10 @@
     {
       "url": "https://www.guiadisc.com/wp-content/uploads/2013/04/manual-de-lengua-de-senas-venezolana-Fevensor.pdf",
       "result": "404 al consultar. Es un espejo, no se incorporó ni se usó como autorización."
+    },
+    {
+      "url": "http://www.ucv.ve/fileadmin/user_upload/sadpro/PDFs/lenguaje_de_se%C3%B1as.pdf",
+      "result": "Conexión rechazada el 2026-11-24; no se usó."
     }
   ]
 }
