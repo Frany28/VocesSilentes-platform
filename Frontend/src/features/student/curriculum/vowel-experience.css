@@ -102,14 +102,16 @@
   max-width: 1400px;
 }
 .vowel-study {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
 }
 .vowel-study-heading {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 24px;
+  grid-column: 1 / -1;
 }
 .vowel-study-track {
   display: flex;
@@ -130,30 +132,34 @@
   background: var(--action-primary);
   color: var(--action-text);
 }
+.vowel-study-material {
+  display: grid;
+  gap: var(--space-16);
+  min-inline-size: 0;
+}
 .vowel-study-grid {
   display: grid;
-  grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.2fr);
-  gap: clamp(24px, 4vw, 48px);
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-16);
+  align-items: start;
 }
 .vowel-study-reference .manual-reference {
+  justify-items: center;
   margin: 0;
 }
-.vowel-study-reference .manual-hand img {
-  width: 100%;
-  max-height: 390px;
-  object-fit: contain;
+.vowel-study-reference .manual-hand {
+  --reference-height: clamp(10rem, 28dvh, 17rem);
 }
 .vowel-study-copy {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--space-12);
 }
 .vowel-study-copy section {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 16px 18px;
+  padding: var(--space-12) var(--space-16);
   border-left: 4px solid var(--action-primary);
   border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
   background: var(--surface-accent);
@@ -185,9 +191,8 @@
   grid-template-columns: minmax(0, 1fr);
   margin: 0;
 }
-.vowel-mini-compare .manual-hand img {
-  max-height: 140px;
-  object-fit: contain;
+.vowel-mini-compare .manual-reference[data-compact] .manual-hand {
+  --reference-height: 5.5rem;
 }
 .vowel-mini-compare figcaption {
   display: none;
@@ -195,34 +200,84 @@
 .vowel-demo {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 8px;
-  padding: 16px;
+  gap: var(--space-12);
+  min-inline-size: 0;
+  padding: var(--space-16);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-2xl);
   background: var(--surface-neutral);
 }
 .vowel-demo-stage {
-  min-height: 360px;
-  overflow: hidden;
+  container: vowel-demo-stage / inline-size;
   border-radius: var(--radius-xl);
   background: var(--surface);
 }
 .vowel-demo-stage .mc-scene {
-  min-height: 360px;
+  position: static;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: var(--space-12);
+  padding: var(--space-12);
+}
+.vowel-demo-stage .mc-hand {
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+.vowel-demo-stage .mc-card {
+  inline-size: min(100%, clamp(8rem, 21dvh, 13rem));
+}
+.vowel-demo-stage .mc-credit {
+  line-height: 1.35;
+}
+.vowel-demo-stage .mc-ghost {
+  font-size: min(34cqw, 14rem);
+}
+.vowel-demo-stage .mc-mini {
+  grid-template-columns: minmax(0, 1fr);
+}
+.vowel-demo-stage .mc-mini img {
+  inline-size: min(100%, 3rem);
+}
+.vowel-demo-stage .mc-slot {
+  min-block-size: 0;
+}
+@container vowel-stage (width >= 560px) {
+  .vowel-study-grid {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  }
+}
+@container vowel-stage (width >= 900px) {
+  .vowel-study {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  }
+}
+@container vowel-demo-stage (width < 360px) {
+  .vowel-demo-stage .mc-scene {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .vowel-demo-stage .mc-track {
+    flex-wrap: wrap;
+  }
+  .vowel-demo-stage .mc-practice {
+    flex-wrap: wrap;
+  }
 }
 .vowel-demo-caption {
   min-height: 56px;
-  padding: 14px 16px;
+  align-content: center;
+  padding: var(--space-8) var(--space-12);
   border-radius: var(--radius-lg);
   background: var(--surface);
-  font: var(--type-subtitle);
+  font: var(--type-secondary);
+  line-height: 1.5;
 }
 .vowel-demo-controls {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
+}
+.vowel-demo-controls > .vs-button {
+  inline-size: auto;
 }
 .vowel-demo-controls button:not(.vs-button),
 .vowel-summary-table button {
@@ -240,6 +295,27 @@
 }
 .vowel-demo-note {
   margin: 0;
+  font: var(--type-label);
+}
+@media (height < 900px) {
+  .learning-shell .vowel-experience .journey-stage .education-card.vowel-study {
+    padding: var(--space-16);
+  }
+  .vowel-demo {
+    gap: var(--space-8);
+    padding: var(--space-12);
+  }
+}
+@media (height < 820px) {
+  @container vowel-stage (width >= 900px) {
+    .vowel-study-copy section,
+    .vowel-mini-compare > div {
+      padding-block: var(--space-8);
+    }
+    .vowel-mini-compare .manual-reference[data-compact] .manual-hand {
+      --reference-height: 4.5rem;
+    }
+  }
 }
 
 .vowel-camera-evidence {
@@ -333,8 +409,7 @@
   }
 }
 @media (width < 760px) {
-  .vowel-welcome,
-  .vowel-study-grid {
+  .vowel-welcome {
     grid-template-columns: 1fr;
   }
   .vowel-route-preview {
@@ -349,10 +424,6 @@
   }
   .vowel-study-track span {
     flex: 1;
-  }
-  .vowel-demo-stage,
-  .vowel-demo-stage .mc-scene {
-    min-height: 420px;
   }
   .vowel-summary-table {
     border: 0;
@@ -392,7 +463,6 @@
   }
 }
 @media (width < 520px) {
-  .vowel-mini-compare,
   .vowel-summary-metrics,
   .vowel-model-totals {
     grid-template-columns: 1fr;
@@ -401,11 +471,11 @@
     grid-column: 1;
   }
   .vowel-demo {
-    padding: 10px;
+    padding: var(--space-12);
   }
-  .vowel-demo-stage,
-  .vowel-demo-stage .mc-scene {
-    min-height: 460px;
+  .vowel-mini-compare > div {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
   }
 }
 @media (prefers-reduced-motion: reduce) {

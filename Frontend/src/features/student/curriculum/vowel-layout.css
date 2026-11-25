@@ -4,10 +4,10 @@
 .learning-shell .vowel-experience .journey-stage {
   container: vowel-stage / inline-size;
 }
-.vowel-experience .journey-stage > :is(.vowel-welcome, .vowel-study, .vowel-summary) {
+.vowel-experience .journey-stage > :is(.vowel-welcome, .vowel-summary) {
   max-width: 1240px;
 }
-.vowel-experience .journey-stage > .vowel-microclass-step {
+.vowel-experience .journey-stage > :is(.vowel-microclass-step, .vowel-study) {
   max-width: 1400px;
 }
 .learning-shell .vowel-experience .journey-stage .education-card {

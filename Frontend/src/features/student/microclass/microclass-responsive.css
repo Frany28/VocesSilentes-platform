@@ -87,9 +87,9 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .mc-root *,
-  .mc-root *::before,
-  .mc-root *::after {
+  :is(.mc-root, .vowel-demo-stage) *,
+  :is(.mc-root, .vowel-demo-stage) *::before,
+  :is(.mc-root, .vowel-demo-stage) *::after {
     animation: none !important;
     transition-duration: 0.01ms !important;
   }

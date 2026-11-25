@@ -5,10 +5,6 @@ import { MicroclassGuide } from './MicroclassGuide.jsx';
 import { useMicroclassPlayer } from './use-microclass-player.js';
 import './microclass.css';
 import './microclass-guide.css';
-import './microclass-scenes.css';
-import './microclass-hand.css';
-import './microclass-activities.css';
-import './microclass-responsive.css';
 
 /**
  * Microclase audiovisual de las cinco vocales: ilustraciones del manual con acercamientos,

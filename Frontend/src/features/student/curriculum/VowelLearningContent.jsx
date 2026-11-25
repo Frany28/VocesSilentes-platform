@@ -77,35 +77,37 @@ export function VowelStudy({ guide, onViewed }) {
           ))}
         </div>
       </header>
-      <div className="vowel-study-grid">
-        <div className="vowel-study-reference">
-          <ManualReference letter={guide.letter} educational />
+      <div className="vowel-study-material">
+        <div className="vowel-study-grid">
+          <div className="vowel-study-reference">
+            <ManualReference letter={guide.letter} educational />
+          </div>
+          <div className="vowel-study-copy">
+            <p className="journey-reading">{guide.description}</p>
+            <section>
+              <h3>En qué fijarte</h3>
+              <p>{guide.focus}</p>
+            </section>
+            <section className="vowel-compare-copy">
+              <h3>Compárala con {guide.compareWith}</h3>
+              <p>{guide.comparison}</p>
+            </section>
+          </div>
         </div>
-        <div className="vowel-study-copy">
-          <p className="journey-reading">{guide.description}</p>
-          <section>
-            <h3>En qué fijarte</h3>
-            <p>{guide.focus}</p>
-          </section>
-          <section className="vowel-compare-copy">
-            <h3>Compárala con {guide.compareWith}</h3>
-            <p>{guide.comparison}</p>
-          </section>
-        </div>
+        {other && (
+          <div
+            className="vowel-mini-compare"
+            aria-label={`Comparación entre ${guide.letter} y ${other.letter}`}
+          >
+            {[guide, other].map((item) => (
+              <div key={item.letter}>
+                <span>Vocal {item.letter}</span>
+                <ManualReference letter={item.letter} compact educational />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-      {other && (
-        <div
-          className="vowel-mini-compare"
-          aria-label={`Comparación entre ${guide.letter} y ${other.letter}`}
-        >
-          {[guide, other].map((item) => (
-            <div key={item.letter}>
-              <span>Vocal {item.letter}</span>
-              <ManualReference letter={item.letter} compact educational />
-            </div>
-          ))}
-        </div>
-      )}
       <VowelDemonstration letter={guide.letter} />
     </article>
   );

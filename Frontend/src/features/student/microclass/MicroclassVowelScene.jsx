@@ -2,6 +2,10 @@ import { MicroclassHand } from './MicroclassHand.jsx';
 import { MicroclassCompare, MicroclassPractice } from './MicroclassVowelParts.jsx';
 import { vowelFocus } from './microclass-focus.js';
 import { vowelLetters } from './microclass-script.js';
+import './microclass-scenes.css';
+import './microclass-hand.css';
+import './microclass-activities.css';
+import './microclass-responsive.css';
 
 /**
  * Escena de una vocal: presentación, detalle con acercamiento, foco/comparación y práctica.

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { existsSync } from 'node:fs';
+import { statSync } from 'node:fs';
 import { join } from 'node:path';
 import { cwd } from 'node:process';
 import { expect, test, vi } from 'vitest';
@@ -28,9 +28,22 @@ test('cada subtítulo, revelación y pista tiene su audio generado en public/med
   texts.push(...['A', 'I', 'O', 'U'].map(quizHint));
   for (const text of texts) expect(hasAudio(text), text).toBe(true);
   // Vitest se ejecuta desde Frontend/.
-  for (const key of Object.keys(manifest.clips))
-    expect(existsSync(join(cwd(), 'public/media/microclass', `${key}.mp3`)), key).toBe(true);
+  for (const [key, clip] of Object.entries(manifest.clips)) {
+    expect(
+      statSync(join(cwd(), 'public/media/microclass', `${key}.mp3`)).size,
+      key,
+    ).toBeGreaterThan(0);
+    expect(clip.seconds, key).toBeGreaterThan(0);
+  }
   expect(manifest.license).toBe('Apache-2.0');
+});
+
+test('las demostraciones individuales tienen tiempo para narrar cada frase completa', () => {
+  for (const scene of microclassScenes.filter((item) => item.type === 'vowel')) {
+    for (const cue of scene.cues) {
+      expect(manifest.clips[audioKey(cue.text)].seconds, cue.text).toBeLessThanOrEqual(cue.seconds);
+    }
+  }
 });
 
 test('no suena nada antes de comenzar; luego reproduce el audio de la frase y lo detiene al pausar', async () => {

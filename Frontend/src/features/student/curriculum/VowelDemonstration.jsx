@@ -89,8 +89,7 @@ export function VowelDemonstration({ letter }) {
         </button>
       </div>
       <p className="text-muted vowel-demo-note">
-        Demostración ilustrada y narrada con recursos del proyecto. Revisión lingüística LSV
-        pendiente; no sustituye un video validado de una persona signante.
+        Demostración ilustrada y narrada. Revisión lingüística de LSV pendiente.
       </p>
     </section>
   );

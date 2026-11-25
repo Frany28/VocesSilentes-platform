@@ -194,6 +194,11 @@ actividades altas.
 - Los ejercicios de vocales usan consultas al contenedor del escenario. La evaluación genérica
   muestra pregunta y feedback en dos columnas desde 1000 px. Los resultados usan dos columnas desde
   900 px. En móvil todos vuelven a una secuencia vertical.
+- Las fichas individuales de vocales pueden ocupar hasta 1400 px. Desde 900 px de ancho del
+  escenario, la referencia, la explicación y la comparación se agrupan junto a la demostración.
+  En ventanas bajas se compactan los márgenes interiores y las miniaturas sin encoger los
+  controles. En escenarios estrechos la demostración sigue a la explicación en el flujo del
+  documento.
 
 ### Encabezado compacto, multimedia y overflow
 
@@ -206,6 +211,12 @@ La microclase es la superficie principal de su etapa. El reproductor ocupa la pr
 guía y transcripción ocupan el panel lateral. Los subtítulos permanecen en una franja propia y los
 controles principales conservan una altura de al menos 44 px. En contenedores estrechos las
 acciones, incluido el volumen, se ajustan en varias líneas.
+
+Las escenas reutilizadas cargan sus estilos junto con el componente, también al retomar una
+lección directamente en una ficha. Solo la escena del reproductor completo ocupa una capa
+absoluta. En una demostración individual, la escena dimensiona su propio marco en el flujo y
+adapta la ilustración al ancho del panel y a la altura disponible. El crédito, los subtítulos y
+los controles conservan su espacio.
 
 El documento y el escenario educativo usan scroll natural. `overflow: hidden` solo es válido para
 recortar decoraciones o escenas dentro de un marco con proporción definida, nunca para esconder
