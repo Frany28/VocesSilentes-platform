@@ -134,14 +134,10 @@
 }
 .vowel-study-material {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
   gap: var(--space-16);
   min-inline-size: 0;
-}
-.vowel-study-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-16);
-  align-items: start;
 }
 .vowel-study-reference .manual-reference {
   justify-items: center;
@@ -169,6 +165,7 @@
   background: var(--surface-secondary) !important;
 }
 .vowel-mini-compare {
+  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
@@ -241,7 +238,7 @@
   min-block-size: 0;
 }
 @container vowel-stage (width >= 560px) {
-  .vowel-study-grid {
+  .vowel-study-material {
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   }
 }
@@ -314,6 +311,51 @@
     }
     .vowel-mini-compare .manual-reference[data-compact] .manual-hand {
       --reference-height: 4.5rem;
+    }
+  }
+}
+@media (height < 760px) {
+  @container vowel-stage (width >= 900px) {
+    .learning-shell .vowel-experience .journey-stage .education-card.vowel-study {
+      gap: var(--space-12) var(--space-16);
+      padding-block: var(--space-12);
+    }
+    .vowel-study-heading {
+      align-items: center;
+    }
+    .vowel-study-heading > div:first-child {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: var(--space-4) var(--space-12);
+    }
+    .vowel-study-copy {
+      grid-area: 1 / 2 / span 2;
+    }
+    .vowel-mini-compare {
+      grid-area: 2 / 1;
+      gap: var(--space-8);
+    }
+    .vowel-mini-compare > div {
+      grid-template-columns: minmax(0, 1fr);
+      justify-items: center;
+      gap: var(--space-4);
+      padding-inline: var(--space-8);
+    }
+    .vowel-mini-compare .manual-reference[data-compact] .manual-hand {
+      --reference-height: 4rem;
+    }
+    .vowel-demo-stage .mc-scene {
+      padding-block: var(--space-8);
+    }
+    .vowel-demo-stage .mc-card {
+      inline-size: min(100%, clamp(8rem, 19dvh, 13rem));
+    }
+    .vowel-demo-stage .mc-mini {
+      grid-template-columns: 2rem minmax(0, 1fr);
+    }
+    .vowel-demo-caption {
+      min-block-size: 0;
     }
   }
 }

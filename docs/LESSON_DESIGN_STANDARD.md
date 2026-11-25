@@ -199,6 +199,11 @@ actividades altas.
   En ventanas bajas se compactan los márgenes interiores y las miniaturas sin encoger los
   controles. En escenarios estrechos la demostración sigue a la explicación en el flujo del
   documento.
+- Con ese ancho de escenario y menos de 760 px de alto, el indicador de vocal comparte fila con
+  el título, la comparación queda debajo de la referencia y los subtítulos ocupan la altura
+  que necesitan. A 1280×720, con los detalles plegados, la ficha, la demostración y los botones
+  deben caber en el área visible al tamaño de texto predeterminado. Los detalles expandidos y
+  el texto ampliado conservan el desplazamiento natural.
 
 ### Encabezado compacto, multimedia y overflow
 

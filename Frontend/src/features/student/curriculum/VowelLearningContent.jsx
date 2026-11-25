@@ -78,21 +78,19 @@ export function VowelStudy({ guide, onViewed }) {
         </div>
       </header>
       <div className="vowel-study-material">
-        <div className="vowel-study-grid">
-          <div className="vowel-study-reference">
-            <ManualReference letter={guide.letter} educational />
-          </div>
-          <div className="vowel-study-copy">
-            <p className="journey-reading">{guide.description}</p>
-            <section>
-              <h3>En qué fijarte</h3>
-              <p>{guide.focus}</p>
-            </section>
-            <section className="vowel-compare-copy">
-              <h3>Compárala con {guide.compareWith}</h3>
-              <p>{guide.comparison}</p>
-            </section>
-          </div>
+        <div className="vowel-study-reference">
+          <ManualReference letter={guide.letter} educational />
+        </div>
+        <div className="vowel-study-copy">
+          <p className="journey-reading">{guide.description}</p>
+          <section>
+            <h3>En qué fijarte</h3>
+            <p>{guide.focus}</p>
+          </section>
+          <section className="vowel-compare-copy">
+            <h3>Compárala con {guide.compareWith}</h3>
+            <p>{guide.comparison}</p>
+          </section>
         </div>
         {other && (
           <div
