@@ -1,6 +1,5 @@
 import { MicroclassOrbit } from './MicroclassIntroScenes.jsx';
 import { formatTime } from './microclass-timeline.js';
-import { illustrationCredit } from '../resources/letter-resources.js';
 
 const PlayIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -33,7 +32,7 @@ export function MicroclassPoster({ total, onStart }) {
 /**
  * Cierre: invita a continuar y permite volver a ver la clase.
  * @param {{cue: number, onReplay: Function}} props Frase actual y acción para repetir.
- * @returns {import('react').ReactElement} Escena final con créditos.
+ * @returns {import('react').ReactElement} Escena final con acciones para continuar o repetir.
  */
 export function MicroclassOutro({ cue, onReplay }) {
   const later = String(cue === 1);
@@ -55,9 +54,6 @@ export function MicroclassOutro({ cue, onReplay }) {
           Continúa con el abecedario
         </li>
       </ul>
-      <p className="mc-lede" data-on={later}>
-        {illustrationCredit}. Contenido pendiente de revisión por personas competentes en LSV.
-      </p>
       <button className="mc-bigplay" type="button" onClick={onReplay}>
         <PlayIcon />
         Ver de nuevo

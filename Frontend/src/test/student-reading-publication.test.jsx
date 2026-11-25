@@ -35,7 +35,8 @@ test('lectura publicada permite terminar y guardar sin habilitar preguntas o afi
   });
   vi.stubGlobal('fetch', transport);
   renderAuthApp(lessonPath);
-  expect(await screen.findByText(/Lectura educativa · Revisión LSV pendiente/)).toBeVisible();
+  expect(await screen.findByRole('heading', { level: 1, name: lesson.title })).toBeVisible();
+  expect(screen.queryByText(/Lectura educativa · Revisión LSV pendiente/)).toBeNull();
   await userEvent.click(screen.getByRole('button', { name: 'Continuar' }));
   await userEvent.click(screen.getByRole('button', { name: 'Continuar' }));
   expect(screen.getByText(/Todavía no hay un video específico/)).toBeVisible();

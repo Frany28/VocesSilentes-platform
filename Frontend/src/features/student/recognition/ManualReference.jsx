@@ -6,11 +6,11 @@ import { handReferencePolicy } from '../resources/hand-reference-policy.js';
 import { manualReference } from './manual-reference.js';
 
 /**
- * Muestra la ficha basada en el trazado del manual, con su crédito y límites de uso.
+ * Muestra la ficha de la letra y su orientación. El laboratorio también muestra su crédito.
  * Las letras publicadas se ven en producción; las demás solo en la vista previa de desarrollo.
  * @param {{letter: string, compact?: boolean, hand?: string, educational?: boolean,
  * laboratory?: boolean}} props Presentación, lateralidad y revisión local explícita.
- * @returns {import('react').ReactElement} Referencia con crédito y estado editorial, o aviso de pendiente.
+ * @returns {import('react').ReactElement} Referencia visual o aviso de material pendiente.
  */
 export function ManualReference({
   letter,
@@ -39,30 +39,26 @@ export function ManualReference({
         resource={resource}
         letter={letter}
         hand={selected}
-        alt={`Ilustración de referencia de la letra ${letter} en el manual LSV${
+        alt={`Ilustración de referencia de la letra ${letter} en LSV${
           mirrored ? ' (reflejo orientativo)' : ''
         }`}
       />
-      {selected === 'Left' && !educational && <p className="text-muted">{policy.message}</p>}
-      <figcaption className="text-muted [font:var(--type-label)]">
-        {educational ? (
-          <details className="practice-source">
-            <summary>Sobre esta referencia{mirrored ? ' · reflejo orientativo' : ''}</summary>
-            <p>
-              Manual LSV, página {resource.page}. Yulianny Fuentes, 2022. Revisión lingüística
-              pendiente.
-            </p>
-            {selected === 'Left' && <p>{policy.message}</p>}
-            {resource.status === 'preview' && <p>Vista previa de desarrollo: no publicada.</p>}
+      {selected === 'Left' &&
+        (educational ? (
+          <details className="practice-source text-muted [font:var(--type-label)]">
+            <summary>{mirrored ? 'Reflejo orientativo' : 'Orientación de la mano'}</summary>
+            <p>{policy.message}</p>
           </details>
         ) : (
-          <>
-            Manual LSV, página {resource.page}. Yulianny Fuentes, 2022. Revisión lingüística
-            pendiente.
-            {resource.status === 'preview' && ' Vista previa de desarrollo: no publicada.'}
-          </>
-        )}
-      </figcaption>
+          <p className="text-muted">{policy.message}</p>
+        ))}
+      {laboratory && (
+        <figcaption className="text-muted [font:var(--type-label)]">
+          Manual LSV, página {resource.page}. Yulianny Fuentes, 2022. Revisión lingüística
+          pendiente.
+          {resource.status === 'preview' && ' Vista previa de desarrollo: no publicada.'}
+        </figcaption>
+      )}
     </figure>
   );
 }

@@ -45,19 +45,6 @@
   color: var(--action-primary);
   font: 700 96px / 1 var(--font-brand);
 }
-.journey-references {
-  width: 100%;
-  font: var(--type-label);
-}
-.journey-references summary {
-  min-height: 44px;
-  padding: 12px 0;
-  cursor: pointer;
-}
-.journey-references summary:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 4px;
-}
 .journey-activity .education-options {
   gap: 12px;
 }

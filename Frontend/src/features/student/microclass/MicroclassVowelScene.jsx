@@ -26,7 +26,7 @@ export function MicroclassVowelScene({ letter, cue, elapsed, seconds }) {
           letter={letter}
           view={view}
           pulse={cue === 3}
-          alt={`Ilustración del manual de LSV: mano realizando la vocal ${letter}`}
+          alt={`Mano realizando la vocal ${letter} en LSV`}
         />
       </div>
       <div className="mc-info">

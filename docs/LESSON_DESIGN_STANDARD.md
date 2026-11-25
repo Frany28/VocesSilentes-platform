@@ -204,8 +204,9 @@ actividades altas.
 
 `JourneyHeader` conserva visibles el título, la etapa, el progreso y la navegación. La orientación
 adicional y la información de vista previa se agrupan en `journey-details`, un `details` operable
-con teclado. Los avisos de revisión pendiente en una lección publicada y de fallo de persistencia
-se muestran directamente. Usa un solo encabezado para cada actividad.
+con teclado. Los fallos de persistencia se muestran directamente. La disponibilidad de las
+evaluaciones depende del backend. El resumen informa de los ejercicios pendientes. Usa un solo
+encabezado para cada actividad.
 
 La microclase es la superficie principal de su etapa. El reproductor ocupa la primera columna; la
 guía y transcripción ocupan el panel lateral. Los subtítulos permanecen en una franja propia y los
@@ -215,8 +216,9 @@ acciones, incluido el volumen, se ajustan en varias líneas.
 Las escenas reutilizadas cargan sus estilos junto con el componente, también al retomar una
 lección directamente en una ficha. Solo la escena del reproductor completo ocupa una capa
 absoluta. En una demostración individual, la escena dimensiona su propio marco en el flujo y
-adapta la ilustración al ancho del panel y a la altura disponible. El crédito, los subtítulos y
-los controles conservan su espacio.
+adapta la ilustración al ancho del panel y a la altura disponible. Los subtítulos y los controles
+conservan su espacio. La procedencia de las imágenes se conserva en los metadatos del material y
+en el laboratorio. Las ilustraciones educativas mantienen texto alternativo descriptivo.
 
 El documento y el escenario educativo usan scroll natural. `overflow: hidden` solo es válido para
 recortar decoraciones o escenas dentro de un marco con proporción definida, nunca para esconder

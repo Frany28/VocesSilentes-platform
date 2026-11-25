@@ -7,7 +7,7 @@ import '../recognition/letter-badge.css';
  * Presenta una o dos letras lado a lado para compararlas, con su referencia y una práctica opcional.
  * No simula señas: sin ilustración autorizada se muestra la letra escrita y el estado pendiente.
  * @param {{cards: object[], onPractice: Function}} props Grupo y entrada explícita a cámara.
- * @returns {import('react').ReactElement} Comparación visual con créditos editoriales.
+ * @returns {import('react').ReactElement} Comparación visual y práctica opcional.
  */
 export function AlphabetCards({ cards, onPractice }) {
   const pair = cards.length > 1;
@@ -61,14 +61,6 @@ export function AlphabetCards({ cards, onPractice }) {
           movimiento.
         </p>
       )}
-      <details className="journey-references text-muted">
-        <summary>Consultar referencias del material</summary>
-        {cards.map((card) => (
-          <p key={card.letter}>
-            {card.letter}: {card.source.file}, página {card.source.pdfPage}. {card.source.credit}.
-          </p>
-        ))}
-      </details>
     </section>
   );
 }

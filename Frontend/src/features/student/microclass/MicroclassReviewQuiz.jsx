@@ -21,7 +21,7 @@ export function MicroclassReview({ elapsed }) {
               index === active ? 'now' : index < active || active >= 5 ? 'seen' : undefined
             }
           >
-            <MicroclassHand letter={letter} credit={false} alt={`Vocal ${letter}`} />
+            <MicroclassHand letter={letter} alt={`Vocal ${letter}`} />
             <b>{letter}</b>
           </div>
         ))}
@@ -47,11 +47,10 @@ export function MicroclassQuiz({ quiz, solved, onAnswer, onReveal }) {
       <div className="mc-hand-pane">
         <MicroclassHand
           letter={quizLetter}
-          hidePage={!solved}
           alt={
             solved
               ? `Ilustración de la vocal ${quizLetter}`
-              : 'Ilustración del manual con una vocal por identificar'
+              : 'Mano realizando una vocal por identificar'
           }
         />
       </div>

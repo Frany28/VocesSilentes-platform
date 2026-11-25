@@ -9,12 +9,15 @@ beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
 });
 
-test('cada vocal muestra la ficha basada en el manual con su crédito', async () => {
+test('la microclase conserva las ilustraciones accesibles sin mostrar su procedencia', async () => {
   render(<VowelMicroclass />);
   expect(screen.queryByText('Fuentes y límites')).toBeNull();
   await userEvent.click(screen.getByRole('button', { name: /^Vocal U, / }));
-  expect(screen.getByRole('img', { name: /mano realizando la vocal U/ })).toBeVisible();
-  expect(screen.getByText(/Manual básico de LSV \(2022\), p\. 6/)).toBeVisible();
+  expect(screen.getByRole('img', { name: 'Mano realizando la vocal U en LSV' })).toBeVisible();
+  expect(screen.queryByText(/Fuentes|Manual básico de LSV/)).toBeNull();
+  await userEvent.click(screen.getByRole('button', { name: /^Sigue aprendiendo, / }));
+  expect(screen.getByRole('button', { name: 'Ver de nuevo' })).toBeVisible();
+  expect(screen.queryByText(/Fuentes|Manual básico de LSV/)).toBeNull();
 });
 
 test('la pregunta oculta la letra, da una pista y confirma la respuesta correcta', async () => {

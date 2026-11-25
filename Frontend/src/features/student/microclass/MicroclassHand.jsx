@@ -7,20 +7,11 @@ const fullView = { x: 50, y: 50, scale: 1, rings: [] };
  * @param {object} props Propiedades del visor.
  * @param {string} props.letter Vocal ilustrada.
  * @param {import('./microclass-focus.js').FocusView} [props.view] Zona ampliada y anillos visibles.
- * @param {boolean} [props.hidePage] Omite la página de origen durante la pregunta.
  * @param {boolean} [props.pulse] Resalta la tarjeta durante la práctica.
  * @param {string} [props.alt] Texto alternativo; vacío cuando la imagen es decorativa.
- * @param {boolean} [props.credit] Muestra la página de origen debajo de la imagen.
  * @returns {import('react').ReactElement} Figura con la referencia del manual.
  */
-export function MicroclassHand({
-  letter,
-  view = fullView,
-  hidePage,
-  pulse,
-  alt = '',
-  credit = true,
-}) {
+export function MicroclassHand({ letter, view = fullView, pulse, alt = '' }) {
   const image = letterResource(letter);
   return (
     <figure className="mc-hand">
@@ -44,12 +35,6 @@ export function MicroclassHand({
           ))}
         </div>
       </div>
-      {credit && (
-        <figcaption className="mc-credit">
-          Ilustración: Y. Fuentes, Manual básico de LSV (2022)
-          {hidePage ? '' : `, p. ${image.page}`}
-        </figcaption>
-      )}
     </figure>
   );
 }

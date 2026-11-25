@@ -88,9 +88,6 @@ export function VowelDemonstration({ letter }) {
           Repetir explicación
         </button>
       </div>
-      <p className="text-muted vowel-demo-note">
-        Demostración ilustrada y narrada. Revisión lingüística de LSV pendiente.
-      </p>
     </section>
   );
 }

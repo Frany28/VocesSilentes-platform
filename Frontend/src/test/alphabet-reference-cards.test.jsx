@@ -33,6 +33,7 @@ test.each(Object.keys(provenance.images))(
     expect(image).toBeVisible();
     expect(image).toHaveAttribute('src', letterResource(letter).url);
     expect(image.getAttribute('src')).toMatch(/ficha-[a-f0-9]{12}\.webp$/);
+    expect(screen.queryByText(/Consultar referencias del material|Yulianny Fuentes/)).toBeNull();
     expect(
       screen.queryByText('Referencia visual pendiente de autorización y revisión LSV.'),
     ).toBeNull();

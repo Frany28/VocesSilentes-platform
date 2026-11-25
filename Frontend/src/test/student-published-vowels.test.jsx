@@ -71,14 +71,14 @@ test('el enlace original no sustituye con fixtures una lección que la API no pu
 
 test('runtime normal muestra también la ficha VocesSilentes de las consonantes autorizadas', () => {
   render(<ManualReference letter="B" />);
-  expect(screen.getByRole('img', { name: /referencia de la letra B/ })).toBeVisible();
-  expect(screen.getByText(/Revisión lingüística pendiente\./)).toBeVisible();
+  expect(screen.getByRole('img', { name: /referencia de la letra B en LSV/ })).toBeVisible();
+  expect(screen.queryByText(/Yulianny Fuentes|Revisión lingüística pendiente/)).toBeNull();
   expect(screen.queryByText(/Vista previa de desarrollo/)).toBeNull();
 });
 
-test('runtime normal muestra las vocales autorizadas sin ocultar la revisión LSV pendiente', () => {
-  render(<ManualReference letter="A" />);
-  expect(screen.getByRole('img', { name: /referencia de la letra A/ })).toBeVisible();
-  expect(screen.getByText(/Revisión lingüística pendiente\./)).toBeVisible();
+test('la ficha educativa muestra la vocal con texto alternativo y sin créditos editoriales', () => {
+  render(<ManualReference letter="A" educational />);
+  expect(screen.getByRole('img', { name: /referencia de la letra A en LSV/ })).toBeVisible();
+  expect(screen.queryByText(/Sobre esta referencia|Yulianny Fuentes/)).toBeNull();
   expect(screen.queryByText(/Vista previa de desarrollo/)).toBeNull();
 });

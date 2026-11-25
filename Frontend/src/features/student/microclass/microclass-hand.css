@@ -52,11 +52,6 @@
   animation: mc-ring 1.8s ease-in-out 0.9s infinite;
   transform: translate(-50%, -50%);
 }
-.mc-credit {
-  color: var(--text-secondary);
-  font-size: max(10px, 1.05cqw);
-  text-align: center;
-}
 .mc-track {
   display: flex;
   gap: 0.7cqw;

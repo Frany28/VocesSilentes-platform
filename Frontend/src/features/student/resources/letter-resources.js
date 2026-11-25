@@ -2,8 +2,6 @@ import provenance from '../../../assets/lsv-manual/provenance.json';
 import { manualReference } from '../recognition/manual-reference.js';
 import { publishedImages } from './published-letter-images.js';
 
-export const illustrationCredit = 'Ilustraciones: Yulianny Fuentes, Manual básico de LSV (2022)';
-
 /**
  * @typedef {object} LetterResource
  * @property {string} letter Letra del alfabeto manual.
@@ -18,7 +16,7 @@ export const illustrationCredit = 'Ilustraciones: Yulianny Fuentes, Manual bási
  * Resuelve la ilustración de una letra según su estado editorial, sin depender de rutas de desarrollo
  * para las publicadas. Las no autorizadas solo se ven en la vista previa explícita de desarrollo.
  * @param {string} letter Letra de estudio, nunca la opción correcta oculta de una pregunta.
- * @returns {LetterResource} Recurso y estado; la revisión lingüística pendiente siempre se informa.
+ * @returns {LetterResource} Recurso, procedencia y estado de revisión.
  */
 export function letterResource(letter) {
   const entry = provenance.images[letter];

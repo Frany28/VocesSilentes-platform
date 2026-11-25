@@ -20,7 +20,6 @@ export function JourneyHeader({ lesson, module, journey, phaseOrder, children })
   );
   const position = module.lessons.findIndex((item) => item.id === lesson.id) + 1;
   const preview = module.preview;
-  const pendingReview = !preview && lesson.content?.reviewStatus === 'PENDING_LSV_REVIEW';
   const hasDetails = Boolean(children || preview);
   return (
     <header className="journey-header">
@@ -69,11 +68,6 @@ export function JourneyHeader({ lesson, module, journey, phaseOrder, children })
               )}
             </div>
           </details>
-        )}
-        {pendingReview && (
-          <p className="journey-status">
-            Lectura educativa · Revisión LSV pendiente. Las evaluaciones aún no están disponibles.
-          </p>
         )}
         {!journey.remembered && (
           <p role="status" className="journey-status">
